@@ -4,18 +4,8 @@
   "type": "registry:block",
   "title": "Login Button",
   "description": "A full-featured login button for Lens Protocol that hooks into the Lens React SDK, uses ConnectKit for wallet connections, supports account switching and more.",
-  "dependencies": [
-    "@lens-protocol/react@0.0.0-canary-20250721180328",
-    "connectkit@1.9.0",
-    "react-virtuoso@4.13.0"
-  ],
-  "registryDependencies": [
-    "avatar",
-    "button",
-    "dialog",
-    "scroll-area",
-    "skeleton"
-  ],
+  "dependencies": ["@lens-protocol/react@0.0.0-canary-20250721180328", "connectkit@1.9.0", "react-virtuoso@4.13.0"],
+  "registryDependencies": ["avatar", "button", "dialog", "scroll-area", "skeleton"],
   "files": [
     {
       "path": "registry/new-york/blocks/login-button/components/login-button.tsx",

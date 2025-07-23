@@ -8,8 +8,8 @@ export const config = createConfig(
     chains: [lensConfig.lens.chain],
     ...(process.env.NEXT_PUBLIC_ALCHEMY_ID && {
       transports: {
-          [chains.mainnet.id]: http(`https://lens-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_ID}`),
-          [chains.testnet.id]: http(`https://lens-sepolia.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_ID}`),
+        [chains.mainnet.id]: http(`https://lens-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_ID}`),
+        [chains.testnet.id]: http(`https://lens-sepolia.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_ID}`),
       },
     }),
 
