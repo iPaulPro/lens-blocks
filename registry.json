@@ -4,28 +4,105 @@
   "homepage": "https://clens.dev",
   "items": [
     {
-      "name": "login-button",
+      "name": "lens-login-button",
       "type": "registry:block",
-      "title": "Login Button",
+      "title": "Lens Login Button",
       "description": "A full-featured login button for Lens Protocol that hooks into the Lens React SDK, uses ConnectKit for wallet connections, supports account switching and more.",
       "registryDependencies": ["avatar", "button", "dialog", "scroll-area", "skeleton"],
-      "dependencies": ["@lens-protocol/react@0.0.0-canary-20250721180328", "connectkit@1.9.0", "react-virtuoso@4.13.0"],
+      "dependencies": [
+        "@lens-protocol/react@0.0.0-canary-20250721180328",
+        "connectkit@1.9.0",
+        "react-virtuoso@4.13.0",
+        "lucide-react"
+      ],
       "files": [
         {
-          "path": "registry/new-york/blocks/login-button/components/login-button.tsx",
+          "path": "registry/new-york/blocks/login/lens-login-block.tsx",
+          "type": "registry:block"
+        },
+        {
+          "path": "registry/new-york/blocks/login/components/lens-login-button.tsx",
           "type": "registry:component"
         },
         {
-          "path": "registry/new-york/blocks/login-button/components/account-chooser.tsx",
+          "path": "registry/new-york/blocks/login/components/lens-account-chooser.tsx",
           "type": "registry:component"
         },
         {
-          "path": "registry/new-york/blocks/login-button/components/lens-account-list-item.tsx",
+          "path": "registry/new-york/blocks/login/components/lens-account-list-item.tsx",
           "type": "registry:component"
         },
         {
-          "path": "registry/new-york/blocks/login-button/hooks/use-authenticated-lens-account.ts",
+          "path": "registry/new-york/blocks/login/components/lens-account-list-item-skeleton.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "registry/new-york/blocks/login/hooks/use-authenticated-lens-account.ts",
           "type": "registry:hook"
+        },
+        {
+          "path": "registry/new-york/blocks/login/hooks/use-lens-login-with-wagmi.ts",
+          "type": "registry:hook"
+        },
+        {
+          "path": "registry/new-york/blocks/login/lib/paginated-list.tsx",
+          "type": "registry:lib"
+        },
+        {
+          "path": "registry/new-york/blocks/login/lib/lens-utils.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "lens-account-chooser",
+      "type": "registry:component",
+      "title": "Lens Account Chooser",
+      "description": "A list of available Lens accounts for the user to choose from, with support for pagination.",
+      "registryDependencies": ["avatar", "button", "skeleton"],
+      "dependencies": ["@lens-protocol/react@0.0.0-canary-20250721180328", "react-virtuoso@4.13.0", "lucide-react"],
+      "files": [
+        {
+          "path": "registry/new-york/blocks/login/components/lens-account-chooser.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "registry/new-york/blocks/login/components/lens-account-list-item.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "registry/new-york/blocks/login/components/lens-account-list-item-skeleton.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "registry/new-york/blocks/login/lib/paginated-list.tsx",
+          "type": "registry:lib"
+        },
+        {
+          "path": "registry/new-york/blocks/login/lib/lens-utils.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "lens-account-list-item",
+      "type": "registry:component",
+      "title": "Lens Account List Item",
+      "description": "A list for a Lens accounts displaying the account's avatar, name, and handle.",
+      "registryDependencies": ["avatar", "button", "skeleton"],
+      "dependencies": ["@lens-protocol/react@0.0.0-canary-20250721180328", "lucide-react"],
+      "files": [
+        {
+          "path": "registry/new-york/blocks/login/components/lens-account-list-item.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "registry/new-york/blocks/login/components/lens-account-list-item-skeleton.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "registry/new-york/blocks/login/lib/lens-utils.ts",
+          "type": "registry:lib"
         }
       ]
     }
