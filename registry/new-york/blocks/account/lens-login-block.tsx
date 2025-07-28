@@ -1,6 +1,6 @@
 "use client";
 
-import { LensLoginButton } from "@/registry/new-york/blocks/login/components/lens-login-button";
+import { LensLoginButton } from "@/registry/new-york/blocks/account/components/lens-login-button";
 import { AuthenticatedUser, PublicClient, SessionClient } from "@lens-protocol/react";
 
 type LensLoginBlockProps = {

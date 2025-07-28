@@ -102,8 +102,7 @@ const PaginatedList = <Type extends any>(props: PaginationListProps<Type>) => {
             </div>
           )}
           <Virtuoso
-            className="testing"
-            style={{ height: "100%" }}
+            className="h-full"
             data={items}
             endReached={loadMore}
             itemContent={(index, item) => renderItem(item, index)}

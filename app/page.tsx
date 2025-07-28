@@ -1,12 +1,13 @@
 "use client";
 
 import { OpenInV0Button } from "@/components/open-in-v0-button";
-import { LensLoginBlock } from "@/registry/new-york/blocks/login/lens-login-block";
-import { evmAddress, useAccount, useSessionClient } from "@lens-protocol/react";
+import { LensLoginBlock } from "@/registry/new-york/blocks/account/lens-login-block";
+import { Account, evmAddress, useAccount, useSessionClient } from "@lens-protocol/react";
 import { lensClient } from "@/lib/lens/client";
 import { Loader } from "lucide-react";
-import { LensAccountChooser } from "@/registry/new-york/blocks/login/components/lens-account-chooser";
-import { LensAccountListItem } from "@/registry/new-york/blocks/login/components/lens-account-list-item";
+import { LensAccountChooser } from "@/registry/new-york/blocks/account/components/lens-account-chooser";
+import { LensAccountListItem } from "@/registry/new-york/blocks/account/components/lens-account-list-item";
+import config from "@/lib/lens/config";
 
 export default function Home() {
   const { data: sessionClient, loading: sessionLoading } = useSessionClient();
@@ -14,6 +15,16 @@ export default function Home() {
   const { data: account, loading: accountLoading } = useAccount({
     address: evmAddress("0xA77f9f69Da9dafBC1ef31D1fCd79D04dF607e983"),
   });
+
+  const onAccountSelected = (account: Account) => {
+    console.log("Selected account:", account);
+    // You can handle the selected account here, e.g., update state or perform an action
+    const handle = account.username?.localName;
+    if (handle) {
+      const baseUrl = config.lens.isTestnet ? "https://testnet.hey.xyz/u/" : "https://hey.xyz/u/";
+      window.open(baseUrl + handle, "_blank");
+    }
+  };
 
   return (
     <div className="max-w-3xl mx-auto flex flex-col min-h-svh px-4 py-8 gap-8">
@@ -42,7 +53,10 @@ export default function Home() {
           </div>
           <div className="flex items-center justify-center min-h-[400px] relative">
             <div className="h-48 w-full md:w-1/2">
-              <LensAccountChooser walletAddress="0xdaA5EBe0d75cD16558baE6145644EDdFcbA1e868" />
+              <LensAccountChooser
+                walletAddress="0xdaA5EBe0d75cD16558baE6145644EDdFcbA1e868"
+                onAccountSelected={onAccountSelected}
+              />
             </div>
           </div>
         </div>
@@ -57,7 +71,7 @@ export default function Home() {
             ) : (
               account && (
                 <div className="border rounded-md w-full md:w-1/3">
-                  <LensAccountListItem account={account} />
+                  <LensAccountListItem account={account} onAccountSelected={onAccountSelected} />
                 </div>
               )
             )}

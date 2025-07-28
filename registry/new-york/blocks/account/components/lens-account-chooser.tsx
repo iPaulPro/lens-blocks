@@ -11,9 +11,9 @@ import {
   useAuthenticatedUser,
 } from "@lens-protocol/react";
 import { useState } from "react";
-import PaginatedList from "@/registry/new-york/blocks/login/lib/paginated-list";
-import { LensAccountListItem } from "@/registry/new-york/blocks/login/components/lens-account-list-item";
-import { LensAccountListItemSkeleton } from "@/registry/new-york/blocks/login/components/lens-account-list-item-skeleton";
+import PaginatedList from "@/registry/new-york/blocks/account/lib/paginated-list";
+import { LensAccountListItem } from "@/registry/new-york/blocks/account/components/lens-account-list-item";
+import { LensAccountListItemSkeleton } from "@/registry/new-york/blocks/account/components/lens-account-list-item-skeleton";
 
 type AccountChooserProps = {
   walletAddress: string;

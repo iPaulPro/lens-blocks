@@ -14,9 +14,9 @@ import { useAccount, useDisconnect, useWalletClient } from "wagmi";
 import { useCallback, useEffect, useState } from "react";
 import config from "@/lib/lens/config";
 import { Button } from "@/registry/new-york/ui/button";
-import { useLensLoginWithWagmi } from "@/registry/new-york/blocks/login/hooks/use-lens-login-with-wagmi";
+import { useLensLoginWithWagmi } from "@/registry/new-york/blocks/account/hooks/use-lens-login-with-wagmi";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/registry/new-york/ui/dialog";
-import { LensAccountChooser } from "@/registry/new-york/blocks/login/components/lens-account-chooser";
+import { LensAccountChooser } from "@/registry/new-york/blocks/account/components/lens-account-chooser";
 import { Link2Off } from "lucide-react";
 
 type LoginButtonProps = {

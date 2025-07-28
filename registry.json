@@ -17,39 +17,39 @@
       ],
       "files": [
         {
-          "path": "registry/new-york/blocks/login/lens-login-block.tsx",
+          "path": "registry/new-york/blocks/account/lens-login-block.tsx",
           "type": "registry:block"
         },
         {
-          "path": "registry/new-york/blocks/login/components/lens-login-button.tsx",
+          "path": "registry/new-york/blocks/account/components/lens-login-button.tsx",
           "type": "registry:component"
         },
         {
-          "path": "registry/new-york/blocks/login/components/lens-account-chooser.tsx",
+          "path": "registry/new-york/blocks/account/components/lens-account-chooser.tsx",
           "type": "registry:component"
         },
         {
-          "path": "registry/new-york/blocks/login/components/lens-account-list-item.tsx",
+          "path": "registry/new-york/blocks/account/components/lens-account-list-item.tsx",
           "type": "registry:component"
         },
         {
-          "path": "registry/new-york/blocks/login/components/lens-account-list-item-skeleton.tsx",
+          "path": "registry/new-york/blocks/account/components/lens-account-list-item-skeleton.tsx",
           "type": "registry:component"
         },
         {
-          "path": "registry/new-york/blocks/login/hooks/use-authenticated-lens-account.ts",
+          "path": "registry/new-york/blocks/account/hooks/use-authenticated-lens-account.ts",
           "type": "registry:hook"
         },
         {
-          "path": "registry/new-york/blocks/login/hooks/use-lens-login-with-wagmi.ts",
+          "path": "registry/new-york/blocks/account/hooks/use-lens-login-with-wagmi.ts",
           "type": "registry:hook"
         },
         {
-          "path": "registry/new-york/blocks/login/lib/paginated-list.tsx",
+          "path": "registry/new-york/blocks/account/lib/paginated-list.tsx",
           "type": "registry:lib"
         },
         {
-          "path": "registry/new-york/blocks/login/lib/lens-utils.ts",
+          "path": "registry/new-york/blocks/account/lib/lens-utils.ts",
           "type": "registry:lib"
         }
       ]
@@ -63,23 +63,23 @@
       "dependencies": ["@lens-protocol/react@0.0.0-canary-20250721180328", "react-virtuoso@4.13.0", "lucide-react"],
       "files": [
         {
-          "path": "registry/new-york/blocks/login/components/lens-account-chooser.tsx",
+          "path": "registry/new-york/blocks/account/components/lens-account-chooser.tsx",
           "type": "registry:component"
         },
         {
-          "path": "registry/new-york/blocks/login/components/lens-account-list-item.tsx",
+          "path": "registry/new-york/blocks/account/components/lens-account-list-item.tsx",
           "type": "registry:component"
         },
         {
-          "path": "registry/new-york/blocks/login/components/lens-account-list-item-skeleton.tsx",
+          "path": "registry/new-york/blocks/account/components/lens-account-list-item-skeleton.tsx",
           "type": "registry:component"
         },
         {
-          "path": "registry/new-york/blocks/login/lib/paginated-list.tsx",
+          "path": "registry/new-york/blocks/account/lib/paginated-list.tsx",
           "type": "registry:lib"
         },
         {
-          "path": "registry/new-york/blocks/login/lib/lens-utils.ts",
+          "path": "registry/new-york/blocks/account/lib/lens-utils.ts",
           "type": "registry:lib"
         }
       ]
@@ -93,15 +93,15 @@
       "dependencies": ["@lens-protocol/react@0.0.0-canary-20250721180328", "lucide-react"],
       "files": [
         {
-          "path": "registry/new-york/blocks/login/components/lens-account-list-item.tsx",
+          "path": "registry/new-york/blocks/account/components/lens-account-list-item.tsx",
           "type": "registry:component"
         },
         {
-          "path": "registry/new-york/blocks/login/components/lens-account-list-item-skeleton.tsx",
+          "path": "registry/new-york/blocks/account/components/lens-account-list-item-skeleton.tsx",
           "type": "registry:component"
         },
         {
-          "path": "registry/new-york/blocks/login/lib/lens-utils.ts",
+          "path": "registry/new-york/blocks/account/lib/lens-utils.ts",
           "type": "registry:lib"
         }
       ]

@@ -3,7 +3,7 @@
 import { Account, AuthenticatedUser } from "@lens-protocol/react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/registry/new-york/ui/avatar";
 import { UserCircle2, ChevronRight, Loader, CheckCircle2Icon } from "lucide-react";
-import { truncateAddress } from "@/registry/new-york/blocks/login/lib/lens-utils";
+import { truncateAddress } from "@/registry/new-york/blocks/account/lib/lens-utils";
 
 type LensAccountListItemProps = {
   account: Account;
