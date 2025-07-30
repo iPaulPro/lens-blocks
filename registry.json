@@ -45,11 +45,11 @@
           "type": "registry:hook"
         },
         {
-          "path": "registry/new-york/blocks/account/lib/paginated-list.tsx",
+          "path": "registry/new-york/blocks/account/components/paginated-list.tsx",
           "type": "registry:lib"
         },
         {
-          "path": "registry/new-york/blocks/account/lib/lens-utils.ts",
+          "path": "registry/new-york/blocks/common/lib/lens-utils.ts",
           "type": "registry:lib"
         }
       ]
@@ -75,11 +75,11 @@
           "type": "registry:component"
         },
         {
-          "path": "registry/new-york/blocks/account/lib/paginated-list.tsx",
+          "path": "registry/new-york/blocks/account/components/paginated-list.tsx",
           "type": "registry:lib"
         },
         {
-          "path": "registry/new-york/blocks/account/lib/lens-utils.ts",
+          "path": "registry/new-york/blocks/common/lib/lens-utils.ts",
           "type": "registry:lib"
         }
       ]
@@ -101,7 +101,38 @@
           "type": "registry:component"
         },
         {
-          "path": "registry/new-york/blocks/account/lib/lens-utils.ts",
+          "path": "registry/new-york/blocks/common/lib/lens-utils.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "lens-post",
+      "type": "registry:component",
+      "title": "Lens Post",
+      "description": "Displays a post from Lens Protocol, including the content, author, attachments, and engagement actions.",
+      "registryDependencies": ["avatar", "button", "skeleton", "dialog", "tooltip", "dropdown-menu"],
+      "dependencies": [
+        "@lens-protocol/react@0.0.0-canary-20250721180328",
+        "@lens-protocol/types@0.0.0-canary-20241127131427",
+        "lucide-react",
+        "strip-markdown@6.0.0",
+        "react-markdown@9.0.3",
+        "remark-gfm@4.0.1",
+        "remark-breaks@4.0.0",
+        "remark-linkify-regex@1.2.1"
+      ],
+      "files": [
+        {
+          "path": "registry/new-york/blocks/account/components/lens-account-list-item.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "registry/new-york/blocks/account/components/lens-account-list-item-skeleton.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "registry/new-york/blocks/common/lib/lens-utils.ts",
           "type": "registry:lib"
         }
       ]

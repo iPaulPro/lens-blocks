@@ -11,9 +11,9 @@ import {
   useAuthenticatedUser,
 } from "@lens-protocol/react";
 import { useState } from "react";
-import PaginatedList from "@/registry/new-york/blocks/account/lib/paginated-list";
-import { LensAccountListItem } from "@/registry/new-york/blocks/account/components/lens-account-list-item";
-import { LensAccountListItemSkeleton } from "@/registry/new-york/blocks/account/components/lens-account-list-item-skeleton";
+import PaginatedList from "@/registry/new-york/common/components/paginated-list";
+import { LensAccountListItem } from "@/registry/new-york/common/components/lens-account-list-item";
+import { LensAccountListItemSkeleton } from "@/registry/new-york/common/components/lens-account-list-item-skeleton";
 
 type AccountChooserProps = {
   walletAddress: string;
@@ -70,6 +70,7 @@ export const LensAccountChooser = ({ walletAddress, selectedAccount, onAccountSe
           onAccountSelected={onAccountSelected}
           authenticatedUser={authenticatedUser}
           key={item.account.address}
+          renderDivider={() => <div className="h-0.5"></div>}
         />
       )}
       renderSkeleton={() => (
