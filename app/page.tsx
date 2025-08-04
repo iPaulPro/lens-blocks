@@ -7,9 +7,11 @@ import { lensClient } from "@/lib/lens/client";
 import { Loader } from "lucide-react";
 import { LensAccountChooser } from "@/registry/new-york/blocks/account/components/lens-account-chooser";
 import { LensAccountListItem } from "@/registry/new-york/common/components/lens-account-list-item";
-import config from "@/lib/lens/config";
 import { LensPost } from "@/registry/new-york/blocks/feed/components/lens-post";
 import DarkModeSwitch from "@/app/dark-mode-switch";
+import LikesList from "@/registry/new-york/blocks/feed/components/likes/likes-list";
+import { toast } from "sonner";
+import { useWalletClient } from "wagmi";
 
 export default function Home() {
   const { data: sessionClient, loading: sessionLoading } = useSessionClient();
@@ -18,13 +20,16 @@ export default function Home() {
     address: evmAddress("0xA77f9f69Da9dafBC1ef31D1fCd79D04dF607e983"),
   });
 
+  const { data: walletClient, isLoading: walletClientLoading } = useWalletClient();
+
   const onAccountSelected = (account: Account) => {
     console.log("Selected account:", account);
     // You can handle the selected account here, e.g., update state or perform an action
     const handle = account.username?.localName;
     if (handle) {
-      const baseUrl = config.lens.isTestnet ? "https://testnet.hey.xyz/u/" : "https://hey.xyz/u/";
-      window.open(baseUrl + handle, "_blank");
+      toast.success("Account clicked: @" + handle);
+    } else {
+      toast.error("Account clicked: " + account.address);
     }
   };
 
@@ -33,8 +38,8 @@ export default function Home() {
   });
 
   const onPostClick = (post: AnyPost) => {
-    const baseUrl = config.lens.isTestnet ? "https://testnet.hey.xyz/posts/" : "https://hey.xyz/posts/";
-    window.open(baseUrl + post.slug, "_blank");
+    console.log("Post clicked:", post);
+    toast.success("Post clicked: " + post.slug);
   };
 
   return (
@@ -64,17 +69,22 @@ export default function Home() {
               <OpenInV0Button name="hello-world" className="w-fit" />
             </div>
             <div className="flex items-center justify-center min-h-[400px] relative">
-              {postLoading || sessionLoading ? (
+              {postLoading || sessionLoading || walletClientLoading ? (
                 <Loader className="animate-spin w-4 h-4 text-muted-foreground" />
               ) : (
                 post &&
-                sessionClient && (
+                sessionClient &&
+                walletClient && (
                   <div className="w-full md:w-2/3">
                     <LensPost
+                      className="border rounded-md"
                       lensClient={sessionClient}
+                      walletClient={walletClient}
                       post={post}
                       postLoading={postLoading}
                       onPostClick={onPostClick}
+                      onAccountClick={onAccountSelected}
+                      onRepostSuccess={txHash => toast.success("Reposted successfully!")}
                     />
                   </div>
                 )
@@ -110,6 +120,21 @@ export default function Home() {
                   </div>
                 )
               )}
+            </div>
+          </div>
+          <div className="flex flex-col gap-4 border rounded-lg p-4 min-h-[450px] relative">
+            <div className="flex items-center justify-between">
+              <h2 className="text-sm text-muted-foreground sm:pl-3">A list of users that liked a post</h2>
+              <OpenInV0Button name="hello-world" className="w-fit" />
+            </div>
+            <div className="flex items-center justify-center min-h-[400px] relative">
+              <div className="border rounded-md w-full md:w-1/3">
+                {postLoading || sessionLoading ? (
+                  <Loader className="animate-spin w-4 h-4 text-muted-foreground" />
+                ) : (
+                  post && <LikesList post={post} />
+                )}
+              </div>
             </div>
           </div>
         </main>

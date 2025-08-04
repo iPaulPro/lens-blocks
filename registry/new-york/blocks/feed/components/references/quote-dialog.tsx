@@ -2,7 +2,9 @@ import { AnyPost, TxHash } from "@lens-protocol/react";
 import { forwardRef, useImperativeHandle, useState } from "react";
 
 export interface QuoteDialogRef {
-  showModal: () => void;
+  open: () => void;
+  close: () => void;
+  isOpen: boolean;
 }
 
 export interface QuoteDialogProps {
@@ -16,7 +18,9 @@ const QuoteDialog = forwardRef<QuoteDialogRef, QuoteDialogProps>(({ post, create
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useImperativeHandle(ref, () => ({
-    showModal: () => setDialogOpen(true),
+    open: () => setDialogOpen(true),
+    close: () => setDialogOpen(false),
+    isOpen: dialogOpen,
   }));
 
   return <></>;

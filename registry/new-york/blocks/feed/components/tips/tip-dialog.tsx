@@ -21,7 +21,9 @@ import {
 import { useAccount } from "wagmi";
 
 export interface TipDialogRef {
-  showModal: () => void;
+  open: () => void;
+  close: () => void;
+  isOpen: boolean;
 }
 
 export interface TipDialogProps {
@@ -50,7 +52,9 @@ const TipDialog = forwardRef<TipDialogRef, TipDialogProps>(({ supportedTokens, c
   const account = user?.address;
 
   useImperativeHandle(ref, () => ({
-    showModal: () => setDialogOpen(true),
+    open: () => setDialogOpen(true),
+    close: () => setDialogOpen(false),
+    isOpen: dialogOpen,
   }));
 
   const getAddressFromBalance = (balance: Erc20Amount | NativeAmount) => {

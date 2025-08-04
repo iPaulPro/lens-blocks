@@ -1,7 +1,8 @@
 import { Button } from "@/registry/new-york/ui/button";
 import { cn } from "@/lib/utils";
+import { ComponentProps } from "react";
 
-export function OpenInV0Button({ name, className }: { name: string } & React.ComponentProps<typeof Button>) {
+export function OpenInV0Button({ name, className }: { name: string } & ComponentProps<typeof Button>) {
   return (
     <Button
       aria-label="Open in v0"
@@ -13,7 +14,7 @@ export function OpenInV0Button({ name, className }: { name: string } & React.Com
       asChild
     >
       <a
-        href={`https://v0.dev/chat/api/open?url=${process.env.NEXT_PUBLIC_BASE_URL}/r/${name}.json`}
+        href={`https://v0.dev/chat/api/open?url=${process.env.NEXT_PUBLIC_APP_URL}/r/${name}.json`}
         target="_blank"
         rel="noreferrer"
       >

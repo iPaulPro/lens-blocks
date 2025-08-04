@@ -7,6 +7,7 @@ import moment from "moment/moment";
 export type CollectDialogRef = {
   open: () => void;
   close: () => void;
+  isOpen: boolean;
 };
 
 type CollectDialogProps = {
@@ -30,6 +31,7 @@ const CollectDialog = forwardRef<CollectDialogRef, CollectDialogProps>(({ post, 
   useImperativeHandle(ref, () => ({
     open: () => setCollectDialogOpen(true),
     close: () => setCollectDialogOpen(false),
+    isOpen: collectDialogOpen,
   }));
 
   useEffect(() => {

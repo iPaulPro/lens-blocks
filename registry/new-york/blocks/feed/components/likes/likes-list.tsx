@@ -8,7 +8,7 @@ const LikesList = ({ post }: { post: AnyPost }) => {
   const [cursor, setCursor] = useState<Cursor | null>(null);
 
   const { data, loading, error } = usePostReactions({
-    post: post?.id,
+    post: post.id,
     pageSize: PageSize.Fifty,
     cursor,
   });

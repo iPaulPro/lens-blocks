@@ -17,6 +17,7 @@ const CommentButton = ({ post, onClick, postLoading }: CommentButtonProps) => {
 
   const onButtonClick = (event: MouseEvent<HTMLButtonElement>) => {
     event.currentTarget.blur();
+    event.stopPropagation();
     onClick(post);
   };
 
@@ -34,7 +35,7 @@ const CommentButton = ({ post, onClick, postLoading }: CommentButtonProps) => {
           <MessageCircle className="opacity-85" />
         )}
       </Button>
-      <div className="whitespace-nowrap opacity-85">{new Intl.NumberFormat().format(stats?.comments ?? 0)}</div>
+      <span className="opacity-85">{new Intl.NumberFormat().format(stats?.comments ?? 0)}</span>
     </div>
   );
 };

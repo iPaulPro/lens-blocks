@@ -4,41 +4,74 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/registry/new-york/ui/dropdown-menu";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/registry/new-york/ui/tooltip";
-import { AnyPost, TxHash } from "@lens-protocol/react";
-import { MouseEvent, useRef, useState } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/registry/new-york/ui/dialog";
-import ReferencesList from "@/registry/new-york/blocks/feed/components/references/references-list";
-import { MessageCircle, Repeat2 } from "lucide-react";
-import QuoteDialog, { QuoteDialogRef } from "@/registry/new-york/blocks/feed/components/references/quote-dialog";
+import { AnyPost, postId, PublicClient, SessionClient, TxHash } from "@lens-protocol/react";
+import { repost } from "@lens-protocol/client/actions";
+import { useState } from "react";
+import { CheckCircle, Loader, MessageCircle, Repeat2 } from "lucide-react";
 import { Button } from "@/registry/new-york/ui/button";
+import { handleOperationWith } from "@lens-protocol/client/viem";
+import { WalletClient } from "viem";
 
 type ReferenceButtonProps = {
+  lensClient: PublicClient | SessionClient;
+  walletClient: WalletClient;
   post: AnyPost;
-  createRepost: (post: AnyPost) => Promise<TxHash | undefined>;
-  createQuote: (post: AnyPost) => Promise<TxHash | undefined>;
+  onQuoteClick: (post: AnyPost) => void;
+  onRepostSuccess?: (txHash: TxHash) => void;
   onError?: (error: Error) => void;
   postLoading: boolean;
 };
 
-const ReferenceButton = ({ post, createRepost, createQuote, onError, postLoading }: ReferenceButtonProps) => {
-  const [listDialogOpen, setListDialogOpen] = useState(false);
+const ReferenceButton = ({
+  lensClient,
+  walletClient,
+  post,
+  onQuoteClick,
+  onRepostSuccess,
+  onError,
+  postLoading,
+}: ReferenceButtonProps) => {
+  const [isDropdownMenuOpen, setIsDropdownMenuOpen] = useState(false);
   const [isPosting, setIsPosting] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
 
-  const quoteDialog = useRef<QuoteDialogRef>(null);
+  const [numReposts, setNumReposts] = useState<number>(post && "stats" in post ? post.stats.reposts : 0);
+  const [numQuotes, setNumQuotes] = useState<number>(post && "stats" in post ? post.stats.quotes : 0);
 
-  const stats = post && "stats" in post ? post.stats : null;
-
-  const onClick = (event: MouseEvent<HTMLDivElement>) => {
+  const onClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.currentTarget.blur();
-    setListDialogOpen(true);
+    event.stopPropagation();
+    setIsDropdownMenuOpen(true);
   };
 
   const onRepostClick = async () => {
     setIsPosting(true);
     try {
-      setListDialogOpen(false);
-      await createRepost(post);
+      if (!post || !lensClient.isSessionClient()) {
+        onError?.(new Error("Invalid post or lens client"));
+        return;
+      }
+
+      setIsDropdownMenuOpen(false);
+
+      const res = await repost(lensClient, {
+        post: postId(post.id),
+      }).andThen(handleOperationWith(walletClient));
+
+      if (res.isErr()) {
+        throw res.error;
+      }
+
+      const txHash = res.value;
+      if (txHash) {
+        setNumReposts(prevNum => prevNum + 1);
+        onRepostSuccess?.(txHash);
+        setShowSuccess(true);
+        setTimeout(() => {
+          setShowSuccess(false);
+        }, 3000);
+        setShowSuccess(false);
+      }
     } catch (error) {
       if (error instanceof Error) {
         onError?.(error);
@@ -48,30 +81,26 @@ const ReferenceButton = ({ post, createRepost, createQuote, onError, postLoading
     }
   };
 
-  const onQuoteClick = () => {
-    quoteDialog.current?.showModal();
-  };
-
   if (!post) return null;
 
   return (
     <div className="flex items-center">
-      <DropdownMenu>
+      <DropdownMenu open={isDropdownMenuOpen} onOpenChange={setIsDropdownMenuOpen}>
         <DropdownMenuTrigger asChild>
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  variant="ghost"
-                  disabled={postLoading || isPosting}
-                  className="w-8 h-8 active:outline-none focus-visible:outline-none hover:opacity-75 cursor-pointer rounded-full"
-                >
-                  <Repeat2 className="size-[1.125rem]" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>Quote and Repost</TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+          <Button
+            variant="ghost"
+            disabled={postLoading || isPosting || showSuccess}
+            onClick={onClick}
+            className="w-8 h-8 active:outline-none focus-visible:outline-none hover:opacity-75 cursor-pointer rounded-full"
+          >
+            {isPosting ? (
+              <Loader className="animate-spin w-4 h-4 text-muted-foreground" />
+            ) : showSuccess ? (
+              <CheckCircle className="size-2" />
+            ) : (
+              <Repeat2 className="size-[1.125rem]" />
+            )}
+          </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="min-w-48">
           <DropdownMenuItem className="text-md focus:outline-none p-0">
@@ -87,7 +116,7 @@ const ReferenceButton = ({ post, createRepost, createQuote, onError, postLoading
           <DropdownMenuItem className="text-md focus:outline-none p-0">
             <button
               className="flex gap-4 items-center w-full p-3"
-              onClick={onQuoteClick}
+              onClick={() => onQuoteClick?.(post)}
               disabled={postLoading || isPosting}
             >
               <MessageCircle className="w-4 h-4 inline" />
@@ -96,29 +125,7 @@ const ReferenceButton = ({ post, createRepost, createQuote, onError, postLoading
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
-
-      <Dialog open={listDialogOpen} onOpenChange={setListDialogOpen}>
-        <DialogTrigger>
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <div className="cursor-pointer whitespace-nowrap hover:opacity-75" onClick={onClick}>
-                  {new Intl.NumberFormat().format((stats?.quotes ?? 0) + (stats?.reposts ?? 0))}
-                </div>
-              </TooltipTrigger>
-              <TooltipContent>View Quotes and Reposts</TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-        </DialogTrigger>
-        <DialogContent className="sm:max-w-sm">
-          <DialogHeader className="text-left border-b pb-4">
-            <DialogTitle>Quotes & Reposts</DialogTitle>
-          </DialogHeader>
-          {listDialogOpen && <ReferencesList post={post} />}
-        </DialogContent>
-      </Dialog>
-
-      <QuoteDialog ref={quoteDialog} post={post} createQuote={async (post, content) => createQuote(post)} />
+      <span className="opacity-85">{new Intl.NumberFormat().format(numQuotes + numReposts)}</span>
     </div>
   );
 };
