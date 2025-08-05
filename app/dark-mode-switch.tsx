@@ -1,20 +1,21 @@
 "use client";
 
 import { Switch } from "@/registry/new-york/ui/switch";
-import { useEffect, useState } from "react";
+import { useTheme } from "next-themes";
 
 const DarkModeSwitch = ({ className }: { className: string }) => {
-  const [darkMode, setDarkMode] = useState(
-    typeof window !== "undefined" && localStorage.getItem("darkMode") === "true",
+  const { setTheme, theme } = useTheme();
+
+  if (!theme) return null;
+
+  return (
+    <Switch
+      id="dark-mode-toggle"
+      checked={theme === "dark"}
+      onCheckedChange={checked => setTheme(checked ? "dark" : "light")}
+      className={className}
+    />
   );
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    document.documentElement.classList.toggle("dark", darkMode);
-    localStorage.setItem("darkMode", darkMode ? "true" : "false");
-  }, [darkMode]);
-
-  return <Switch id="dark-mode-toggle" checked={darkMode} onCheckedChange={setDarkMode} className={className} />;
 };
 
 export default DarkModeSwitch;
