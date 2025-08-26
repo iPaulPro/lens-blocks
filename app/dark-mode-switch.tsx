@@ -2,11 +2,18 @@
 
 import { Switch } from "@/registry/new-york/ui/switch";
 import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
 
 const DarkModeSwitch = ({ className }: { className: string }) => {
   const { setTheme, theme } = useTheme();
 
-  if (!theme) return null;
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!theme || !mounted) return null;
 
   return (
     <Switch

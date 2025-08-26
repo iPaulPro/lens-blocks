@@ -5,7 +5,7 @@ import lensConfig from "../lens/config";
 
 export const config = createConfig(
   getDefaultConfig({
-    chains: [lensConfig.lens.chain],
+    chains: [lensConfig.chain],
     ...(process.env.NEXT_PUBLIC_ALCHEMY_ID && {
       transports: {
         [chains.mainnet.id]: http(`https://lens-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_ID}`),

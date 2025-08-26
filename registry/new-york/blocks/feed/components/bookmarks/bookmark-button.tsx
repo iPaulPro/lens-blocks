@@ -1,37 +1,27 @@
-import { AnyPost, postId, useUndoBookmarkPost, useBookmarkPost } from "@lens-protocol/react";
+import { AnyPost } from "@lens-protocol/react";
 import { Button } from "@/registry/new-york/ui/button";
 import { Bookmark } from "lucide-react";
-import { useState } from "react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/registry/new-york/ui/tooltip";
 import { cn } from "@/registry/new-york/common/lib/lens-utils";
+import { useLensPostContext } from "@/registry/new-york/common/lib/lens-post-context";
 
 type BookmarkButtonProps = {
-  post: AnyPost;
-  postLoading: boolean;
   className?: string;
+  onSuccess?: () => void;
   onError?: (error: Error) => void;
 };
 
-const BookmarkButton = (props: BookmarkButtonProps) => {
-  const { className, post, postLoading, onError } = props;
+const BookmarkButton = ({ className, onSuccess, onError }: BookmarkButtonProps) => {
+  const { post, loading: postLoading, toggleBookmark, optimistic } = useLensPostContext();
+
   const operations = post && "operations" in post ? post.operations : null;
 
-  const [optimisticBookmarked, setOptimisticBookmarked] = useState(operations?.hasBookmarked ?? false);
-
-  const { execute: bookmarkPost } = useBookmarkPost();
-  const { execute: undoBookmarkPost } = useUndoBookmarkPost();
-
-  const onClick = async (post: AnyPost) => {
+  const onClick = async (post: AnyPost | undefined | null) => {
     if (!post) return;
 
-    setOptimisticBookmarked(optimisticBookmarked => !optimisticBookmarked);
-
     try {
-      if (operations?.hasBookmarked) {
-        await undoBookmarkPost({ post: postId(post.id) });
-      } else {
-        await bookmarkPost({ post: postId(post.id) });
-      }
+      await toggleBookmark();
+      onSuccess?.();
     } catch (error) {
       if (error instanceof Error && onError) {
         onError(error);
@@ -52,7 +42,7 @@ const BookmarkButton = (props: BookmarkButtonProps) => {
               className,
             )}
           >
-            {optimisticBookmarked || operations?.hasBookmarked ? (
+            {optimistic.bookmarked || operations?.hasBookmarked ? (
               <Bookmark className="text-primary" fill="var(--primary)" />
             ) : (
               <Bookmark className="opacity-85" />
@@ -60,7 +50,7 @@ const BookmarkButton = (props: BookmarkButtonProps) => {
           </Button>
         </TooltipTrigger>
         <TooltipContent>
-          {optimisticBookmarked || operations?.hasBookmarked ? "Remove bookmark" : "Bookmark post"}
+          {optimistic.bookmarked || operations?.hasBookmarked ? "Remove bookmark" : "Bookmark post"}
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>

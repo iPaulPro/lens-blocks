@@ -4,15 +4,14 @@ import { AnyPost } from "@lens-protocol/react";
 import { MouseEvent } from "react";
 import { CircleDollarSign } from "lucide-react";
 import { Button } from "@/registry/new-york/ui/button";
+import { useLensPostContext } from "@/registry/new-york/common/lib/lens-post-context";
 
 interface Props {
-  post: AnyPost | null;
-  postLoading: boolean;
   onClick: (post: AnyPost) => void;
 }
 
-const TipButton = ({ post, postLoading, onClick }: Props) => {
-  if (!post) return null;
+const TipButton = ({ onClick }: Props) => {
+  const { post, loading: postLoading } = useLensPostContext();
 
   const operations = post && "operations" in post ? post.operations : null;
   const stats = post && "stats" in post ? post.stats : null;
@@ -20,8 +19,11 @@ const TipButton = ({ post, postLoading, onClick }: Props) => {
   const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
     event.currentTarget.blur();
     event.stopPropagation();
-    onClick(post);
+    if (!post) return;
+    // onClick(post);
   };
+
+  if (!post) return null;
 
   return (
     <div className="flex items-center">

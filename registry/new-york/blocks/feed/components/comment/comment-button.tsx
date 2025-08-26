@@ -4,20 +4,22 @@ import { MouseEvent } from "react";
 import { MessageCircle } from "lucide-react";
 import { AnyPost } from "@lens-protocol/react";
 import { Button } from "@/registry/new-york/ui/button";
+import { useLensPostContext } from "@/registry/new-york/common/lib/lens-post-context";
 
 type CommentButtonProps = {
-  post: AnyPost;
   onClick: (post: AnyPost) => void;
-  postLoading: boolean;
 };
 
-const CommentButton = ({ post, onClick, postLoading }: CommentButtonProps) => {
+const CommentButton = ({ onClick }: CommentButtonProps) => {
+  const { post, loading: postLoading } = useLensPostContext();
+
   const operations = post && "operations" in post ? post.operations : null;
   const stats = post && "stats" in post ? post.stats : null;
 
   const onButtonClick = (event: MouseEvent<HTMLButtonElement>) => {
     event.currentTarget.blur();
     event.stopPropagation();
+    if (!post) return;
     onClick(post);
   };
 
@@ -29,7 +31,7 @@ const CommentButton = ({ post, onClick, postLoading }: CommentButtonProps) => {
         disabled={postLoading}
         className="w-8 h-8 active:outline-none focus-visible:outline-none cursor-pointer rounded-full"
       >
-        {operations?.hasCommented.optimistic || operations?.hasCommented.onChain ? (
+        {operations?.hasCommented?.optimistic || operations?.hasCommented?.onChain ? (
           <MessageCircle className="text-primary" fill="var(--primary)" />
         ) : (
           <MessageCircle className="opacity-85" />

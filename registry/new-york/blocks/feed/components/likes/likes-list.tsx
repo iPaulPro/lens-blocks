@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Cursor, PageSize, AnyPost, usePostReactions } from "@lens-protocol/react";
+import { AnyPost, Cursor, PageSize, usePostReactions } from "@lens-protocol/react";
 import PaginatedList from "@/registry/new-york/common/components/paginated-list";
 import { LensAccountListItem } from "@/registry/new-york/common/components/lens-account-list-item";
 import { LensAccountListItemSkeleton } from "@/registry/new-york/common/components/lens-account-list-item-skeleton";
@@ -26,6 +26,7 @@ const LikesList = ({ post }: { post: AnyPost }) => {
           account={item.account}
           key={item.account.address}
           renderDivider={() => <div className="h-0.5"></div>}
+          showChevron={false}
         />
       )}
       renderSkeleton={() => (

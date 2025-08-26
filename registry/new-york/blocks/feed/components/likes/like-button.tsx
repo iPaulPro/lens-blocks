@@ -1,34 +1,39 @@
 "use client";
 
-import { AnyPost, PublicClient, SessionClient } from "@lens-protocol/react";
-import { MouseEvent, useState } from "react";
+import { MouseEvent } from "react";
 import { Heart } from "lucide-react";
-import { useReactionToggle } from "@/registry/new-york/blocks/feed/hooks/use-reaction-toggle";
 import { Button } from "@/registry/new-york/ui/button";
+import { useLensPostContext } from "@/registry/new-york/common/lib/lens-post-context";
+import { cn } from "@/registry/new-york/common/lib/lens-utils";
 
 type LikeButtonProps = {
-  /**
-   * The Lens Client used for making public and authenticated calls
-   */
-  lensClient: PublicClient | SessionClient;
-  post: AnyPost | null;
-  postLoading: boolean;
+  className?: string;
+  onSuccess?: () => void;
+  onError?: (error: Error) => void;
 };
 
-const LikeButton = ({ lensClient, post, postLoading }: LikeButtonProps) => {
+const LikeButton = ({ className, onSuccess, onError }: LikeButtonProps) => {
+  const { post, loading: postLoading, toggleLike, optimistic } = useLensPostContext();
+
   const operations = post && "operations" in post ? post.operations : null;
   const stats = post && "stats" in post ? post.stats : null;
-
-  const [optimisticLiked, setOptimisticLiked] = useState(operations?.hasUpvoted ?? false);
-
-  const { execute: toggleLike } = useReactionToggle();
 
   const onClick = async (event: MouseEvent<HTMLButtonElement>) => {
     event.currentTarget.blur();
     event.stopPropagation();
-    if (!post || !lensClient.isSessionClient()) return;
-    setOptimisticLiked(optimisticLiked => !optimisticLiked);
-    await toggleLike({ post, session: lensClient });
+
+    if (post?.__typename !== "Post") return;
+
+    try {
+      await toggleLike();
+      onSuccess?.();
+    } catch (e) {
+      if (onError) {
+        onError(e instanceof Error ? e : new Error("An unexpected error occurred while toggling like."));
+      } else {
+        console.error("An unexpected error occurred while toggling like:", e);
+      }
+    }
   };
 
   return (
@@ -37,9 +42,9 @@ const LikeButton = ({ lensClient, post, postLoading }: LikeButtonProps) => {
         onClick={onClick}
         disabled={postLoading}
         variant="ghost"
-        className="w-8 h-8 active:outline-none focus-visible:outline-none cursor-pointer rounded-full"
+        className={cn("w-8 h-8 active:outline-none focus-visible:outline-none cursor-pointer rounded-full", className)}
       >
-        {optimisticLiked || operations?.hasUpvoted ? (
+        {optimistic.liked || operations?.hasUpvoted ? (
           <Heart className="text-primary" fill="var(--primary)" />
         ) : (
           <Heart className="opacity-85" />

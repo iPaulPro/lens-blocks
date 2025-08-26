@@ -57,7 +57,7 @@ export function LensLoginButton(props: LoginButtonProps) {
   });
   const { address: walletAddress, isConnected, isConnecting, isReconnecting } = useAccount();
   const { disconnect } = useDisconnect();
-  const { data: walletClient } = useWalletClient({ chainId: config.lens.chain.id });
+  const { data: walletClient } = useWalletClient({ chainId: config.chain.id });
 
   const { execute: login, loading: loginLoading, error: loginError } = useLensLoginWithWagmi();
   const { execute: logout, loading: logoutLoading } = useLogout();

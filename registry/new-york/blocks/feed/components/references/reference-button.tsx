@@ -6,31 +6,30 @@ import {
 } from "@/registry/new-york/ui/dropdown-menu";
 import { AnyPost, postId, PublicClient, SessionClient, TxHash } from "@lens-protocol/react";
 import { repost } from "@lens-protocol/client/actions";
-import { useState } from "react";
+import { useState, MouseEvent } from "react";
 import { CheckCircle, Loader, MessageCircle, Repeat2 } from "lucide-react";
 import { Button } from "@/registry/new-york/ui/button";
 import { handleOperationWith } from "@lens-protocol/client/viem";
 import { WalletClient } from "viem";
+import { useLensPostContext } from "@/registry/new-york/common/lib/lens-post-context";
 
 type ReferenceButtonProps = {
   lensClient: PublicClient | SessionClient;
   walletClient: WalletClient;
-  post: AnyPost;
   onQuoteClick: (post: AnyPost) => void;
   onRepostSuccess?: (txHash: TxHash) => void;
   onError?: (error: Error) => void;
-  postLoading: boolean;
 };
 
 const ReferenceButton = ({
   lensClient,
   walletClient,
-  post,
   onQuoteClick,
   onRepostSuccess,
   onError,
-  postLoading,
 }: ReferenceButtonProps) => {
+  const { post, loading: postLoading } = useLensPostContext();
+
   const [isDropdownMenuOpen, setIsDropdownMenuOpen] = useState(false);
   const [isPosting, setIsPosting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
@@ -38,13 +37,14 @@ const ReferenceButton = ({
   const [numReposts, setNumReposts] = useState<number>(post && "stats" in post ? post.stats.reposts : 0);
   const [numQuotes, setNumQuotes] = useState<number>(post && "stats" in post ? post.stats.quotes : 0);
 
-  const onClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const onClick = (event: MouseEvent<HTMLButtonElement>) => {
     event.currentTarget.blur();
     event.stopPropagation();
     setIsDropdownMenuOpen(true);
   };
 
-  const onRepostClick = async () => {
+  const onRepostClick = async (event: MouseEvent<HTMLButtonElement>) => {
+    event.stopPropagation();
     setIsPosting(true);
     try {
       if (!post || !lensClient.isSessionClient()) {
@@ -79,6 +79,14 @@ const ReferenceButton = ({
     } finally {
       setIsPosting(false);
     }
+  };
+
+  const handleQuoteClick = (event: MouseEvent<HTMLButtonElement>) => {
+    event.currentTarget.blur();
+    event.stopPropagation();
+    setIsDropdownMenuOpen(false);
+    if (!post) return;
+    onQuoteClick(post);
   };
 
   if (!post) return null;
@@ -116,7 +124,7 @@ const ReferenceButton = ({
           <DropdownMenuItem className="text-md focus:outline-none p-0">
             <button
               className="flex gap-4 items-center w-full p-3"
-              onClick={() => onQuoteClick?.(post)}
+              onClick={handleQuoteClick}
               disabled={postLoading || isPosting}
             >
               <MessageCircle className="w-4 h-4 inline" />

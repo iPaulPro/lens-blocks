@@ -24,6 +24,7 @@ import { WalletClient } from "viem";
 import CollectDialog, { CollectDialogRef } from "@/registry/new-york/blocks/feed/components/collects/collect-dialog";
 import QuoteDialog, { QuoteDialogRef } from "@/registry/new-york/blocks/feed/components/references/quote-dialog";
 import TipDialog, { TipDialogRef } from "@/registry/new-york/blocks/feed/components/tips/tip-dialog";
+import { useLensPostContext } from "@/registry/new-york/common/lib/lens-post-context";
 
 type LensPostProps = {
   /**
@@ -31,34 +32,39 @@ type LensPostProps = {
    */
   lensClient: PublicClient | SessionClient;
   walletClient: WalletClient;
-  post: AnyPost;
   onPostClick: (post: AnyPost) => void;
   onAccountClick: (account: Account) => void;
   onRepostSuccess?: (txHash: TxHash) => void;
-  postLoading: boolean;
   className?: string;
 };
 
 export const LensPost = ({
   lensClient,
   walletClient,
-  post,
-  postLoading,
   onPostClick,
   onAccountClick,
   onRepostSuccess,
   className,
 }: LensPostProps) => {
+  const collectDialog = useRef<CollectDialogRef>(null);
+  const quoteDialog = useRef<QuoteDialogRef>(null);
+  const tipDialog = useRef<TipDialogRef>(null);
+
+  const { post, loading } = useLensPostContext();
+
+  if (!post) {
+    if (loading) {
+      return <></>; // TODO return skeleton
+    }
+    return null;
+  }
+
   const author = post.author;
   const name = author.metadata?.name ?? author.username?.localName ?? "[anonymous]";
   const isPost = post.__typename === "Post";
 
   const collectAction =
     post && "actions" in post && post.actions?.find(action => action.__typename === "SimpleCollectAction");
-
-  const collectDialog = useRef<CollectDialogRef>(null);
-  const quoteDialog = useRef<QuoteDialogRef>(null);
-  const tipDialog = useRef<TipDialogRef>(null);
 
   const onReportClick = () => {};
 
@@ -126,13 +132,13 @@ export const LensPost = ({
             </DropdownMenuTrigger>
             <DropdownMenuContent className="min-w-48" side="bottom">
               <DropdownMenuItem className="focus:outline-none p-0">
-                <button className="flex gap-2 items-center w-full p-2" onClick={onReportClick} disabled={postLoading}>
+                <button className="flex gap-2 items-center w-full p-2" onClick={onReportClick} disabled={loading}>
                   <Flag />
                   Report post
                 </button>
               </DropdownMenuItem>
               <DropdownMenuItem className="focus:outline-none p-0">
-                <button className="flex gap-2 items-center w-full p-2" onClick={onCopyClick} disabled={postLoading}>
+                <button className="flex gap-2 items-center w-full p-2" onClick={onCopyClick} disabled={loading}>
                   <Copy className="w-4 h-4 inline" />
                   Copy link
                 </button>
@@ -145,22 +151,18 @@ export const LensPost = ({
         )}
         <div className="flex gap-4 md:gap-8 items-center justify-between pe-2">
           <div className="flex items-center gap-4 md:gap-6 -ms-2">
-            <CommentButton post={post} onClick={() => undefined} postLoading={postLoading} />
-            <LikeButton lensClient={lensClient} post={post} postLoading={postLoading} />
+            <CommentButton onClick={() => undefined} />
+            <LikeButton />
             <ReferenceButton
               lensClient={lensClient}
               walletClient={walletClient}
-              post={post}
               onQuoteClick={() => quoteDialog.current?.open()}
               onRepostSuccess={onRepostSuccess}
-              postLoading={postLoading}
             />
-            {collectAction && (
-              <CollectButton post={post} onClick={() => collectDialog.current?.open()} postLoading={postLoading} />
-            )}
-            <TipButton post={post} postLoading={postLoading} onClick={() => tipDialog.current?.open()} />
+            {collectAction && <CollectButton onClick={() => collectDialog.current?.open()} />}
+            <TipButton onClick={() => tipDialog.current?.open()} />
           </div>
-          <BookmarkButton post={post} postLoading={postLoading} className="-me-2" />
+          <BookmarkButton className="-me-2" />
         </div>
       </article>
       {collectAction && (
