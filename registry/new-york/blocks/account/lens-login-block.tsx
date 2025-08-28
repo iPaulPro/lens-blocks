@@ -1,13 +1,12 @@
 "use client";
 
 import { LensLoginButton } from "@/registry/new-york/blocks/account/components/lens-login-button";
-import { AuthenticatedUser, PublicClient, SessionClient } from "@lens-protocol/react";
+import { AuthenticatedUser, PublicClient, SessionClient, useSessionClient } from "@lens-protocol/react";
+import { lensClient } from "@/lib/lens/client";
 
-type LensLoginBlockProps = {
-  lensClient: PublicClient | SessionClient;
-};
+export function LensLoginBlock() {
+  const { data: sessionClient, loading: sessionLoading } = useSessionClient();
 
-export function LensLoginBlock({ lensClient }: LensLoginBlockProps) {
   // Callback function that is called when the user successfully logs in
   const onLoginSuccess = (authenticatedUser: AuthenticatedUser) => {
     console.log("Login successful for user:", authenticatedUser);
@@ -18,5 +17,9 @@ export function LensLoginBlock({ lensClient }: LensLoginBlockProps) {
     console.error("Login failed with error:", error);
   };
 
-  return <LensLoginButton lensClient={lensClient} onSuccess={onLoginSuccess} onError={onLoginError} />;
+  if (!sessionClient || (sessionLoading && !sessionClient)) {
+    return <>Loading...</>; // TODO loader
+  }
+
+  return <LensLoginButton lensClient={sessionClient ?? lensClient} onSuccess={onLoginSuccess} onError={onLoginError} />;
 }
