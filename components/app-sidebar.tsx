@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Blocks, Github } from "lucide-react";
+import { Blocks } from "lucide-react";
 
 import {
   Sidebar,
@@ -16,6 +16,7 @@ import {
 } from "@/registry/new-york/ui/sidebar";
 import registry from "@/registry.json";
 import { Button } from "@/registry/new-york/ui/button";
+import Link from "next/link";
 
 const data = {
   navMain: [
@@ -52,7 +53,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
-              <a href="/">
+              <Link href="/">
                 <div className="bg-black text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
                   <Blocks className="size-4" />
                 </div>
@@ -60,7 +61,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   <span className="font-medium">Lens Blocks</span>
                   <span className="">v0.1.0</span>
                 </div>
-              </a>
+              </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>

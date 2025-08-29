@@ -13,7 +13,7 @@ import {
   BreadcrumbSeparator,
 } from "@/registry/new-york/ui/breadcrumb";
 
-export default async function Page() {
+export default function Page() {
   return (
     <div className="w-full h-full relative">
       <div className="max-w-3xl flex flex-col min-h-svh px-12 py-8 gap-8">

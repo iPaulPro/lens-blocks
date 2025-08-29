@@ -1,14 +1,12 @@
-import { type ResultAsync, invariant } from '@lens-protocol/types';
-import { useCallback, useState } from 'react';
+import { type ResultAsync, invariant } from "@lens-protocol/types";
+import { useCallback, useState } from "react";
 
 /**
  * An deferrable task is a function that can be executed multiple times and that can be in a pending state.
  *
  * @internal
  */
-export type AsyncTask<TInput, TResult extends ResultAsync<unknown, unknown>> = (
-  input: TInput
-) => TResult;
+export type AsyncTask<TInput, TResult extends ResultAsync<unknown, unknown>> = (input: TInput) => TResult;
 
 /**
  * The initial state of a async task.
@@ -127,13 +125,13 @@ export type UseAsyncTask<TInput, TValue, TError> = AsyncTaskState<TValue, TError
  * @internal
  */
 export function useAsyncTask<TInput, TValue, TError, TResult extends ResultAsync<TValue, TError>>(
-  handler: AsyncTask<TInput, TResult>
+  handler: AsyncTask<TInput, TResult>,
 ): UseAsyncTask<TInput, TValue, TError> {
   const [state, setState] = useState(AsyncTaskState.Idle<TValue, TError>());
 
   const execute = useCallback(
     (input: TInput) => {
-      invariant(!state.loading, 'Cannot execute a task while another is in progress.');
+      invariant(!state.loading, "Cannot execute a task while another is in progress.");
 
       setState(({ data }) => {
         return {
@@ -148,12 +146,12 @@ export function useAsyncTask<TInput, TValue, TError, TResult extends ResultAsync
 
       result.match(
         value => setState(AsyncTaskState.Success(value)),
-        error => setState(AsyncTaskState.Failed(error))
+        error => setState(AsyncTaskState.Failed(error)),
       );
 
       return result;
     },
-    [handler, state]
+    [handler, state],
   );
 
   return {

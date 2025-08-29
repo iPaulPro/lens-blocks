@@ -50,7 +50,7 @@ export function CodeBlock({ children, lang, height = "600", className, highlight
     };
 
     generateHtml();
-  }, [children, lang, theme]);
+  }, [children, lang, theme, highlight]);
 
   const handleCopy = async () => {
     await navigator.clipboard.writeText(children);

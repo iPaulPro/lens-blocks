@@ -15,14 +15,7 @@
     "remark-linkify-regex@1.2.1",
     "viem"
   ],
-  "registryDependencies": [
-    "avatar",
-    "button",
-    "skeleton",
-    "dialog",
-    "tooltip",
-    "dropdown-menu"
-  ],
+  "registryDependencies": ["avatar", "button", "skeleton", "dialog", "tooltip", "dropdown-menu"],
   "files": [
     {
       "path": "registry/new-york/blocks/feed/components/lens-post.tsx",

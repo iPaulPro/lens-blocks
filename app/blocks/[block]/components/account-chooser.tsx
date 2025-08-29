@@ -10,7 +10,7 @@ import CommandBlock from "@/components/command-tabs";
 import { CodeBlock } from "@/components/codeblock";
 
 export default function AccountChooser() {
-  const { data: sessionClient, loading: sessionLoading } = useSessionClient();
+  const { data: sessionClient } = useSessionClient();
 
   const onAccountSelected = (account: Account) => {
     console.log("Selected account:", account);

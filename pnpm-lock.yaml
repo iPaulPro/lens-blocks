@@ -162,6 +162,9 @@ importers:
       eslint-config-next:
         specifier: 15.4.4
         version: 15.4.4(eslint@9.32.0(jiti@2.4.2))(typescript@5.8.3)
+      eslint-plugin-react-hooks:
+        specifier: ^5.2.0
+        version: 5.2.0(eslint@9.32.0(jiti@2.4.2))
       prettier:
         specifier: ^3.5.3
         version: 3.6.2

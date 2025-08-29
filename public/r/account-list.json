@@ -4,16 +4,8 @@
   "type": "registry:block",
   "title": "Lens Account List",
   "description": "A list of a Lens accounts displaying avatars, names, and handles.",
-  "dependencies": [
-    "@lens-protocol/react@0.0.0-canary-20250721180328",
-    "react-virtuoso@4.13.0",
-    "lucide-react"
-  ],
-  "registryDependencies": [
-    "avatar",
-    "button",
-    "skeleton"
-  ],
+  "dependencies": ["@lens-protocol/react@0.0.0-canary-20250721180328", "react-virtuoso@4.13.0", "lucide-react"],
+  "registryDependencies": ["avatar", "button", "skeleton"],
   "files": [
     {
       "path": "registry/new-york/common/components/lens-account-list-item.tsx",

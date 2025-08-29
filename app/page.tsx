@@ -56,9 +56,9 @@ export default function Home() {
             Installation
           </h2>
           <p className="content">
-            Lens Blocks are installed on a component-by-component basis using the shadcn/ui CLI. As such, you'll need to
-            have already set up a project with shadcn/ui. If you haven't done that yet, follow the installation
-            instructions first:
+            Lens Blocks are installed on a component-by-component basis using the shadcn/ui CLI. As such, you&apos;ll
+            need to have already set up a project with shadcn/ui. If you haven&apos;t done that yet, follow the
+            installation instructions first:
           </p>
           <Button className="w-fit mt-4" variant="secondary" asChild>
             <Link href="https://ui.shadcn.com/docs/installation" target="_blank">
@@ -66,14 +66,14 @@ export default function Home() {
             </Link>
           </Button>
           <p className="content mb-4">
-            You'll also need to set up the Lens React SDK and wagmi. If you haven't done that already, here is a basic
-            setup using <a href="https://family.co/docs/connectkit">ConnectKit</a>:
+            You&apos;ll also need to set up the Lens React SDK and wagmi. If you haven&apos;t done that already, here is
+            a basic setup using <a href="https://family.co/docs/connectkit">ConnectKit</a>:
           </p>
           <Alert>
             <RedoDot className="!size-5" />
             <AlertTitle className="text-lg">Already have shadcn/ui and Lens Reack SDK set up?</AlertTitle>
             <AlertDescription>
-              If you already have shadcn/ui and the Lens React SDK set up there's nothing to install, you can start
+              If you already have shadcn/ui and the Lens React SDK set up there&apos;s nothing to install, you can start
               adding blocks with no changes!
             </AlertDescription>
             <div className="col-start-2 grid flex justify-items-end">
@@ -92,8 +92,8 @@ export default function Home() {
             </Link>
           </Button>
           <p className="content">
-            You'll end up with a <span className="font-mono font-semibold">Web3Provider</span> that looks something like
-            this:
+            You&apos;ll end up with a <span className="font-mono font-semibold">Web3Provider</span> that looks something
+            like this:
           </p>
           <CodeBlock lang="tsx" className="lines">
             {`export const Web3Provider = ({ children }) => {
@@ -114,8 +114,8 @@ export default function Home() {
             </Link>
           </Button>
           <p className="content">
-            You'll end up with a <span className="font-mono font-semibold">LensProvider</span> that looks something like
-            this:
+            You&apos;ll end up with a <span className="font-mono font-semibold">LensProvider</span> that looks something
+            like this:
           </p>
           <CodeBlock
             lang="tsx"
@@ -142,7 +142,8 @@ export default function Home() {
             the <span className="font-mono font-semibold">ConnectKitProvider</span>
           </span>
           <p>
-            Now you can wrap your app with the <strong>Web3Provider</strong> and you'll be ready to use the Lens Blocks!
+            Now you can wrap your app with the <strong>Web3Provider</strong> and you&apos;ll be ready to use the Lens
+            Blocks!
           </p>
         </div>
         <div className="flex justify-end">

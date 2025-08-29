@@ -10,13 +10,7 @@
     "react-virtuoso@4.13.0",
     "lucide-react"
   ],
-  "registryDependencies": [
-    "avatar",
-    "button",
-    "dialog",
-    "scroll-area",
-    "skeleton"
-  ],
+  "registryDependencies": ["avatar", "button", "dialog", "scroll-area", "skeleton"],
   "files": [
     {
       "path": "registry/new-york/blocks/account/lens-login-block.tsx",

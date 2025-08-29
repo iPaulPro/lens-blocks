@@ -4,16 +4,8 @@
   "type": "registry:block",
   "title": "Lens Account Chooser",
   "description": "A list of available Lens accounts for a user to choose from, with support for pagination.",
-  "dependencies": [
-    "@lens-protocol/react@0.0.0-canary-20250721180328",
-    "react-virtuoso@4.13.0",
-    "lucide-react"
-  ],
-  "registryDependencies": [
-    "avatar",
-    "button",
-    "skeleton"
-  ],
+  "dependencies": ["@lens-protocol/react@0.0.0-canary-20250721180328", "react-virtuoso@4.13.0", "lucide-react"],
+  "registryDependencies": ["avatar", "button", "skeleton"],
   "files": [
     {
       "path": "registry/new-york/blocks/account/components/lens-account-chooser.tsx",
