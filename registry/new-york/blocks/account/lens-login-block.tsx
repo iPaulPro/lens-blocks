@@ -4,6 +4,7 @@ import { LensLoginButton } from "@/registry/new-york/blocks/account/components/l
 import { AuthenticatedUser, useSessionClient } from "@lens-protocol/react";
 import { lensClient } from "@/lib/lens/client";
 import { Loader } from "lucide-react";
+import { toast } from "sonner";
 
 export function LensLoginBlock() {
   const { data: sessionClient, loading: sessionLoading } = useSessionClient();
@@ -11,11 +12,13 @@ export function LensLoginBlock() {
   // Callback function that is called when the user successfully logs in
   const onLoginSuccess = (authenticatedUser: AuthenticatedUser) => {
     console.log("Login successful for user:", authenticatedUser);
+    toast.success(`Login success!`);
   };
 
   // You can handle errors here if needed
   const onLoginError = (error: Error) => {
     console.error("Login failed with error:", error);
+    toast.error(`Login failed: ${error.message}`);
   };
 
   if (sessionLoading && !sessionClient) {
