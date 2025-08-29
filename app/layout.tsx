@@ -8,6 +8,7 @@ import { ThemeProvider } from "next-themes";
 import { SidebarProvider, SidebarTrigger } from "@/registry/new-york/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
 import DarkModeSwitch from "@/app/dark-mode-switch";
+import { Analytics } from "@vercel/analytics/next";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -45,6 +46,7 @@ export default function RootLayout({
           </Web3Provider>
           <Toaster richColors />
         </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   );
