@@ -6,7 +6,6 @@ import {
   Cursor,
   evmAddress,
   PageSize,
-  Paginated,
   useAccountsAvailable,
   useAuthenticatedUser,
 } from "@lens-protocol/react";
