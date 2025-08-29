@@ -1,8 +1,9 @@
 "use client";
 
 import { LensLoginButton } from "@/registry/new-york/blocks/account/components/lens-login-button";
-import { AuthenticatedUser, PublicClient, SessionClient, useSessionClient } from "@lens-protocol/react";
+import { AuthenticatedUser, useSessionClient } from "@lens-protocol/react";
 import { lensClient } from "@/lib/lens/client";
+import { Loader } from "lucide-react";
 
 export function LensLoginBlock() {
   const { data: sessionClient, loading: sessionLoading } = useSessionClient();
@@ -17,8 +18,8 @@ export function LensLoginBlock() {
     console.error("Login failed with error:", error);
   };
 
-  if (!sessionClient || (sessionLoading && !sessionClient)) {
-    return <>Loading...</>; // TODO loader
+  if (sessionLoading && !sessionClient) {
+    return <Loader className="animate-spin w-4 h-4 text-muted-foreground" />;
   }
 
   return <LensLoginButton lensClient={sessionClient ?? lensClient} onSuccess={onLoginSuccess} onError={onLoginError} />;
