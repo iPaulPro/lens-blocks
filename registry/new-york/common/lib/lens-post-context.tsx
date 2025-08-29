@@ -2,25 +2,26 @@ import { createContext, ReactNode, useContext, useEffect, useState } from "react
 import {
   Account,
   AnyPost,
-  PaymentSource,
-  SessionClient,
-  TxHash,
-  usePost,
-  Post,
-  postId as toPostId,
-  useUndoBookmarkPost,
-  useBookmarkPost,
   CreatePostRequest,
   evmAddress,
+  PaymentSource,
+  Post,
+  postId as toPostId,
+  SessionClient,
+  TxHash,
+  useBookmarkPost,
+  usePost,
+  useUndoBookmarkPost,
 } from "@lens-protocol/react";
 import { useWalletClient } from "wagmi";
-import { repost as createRepost, executePostAction, post as createPost } from "@lens-protocol/client/actions";
+import { executePostAction, post as createPost, repost as createRepost } from "@lens-protocol/client/actions";
 import { handleOperationWith } from "@lens-protocol/client/viem";
 import { useReactionToggle } from "@/registry/new-york/blocks/feed/hooks/use-reaction-toggle";
 import { LensConfig } from "@/registry/new-york/common/lib/lens-config";
 import { NATIVE_TOKEN } from "@/registry/new-york/common/lib/lens-utils";
 import { textOnly } from "@lens-protocol/metadata";
 import { immutable, StorageClient } from "@lens-chain/storage-client";
+import { chains } from "@lens-chain/sdk/viem";
 
 type OptimisticState = {
   liked: boolean;
@@ -108,8 +109,10 @@ export const LensPostProvider = ({
   const { execute: bookmarkPost } = useBookmarkPost();
   const { execute: undoBookmarkPost } = useUndoBookmarkPost();
 
+  const chain = config.isTestnet ? chains.testnet : chains.mainnet;
+
   const switchChain = async () => {
-    await walletClient?.switchChain({ id: config.chain.id });
+    await walletClient?.switchChain({ id: chain.id });
   };
 
   const toggleLike = async () => {
@@ -166,7 +169,7 @@ export const LensPostProvider = ({
     await switchChain();
 
     const metadata = textOnly({ content });
-    const acl = immutable(config.chain.id);
+    const acl = immutable(chain.id);
     const { uri } = await storageClient.uploadAsJson(metadata, { acl });
     const postRequest: CreatePostRequest = {
       contentUri: uri,
@@ -281,7 +284,7 @@ export const LensPostProvider = ({
     await switchChain();
 
     const metadata = textOnly({ content });
-    const acl = immutable(config.chain.id);
+    const acl = immutable(chain.id);
     const { uri } = await storageClient.uploadAsJson(metadata, { acl });
     const postRequest: CreatePostRequest = {
       contentUri: uri,

@@ -6,6 +6,8 @@ import { Account, useSessionClient } from "@lens-protocol/react";
 import { OpenInV0Button } from "@/components/open-in-v0-button";
 import { LensAccountChooser } from "@/registry/new-york/blocks/account/components/lens-account-chooser";
 import { toast } from "sonner";
+import CommandBlock from "@/components/command-tabs";
+import { CodeBlock } from "@/components/codeblock";
 
 export default function AccountChooser() {
   const { data: sessionClient, loading: sessionLoading } = useSessionClient();
@@ -21,32 +23,68 @@ export default function AccountChooser() {
     }
   };
 
+  const commands = [
+    {
+      label: "npm",
+      command: "npx shadcn@latest add https://lensblocks.com/r/account-chooser.json",
+    },
+    {
+      label: "yarn",
+      command: "yarn dlx shadcn@latest add https://lensblocks.com/r/account-chooser.json",
+    },
+    {
+      label: "pnpm",
+      command: "pnpm dlx shadcn@latest add https://lensblocks.com/r/account-chooser.json",
+    },
+    {
+      label: "bun",
+      command: "bunx --bun shadcn@latest add https://lensblocks.com/r/account-chooser.json",
+    },
+  ];
+
   return (
-    <LensPostProvider postId="1n8hs1aqb4k53f8vsvc" sessionClient={sessionClient} config={config}>
-      <div className="w-full h-full relative">
-        <div className="max-w-3xl mx-auto flex flex-col min-h-svh px-4 py-8 gap-8">
-          <header className="flex flex-col gap-1">
-            <h1 className="text-3xl font-bold tracking-tight">Components for Lens</h1>
-            <p className="text-muted-foreground">A shadcn/ui registry of components for Lens Protocol.</p>
-          </header>
-          <div className="flex flex-col flex-1 gap-8">
-            <div className="flex flex-col gap-4 border rounded-lg p-4 min-h-[450px] relative">
-              <div className="flex items-center justify-between">
-                <h2 className="text-sm text-muted-foreground sm:pl-3">A Lens Account chooser component</h2>
-                <OpenInV0Button name="hello-world" className="w-fit" />
-              </div>
-              <div className="flex items-center justify-center flex-grow min-h-[400px] relative">
-                <div className="h-48 w-full md:w-1/2">
-                  <LensAccountChooser
-                    walletAddress="0xdaA5EBe0d75cD16558baE6145644EDdFcbA1e868"
-                    onAccountSelected={onAccountSelected}
-                  />
-                </div>
-              </div>
+    <>
+      <div className="flex flex-col flex-1 gap-8">
+        <div className="flex flex-col gap-4 border rounded-lg p-4 min-h-[450px] relative">
+          <div className="flex items-center justify-between">
+            <div className="text-sm text-muted-foreground sm:pl-3">A Lens Account chooser component</div>
+            <OpenInV0Button name="hello-world" className="w-fit" />
+          </div>
+          <div className="flex items-center justify-center flex-grow min-h-[400px] relative">
+            <div className="h-48 w-full md:w-1/2">
+              <LensPostProvider postId="1n8hs1aqb4k53f8vsvc" sessionClient={sessionClient} config={config}>
+                <LensAccountChooser
+                  walletAddress="0xdaA5EBe0d75cD16558baE6145644EDdFcbA1e868"
+                  onAccountSelected={onAccountSelected}
+                />
+              </LensPostProvider>
             </div>
           </div>
         </div>
+        <h2 className="mt-6 pb-2 text-3xl font-semibold tracking-tight first:mt-0">Installation</h2>
+        <CommandBlock commands={commands} />
+        <h2 className="mt-6 pb-2 text-3xl font-semibold tracking-tight first:mt-0">Usage</h2>
+        <CodeBlock lang="tsx" className="lines">
+          {`import { LensPostProvider } from "@/registry/new-york/common/lib/lens-post-context";
+import { LensConfig } from "@/registry/new-york/common/lib/lens-config";
+import { useSessionClient } from "@lens-protocol/react";
+import { testnet } from "@lens-protocol/react";
+import { chains } from "@lens-chain/sdk/viem";
+
+const config: LensConfig = {
+  isTestnet: true,
+  environment: testnet,
+  chain: chains.testnet,
+};
+
+const { data: sessionClient } = useSessionClient(); `}
+        </CodeBlock>
+        <CodeBlock lang="tsx" className="lines">
+          {`<LensPostProvider postId="1n8hs1aqb4k53f8vsvc" sessionClient={sessionClient} config={config}>
+  <LensAccountChooser walletAddress="0xdaA5EBe0d75cD16558baE6145644EDdFcbA1e868" />
+</LensPostProvider>`}
+        </CodeBlock>
       </div>
-    </LensPostProvider>
+    </>
   );
 }

@@ -7,6 +7,7 @@ import "./globals.css";
 import { ThemeProvider } from "next-themes";
 import { SidebarProvider, SidebarTrigger } from "@/registry/new-york/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
+import DarkModeSwitch from "@/app/dark-mode-switch";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -19,8 +20,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "clens demo",
-  description: "Demo of the clens components",
+  title: "Lens Blocks",
+  description: "A shadcn/ui registry of blocks and components for Lens Social Protocol.",
 };
 
 export default function RootLayout({
@@ -35,9 +36,10 @@ export default function RootLayout({
           <Web3Provider>
             <SidebarProvider>
               <AppSidebar />
-              <main className="w-full">
+              <main className="w-full relative">
                 <SidebarTrigger />
                 {children}
+                <DarkModeSwitch className="fixed top-4 right-4" />
               </main>
             </SidebarProvider>
           </Web3Provider>

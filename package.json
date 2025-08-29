@@ -1,7 +1,10 @@
 {
-  "name": "clens",
+  "name": "lens-blocks",
   "version": "0.1.0",
-  "private": true,
+  "author": "Paul Burke <paul@paulburke.co>",
+  "license": "MIT",
+  "repository": "https://github.com/ipaulpro/lens-blocks",
+  "description": "A shadcn/ui registry of blocks and components for Lens Social Protocol.",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -25,6 +28,7 @@
     "@radix-ui/react-separator": "^1.1.7",
     "@radix-ui/react-slot": "^1.2.2",
     "@radix-ui/react-switch": "^1.2.5",
+    "@radix-ui/react-tabs": "^1.1.13",
     "@radix-ui/react-tooltip": "^1.2.7",
     "@tanstack/react-query": "^5.76.0",
     "class-variance-authority": "^0.7.1",
@@ -46,6 +50,7 @@
     "remark-linkify-regex": "^1.2.1",
     "remark-stringify": "^11.0.0",
     "shadcn": "^2.4.1",
+    "shiki": "^3.12.0",
     "sonner": "^2.0.7",
     "strip-markdown": "^6.0.0",
     "tailwind-merge": "^3.2.0",

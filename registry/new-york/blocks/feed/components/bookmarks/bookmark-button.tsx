@@ -4,6 +4,7 @@ import { Bookmark } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/registry/new-york/ui/tooltip";
 import { cn } from "@/registry/new-york/common/lib/lens-utils";
 import { useLensPostContext } from "@/registry/new-york/common/lib/lens-post-context";
+import { MouseEvent } from "react";
 
 type BookmarkButtonProps = {
   className?: string;
@@ -16,7 +17,10 @@ const BookmarkButton = ({ className, onSuccess, onError }: BookmarkButtonProps) 
 
   const operations = post && "operations" in post ? post.operations : null;
 
-  const onClick = async (post: AnyPost | undefined | null) => {
+  const onClick = async (event: MouseEvent<HTMLButtonElement>) => {
+    event.currentTarget.blur();
+    event.stopPropagation();
+
     if (!post) return;
 
     try {
@@ -34,7 +38,7 @@ const BookmarkButton = ({ className, onSuccess, onError }: BookmarkButtonProps) 
       <Tooltip>
         <TooltipTrigger asChild>
           <Button
-            onClick={async () => await onClick(post)}
+            onClick={onClick}
             disabled={postLoading}
             variant="ghost"
             className={cn(

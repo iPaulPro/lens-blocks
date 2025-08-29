@@ -1,7 +1,7 @@
-import { Login } from "@/app/blocks/[block]/components/login";
+import { LoginButton } from "@/app/blocks/[block]/components/login-button";
 import { Post } from "@/app/blocks/[block]/components/post";
 import AccountChooser from "@/app/blocks/[block]/components/account-chooser";
-import AccountItem from "@/app/blocks/[block]/components/account-item";
+import AccountListItem from "@/app/blocks/[block]/components/account-list-item";
 import AccountList from "@/app/blocks/[block]/components/account-list";
 
 export default async function Page({ params }: { params: Promise<{ block: string }> }) {
@@ -10,14 +10,14 @@ export default async function Page({ params }: { params: Promise<{ block: string
   if (!block) return null;
 
   switch (block) {
-    case "login":
-      return <Login />;
+    case "login-button":
+      return <LoginButton />;
     case "post":
       return <Post />;
     case "account-chooser":
       return <AccountChooser />;
-    case "account-item":
-      return <AccountItem />;
+    case "account-list-item":
+      return <AccountListItem />;
     case "account-list":
       return <AccountList />;
     default:

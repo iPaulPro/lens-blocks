@@ -4,7 +4,81 @@
   "homepage": "https://clens.dev",
   "items": [
     {
-      "name": "lens-login-button",
+      "name": "account-chooser",
+      "type": "registry:component",
+      "title": "Lens Account Chooser",
+      "description": "A list of available Lens accounts for the user to choose from, with support for pagination.",
+      "registryDependencies": ["avatar", "button", "skeleton"],
+      "dependencies": ["@lens-protocol/react@0.0.0-canary-20250721180328", "react-virtuoso@4.13.0", "lucide-react"],
+      "files": [
+        {
+          "path": "registry/new-york/blocks/account/components/lens-account-chooser.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "registry/new-york/blocks/account/components/lens-account-list-item.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "registry/new-york/blocks/account/components/lens-account-list-item-skeleton.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "registry/new-york/blocks/account/components/paginated-list.tsx",
+          "type": "registry:lib"
+        },
+        {
+          "path": "registry/new-york/blocks/common/lib/lens-utils.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "account-list",
+      "type": "registry:component",
+      "title": "Lens Account List",
+      "description": "A list of a Lens accounts displaying avatars, names, and handles.",
+      "registryDependencies": ["avatar", "button", "skeleton"],
+      "dependencies": ["@lens-protocol/react@0.0.0-canary-20250721180328", "lucide-react"],
+      "files": [
+        {
+          "path": "registry/new-york/blocks/account/components/lens-account-list-item.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "registry/new-york/blocks/account/components/lens-account-list-item-skeleton.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "registry/new-york/blocks/common/lib/lens-utils.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "account-list-item",
+      "type": "registry:component",
+      "title": "Lens Account List Item",
+      "description": "A list item for a Lens account displaying the avatar, name, and handle.",
+      "registryDependencies": ["avatar", "button", "skeleton"],
+      "dependencies": ["@lens-protocol/react@0.0.0-canary-20250721180328", "lucide-react"],
+      "files": [
+        {
+          "path": "registry/new-york/blocks/account/components/lens-account-list-item.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "registry/new-york/blocks/account/components/lens-account-list-item-skeleton.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "registry/new-york/blocks/common/lib/lens-utils.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "login-button",
       "type": "registry:block",
       "title": "Lens Login Button",
       "description": "A full-featured login button for Lens Protocol that hooks into the Lens React SDK, uses ConnectKit for wallet connections, supports account switching and more.",
@@ -55,62 +129,10 @@
       ]
     },
     {
-      "name": "lens-account-chooser",
-      "type": "registry:component",
-      "title": "Lens Account Chooser",
-      "description": "A list of available Lens accounts for the user to choose from, with support for pagination.",
-      "registryDependencies": ["avatar", "button", "skeleton"],
-      "dependencies": ["@lens-protocol/react@0.0.0-canary-20250721180328", "react-virtuoso@4.13.0", "lucide-react"],
-      "files": [
-        {
-          "path": "registry/new-york/blocks/account/components/lens-account-chooser.tsx",
-          "type": "registry:component"
-        },
-        {
-          "path": "registry/new-york/blocks/account/components/lens-account-list-item.tsx",
-          "type": "registry:component"
-        },
-        {
-          "path": "registry/new-york/blocks/account/components/lens-account-list-item-skeleton.tsx",
-          "type": "registry:component"
-        },
-        {
-          "path": "registry/new-york/blocks/account/components/paginated-list.tsx",
-          "type": "registry:lib"
-        },
-        {
-          "path": "registry/new-york/blocks/common/lib/lens-utils.ts",
-          "type": "registry:lib"
-        }
-      ]
-    },
-    {
-      "name": "lens-account-list-item",
-      "type": "registry:component",
-      "title": "Lens Account List Item",
-      "description": "A list for a Lens accounts displaying the account's avatar, name, and handle.",
-      "registryDependencies": ["avatar", "button", "skeleton"],
-      "dependencies": ["@lens-protocol/react@0.0.0-canary-20250721180328", "lucide-react"],
-      "files": [
-        {
-          "path": "registry/new-york/blocks/account/components/lens-account-list-item.tsx",
-          "type": "registry:component"
-        },
-        {
-          "path": "registry/new-york/blocks/account/components/lens-account-list-item-skeleton.tsx",
-          "type": "registry:component"
-        },
-        {
-          "path": "registry/new-york/blocks/common/lib/lens-utils.ts",
-          "type": "registry:lib"
-        }
-      ]
-    },
-    {
-      "name": "lens-post",
+      "name": "post",
       "type": "registry:component",
       "title": "Lens Post",
-      "description": "Displays a post from Lens Protocol, including the content, author, attachments, and engagement actions.",
+      "description": "Displays a post from Lens Social Protocol, including the content, author, attachments, and engagement actions.",
       "registryDependencies": ["avatar", "button", "skeleton", "dialog", "tooltip", "dropdown-menu"],
       "dependencies": [
         "@lens-protocol/react@0.0.0-canary-20250721180328",
