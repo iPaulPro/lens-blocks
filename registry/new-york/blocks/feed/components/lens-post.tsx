@@ -17,7 +17,8 @@ import CommentButton from "@/registry/new-york/blocks/feed/components/comment/co
 import moment from "moment/moment";
 import CollectButton from "@/registry/new-york/blocks/feed/components/collects/collect-button";
 import TipButton from "@/registry/new-york/blocks/feed/components/tips/tip-button";
-import { cn, truncateAddress } from "@/registry/new-york/common/lib/lens-utils";
+import { cn } from "@/registry/new-york/common/lib/utils";
+import { truncateAddress } from "@/registry/new-york/common/lib/lens-utils";
 import { Button } from "@/registry/new-york/ui/button";
 import BookmarkButton from "@/registry/new-york/blocks/feed/components/bookmarks/bookmark-button";
 import { WalletClient } from "viem";
@@ -30,8 +31,8 @@ type LensPostProps = {
   /**
    * The Lens Client used for making public and authenticated calls
    */
-  lensClient: PublicClient | SessionClient;
-  walletClient: WalletClient;
+  lensClient?: PublicClient | SessionClient;
+  walletClient?: WalletClient;
   onPostClick: (post: AnyPost) => void;
   onAccountClick: (account: Account) => void;
   onRepostSuccess?: (txHash: TxHash) => void;
@@ -51,7 +52,7 @@ export const LensPost = ({
   const tipDialog = useRef<TipDialogRef>(null);
 
   const { post, loading } = useLensPostContext();
-
+  console.log("post:", post, "loading", loading);
   if (!post) {
     if (loading) {
       return <></>; // TODO return skeleton

@@ -2,7 +2,7 @@ import { AnyPost } from "@lens-protocol/react";
 import { Button } from "@/registry/new-york/ui/button";
 import { Bookmark } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/registry/new-york/ui/tooltip";
-import { cn } from "@/registry/new-york/common/lib/lens-utils";
+import { cn } from "@/registry/new-york/common/lib/utils";
 import { useLensPostContext } from "@/registry/new-york/common/lib/lens-post-context";
 import { MouseEvent } from "react";
 

@@ -1,8 +1,6 @@
-import { LoginButton } from "@/app/blocks/[block]/components/login-button";
-import { Post } from "@/app/blocks/[block]/components/post";
-import AccountChooser from "@/app/blocks/[block]/components/account-chooser";
-import AccountListItem from "@/app/blocks/[block]/components/account-list-item";
-import AccountList from "@/app/blocks/[block]/components/account-list";
+import { Login } from "@/components/login";
+import { Post } from "@/components/post";
+import AccountChooser from "@/components/account-chooser";
 
 export default async function Page({ params }: { params: Promise<{ block: string }> }) {
   const { block } = await params;
@@ -10,16 +8,12 @@ export default async function Page({ params }: { params: Promise<{ block: string
   if (!block) return null;
 
   switch (block) {
-    case "login-button":
-      return <LoginButton />;
+    case "login":
+      return <Login />;
     case "post":
       return <Post />;
     case "account-chooser":
       return <AccountChooser />;
-    case "account-list-item":
-      return <AccountListItem />;
-    case "account-list":
-      return <AccountList />;
     default:
       return <div>Block not found</div>;
   }

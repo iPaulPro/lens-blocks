@@ -45,12 +45,12 @@ export default function AccountChooser() {
   return (
     <>
       <div className="flex flex-col flex-1 gap-8">
-        <div className="flex flex-col gap-4 border rounded-lg p-4 min-h-[450px] relative">
+        <div className="preview flex flex-col gap-4 relative">
           <div className="flex items-center justify-between">
             <div className="text-sm text-muted-foreground sm:pl-3">A Lens Account chooser component</div>
             <OpenInV0Button name="hello-world" className="w-fit" />
           </div>
-          <div className="flex items-center justify-center flex-grow min-h-[400px] relative">
+          <div className="flex items-center justify-center flex-grow relative">
             <div className="h-48 w-full md:w-1/2">
               <LensPostProvider postId="1n8hs1aqb4k53f8vsvc" sessionClient={sessionClient} config={config}>
                 <LensAccountChooser

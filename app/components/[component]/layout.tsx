@@ -12,18 +12,25 @@ import registry from "@/registry.json";
 import { Button } from "@/registry/new-york/ui/button";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 
-export default async function Page({ children, params }: { children: ReactNode; params: Promise<{ block: string }> }) {
-  const { block } = await params;
+export default async function Page({
+  children,
+  params,
+}: {
+  children: ReactNode;
+  params: Promise<{ component: string }>;
+}) {
+  const { component } = await params;
 
   const registryItems = registry.items
-    .filter(block => block.type === "registry:block")
+    .filter(block => block.type === "registry:component")
     .sort((a, b) => a.title.localeCompare(b.title));
 
-  const registryItem = registryItems.find(item => item.name === block);
-  const registryIndex = registryItems.findIndex(item => item.name === block);
+  const registryItem = registryItems.find(item => item.name === component);
+  const registryIndex = registryItems.findIndex(item => item.name === component);
 
-  if (!block || !registryItem || registryIndex === -1 || registryItem.type !== "registry:block")
-    return <div className="p-8">Block not found</div>;
+  if (!component || !registryItem || registryIndex === -1 || registryItem.type !== "registry:component") {
+    return <div className="p-8">Component not found</div>;
+  }
 
   const title = registryItem.title.replace("Lens ", "");
 
@@ -40,7 +47,7 @@ export default async function Page({ children, params }: { children: ReactNode; 
             <BreadcrumbSeparator />
             <BreadcrumbItem>
               <BreadcrumbLink asChild>
-                <Link href="/blocks">Blocks</Link>
+                <Link href="/components">Components</Link>
               </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
@@ -50,35 +57,35 @@ export default async function Page({ children, params }: { children: ReactNode; 
           </BreadcrumbList>
         </Breadcrumb>
         <header className="flex flex-col gap-1">
-          <h1 className="text-3xl font-bold tracking-tight">{title} Block</h1>
+          <h1 className="text-3xl font-bold tracking-tight">{title} Component</h1>
           <p className="text-muted-foreground">{registryItem.description}</p>
         </header>
         {children}
         <div className="flex justify-between flex-none py-4">
           {registryIndex > 0 ? (
             <Button className="w-fit" asChild>
-              <Link href={`/blocks/${registryItems[registryIndex - 1].name}`}>
+              <Link href={`/components/${registryItems[registryIndex - 1].name}`}>
                 <ArrowLeft />
                 {registryItems[registryIndex - 1].title.replace("Lens ", "")}
               </Link>
             </Button>
           ) : (
             <Button className="w-fit" asChild>
-              <Link href="/blocks">
-                <ArrowLeft /> Blocks
+              <Link href="/components">
+                <ArrowLeft /> Components
               </Link>
             </Button>
           )}
           {registryIndex < registryItems.length - 1 ? (
             <Button className="w-fit" asChild>
-              <Link href={`/blocks/${registryItems[registryIndex + 1].name}`}>
+              <Link href={`/components/${registryItems[registryIndex + 1].name}`}>
                 {registryItems[registryIndex + 1].title.replace("Lens ", "")} <ArrowRight />
               </Link>
             </Button>
           ) : (
             <Button className="w-fit" asChild>
-              <Link href="/libs">
-                Libraries <ArrowRight />
+              <Link href="/hooks">
+                Hooks <ArrowRight />
               </Link>
             </Button>
           )}

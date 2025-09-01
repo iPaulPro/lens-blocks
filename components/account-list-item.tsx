@@ -46,12 +46,12 @@ export default function AccountListItem() {
   return (
     <>
       <div className="flex flex-col flex-1 gap-8">
-        <div className="flex flex-col gap-4 border rounded-lg p-4 min-h-[450px] relative">
+        <div className="preview flex flex-col gap-4 relative">
           <div className="flex items-center justify-between">
             <h2 className="text-sm text-muted-foreground sm:pl-3">A Lens Account list item component</h2>
             <OpenInV0Button name="hello-world" className="w-fit" />
           </div>
-          <div className="flex items-center justify-center flex-grow min-h-[400px] relative">
+          <div className="flex items-center justify-center flex-grow relative">
             {accountLoading ? (
               <Loader className="animate-spin w-4 h-4 text-muted-foreground" />
             ) : (

@@ -14,8 +14,8 @@ import { WalletClient } from "viem";
 import { useLensPostContext } from "@/registry/new-york/common/lib/lens-post-context";
 
 type ReferenceButtonProps = {
-  lensClient: PublicClient | SessionClient;
-  walletClient: WalletClient;
+  lensClient?: PublicClient | SessionClient;
+  walletClient?: WalletClient;
   onQuoteClick: (post: AnyPost) => void;
   onRepostSuccess?: (txHash: TxHash) => void;
   onError?: (error: Error) => void;
@@ -47,7 +47,7 @@ const ReferenceButton = ({
     event.stopPropagation();
     setIsPosting(true);
     try {
-      if (!post || !lensClient.isSessionClient()) {
+      if (!post || !lensClient?.isSessionClient()) {
         onError?.(new Error("Invalid post or lens client"));
         return;
       }

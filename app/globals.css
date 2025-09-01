@@ -130,7 +130,7 @@ p.content {
 }
 
 .lines pre {
-  @apply p-6 leading-[1.75];
+  @apply px-2 py-4 leading-[1.75];
 }
 
 .lines code {
@@ -148,4 +148,8 @@ p.content {
   display: inline-block;
   text-align: right;
   color: gray;
+}
+
+.preview {
+  @apply border rounded-lg p-4 min-h-60 md:min-h-[450px];
 }

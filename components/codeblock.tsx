@@ -2,10 +2,11 @@
 import type { BundledLanguage } from "shiki";
 import { codeToHtml } from "shiki";
 import { Clipboard, Check } from "lucide-react";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Tooltip, TooltipTrigger, TooltipContent } from "@/registry/new-york/ui/tooltip";
 import { cn } from "@/lib/utils";
 import { useTheme } from "next-themes";
+import { Button } from "@/registry/new-york/ui/button";
 
 type Props = {
   children: string;
@@ -60,16 +61,15 @@ export function CodeBlock({ children, lang, height = "600", className, highlight
 
   return (
     <div
-      className={cn(
-        "relative rounded-md md:text-xl overflow-auto border bg-card w-full max-w-full shrink my-2",
-        className,
-      )}
+      className={cn("relative rounded-md md:text-xl overflow-auto border bg-card w-full max-w-full shrink", className)}
       style={{ height: "100%", maxHeight: `${height}px` }}
     >
-      <div className="sticky top-5 flex justify-end -mt-8 mr-5">
+      <div className="sticky top-5 flex justify-end -mt-6 mr-5">
         <Tooltip>
-          <TooltipTrigger className="p-1 rounded-md bg-background hover:bg-muted transition" onClick={handleCopy}>
-            {copied ? <Check size={18} /> : <Clipboard size={18} />}
+          <TooltipTrigger asChild>
+            <Button variant="secondary" size="sm" className="h-8 w-8 p-0" onClick={handleCopy}>
+              {copied ? <Check size={18} /> : <Clipboard size={20} />}
+            </Button>
           </TooltipTrigger>
           <TooltipContent>
             <p>{copied ? "Copied!" : "Copy to Clipboard"}</p>
@@ -78,7 +78,7 @@ export function CodeBlock({ children, lang, height = "600", className, highlight
       </div>
 
       {html == null ? (
-        <div className="w-full overflow-x-auto text-sm md:text-base [&>pre]:px-4 [&>pre]:py-4">
+        <div className="w-full overflow-x-auto text-sm [&>pre]:px-4 [&>pre]:py-4">
           <pre className="bg-card text-foreground">
             <code>
               {children.split("\n").map((line, i) => (
@@ -92,7 +92,7 @@ export function CodeBlock({ children, lang, height = "600", className, highlight
         </div>
       ) : (
         <div
-          className={cn("w-full overflow-x-auto md:text-base text-sm [&>pre]:px-4 [&>pre]:py-4")}
+          className={cn("w-full overflow-x-auto text-sm [&>pre]:px-4 [&>pre]:py-4")}
           dangerouslySetInnerHTML={{ __html: html }}
         />
       )}

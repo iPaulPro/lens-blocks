@@ -14,7 +14,7 @@ import { useAccount, useDisconnect, useWalletClient } from "wagmi";
 import { useCallback, useEffect, useState } from "react";
 import config from "@/lib/lens/config";
 import { Button } from "@/registry/new-york/ui/button";
-import { useLensLoginWithWagmi } from "@/registry/new-york/blocks/account/hooks/use-lens-login-with-wagmi";
+import { useLensLoginWithViem } from "@/registry/new-york/blocks/account/hooks/use-lens-login-with-viem";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/registry/new-york/ui/dialog";
 import { LensAccountChooser } from "@/registry/new-york/blocks/account/components/lens-account-chooser";
 import { Link2Off } from "lucide-react";
@@ -59,7 +59,7 @@ export function LensLoginButton(props: LoginButtonProps) {
   const { disconnect } = useDisconnect();
   const { data: walletClient } = useWalletClient({ chainId: config.chain.id });
 
-  const { execute: login, loading: loginLoading, error: loginError } = useLensLoginWithWagmi();
+  const { execute: login, loading: loginLoading, error: loginError } = useLensLoginWithViem();
   const { execute: logout, loading: logoutLoading } = useLogout();
   const { data: authenticatedUser, loading: authenticatedUserLoading } = useAuthenticatedUser();
 

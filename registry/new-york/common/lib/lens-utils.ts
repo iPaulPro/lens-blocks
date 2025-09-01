@@ -1,12 +1,5 @@
-import { clsx, type ClassValue } from "clsx";
-import { twMerge } from "tailwind-merge";
-
 export const ZeroAddress = "0x0000000000000000000000000000000000000000";
 export const NATIVE_TOKEN = "0x000000000000000000000000000000000000800A";
-
-export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs));
-}
 
 /**
  * Truncate a string to a maximum length, adding an ellipsis in the middle

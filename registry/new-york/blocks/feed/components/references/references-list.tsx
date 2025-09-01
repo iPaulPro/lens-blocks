@@ -2,7 +2,7 @@ import { useState } from "react";
 import { ArrowRightLeft, MessageSquareQuote } from "lucide-react";
 import { Cursor, PageSize, AnyPost, PostReferenceType, usePostReferences } from "@lens-protocol/react";
 import { LensAccountListItem } from "@/registry/new-york/common/components/lens-account-list-item";
-import PaginatedList from "@/registry/new-york/common/components/paginated-list";
+import { PaginatedList } from "@/registry/new-york/common/components/paginated-list";
 import { LensAccountListItemSkeleton } from "@/registry/new-york/common/components/lens-account-list-item-skeleton";
 
 const ReferencesList = ({ post }: { post: AnyPost }) => {

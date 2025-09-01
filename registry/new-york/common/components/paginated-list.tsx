@@ -20,7 +20,7 @@ type PaginationListProps<Type> = {
   sortFn?: (a: Type, b: Type) => number;
 };
 
-const PaginatedList = <Type extends any>(props: PaginationListProps<Type>) => {
+export const PaginatedList = <Type extends any>(props: PaginationListProps<Type>) => {
   const [items, setItems] = useState<Type[]>([]);
 
   const DefaultHeader = (): ReactNode => {
@@ -113,5 +113,3 @@ const PaginatedList = <Type extends any>(props: PaginationListProps<Type>) => {
     </div>
   );
 };
-
-export default PaginatedList;

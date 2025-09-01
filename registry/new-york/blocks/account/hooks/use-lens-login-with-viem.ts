@@ -11,13 +11,13 @@ import {
   useSwitchAccount,
 } from "@lens-protocol/react";
 
-type UseLensLoginWithWagmiReturnType = {
+type UseLensLoginWithViemReturnType = {
   execute: (walletClient: WalletClient, account: Account, appAddress?: string) => Promise<AuthenticatedUser | null>;
   loading: boolean;
   error: LoginError | null;
 };
 
-export function useLensLoginWithWagmi(): UseLensLoginWithWagmiReturnType {
+export function useLensLoginWithViem(): UseLensLoginWithViemReturnType {
   const [error, setError] = useState<LoginError | null>(null);
 
   const { execute: switchAccount, loading: switchingAccounts } = useSwitchAccount();

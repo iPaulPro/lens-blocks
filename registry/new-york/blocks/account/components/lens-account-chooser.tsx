@@ -10,7 +10,7 @@ import {
   useAuthenticatedUser,
 } from "@lens-protocol/react";
 import { useState } from "react";
-import PaginatedList from "@/registry/new-york/common/components/paginated-list";
+import { PaginatedList } from "@/registry/new-york/common/components/paginated-list";
 import { LensAccountListItem } from "@/registry/new-york/common/components/lens-account-list-item";
 import { LensAccountListItemSkeleton } from "@/registry/new-york/common/components/lens-account-list-item-skeleton";
 

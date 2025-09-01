@@ -38,10 +38,46 @@ const data = {
     {
       title: "Blocks",
       url: "/blocks",
-      items: registry.items.map(block => ({
-        title: block.title.replace("Lens ", ""),
-        url: `/blocks/${block.name}`,
-      })),
+      items: registry.items
+        .filter(block => block.type === "registry:block")
+        .sort((a, b) => a.title.localeCompare(b.title))
+        .map(block => ({
+          title: block.title.replace("Lens ", ""),
+          url: `/blocks/${block.name}`,
+        })),
+    },
+    {
+      title: "Components",
+      url: "/components",
+      items: registry.items
+        .filter(component => component.type === "registry:component")
+        .sort((a, b) => a.title.localeCompare(b.title))
+        .map(component => ({
+          title: component.title.replace("Lens ", ""),
+          url: `/components/${component.name}`,
+        })),
+    },
+    {
+      title: "Hooks",
+      url: "/hooks",
+      items: registry.items
+        .filter(hook => hook.type === "registry:hook")
+        .sort((a, b) => a.title.localeCompare(b.title))
+        .map(hook => ({
+          title: hook.title.replace("Lens ", ""),
+          url: `/hooks/${hook.name}`,
+        })),
+    },
+    {
+      title: "Libraries",
+      url: "/libs",
+      items: registry.items
+        .filter(lib => lib.type === "registry:lib")
+        .sort((a, b) => a.title.localeCompare(b.title))
+        .map(lib => ({
+          title: lib.title.replace("Lens ", ""),
+          url: `/libs/${lib.name}`,
+        })),
     },
   ],
 };

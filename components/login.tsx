@@ -7,37 +7,37 @@ import { LensLoginBlock } from "@/registry/new-york/blocks/account/lens-login-bl
 import CommandBlock from "@/components/command-tabs";
 import { CodeBlock } from "@/components/codeblock";
 
-export function LoginButton() {
+export function Login() {
   const { loading: sessionLoading } = useSessionClient();
 
   const commands = [
     {
       label: "npm",
-      command: "npx shadcn@latest add https://lensblocks.com/r/login-button.json",
+      command: "npx shadcn@latest add https://lensblocks.com/r/login.json",
     },
     {
       label: "yarn",
-      command: "yarn dlx shadcn@latest add https://lensblocks.com/r/login-button.json",
+      command: "yarn dlx shadcn@latest add https://lensblocks.com/r/login.json",
     },
     {
       label: "pnpm",
-      command: "pnpm dlx shadcn@latest add https://lensblocks.com/r/login-button.json",
+      command: "pnpm dlx shadcn@latest add https://lensblocks.com/r/login.json",
     },
     {
       label: "bun",
-      command: "bunx --bun shadcn@latest add https://lensblocks.com/r/login-button.json",
+      command: "bunx --bun shadcn@latest add https://lensblocks.com/r/login.json",
     },
   ];
 
   return (
     <>
       <div className="flex flex-col flex-1 gap-8">
-        <div className="flex flex-col gap-4 border rounded-lg p-4 flex-grow min-h-[450px] relative">
+        <div className="preview flex flex-col gap-4 relative">
           <div className="flex items-center justify-between">
             <h2 className="text-sm text-muted-foreground sm:pl-3">A Lens login button component</h2>
             <OpenInV0Button name="hello-world" className="w-fit" />
           </div>
-          <div className="flex items-center justify-center min-h-[400px] relative">
+          <div className="flex items-center justify-center flex-grow relative">
             {sessionLoading ? <Loader className="animate-spin w-4 h-4 text-muted-foreground" /> : <LensLoginBlock />}
           </div>
         </div>

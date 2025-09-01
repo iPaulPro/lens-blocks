@@ -10,6 +10,7 @@ import { toast } from "sonner";
 import { Button } from "@/registry/new-york/ui/button";
 import { useWalletClient } from "wagmi";
 import { CodeBlock } from "@/components/codeblock";
+import CommandBlock from "@/components/command-tabs";
 
 export function Post() {
   const { data: sessionClient, loading: sessionLoading } = useSessionClient();
@@ -31,40 +32,58 @@ export function Post() {
     }
   };
 
+  const commands = [
+    {
+      label: "npm",
+      command: "npx shadcn@latest add https://lensblocks.com/r/post.json",
+    },
+    {
+      label: "yarn",
+      command: "yarn dlx shadcn@latest add https://lensblocks.com/r/post.json",
+    },
+    {
+      label: "pnpm",
+      command: "pnpm dlx shadcn@latest add https://lensblocks.com/r/post.json",
+    },
+    {
+      label: "bun",
+      command: "bunx --bun shadcn@latest add https://lensblocks.com/r/post.json",
+    },
+  ];
+
   return (
     <LensPostProvider postId="1n8hs1aqb4k53f8vsvc" sessionClient={sessionClient} config={config}>
       <div className="flex flex-col flex-1 gap-8">
-        <div className="flex flex-col gap-4 border rounded-lg p-4 min-h-[450px] relative">
+        <div className="preview flex flex-col gap-4 relative">
           <div className="flex items-center justify-between">
             <h2 className="text-sm text-muted-foreground sm:pl-3">A basic text-only Post</h2>
             <OpenInV0Button name="hello-world" className="w-fit" />
           </div>
-          <div className="flex items-center justify-center flex-grow min-h-[400px] relative">
+          <div className="flex items-center justify-center flex-grow relative">
             {sessionLoading || walletClientLoading ? (
               <Loader className="animate-spin w-4 h-4 text-muted-foreground" />
             ) : (
-              sessionClient &&
-              walletClient && (
-                <div className="w-full md:w-2/3">
-                  <LensPost
-                    className="border rounded-md"
-                    lensClient={sessionClient}
-                    walletClient={walletClient}
-                    onPostClick={onPostClick}
-                    onAccountClick={onAccountSelected}
-                    onRepostSuccess={txHash =>
-                      toast.success("Reposted successfully!", {
-                        action: (
-                          <Button onClick={() => window.open("https://explorer.lens.xyz/tx/" + txHash)}>View tx</Button>
-                        ),
-                      })
-                    }
-                  />
-                </div>
-              )
+              <div className="w-full md:w-2/3">
+                <LensPost
+                  className="border rounded-md"
+                  lensClient={sessionClient ?? undefined}
+                  walletClient={walletClient}
+                  onPostClick={onPostClick}
+                  onAccountClick={onAccountSelected}
+                  onRepostSuccess={txHash =>
+                    toast.success("Reposted successfully!", {
+                      action: (
+                        <Button onClick={() => window.open("https://explorer.lens.xyz/tx/" + txHash)}>View tx</Button>
+                      ),
+                    })
+                  }
+                />
+              </div>
             )}
           </div>
         </div>
+        <h2 className="mt-6 pb-2 text-3xl font-semibold tracking-tight first:mt-0">Installation</h2>
+        <CommandBlock commands={commands} />
         <h2 className="mt-6 pb-2 text-3xl font-semibold tracking-tight first:mt-0">Usage</h2>
         <CodeBlock lang="tsx" className="lines">
           {`import { LensPostProvider } from "@/registry/new-york/common/lib/lens-post-context";
