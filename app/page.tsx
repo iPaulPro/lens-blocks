@@ -87,7 +87,7 @@ export default function Home() {
           <h3 className="mt-8 text-2xl font-semibold tracking-tight">Install ConnectKit</h3>
           <p className="content">Follow the instructions in the ConnectKit docs :</p>
           <Button className="w-fit mt-4" variant="secondary" asChild>
-            <Link href="https://ui.shadcn.com/docs/installation" target="_blank">
+            <Link href="https://family.co/docs/connectkit/getting-started" target="_blank">
               ConnectKit installation docs <ExternalIcon />
             </Link>
           </Button>
@@ -109,7 +109,7 @@ export default function Home() {
           <h3 className="mt-8 text-2xl font-semibold tracking-tight">Install Lens React SDK</h3>
           <p className="content">Follow the instructions in the Lens React SDK docs:</p>
           <Button className="w-fit mt-4" variant="secondary" asChild>
-            <Link href="https://ui.shadcn.com/docs/installation" target="_blank">
+            <Link href="https://lens.xyz/docs/protocol/getting-started/typescript" target="_blank">
               Lens React SDK installation docs <ExternalIcon />
             </Link>
           </Button>
