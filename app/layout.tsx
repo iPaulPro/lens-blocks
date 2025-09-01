@@ -23,6 +23,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Lens Blocks",
   description: "A shadcn/ui registry of blocks and components for Lens Social Protocol.",
+  icons: `${process.env.NEXT_PUBLIC_APP_URL}/lens-blocks.png`,
 };
 
 export default function RootLayout({
