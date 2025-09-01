@@ -15,7 +15,7 @@ export const config = createConfig(
 
     walletConnectProjectId: process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID!,
 
-    appName: process.env.NEXT_PUBLIC_APP_NAME || "clens demo",
-    appUrl: process.env.NEXT_PUBLIC_APP_URL || "https://clens.dev",
+    appName: process.env.NEXT_PUBLIC_APP_NAME || "Lens Blocks",
+    appUrl: process.env.NEXT_PUBLIC_APP_URL || "https://lensblocks.com",
   }),
 );

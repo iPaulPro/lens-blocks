@@ -1,5 +1,5 @@
-import { Login } from "@/components/login";
-import { Post } from "@/components/post";
+import { LoginBlock } from "@/components/login-block";
+import { PostBlock } from "@/components/post-block";
 import AccountChooser from "@/components/account-chooser";
 
 export default async function Page({ params }: { params: Promise<{ block: string }> }) {
@@ -9,9 +9,9 @@ export default async function Page({ params }: { params: Promise<{ block: string
 
   switch (block) {
     case "login":
-      return <Login />;
+      return <LoginBlock />;
     case "post":
-      return <Post />;
+      return <PostBlock />;
     case "account-chooser":
       return <AccountChooser />;
     default:

@@ -6,7 +6,7 @@ import { lensClient } from "@/lib/lens/client";
 import { Loader } from "lucide-react";
 import { toast } from "sonner";
 
-export function LensLoginBlock() {
+export function LensLogin() {
   const { data: sessionClient, loading: sessionLoading } = useSessionClient();
 
   // Callback function that is called when the user successfully logs in

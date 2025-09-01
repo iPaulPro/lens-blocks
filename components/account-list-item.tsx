@@ -49,7 +49,7 @@ export default function AccountListItem() {
         <div className="preview flex flex-col gap-4 relative">
           <div className="flex items-center justify-between">
             <h2 className="text-sm text-muted-foreground sm:pl-3">A Lens Account list item component</h2>
-            <OpenInV0Button name="hello-world" className="w-fit" />
+            <OpenInV0Button name="account-list-item" className="w-fit" />
           </div>
           <div className="flex items-center justify-center flex-grow relative">
             {accountLoading ? (

@@ -48,7 +48,7 @@ export default function AccountChooser() {
         <div className="preview flex flex-col gap-4 relative">
           <div className="flex items-center justify-between">
             <div className="text-sm text-muted-foreground sm:pl-3">A Lens Account chooser component</div>
-            <OpenInV0Button name="hello-world" className="w-fit" />
+            <OpenInV0Button name="account-chooser" className="w-fit" />
           </div>
           <div className="flex items-center justify-center flex-grow relative">
             <div className="h-48 w-full md:w-1/2">

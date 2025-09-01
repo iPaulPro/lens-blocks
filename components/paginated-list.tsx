@@ -55,7 +55,7 @@ export default function PaginatedList() {
         <div className="preview flex flex-col gap-4 relative">
           <div className="flex items-center justify-between">
             <h2 className="text-sm text-muted-foreground sm:pl-3">A list of Lens Accounts that liked a post</h2>
-            <OpenInV0Button name="hello-world" className="w-fit" />
+            <OpenInV0Button name="paginated-list" className="w-fit" />
           </div>
           <div className="flex items-center justify-center flex-grow relative">
             <div className="h-48 w-full md:w-1/2 border rounded-md">

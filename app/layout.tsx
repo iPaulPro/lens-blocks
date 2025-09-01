@@ -7,7 +7,7 @@ import "./globals.css";
 import { ThemeProvider } from "next-themes";
 import { SidebarProvider, SidebarTrigger } from "@/registry/new-york/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
-import DarkModeSwitch from "@/app/dark-mode-switch";
+import DarkModeSwitch from "@/components/dark-mode-switch";
 import { Analytics } from "@vercel/analytics/next";
 
 const geistSans = Geist({

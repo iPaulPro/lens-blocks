@@ -1,0 +1,16 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "account-list-item-skeleton",
+  "type": "registry:component",
+  "title": "Lens Account List Item Skeleton",
+  "description": "A skeleton placeholder for a Lens account list item, displaying the account avatar, display name, and username.",
+  "dependencies": [],
+  "registryDependencies": ["skeleton"],
+  "files": [
+    {
+      "path": "registry/new-york/common/components/lens-account-list-item-skeleton.tsx",
+      "content": "import { Skeleton } from \"@/registry/new-york/ui/skeleton\";\n\nexport const LensAccountListItemSkeleton = () => {\n  return (\n    <div className=\"flex items-center space-x-2 p-2\">\n      <Skeleton className=\"h-10 w-10 rounded-full flex-none\" />\n      <div className=\"flex-grow space-y-1.5\">\n        <Skeleton className=\"h-4 w-5/12\" />\n        <Skeleton className=\"h-3 w-3/12\" />\n      </div>\n      <Skeleton className=\"w-4 h-4\" />\n    </div>\n  );\n};\n",
+      "type": "registry:component"
+    }
+  ]
+}

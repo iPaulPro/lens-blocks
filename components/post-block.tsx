@@ -12,7 +12,7 @@ import { useWalletClient } from "wagmi";
 import { CodeBlock } from "@/components/codeblock";
 import CommandBlock from "@/components/command-tabs";
 
-export function Post() {
+export function PostBlock() {
   const { data: sessionClient, loading: sessionLoading } = useSessionClient();
   const { data: walletClient, isLoading: walletClientLoading } = useWalletClient();
 
@@ -57,7 +57,7 @@ export function Post() {
         <div className="preview flex flex-col gap-4 relative">
           <div className="flex items-center justify-between">
             <h2 className="text-sm text-muted-foreground sm:pl-3">A basic text-only Post</h2>
-            <OpenInV0Button name="hello-world" className="w-fit" />
+            <OpenInV0Button name="post-block" className="w-fit" />
           </div>
           <div className="flex items-center justify-center flex-grow relative">
             {sessionLoading || walletClientLoading ? (
@@ -103,7 +103,7 @@ const { data: walletClient } = useWalletClient();`}
         </CodeBlock>
         <CodeBlock lang="tsx" className="lines">
           {`<LensPostProvider postId="1n8hs1aqb4k53f8vsvc" sessionClient={sessionClient} config={config}>
-  <LensPost
+  <LensPostBlock
     lensClient={sessionClient}
     walletClient={walletClient}
   />

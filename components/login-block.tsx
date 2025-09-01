@@ -3,11 +3,11 @@
 import { useSessionClient } from "@lens-protocol/react";
 import { OpenInV0Button } from "@/components/open-in-v0-button";
 import { Loader } from "lucide-react";
-import { LensLoginBlock } from "@/registry/new-york/blocks/account/lens-login-block";
+import { LensLogin } from "@/registry/new-york/blocks/account/lens-login";
 import CommandBlock from "@/components/command-tabs";
 import { CodeBlock } from "@/components/codeblock";
 
-export function Login() {
+export function LoginBlock() {
   const { loading: sessionLoading } = useSessionClient();
 
   const commands = [
@@ -35,10 +35,10 @@ export function Login() {
         <div className="preview flex flex-col gap-4 relative">
           <div className="flex items-center justify-between">
             <h2 className="text-sm text-muted-foreground sm:pl-3">A Lens login button component</h2>
-            <OpenInV0Button name="hello-world" className="w-fit" />
+            <OpenInV0Button name="login-block" className="w-fit" />
           </div>
           <div className="flex items-center justify-center flex-grow relative">
-            {sessionLoading ? <Loader className="animate-spin w-4 h-4 text-muted-foreground" /> : <LensLoginBlock />}
+            {sessionLoading ? <Loader className="animate-spin w-4 h-4 text-muted-foreground" /> : <LensLogin />}
           </div>
         </div>
         <h2 className="mt-6 pb-2 text-3xl font-semibold tracking-tight first:mt-0">Installation</h2>

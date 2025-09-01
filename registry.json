@@ -51,7 +51,7 @@
       "dependencies": ["@lens-protocol/react@0.0.0-canary-20250725092937"],
       "files": [
         {
-          "path": "registry/new-york/blooks/account/hooks/use-authenticated-lens-account.ts",
+          "path": "registry/new-york/blocks/account/hooks/use-authenticated-lens-account.ts",
           "type": "registry:hook"
         }
       ]
@@ -64,7 +64,7 @@
       "dependencies": ["@lens-protocol/react@0.0.0-canary-20250725092937", "viem"],
       "files": [
         {
-          "path": "registry/new-york/blooks/account/hooks/use-authenticated-lens-account.ts",
+          "path": "registry/new-york/blocks/account/hooks/use-authenticated-lens-account.ts",
           "type": "registry:hook"
         }
       ]
@@ -159,7 +159,7 @@
           "type": "registry:hook"
         },
         {
-          "path": "registry/new-york/blocks/account/hooks/use-lens-login-with-wagmi.ts",
+          "path": "registry/new-york/blocks/account/hooks/use-lens-login-with-viem.ts",
           "type": "registry:hook"
         },
         {
@@ -192,7 +192,7 @@
       ],
       "files": [
         {
-          "path": "registry/new-york/blocks/feed/components/lens-post.tsx",
+          "path": "registry/new-york/blocks/feed/components/lens-post-block.tsx",
           "type": "registry:component"
         },
         {
