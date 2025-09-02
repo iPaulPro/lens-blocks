@@ -17,12 +17,14 @@ import {
 import registry from "@/registry.json";
 import { Button } from "@/registry/new-york/ui/button";
 import Link from "next/link";
+import { Anchor, BookOpen, BrickWall, Cuboid, Library } from "lucide-react";
 
 const data = {
   navMain: [
     {
       title: "Getting Started",
       url: "/",
+      icon: BookOpen,
       items: [
         {
           title: "Introduction",
@@ -38,6 +40,7 @@ const data = {
     {
       title: "Blocks",
       url: "/blocks",
+      icon: BrickWall,
       items: registry.items
         .filter(block => block.type === "registry:block")
         .sort((a, b) => a.title.localeCompare(b.title))
@@ -49,6 +52,7 @@ const data = {
     {
       title: "Components",
       url: "/components",
+      icon: Cuboid,
       items: registry.items
         .filter(component => component.type === "registry:component")
         .sort((a, b) => a.title.localeCompare(b.title))
@@ -60,6 +64,7 @@ const data = {
     {
       title: "Hooks",
       url: "/hooks",
+      icon: Anchor,
       items: registry.items
         .filter(hook => hook.type === "registry:hook")
         .sort((a, b) => a.title.localeCompare(b.title))
@@ -71,6 +76,7 @@ const data = {
     {
       title: "Libraries",
       url: "/libs",
+      icon: Library,
       items: registry.items
         .filter(lib => lib.type === "registry:lib")
         .sort((a, b) => a.title.localeCompare(b.title))
@@ -109,6 +115,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               <SidebarMenuItem key={item.title}>
                 <SidebarMenuButton asChild>
                   <a href={item.url} className="font-medium">
+                    <item.icon />
                     {item.title}
                   </a>
                 </SidebarMenuButton>

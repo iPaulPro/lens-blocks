@@ -57,7 +57,7 @@ export function PostBlock() {
         <div className="preview flex flex-col gap-4 relative">
           <div className="flex items-center justify-between">
             <h2 className="text-sm text-muted-foreground sm:pl-3">A basic text-only Post</h2>
-            <OpenInV0Button name="post-block" className="w-fit" />
+            <OpenInV0Button name="post" className="w-fit" />
           </div>
           <div className="flex items-center justify-center flex-grow relative">
             {sessionLoading || walletClientLoading ? (
@@ -103,7 +103,7 @@ const { data: walletClient } = useWalletClient();`}
         </CodeBlock>
         <CodeBlock lang="tsx" className="lines">
           {`<LensPostProvider postId="1n8hs1aqb4k53f8vsvc" sessionClient={sessionClient} config={config}>
-  <LensPostBlock
+  <LensPost
     lensClient={sessionClient}
     walletClient={walletClient}
   />

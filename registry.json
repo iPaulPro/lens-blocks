@@ -31,6 +31,19 @@
       ]
     },
     {
+      "name": "login-button",
+      "type": "registry:component",
+      "title": "Lens Login Button",
+      "description": "A button component to initiate the Lens login flow, displaying the lens icon and a call to action.",
+      "registryDependencies": ["button"],
+      "files": [
+        {
+          "path": "registry/new-york/blocks/account/components/lens-login-button.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
       "name": "lens-utils",
       "type": "registry:lib",
       "title": "Lens Utilities",

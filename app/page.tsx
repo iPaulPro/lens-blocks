@@ -69,10 +69,10 @@ export default function Home() {
             You&apos;ll also need to set up the Lens React SDK and wagmi. If you haven&apos;t done that already, here is
             a basic setup using <a href="https://family.co/docs/connectkit">ConnectKit</a>:
           </p>
-          <Alert>
+          <Alert className="bg-foreground text-background">
             <RedoDot className="!size-5" />
             <AlertTitle className="text-lg">Already have shadcn/ui and Lens Reack SDK set up?</AlertTitle>
-            <AlertDescription>
+            <AlertDescription className="text-background opacity-80">
               If you already have shadcn/ui and the Lens React SDK set up there&apos;s nothing to install, you can start
               adding blocks with no changes!
             </AlertDescription>
