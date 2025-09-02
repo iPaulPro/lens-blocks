@@ -69,9 +69,9 @@ export default function PaginatedList() {
         <CodeBlock lang="tsx" className="lines">
           {`import { useState } from "react";
 import { Cursor, PageSize, usePostReactions } from "@lens-protocol/react";
-import { PaginatedList } from "@/registry/new-york/common/components/paginated-list";
-import { LensAccountListItem } from "@/registry/new-york/common/components/lens-account-list-item";
-import { LensAccountListItemSkeleton } from "@/registry/new-york/common/components/lens-account-list-item-skeleton";`}
+import { PaginatedList } from "@/components/paginated-list";
+import { LensAccountListItem } from "@/components/lens-account-list-item";
+import { LensAccountListItemSkeleton } from "@/components/lens-account-list-item-skeleton";`}
         </CodeBlock>
         <CodeBlock lang="tsx" className="lines">
           {`const [cursor, setCursor] = useState<Cursor | null>(null);

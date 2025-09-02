@@ -139,16 +139,18 @@
       "type": "registry:block",
       "title": "Lens Login",
       "description": "A full-featured login flow for Lens Social Protocol that hooks into the Lens React SDK, uses ConnectKit for wallet connections, supports account switching and more.",
-      "registryDependencies": ["avatar", "button", "dialog", "scroll-area", "skeleton"],
+      "registryDependencies": ["avatar", "button", "dialog", "skeleton"],
       "dependencies": [
         "@lens-protocol/react@0.0.0-canary-20250725092937",
         "connectkit@1.9.0",
         "react-virtuoso@4.13.0",
-        "lucide-react"
+        "lucide-react",
+        "viem",
+        "wagmi"
       ],
       "files": [
         {
-          "path": "registry/new-york/blocks/account/lens-login-block.tsx",
+          "path": "registry/new-york/blocks/account/lens-login.tsx",
           "type": "registry:block"
         },
         {
@@ -166,10 +168,6 @@
         {
           "path": "registry/new-york/common/components/lens-account-list-item-skeleton.tsx",
           "type": "registry:component"
-        },
-        {
-          "path": "registry/new-york/blocks/account/hooks/use-authenticated-lens-account.ts",
-          "type": "registry:hook"
         },
         {
           "path": "registry/new-york/blocks/account/hooks/use-lens-login-with-viem.ts",
@@ -205,7 +203,7 @@
       ],
       "files": [
         {
-          "path": "registry/new-york/blocks/feed/components/lens-post-block.tsx",
+          "path": "registry/new-york/blocks/feed/components/lens-post.tsx",
           "type": "registry:component"
         },
         {

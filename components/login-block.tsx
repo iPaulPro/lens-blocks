@@ -69,7 +69,7 @@ export function LoginBlock() {
         <CommandBlock commands={commands} />
         <h2 className="mt-6 pb-2 text-3xl font-semibold tracking-tight first:mt-0">Usage</h2>
         <CodeBlock lang="tsx" className="lines">
-          {`import { LensLogin } from "@/registry/new-york/blocks/account/lens-login";
+          {`import { LensLogin } from "@/components/lens-login";
 import { useSessionClient } from "@lens-protocol/react";
 import { useWalletClient } from "wagmi";
 

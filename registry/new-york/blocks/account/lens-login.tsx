@@ -14,7 +14,7 @@ import { Link2Off } from "lucide-react";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/registry/new-york/ui/dialog";
 import { LensAccountChooser } from "@/registry/new-york/blocks/account/components/lens-account-chooser";
 import { Button } from "@/registry/new-york/ui/button";
-import { useAccount, useDisconnect, useWalletClient } from "wagmi";
+import { useAccount, useDisconnect } from "wagmi";
 import { useCallback, useEffect, useState } from "react";
 import { useModal } from "connectkit";
 import { useLensLoginWithViem } from "@/registry/new-york/blocks/account/hooks/use-lens-login-with-viem";

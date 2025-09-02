@@ -44,7 +44,7 @@ export default function AccountListItemSkeleton() {
       <CommandBlock commands={commands} />
       <h2 className="mt-6 pb-2 text-3xl font-semibold tracking-tight first:mt-0">Usage</h2>
       <CodeBlock lang="tsx" className="lines">
-        {`import { LensAccountListItemSkeleton } from "@/registry/new-york/common/components/lens-account-list-item-skeleton";`}
+        {`import { LensAccountListItemSkeleton } from "@/components/lens-account-list-item-skeleton";`}
       </CodeBlock>
       <CodeBlock lang="tsx" className="lines">
         {`<LensAccountListItemSkeleton />`}

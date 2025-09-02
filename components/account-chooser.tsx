@@ -65,8 +65,9 @@ export default function AccountChooser() {
         <CommandBlock commands={commands} />
         <h2 className="mt-6 pb-2 text-3xl font-semibold tracking-tight first:mt-0">Usage</h2>
         <CodeBlock lang="tsx" className="lines">
-          {`import { LensPostProvider } from "@/registry/new-york/common/lib/lens-post-context";
-import { LensConfig } from "@/registry/new-york/common/lib/lens-config";
+          {`import { LensPostProvider } from "@/lib/lens-post-context";
+import { LensAccountChooser } from "@/components/lens-account-chooser";
+import { LensConfig } from "@/lib/lens-config";
 import { useSessionClient } from "@lens-protocol/react";
 import { testnet } from "@lens-protocol/react";
 import { chains } from "@lens-chain/sdk/viem";

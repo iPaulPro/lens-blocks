@@ -68,7 +68,7 @@ export default function AccountListItem() {
       <CommandBlock commands={commands} />
       <h2 className="mt-6 pb-2 text-3xl font-semibold tracking-tight first:mt-0">Usage</h2>
       <CodeBlock lang="tsx" className="lines">
-        {`import { LensAccountListItem } from "@/registry/new-york/common/components/lens-account-list-item";
+        {`import { LensAccountListItem } from "@/components/lens-account-list-item";
 import { evmAddress, useAccount } from "@lens-protocol/react";
 
 const { data: account } = useAccount({

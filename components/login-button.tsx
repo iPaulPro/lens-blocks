@@ -60,7 +60,7 @@ export default function LoginButton() {
       <CommandBlock commands={commands} />
       <h2 className="mt-6 pb-2 text-3xl font-semibold tracking-tight first:mt-0">Usage</h2>
       <CodeBlock lang="tsx" className="lines">
-        {`import { LensLoginButton } from "@/registry/new-york/blocks/account/components/lens-login-button";`}
+        {`import { LensLoginButton } from "@/components/lens-login-button";`}
       </CodeBlock>
       <CodeBlock lang="tsx" className="lines">
         {`<LensLoginButton />`}
