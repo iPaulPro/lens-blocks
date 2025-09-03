@@ -129,7 +129,7 @@
     },
     {
       "name": "account-chooser",
-      "type": "registry:block",
+      "type": "registry:component",
       "title": "Lens Account Chooser",
       "description": "A list of available Lens accounts for the user to choose from, with support for pagination.",
       "registryDependencies": ["avatar", "button", "skeleton"],

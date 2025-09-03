@@ -1,7 +1,7 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "account-chooser",
-  "type": "registry:block",
+  "type": "registry:component",
   "title": "Lens Account Chooser",
   "description": "A list of available Lens accounts for the user to choose from, with support for pagination.",
   "dependencies": ["@lens-protocol/react@0.0.0-canary-20250725092937", "react-virtuoso@4.13.0", "lucide-react"],
