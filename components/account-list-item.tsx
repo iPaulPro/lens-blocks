@@ -3,7 +3,7 @@
 import { Account, evmAddress, useAccount } from "@lens-protocol/react";
 import { OpenInV0Button } from "@/components/open-in-v0-button";
 import { Loader } from "lucide-react";
-import { LensAccountListItem } from "@/registry/new-york/common/components/lens-account-list-item";
+import { LensAccountListItem } from "@/registry/new-york/components/common/lens-account-list-item";
 import { toast } from "sonner";
 import CommandBlock from "@/components/command-tabs";
 import { CodeBlock } from "@/components/codeblock";

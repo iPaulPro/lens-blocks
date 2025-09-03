@@ -3,7 +3,7 @@
 import { AuthenticatedUser, useSessionClient } from "@lens-protocol/react";
 import { OpenInV0Button } from "@/components/open-in-v0-button";
 import { Loader } from "lucide-react";
-import { LensLogin } from "@/registry/new-york/blocks/account/lens-login";
+import { LensLogin } from "@/registry/new-york/blocks/lens-login";
 import CommandBlock from "@/components/command-tabs";
 import { CodeBlock } from "@/components/codeblock";
 import { toast } from "sonner";

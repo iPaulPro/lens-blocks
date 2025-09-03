@@ -12,7 +12,7 @@
       "dependencies": [],
       "files": [
         {
-          "path": "registry/new-york/common/components/lens-account-list-item-skeleton.tsx",
+          "path": "registry/new-york/components/common/lens-account-list-item-skeleton.tsx",
           "type": "registry:component"
         }
       ]
@@ -25,7 +25,7 @@
       "dependencies": ["@lens-protocol/react@0.0.0-canary-20250725092937", "react-virtuoso@4.13.0", "lucide-react"],
       "files": [
         {
-          "path": "registry/new-york/common/components/paginated-list.tsx",
+          "path": "registry/new-york/components/common/paginated-list.tsx",
           "type": "registry:component"
         }
       ]
@@ -38,7 +38,7 @@
       "registryDependencies": ["button"],
       "files": [
         {
-          "path": "registry/new-york/blocks/account/components/lens-login-button.tsx",
+          "path": "registry/new-york/components/account//lens-login-button.tsx",
           "type": "registry:component"
         }
       ]
@@ -51,7 +51,7 @@
       "dependencies": [],
       "files": [
         {
-          "path": "registry/new-york/common/lib/lens-utils.ts",
+          "path": "registry/new-york/lib/lens-utils.ts",
           "type": "registry:lib"
         }
       ]
@@ -64,7 +64,7 @@
       "dependencies": ["@lens-protocol/react@0.0.0-canary-20250725092937"],
       "files": [
         {
-          "path": "registry/new-york/blocks/account/hooks/use-authenticated-lens-account.ts",
+          "path": "registry/new-york/hooks/use-authenticated-lens-account.ts",
           "type": "registry:hook"
         }
       ]
@@ -77,7 +77,7 @@
       "dependencies": ["@lens-protocol/react@0.0.0-canary-20250725092937", "viem@2.33.0"],
       "files": [
         {
-          "path": "registry/new-york/blocks/account/hooks/use-lens-login-with-viem.ts",
+          "path": "registry/new-york/hooks/use-lens-login-with-viem.ts",
           "type": "registry:hook"
         }
       ]
@@ -90,11 +90,11 @@
       "dependencies": ["@lens-protocol/react@0.0.0-canary-20250725092937", "viem@2.33.0"],
       "files": [
         {
-          "path": "registry/new-york/common/hooks/use-lens-post-context.tsx",
+          "path": "registry/new-york/hooks/use-lens-post-context.tsx",
           "type": "registry:hook"
         },
         {
-          "path": "registry/new-york/common/lib/lens-post-provider.tsx",
+          "path": "registry/new-york/lib/lens-post-provider.tsx",
           "type": "registry:lib"
         }
       ]
@@ -114,15 +114,15 @@
       ],
       "files": [
         {
-          "path": "registry/new-york/common/lib/lens-post-provider.tsx",
+          "path": "registry/new-york/lib/lens-post-provider.tsx",
           "type": "registry:lib"
         },
         {
-          "path": "registry/new-york/blocks/feed/hooks/use-reaction-toggle.ts",
+          "path": "registry/new-york/hooks/use-reaction-toggle.ts",
           "type": "registry:hook"
         },
         {
-          "path": "registry/new-york/common/lib/lens-utils.ts",
+          "path": "registry/new-york/lib/lens-utils.ts",
           "type": "registry:lib"
         }
       ]
@@ -136,23 +136,23 @@
       "dependencies": ["@lens-protocol/react@0.0.0-canary-20250725092937", "react-virtuoso@4.13.0", "lucide-react"],
       "files": [
         {
-          "path": "registry/new-york/blocks/account/components/lens-account-chooser.tsx",
+          "path": "registry/new-york/components/account/lens-account-chooser.tsx",
           "type": "registry:component"
         },
         {
-          "path": "registry/new-york/common/components/lens-account-list-item.tsx",
+          "path": "registry/new-york/components/common/lens-account-list-item.tsx",
           "type": "registry:component"
         },
         {
-          "path": "registry/new-york/common/components/lens-account-list-item-skeleton.tsx",
+          "path": "registry/new-york/components/common/lens-account-list-item-skeleton.tsx",
           "type": "registry:component"
         },
         {
-          "path": "registry/new-york/common/components/paginated-list.tsx",
+          "path": "registry/new-york/components/common/paginated-list.tsx",
           "type": "registry:component"
         },
         {
-          "path": "registry/new-york/common/lib/lens-utils.ts",
+          "path": "registry/new-york/lib/lens-utils.ts",
           "type": "registry:lib"
         }
       ]
@@ -166,15 +166,15 @@
       "dependencies": ["@lens-protocol/react@0.0.0-canary-20250725092937", "lucide-react"],
       "files": [
         {
-          "path": "registry/new-york/common/components/lens-account-list-item.tsx",
+          "path": "registry/new-york/components/common/lens-account-list-item.tsx",
           "type": "registry:component"
         },
         {
-          "path": "registry/new-york/common/components/lens-account-list-item-skeleton.tsx",
+          "path": "registry/new-york/components/common/lens-account-list-item-skeleton.tsx",
           "type": "registry:component"
         },
         {
-          "path": "registry/new-york/common/lib/lens-utils.ts",
+          "path": "registry/new-york/lib/lens-utils.ts",
           "type": "registry:lib"
         }
       ]
@@ -195,35 +195,35 @@
       ],
       "files": [
         {
-          "path": "registry/new-york/blocks/account/lens-login.tsx",
+          "path": "registry/new-york/blocks/lens-login.tsx",
           "type": "registry:block"
         },
         {
-          "path": "registry/new-york/blocks/account/components/lens-login-button.tsx",
+          "path": "registry/new-york/components/account//lens-login-button.tsx",
           "type": "registry:component"
         },
         {
-          "path": "registry/new-york/blocks/account/components/lens-account-chooser.tsx",
+          "path": "registry/new-york/components/account//lens-account-chooser.tsx",
           "type": "registry:component"
         },
         {
-          "path": "registry/new-york/common/components/lens-account-list-item.tsx",
+          "path": "registry/new-york/components/common/lens-account-list-item.tsx",
           "type": "registry:component"
         },
         {
-          "path": "registry/new-york/common/components/lens-account-list-item-skeleton.tsx",
+          "path": "registry/new-york/components/common/lens-account-list-item-skeleton.tsx",
           "type": "registry:component"
         },
         {
-          "path": "registry/new-york/blocks/account/hooks/use-lens-login-with-viem.ts",
+          "path": "registry/new-york/hooks/use-lens-login-with-viem.ts",
           "type": "registry:hook"
         },
         {
-          "path": "registry/new-york/common/components/paginated-list.tsx",
+          "path": "registry/new-york/components/common/paginated-list.tsx",
           "type": "registry:lib"
         },
         {
-          "path": "registry/new-york/common/lib/lens-utils.ts",
+          "path": "registry/new-york/lib/lens-utils.ts",
           "type": "registry:lib"
         }
       ]
@@ -252,59 +252,59 @@
       ],
       "files": [
         {
-          "path": "registry/new-york/blocks/feed/components/lens-post.tsx",
+          "path": "registry/new-york/blocks/lens-post.tsx",
           "type": "registry:component"
         },
         {
-          "path": "registry/new-york/blocks/feed/components/lens-markdown.tsx",
+          "path": "registry/new-york/components/feed/lens-markdown.tsx",
           "type": "registry:component"
         },
         {
-          "path": "registry/new-york/blocks/feed/components/likes/like-button.tsx",
+          "path": "registry/new-york/components/feed/likes/like-button.tsx",
           "type": "registry:component"
         },
         {
-          "path": "registry/new-york/blocks/feed/components/references/reference-button.tsx",
+          "path": "registry/new-york/components/feed/references/reference-button.tsx",
           "type": "registry:component"
         },
         {
-          "path": "registry/new-york/blocks/feed/components/references/quote-dialog.tsx",
+          "path": "registry/new-york/components/feed/references/quote-dialog.tsx",
           "type": "registry:component"
         },
         {
-          "path": "registry/new-york/blocks/feed/components/bookmarks/bookmark-button.tsx",
+          "path": "registry/new-york/components/feed/bookmarks/bookmark-button.tsx",
           "type": "registry:component"
         },
         {
-          "path": "registry/new-york/blocks/feed/components/comment/comment-button.tsx",
+          "path": "registry/new-york/components/feed/comment/comment-button.tsx",
           "type": "registry:component"
         },
         {
-          "path": "registry/new-york/blocks/feed/components/collects/collect-button.tsx",
+          "path": "registry/new-york/components/feed/collects/collect-button.tsx",
           "type": "registry:component"
         },
         {
-          "path": "registry/new-york/blocks/feed/components/collects/collect-dialog.tsx",
+          "path": "registry/new-york/components/feed/collects/collect-dialog.tsx",
           "type": "registry:component"
         },
         {
-          "path": "registry/new-york/blocks/feed/components/tips/tip-button.tsx",
+          "path": "registry/new-york/components/feed/tips/tip-button.tsx",
           "type": "registry:component"
         },
         {
-          "path": "registry/new-york/blocks/feed/components/tips/tip-dialog.tsx",
+          "path": "registry/new-york/components/feed/tips/tip-dialog.tsx",
           "type": "registry:component"
         },
         {
-          "path": "registry/new-york/common/lib/lens-utils.ts",
+          "path": "registry/new-york/lib/lens-utils.ts",
           "type": "registry:lib"
         },
         {
-          "path": "registry/new-york/common/lib/lens-post-provider.tsx",
+          "path": "registry/new-york/lib/lens-post-provider.tsx",
           "type": "registry:lib"
         },
         {
-          "path": "registry/new-york/blocks/feed/hooks/use-reaction-toggle.ts",
+          "path": "registry/new-york/hooks/use-reaction-toggle.ts",
           "type": "registry:hook"
         }
       ]

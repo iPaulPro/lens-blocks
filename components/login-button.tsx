@@ -3,7 +3,7 @@
 import { OpenInV0Button } from "@/components/open-in-v0-button";
 import CommandBlock from "@/components/command-tabs";
 import { CodeBlock } from "@/components/codeblock";
-import { LensLoginButton } from "@/registry/new-york/blocks/account/components/lens-login-button";
+import { LensLoginButton } from "@/registry/new-york/components/account/lens-login-button";
 import { toast } from "sonner";
 import { Alert, AlertDescription, AlertTitle } from "@/registry/new-york/ui/alert";
 import { Blocks } from "lucide-react";

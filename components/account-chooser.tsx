@@ -1,10 +1,10 @@
 "use client";
 
 import config from "@/lib/lens/config";
-import { LensPostProvider } from "@/registry/new-york/common/lib/lens-post-provider";
+import { LensPostProvider } from "@/registry/new-york/lib/lens-post-provider";
 import { Account, useSessionClient } from "@lens-protocol/react";
 import { OpenInV0Button } from "@/components/open-in-v0-button";
-import { LensAccountChooser } from "@/registry/new-york/blocks/account/components/lens-account-chooser";
+import { LensAccountChooser } from "@/registry/new-york/components/account/lens-account-chooser";
 import { toast } from "sonner";
 import CommandBlock from "@/components/command-tabs";
 import { CodeBlock } from "@/components/codeblock";
@@ -67,21 +67,12 @@ export default function AccountChooser() {
         <CodeBlock lang="tsx" className="lines">
           {`import { LensPostProvider } from "@/lib/lens-post-context";
 import { LensAccountChooser } from "@/components/lens-account-chooser";
-import { LensConfig } from "@/lib/lens-config";
-import { useSessionClient } from "@lens-protocol/react";
-import { testnet } from "@lens-protocol/react";
-import { chains } from "@lens-chain/sdk/viem";
-
-const config: LensConfig = {
-  isTestnet: true,
-  environment: testnet,
-  chain: chains.testnet,
-};
-
-const { data: sessionClient } = useSessionClient(); `}
+import { useSessionClient } from "@lens-protocol/react";`}
         </CodeBlock>
         <CodeBlock lang="tsx" className="lines">
-          {`<LensPostProvider postId="1n8hs1aqb4k53f8vsvc" sessionClient={sessionClient} config={config}>
+          {`const { data: sessionClient } = useSessionClient();
+
+<LensPostProvider postId="1n8hs1aqb4k53f8vsvc" sessionClient={sessionClient}>
   <LensAccountChooser walletAddress="0xdaA5EBe0d75cD16558baE6145644EDdFcbA1e868" />
 </LensPostProvider>`}
         </CodeBlock>

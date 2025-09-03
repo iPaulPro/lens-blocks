@@ -1,10 +1,10 @@
 "use client";
 
-import { LensPostProvider } from "@/registry/new-york/common/lib/lens-post-provider";
+import { LensPostProvider } from "@/registry/new-york/lib/lens-post-provider";
 import { Account, AnyPost, useSessionClient } from "@lens-protocol/react";
 import { OpenInV0Button } from "@/components/open-in-v0-button";
 import { Loader } from "lucide-react";
-import { LensPost } from "@/registry/new-york/blocks/feed/components/lens-post";
+import { LensPost } from "@/registry/new-york/blocks/lens-post";
 import { toast } from "sonner";
 import { Button } from "@/registry/new-york/ui/button";
 import { useWalletClient } from "wagmi";

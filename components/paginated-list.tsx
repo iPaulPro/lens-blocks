@@ -4,7 +4,7 @@ import { Account, usePost } from "@lens-protocol/react";
 import { OpenInV0Button } from "@/components/open-in-v0-button";
 import { toast } from "sonner";
 import { Loader } from "lucide-react";
-import LikesList from "@/registry/new-york/blocks/feed/components/likes/likes-list";
+import LikesList from "@/registry/new-york/components/feed/likes/likes-list";
 import CommandBlock from "@/components/command-tabs";
 import { CodeBlock } from "@/components/codeblock";
 
