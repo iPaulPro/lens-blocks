@@ -1,6 +1,5 @@
-import { createContext, ReactNode, useContext, useEffect, useState } from "react";
+import { createContext, ReactNode, useEffect, useState } from "react";
 import {
-  Account,
   AnyPost,
   CreatePostRequest,
   evmAddress,
@@ -46,26 +45,7 @@ type PostContextType = {
   toggleBookmark: () => Promise<void>;
 };
 
-type PostView = {
-  postId: string;
-  author: Account;
-  isRepost: boolean;
-  collects: number;
-  comments: number;
-  likes: number;
-  quotes: number;
-  reposts: number;
-};
-
-const LensPostContext = createContext<PostContextType | undefined>(undefined);
-
-export const useLensPostContext = () => {
-  const context = useContext(LensPostContext);
-  if (!context) {
-    throw new Error("usePost must be used within a PostProvider");
-  }
-  return context;
-};
+export const LensPostContext = createContext<PostContextType | undefined>(undefined);
 
 export const LensPostProvider = ({
   config,

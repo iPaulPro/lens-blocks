@@ -4,7 +4,7 @@ import { AnyPost } from "@lens-protocol/react";
 import { MouseEvent } from "react";
 import { CircleDollarSign } from "lucide-react";
 import { Button } from "@/registry/new-york/ui/button";
-import { useLensPostContext } from "@/registry/new-york/common/lib/lens-post-context";
+import { useLensPostContext } from "@/registry/new-york/common/hooks/use-lens-post-context";
 
 interface Props {
   onClick: (post: AnyPost) => void;

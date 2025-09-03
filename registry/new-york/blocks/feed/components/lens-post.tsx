@@ -25,28 +25,45 @@ import { WalletClient } from "viem";
 import CollectDialog, { CollectDialogRef } from "@/registry/new-york/blocks/feed/components/collects/collect-dialog";
 import QuoteDialog, { QuoteDialogRef } from "@/registry/new-york/blocks/feed/components/references/quote-dialog";
 import TipDialog, { TipDialogRef } from "@/registry/new-york/blocks/feed/components/tips/tip-dialog";
-import { useLensPostContext } from "@/registry/new-york/common/lib/lens-post-context";
+import { useLensPostContext } from "@/registry/new-york/common/hooks/use-lens-post-context";
 
 type LensPostProps = {
   /**
    * The Lens Client used for making public and authenticated calls
    */
   lensClient?: PublicClient | SessionClient;
+
+  /**
+   * The wallet client from viem used to sign messages for authentication.
+   */
   walletClient?: WalletClient;
+
+  /**
+   * Callback function that is called when the user clicks on the post.
+   */
   onPostClick: (post: AnyPost) => void;
+
+  /**
+   * Callback function that is called when the user clicks on an account.
+   */
   onAccountClick: (account: Account) => void;
+
+  /**
+   * Callback function that is called when a repost is successful.
+   * It receives the transaction hash as an argument.
+   */
   onRepostSuccess?: (txHash: TxHash) => void;
+
+  /**
+   * Optional additional class names to apply to the post container.
+   *
+   */
   className?: string;
 };
 
-export const LensPost = ({
-  lensClient,
-  walletClient,
-  onPostClick,
-  onAccountClick,
-  onRepostSuccess,
-  className,
-}: LensPostProps) => {
+export const LensPost = (props: LensPostProps) => {
+  const { lensClient, walletClient, onPostClick, onAccountClick, onRepostSuccess, className } = props;
+
   const collectDialog = useRef<CollectDialogRef>(null);
   const quoteDialog = useRef<QuoteDialogRef>(null);
   const tipDialog = useRef<TipDialogRef>(null);

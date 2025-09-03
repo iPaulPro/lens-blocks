@@ -11,7 +11,7 @@ import { CheckCircle, Loader, MessageCircle, Repeat2 } from "lucide-react";
 import { Button } from "@/registry/new-york/ui/button";
 import { handleOperationWith } from "@lens-protocol/client/viem";
 import { WalletClient } from "viem";
-import { useLensPostContext } from "@/registry/new-york/common/lib/lens-post-context";
+import { useLensPostContext } from "@/registry/new-york/common/hooks/use-lens-post-context";
 
 type ReferenceButtonProps = {
   lensClient?: PublicClient | SessionClient;

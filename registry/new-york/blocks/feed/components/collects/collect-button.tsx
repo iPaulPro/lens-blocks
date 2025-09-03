@@ -3,7 +3,8 @@
 import { AnyPost } from "@lens-protocol/react";
 import { ShoppingBag } from "lucide-react";
 import { Button } from "@/registry/new-york/ui/button";
-import { useLensPostContext } from "@/registry/new-york/common/lib/lens-post-context";
+import { useLensPostContext } from "@/registry/new-york/common/hooks/use-lens-post-context";
+import { MouseEvent } from "react";
 
 type CollectButtonProps = {
   onClick: (post: AnyPost) => void;
@@ -15,7 +16,7 @@ const CollectButton = ({ onClick }: CollectButtonProps) => {
   const operations = post && "operations" in post ? post.operations : null;
   const stats = post && "stats" in post ? post.stats : null;
 
-  const onButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const onButtonClick = (event: MouseEvent<HTMLButtonElement>) => {
     event.currentTarget.blur();
     event.stopPropagation();
     if (!post) return;

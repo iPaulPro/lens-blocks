@@ -1,7 +1,7 @@
 "use client";
 
 import config from "@/lib/lens/config";
-import { LensPostProvider } from "@/registry/new-york/common/lib/lens-post-context";
+import { LensPostProvider } from "@/registry/new-york/common/lib/lens-post-provider";
 import { Account, useSessionClient } from "@lens-protocol/react";
 import { OpenInV0Button } from "@/components/open-in-v0-button";
 import { LensAccountChooser } from "@/registry/new-york/blocks/account/components/lens-account-chooser";

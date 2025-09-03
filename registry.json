@@ -51,8 +51,8 @@
       "dependencies": [],
       "files": [
         {
-          "path": "registry/new-york/common/components/paginated-list.tsx",
-          "type": "registry:component"
+          "path": "registry/new-york/common/lib/lens-utils.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -70,15 +70,64 @@
       ]
     },
     {
-      "name": "use-lens-login-with-viem.ts",
+      "name": "use-lens-login-with-viem",
       "type": "registry:hook",
       "title": "Use Lens Login with Viem",
       "description": "A hook to execute login with the Lens React SDK using the Viem library for wallet interaction.",
-      "dependencies": ["@lens-protocol/react@0.0.0-canary-20250725092937", "viem"],
+      "dependencies": ["@lens-protocol/react@0.0.0-canary-20250725092937", "viem@2.33.0"],
       "files": [
         {
-          "path": "registry/new-york/blocks/account/hooks/use-authenticated-lens-account.ts",
+          "path": "registry/new-york/blocks/account/hooks/use-lens-login-with-viem.ts",
           "type": "registry:hook"
+        }
+      ]
+    },
+    {
+      "name": "use-lens-post-context.ts",
+      "type": "registry:hook",
+      "title": "Use Lens Post Context",
+      "description": "A hook for queries and operations in a shared Lens post context",
+      "dependencies": ["@lens-protocol/react@0.0.0-canary-20250725092937", "viem@2.33.0"],
+      "files": [
+        {
+          "path": "registry/new-york/common/hooks/use-lens-post-context.ts",
+          "type": "registry:hook"
+        },
+        {
+          "path": "registry/new-york/common/lib/lens-post-provider.tsx",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "lens-post-provider.ts",
+      "type": "registry:lib",
+      "title": "Lens Post Provider",
+      "description": "A provider of a shared Lens post context for queries and operations.",
+      "dependencies": [
+        "@lens-protocol/react@0.0.0-canary-20250725092937",
+        "@lens-protocol/client@0.0.0-canary-20250725092937",
+        "@lens-protocol/metadata@2.1.0",
+        "@lens-chain/storage-client@1.0.6",
+        "@lens-chain/sdk@1.0.3",
+        "wagmi@2.15.3"
+      ],
+      "files": [
+        {
+          "path": "registry/new-york/common/lib/lens-post-provider.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "registry/new-york/common/hooks/use-reaction-toggle.tsx",
+          "type": "registry:hook"
+        },
+        {
+          "path": "registry/new-york/common/lib/lens-config.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "registry/new-york/common/lib/lens-utils.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -145,8 +194,8 @@
         "connectkit@1.9.0",
         "react-virtuoso@4.13.0",
         "lucide-react",
-        "viem",
-        "wagmi"
+        "viem@2.33.0",
+        "wagmi@2.15.3"
       ],
       "files": [
         {
@@ -193,13 +242,17 @@
         "@lens-protocol/client@0.0.0-canary-20250725092937",
         "@lens-protocol/react@0.0.0-canary-20250725092937",
         "@lens-protocol/types@0.0.0-canary-20250725092937",
+        "@lens-protocol/metadata@2.1.0",
+        "@lens-chain/storage-client@1.0.6",
+        "@lens-chain/sdk@1.0.3",
         "lucide-react",
         "strip-markdown@6.0.0",
         "react-markdown@9.0.3",
         "remark-gfm@4.0.1",
         "remark-breaks@4.0.0",
         "remark-linkify-regex@1.2.1",
-        "viem"
+        "viem@2.33.0",
+        "wagmi@2.15.3"
       ],
       "files": [
         {
@@ -251,7 +304,19 @@
           "type": "registry:lib"
         },
         {
-          "path": "registry/new-york/common/lib/lens-post-context.tsx",
+          "path": "registry/new-york/common/lib/lens-post-provider.tsx",
+          "type": "registry:lib"
+        },
+        {
+          "path": "registry/new-york/common/hooks/use-reaction-toggle.tsx",
+          "type": "registry:hook"
+        },
+        {
+          "path": "registry/new-york/common/lib/lens-config.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "registry/new-york/common/lib/lens-post-provider.ts",
           "type": "registry:lib"
         }
       ]

@@ -38,13 +38,11 @@ type LensLoginProps = {
 
   /**
    * Callback function that is called when the user successfully logs in.
-   * It receives the authenticated user as an argument.
    */
   onSuccess?: (authenticatedUser: AuthenticatedUser) => void;
 
   /**
    * Callback function that is called when there is an error during login.
-   * It receives the error as an argument.
    */
   onError?: (error: LoginError) => void;
 };
@@ -104,10 +102,6 @@ export function LensLogin(props: LensLoginProps) {
       await logout();
     }
   };
-
-  // if (authenticatedUserLoading) {
-  //   return <Loader className="animate-spin w-4 h-4 text-muted-foreground" />;
-  // }
 
   return (
     <>
