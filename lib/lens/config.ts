@@ -1,6 +1,12 @@
-import { mainnet, testnet } from "@lens-protocol/react";
+import { EnvironmentConfig, mainnet, testnet } from "@lens-protocol/react";
 import { chains } from "@lens-chain/sdk/viem";
-import { LensConfig } from "@/registry/new-york/common/lib/lens-config";
+import { Chain } from "viem";
+
+interface LensConfig {
+  isTestnet: boolean;
+  environment: EnvironmentConfig;
+  chain: Chain;
+}
 
 const isTestnet = process.env.NEXT_PUBLIC_LENS_USE_TESTNET === "true";
 

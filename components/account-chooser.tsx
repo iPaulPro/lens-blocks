@@ -52,7 +52,7 @@ export default function AccountChooser() {
           </div>
           <div className="flex items-center justify-center flex-grow relative">
             <div className="h-48 w-full md:w-1/2">
-              <LensPostProvider postId="1n8hs1aqb4k53f8vsvc" sessionClient={sessionClient} config={config}>
+              <LensPostProvider postId="1n8hs1aqb4k53f8vsvc" sessionClient={sessionClient} useTestnet={true}>
                 <LensAccountChooser
                   walletAddress="0xdaA5EBe0d75cD16558baE6145644EDdFcbA1e868"
                   onAccountSelected={onAccountSelected}

@@ -71,13 +71,13 @@ export function LoginBlock() {
         <CodeBlock lang="tsx" className="lines">
           {`import { LensLogin } from "@/components/lens-login";
 import { useSessionClient } from "@lens-protocol/react";
-import { useWalletClient } from "wagmi";
-
-const { data: sessionClient } = useSessionClient();
-const { data: walletClient } = useWalletClient();`}
+import { useWalletClient } from "wagmi";`}
         </CodeBlock>
         <CodeBlock lang="tsx" className="lines">
-          {`<LensLogin lensClient={sessionClient} walletClient={walletClient} />`}
+          {`const { data: sessionClient } = useSessionClient();
+const { data: walletClient } = useWalletClient();
+
+<LensLogin lensClient={sessionClient} walletClient={walletClient} />`}
         </CodeBlock>
       </div>
     </>

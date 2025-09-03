@@ -16,7 +16,6 @@ import { useWalletClient } from "wagmi";
 import { executePostAction, post as createPost, repost as createRepost } from "@lens-protocol/client/actions";
 import { handleOperationWith } from "@lens-protocol/client/viem";
 import { useReactionToggle } from "@/registry/new-york/blocks/feed/hooks/use-reaction-toggle";
-import { LensConfig } from "@/registry/new-york/common/lib/lens-config";
 import { NATIVE_TOKEN } from "@/registry/new-york/common/lib/lens-utils";
 import { textOnly } from "@lens-protocol/metadata";
 import { immutable, StorageClient } from "@lens-chain/storage-client";
@@ -48,15 +47,15 @@ type PostContextType = {
 export const LensPostContext = createContext<PostContextType | undefined>(undefined);
 
 export const LensPostProvider = ({
-  config,
   sessionClient,
   postId,
   children,
+  useTestnet = false,
 }: {
-  config: LensConfig;
   sessionClient: SessionClient | null | undefined;
   postId: string;
   children: ReactNode;
+  useTestnet?: boolean;
 }) => {
   const { data, loading, error } = usePost({ post: postId });
 
@@ -89,7 +88,7 @@ export const LensPostProvider = ({
   const { execute: bookmarkPost } = useBookmarkPost();
   const { execute: undoBookmarkPost } = useUndoBookmarkPost();
 
-  const chain = config.isTestnet ? chains.testnet : chains.mainnet;
+  const chain = useTestnet ? chains.testnet : chains.mainnet;
 
   const switchChain = async () => {
     await walletClient?.switchChain({ id: chain.id });

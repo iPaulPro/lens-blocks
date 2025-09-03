@@ -83,14 +83,14 @@
       ]
     },
     {
-      "name": "use-lens-post-context.ts",
+      "name": "use-lens-post-context",
       "type": "registry:hook",
       "title": "Use Lens Post Context",
       "description": "A hook for queries and operations in a shared Lens post context",
       "dependencies": ["@lens-protocol/react@0.0.0-canary-20250725092937", "viem@2.33.0"],
       "files": [
         {
-          "path": "registry/new-york/common/hooks/use-lens-post-context.ts",
+          "path": "registry/new-york/common/hooks/use-lens-post-context.tsx",
           "type": "registry:hook"
         },
         {
@@ -100,7 +100,7 @@
       ]
     },
     {
-      "name": "lens-post-provider.ts",
+      "name": "lens-post-provider",
       "type": "registry:lib",
       "title": "Lens Post Provider",
       "description": "A provider of a shared Lens post context for queries and operations.",
@@ -114,16 +114,12 @@
       ],
       "files": [
         {
-          "path": "registry/new-york/common/lib/lens-post-provider.ts",
+          "path": "registry/new-york/common/lib/lens-post-provider.tsx",
           "type": "registry:lib"
         },
         {
-          "path": "registry/new-york/common/hooks/use-reaction-toggle.tsx",
+          "path": "registry/new-york/blocks/feed/hooks/use-reaction-toggle.ts",
           "type": "registry:hook"
-        },
-        {
-          "path": "registry/new-york/common/lib/lens-config.ts",
-          "type": "registry:lib"
         },
         {
           "path": "registry/new-york/common/lib/lens-utils.ts",
@@ -308,16 +304,8 @@
           "type": "registry:lib"
         },
         {
-          "path": "registry/new-york/common/hooks/use-reaction-toggle.tsx",
+          "path": "registry/new-york/blocks/feed/hooks/use-reaction-toggle.ts",
           "type": "registry:hook"
-        },
-        {
-          "path": "registry/new-york/common/lib/lens-config.ts",
-          "type": "registry:lib"
-        },
-        {
-          "path": "registry/new-york/common/lib/lens-post-provider.ts",
-          "type": "registry:lib"
         }
       ]
     }

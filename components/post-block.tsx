@@ -1,6 +1,5 @@
 "use client";
 
-import config from "@/lib/lens/config";
 import { LensPostProvider } from "@/registry/new-york/common/lib/lens-post-provider";
 import { Account, AnyPost, useSessionClient } from "@lens-protocol/react";
 import { OpenInV0Button } from "@/components/open-in-v0-button";
@@ -52,7 +51,7 @@ export function PostBlock() {
   ];
 
   return (
-    <LensPostProvider postId="1n8hs1aqb4k53f8vsvc" sessionClient={sessionClient} config={config}>
+    <LensPostProvider postId="1n8hs1aqb4k53f8vsvc" sessionClient={sessionClient} useTestnet={true}>
       <div className="flex flex-col flex-1 gap-8">
         <div className="preview flex flex-col gap-4 relative">
           <div className="flex items-center justify-between">
@@ -88,21 +87,14 @@ export function PostBlock() {
         <CodeBlock lang="tsx" className="lines">
           {`import { LensPostProvider } from "@/lib/lens-post-context";
 import { LensPost } from "@/components/lens-post";
-import { LensConfig } from "@/lib/lens-config";
-import { testnet } from "@lens-protocol/react";
-import { chains } from "@lens-chain/sdk/viem";
-
-const config: LensConfig = {
-  isTestnet: true,
-  environment: testnet,
-  chain: chains.testnet,
-};
-
-const { data: sessionClient } = useSessionClient();
-const { data: walletClient } = useWalletClient();`}
+import { useSessionClient } from "@lens-protocol/react";
+import { useWalletClient } from "wagmi";`}
         </CodeBlock>
         <CodeBlock lang="tsx" className="lines">
-          {`<LensPostProvider postId="1n8hs1aqb4k53f8vsvc" sessionClient={sessionClient} config={config}>
+          {`const { data: sessionClient } = useSessionClient();
+const { data: walletClient } = useWalletClient();
+
+<LensPostProvider postId="1n8hs1aqb4k53f8vsvc" sessionClient={sessionClient}>
   <LensPost
     lensClient={sessionClient}
     walletClient={walletClient}
