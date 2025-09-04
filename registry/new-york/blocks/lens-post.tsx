@@ -69,7 +69,7 @@ export const LensPost = (props: LensPostProps) => {
   const tipDialog = useRef<TipDialogRef>(null);
 
   const { post, loading } = useLensPostContext();
-  console.log("post:", post, "loading", loading);
+
   if (!post) {
     if (loading) {
       return <></>; // TODO return skeleton

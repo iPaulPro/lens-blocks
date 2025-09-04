@@ -5,10 +5,10 @@ import Web3Provider from "./web3-provider";
 import { Toaster } from "@/registry/new-york/ui/sonner";
 import "./globals.css";
 import { ThemeProvider } from "next-themes";
-import { SidebarProvider, SidebarTrigger } from "@/registry/new-york/ui/sidebar";
+import { SidebarProvider } from "@/registry/new-york/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
-import DarkModeSwitch from "@/components/dark-mode-switch";
 import { Analytics } from "@vercel/analytics/next";
+import Header from "@/components/header";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -38,11 +38,23 @@ export default function RootLayout({
           <Web3Provider>
             <SidebarProvider>
               <AppSidebar />
-              <main className="w-full relative">
-                <SidebarTrigger />
-                {children}
-                <DarkModeSwitch className="fixed top-4 right-4" />
-              </main>
+              <div className="w-full">
+                <main className="w-full">
+                  <Header />
+                  <div className="max-w-3xl flex flex-col min-h-svh px-4 md:px-8 pt-4 pb-8 gap-8">{children}</div>
+                </main>
+                <footer className="w-full max-w-3xl mx-auto min-h-12 p-4 flex items-center text-center text-sm text-muted-foreground">
+                  Built by{" "}
+                  <a href="https://paulburke.co/" target="_blank" rel="noopener">
+                    Paul Burke
+                  </a>
+                  . Source code available on{" "}
+                  <a href="https://github.com/iPaulPro/lens-blocks" target="_blank" rel="noopener">
+                    GitHub
+                  </a>
+                  .
+                </footer>
+              </div>
             </SidebarProvider>
           </Web3Provider>
           <Toaster richColors />

@@ -4,7 +4,7 @@ import { Switch } from "@/registry/new-york/ui/switch";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 
-const DarkModeSwitch = ({ className }: { className: string }) => {
+const DarkModeSwitch = ({ className }: { className?: string }) => {
   const { setTheme, theme } = useTheme();
 
   const [mounted, setMounted] = useState(false);

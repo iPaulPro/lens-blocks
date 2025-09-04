@@ -11,7 +11,7 @@ type CollectButtonProps = {
 };
 
 const CollectButton = ({ onClick }: CollectButtonProps) => {
-  const { post, loading: postLoading } = useLensPostContext();
+  const { post, loading: postLoading, optimistic } = useLensPostContext();
 
   const operations = post && "operations" in post ? post.operations : null;
   const stats = post && "stats" in post ? post.stats : null;
@@ -20,7 +20,7 @@ const CollectButton = ({ onClick }: CollectButtonProps) => {
     event.currentTarget.blur();
     event.stopPropagation();
     if (!post) return;
-    // onClick(post);
+    onClick(post);
   };
 
   return (
@@ -31,7 +31,7 @@ const CollectButton = ({ onClick }: CollectButtonProps) => {
         variant="ghost"
         className="w-8 h-8 active:outline-none focus-visible:outline-none cursor-pointer rounded-full"
       >
-        {operations?.hasSimpleCollected ? (
+        {optimistic.collected || operations?.hasSimpleCollected ? (
           <svg viewBox="0 0 20 22" className="w-4 h-4">
             <g strokeWidth="1.5" fill="none" fillRule="evenodd" strokeLinecap="round" strokeLinejoin="round">
               <path
@@ -40,11 +40,16 @@ const CollectButton = ({ onClick }: CollectButtonProps) => {
                 fill="var(--primary)"
                 transform="translate(1 1)"
               />
-              <path stroke="var(--primary)" fill="#FFF" d="M3 0 0 4 18 4 15 0z" transform="translate(1 1)" />
+              <path
+                stroke="var(--primary)"
+                fill="var(--background)"
+                d="M3 0 0 4 18 4 15 0z"
+                transform="translate(1 1)"
+              />
               <path stroke="var(--primary)" d="M0 4 18 4" transform="translate(1 1)" />
               <path
                 d="M13,8 C13,10.209139 11.209139,12 9,12 C6.790861,12 5,10.209139 5,8"
-                stroke="#FFF"
+                stroke="var(--background)"
                 transform="translate(1 1)"
               />
             </g>

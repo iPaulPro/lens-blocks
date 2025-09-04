@@ -4,9 +4,9 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/registry/new-york/ui/dropdown-menu";
-import { AnyPost, postId, PublicClient, SessionClient, TxHash } from "@lens-protocol/react";
+import { AnyPost, Post, postId, PublicClient, SessionClient, TxHash } from "@lens-protocol/react";
 import { repost } from "@lens-protocol/client/actions";
-import { useState, MouseEvent } from "react";
+import { MouseEvent, useState } from "react";
 import { CheckCircle, Loader, MessageCircle, Repeat2 } from "lucide-react";
 import { Button } from "@/registry/new-york/ui/button";
 import { handleOperationWith } from "@lens-protocol/client/viem";
@@ -36,6 +36,8 @@ const ReferenceButton = ({
 
   const [numReposts, setNumReposts] = useState<number>(post && "stats" in post ? post.stats.reposts : 0);
   const [numQuotes, setNumQuotes] = useState<number>(post && "stats" in post ? post.stats.quotes : 0);
+
+  const postToReference: Post | null | undefined = post?.__typename === "Repost" ? post.repostOf : post;
 
   const onClick = (event: MouseEvent<HTMLButtonElement>) => {
     event.currentTarget.blur();
@@ -105,6 +107,10 @@ const ReferenceButton = ({
               <Loader className="animate-spin w-4 h-4 text-muted-foreground" />
             ) : showSuccess ? (
               <CheckCircle className="size-2" />
+            ) : postToReference?.operations?.hasReposted ||
+              postToReference?.operations?.hasQuoted.optimistic ||
+              postToReference?.operations?.hasQuoted.onChain ? (
+              <Repeat2 className="size-[1.125rem]" strokeWidth={3} stroke="var(--primary)" />
             ) : (
               <Repeat2 className="size-[1.125rem]" />
             )}
