@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ReactNode } from "react";
 import Web3Provider from "./web3-provider";
@@ -44,15 +45,17 @@ export default function RootLayout({
                   <div className="max-w-3xl flex flex-col min-h-svh px-4 md:px-8 pt-4 pb-8 gap-8">{children}</div>
                 </main>
                 <footer className="w-full max-w-3xl mx-auto min-h-12 p-4 flex items-center text-center text-sm text-muted-foreground">
-                  Built by{" "}
-                  <a href="https://paulburke.co/" target="_blank" rel="noopener">
-                    Paul Burke
-                  </a>
-                  . Source code available on{" "}
-                  <a href="https://github.com/iPaulPro/lens-blocks" target="_blank" rel="noopener">
-                    GitHub
-                  </a>
-                  .
+                  <span>
+                    Built by{" "}
+                    <Link href="https://paulburke.co/" target="_blank" rel="noopener">
+                      Paul Burke
+                    </Link>
+                    . Source code available on{" "}
+                    <Link href="https://github.com/iPaulPro/lens-blocks" target="_blank" rel="noopener">
+                      GitHub
+                    </Link>
+                    .
+                  </span>
                 </footer>
               </div>
             </SidebarProvider>
