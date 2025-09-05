@@ -95,7 +95,7 @@ import { useWalletClient } from "wagmi";`}
 const { data: walletClient } = useWalletClient();`}
         </CodeBlock>
         <CodeBlock lang="tsx" className="lines">
-          {`<LensPostProvider postId="1n8hs1aqb4k53f8vsvc" sessionClient={sessionClient}>
+          {`<LensPostProvider postId="58g7rtbnq9x60fv55w" sessionClient={sessionClient}>
   <LensPost
     lensClient={sessionClient}
     walletClient={walletClient}

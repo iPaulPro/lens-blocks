@@ -9,11 +9,11 @@ type Props = {
 type LinkProps = Omit<ComponentProps<typeof Link>, "href">;
 
 export default function LensMentionLink(props: Props & LinkProps) {
-  const href = props.href || `/u/${props.username.replace("lens/", "")}`;
+  const href = props.href || `/u/${props.username.replace("@lens/", "")}`;
 
   return (
     <Link {...props} href={href}>
-      {props.username.replace("lens/", "@")}
+      {props.username.replace("@lens/", "@")}
     </Link>
   );
 }
