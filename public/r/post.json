@@ -12,6 +12,7 @@
     "@lens-chain/storage-client@1.0.6",
     "@lens-chain/sdk@1.0.3",
     "lucide-react",
+    "next@15.3.2",
     "strip-markdown@6.0.0",
     "react-markdown@9.0.3",
     "remark-gfm@4.0.1",
@@ -30,6 +31,11 @@
     {
       "path": "registry/new-york/components/common/lens-markdown.tsx",
       "content": "import stripMarkdown from \"strip-markdown\";\nimport remarkGfm from \"remark-gfm\";\nimport remarkBreaks from \"remark-breaks\";\n// @ts-ignore\nimport linkifyRegex from \"remark-linkify-regex\";\nimport { RegEx } from \"@/registry/new-york/lib/regex\";\nimport ReactMarkdown, { Components } from \"react-markdown\";\nimport { cn } from \"@/lib/utils\";\nimport LensMentionLink from \"@/registry/new-york/components/common/lens-mention-link\";\n\nconst LensMarkdown = ({ content, className }: { content: string; className?: string }) => {\n  const remarkPlugins = [\n    [\n      stripMarkdown,\n      {\n        keep: [\"blockquote\", \"code\", \"delete\", \"emphasis\", \"inlineCode\", \"link\", \"list\", \"listItem\", \"strong\"],\n      },\n    ],\n    remarkGfm,\n    remarkBreaks,\n    linkifyRegex(RegEx.URL),\n    linkifyRegex(RegEx.MENTION),\n    linkifyRegex(RegEx.HASHTAG),\n    linkifyRegex(RegEx.CASHTAG),\n  ];\n\n  const components: Components = {\n    a: (props: any) => {\n      // linkifyRegex will find @namespace/localname mentions and replace them with a link\n      // here we are defining how to render that link, removing the lens/ namespace if it exists\n      if (props.title?.startsWith(\"@\")) {\n        return <LensMentionLink username={props.title} />;\n      }\n\n      if (props.title?.startsWith(\"#\") || props.title?.startsWith(\"$\")) {\n        return <span className=\"font-bold\">{props.children}</span>;\n      }\n\n      return <a {...props} target=\"_blank\" rel=\"noopener noreferrer\" />;\n    },\n  };\n  return (\n    <>\n      <ReactMarkdown\n        remarkPlugins={remarkPlugins}\n        components={components}\n        className={cn(\"break-words hyphens-none line-clamp-6 whitespace-pre-wrap\", className)}\n      >\n        {content}\n      </ReactMarkdown>\n    </>\n  );\n};\n\nexport default LensMarkdown;\n",
+      "type": "registry:component"
+    },
+    {
+      "path": "registry/new-york/components/common/lens-mention-link.tsx",
+      "content": "import { ComponentProps } from \"react\";\nimport Link from \"next/link\";\n\ntype Props = {\n  username: string;\n  href?: string;\n};\n\ntype LinkProps = Omit<ComponentProps<typeof Link>, \"href\">;\n\nexport default function LensMentionLink(props: Props & LinkProps) {\n  const href = props.href || `/u/${props.username.replace(\"@lens/\", \"\")}`;\n\n  return (\n    <Link {...props} href={href}>\n      {props.username.replace(\"@lens/\", \"@\")}\n    </Link>\n  );\n}\n",
       "type": "registry:component"
     },
     {

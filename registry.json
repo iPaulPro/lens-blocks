@@ -242,6 +242,7 @@
         "@lens-chain/storage-client@1.0.6",
         "@lens-chain/sdk@1.0.3",
         "lucide-react",
+        "next@15.3.2",
         "strip-markdown@6.0.0",
         "react-markdown@9.0.3",
         "remark-gfm@4.0.1",
@@ -257,6 +258,10 @@
         },
         {
           "path": "registry/new-york/components/common/lens-markdown.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "registry/new-york/components/common/lens-mention-link.tsx",
           "type": "registry:component"
         },
         {
