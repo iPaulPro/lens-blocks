@@ -6,11 +6,11 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/registry/new-york/ui/dropdown-menu";
-import { MouseEvent, useRef } from "react";
+import { MouseEvent, useRef, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/registry/new-york/ui/avatar";
-import { Account, AnyPost, PublicClient, SessionClient, TxHash } from "@lens-protocol/react";
+import { Account, Post, PublicClient, SessionClient, TxHash } from "@lens-protocol/react";
 import { Copy, Flag, MoreHorizontal, UserCircle2 } from "lucide-react";
-import LensMarkdown from "../components/feed/lens-markdown";
+import LensMarkdown from "../components/common/lens-markdown";
 import LikeButton from "@/registry/new-york/components/feed/likes/like-button";
 import ReferenceButton from "@/registry/new-york/components/feed/references/reference-button";
 import CommentButton from "@/registry/new-york/components/feed/comment/comment-button";
@@ -18,7 +18,7 @@ import moment from "moment/moment";
 import CollectButton from "@/registry/new-york/components/feed/collects/collect-button";
 import TipButton from "@/registry/new-york/components/feed/tips/tip-button";
 import { cn } from "@/registry/new-york/lib/utils";
-import { truncateAddress } from "@/registry/new-york/lib/lens-utils";
+import { parseUri, truncateAddress } from "@/registry/new-york/lib/lens-utils";
 import { Button } from "@/registry/new-york/ui/button";
 import BookmarkButton from "@/registry/new-york/components/feed/bookmarks/bookmark-button";
 import { WalletClient } from "viem";
@@ -26,6 +26,9 @@ import CollectDialog, { CollectDialogRef } from "@/registry/new-york/components/
 import QuoteDialog, { QuoteDialogRef } from "@/registry/new-york/components/feed/references/quote-dialog";
 import TipDialog, { TipDialogRef } from "@/registry/new-york/components/feed/tips/tip-dialog";
 import { useLensPostContext } from "@/registry/new-york/hooks/use-lens-post-context";
+import { useRouter } from "next/navigation";
+import { Dialog, DialogContent } from "@/registry/new-york/ui/dialog";
+import Image from "next/image";
 
 type LensPostProps = {
   /**
@@ -39,14 +42,30 @@ type LensPostProps = {
   walletClient?: WalletClient;
 
   /**
-   * Callback function that is called when the user clicks on the post.
+   * Callback function that is called when the user clicks on a post.
    */
-  onPostClick: (post: AnyPost) => void;
+  onPostClick?: (post: Post) => void;
 
   /**
    * Callback function that is called when the user clicks on an account.
    */
-  onAccountClick: (account: Account) => void;
+  onAccountClick?: (account: Account) => void;
+
+  /**
+   * The URL pattern to use for generating post links if onPostClick is not provided.
+   * It should include `{slug}` as a placeholder for the post slug.
+   * If not provided, a default pattern (/posts/{slug}) will be used.
+   * * Example: `/posts/{slug}` or `https://example.com/posts/{slug}`
+   */
+  postUrlPattern?: string;
+
+  /**
+   * The URL pattern to use for generating account links if onAccountClick is not provided.
+   * It should include `{localName}` as a placeholder for the local name and optionally `{namespace}` for the namespace.
+   * If not provided, a default pattern (/u/{namespace}/{localName}) will be used.
+   * * Example: `/u/{localName}` or `https://example.com/u/{localName}`
+   */
+  accountUrlPattern?: string;
 
   /**
    * Callback function that is called when a repost is successful.
@@ -62,13 +81,25 @@ type LensPostProps = {
 };
 
 export const LensPost = (props: LensPostProps) => {
-  const { lensClient, walletClient, onPostClick, onAccountClick, onRepostSuccess, className } = props;
+  const {
+    lensClient,
+    walletClient,
+    onPostClick,
+    onAccountClick,
+    postUrlPattern,
+    accountUrlPattern,
+    onRepostSuccess,
+    className,
+  } = props;
 
   const collectDialog = useRef<CollectDialogRef>(null);
   const quoteDialog = useRef<QuoteDialogRef>(null);
   const tipDialog = useRef<TipDialogRef>(null);
 
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+
   const { post, loading } = useLensPostContext();
+  const router = useRouter();
 
   if (!post) {
     if (loading) {
@@ -80,6 +111,9 @@ export const LensPost = (props: LensPostProps) => {
   const author = post.author;
   const name = author.metadata?.name ?? author.username?.localName ?? "[anonymous]";
   const isPost = post.__typename === "Post";
+  const basePost = isPost ? post : post.repostOf;
+  const image = "image" in basePost.metadata ? basePost.metadata.image : null;
+  const imageUri = image ? parseUri(image.item) : null;
 
   const collectAction =
     post && "actions" in post && post.actions?.find(action => action.__typename === "SimpleCollectAction");
@@ -100,13 +134,33 @@ export const LensPost = (props: LensPostProps) => {
 
   const handleAccountClick = (event: MouseEvent<HTMLButtonElement>) => {
     event.stopPropagation();
-    onAccountClick(author);
+    onAccountClick?.(author);
+  };
+
+  const handlePostClick = (event: MouseEvent<HTMLButtonElement>) => {
+    // Allow text selection
+    if (window.getSelection()?.toString()) {
+      return;
+    }
+
+    event.preventDefault();
+
+    // If it's a repost, we assume the user wants to see the original post
+    const postUrl = postUrlPattern ? postUrlPattern.replace("{slug}", basePost.slug) : `/posts/${basePost.slug}`;
+
+    if (onPostClick) {
+      onPostClick(basePost);
+    } else if (event.metaKey || event.ctrlKey || event.button === 1) {
+      window.open(postUrl, "_blank");
+    } else {
+      router.push(postUrl);
+    }
   };
 
   return (
     <>
       <article
-        onClick={() => onPostClick(post)}
+        onClick={handlePostClick}
         className={cn("w-full p-4 flex flex-col gap-3 text-start cursor-pointer", className)}
       >
         <div className="flex-grow flex justify-between flex-none">
@@ -164,8 +218,24 @@ export const LensPost = (props: LensPostProps) => {
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
-        {isPost && post.metadata.__typename === "TextOnlyMetadata" && (
+        {isPost && post.metadata.__typename !== "UnknownPostMetadata" && (
           <LensMarkdown content={post.metadata.content} className="text-sm md:text-base" />
+        )}
+        {image && imageUri && (
+          <div className="mt-2 border rounded-lg">
+            <Image
+              src={imageUri}
+              alt={image.altTag ?? ""}
+              className="w-full rounded-lg object-contain bg-gray-200 cursor-pointer"
+              width={600}
+              height={400}
+              loading="lazy"
+              onClick={event => {
+                event.stopPropagation();
+                setLightboxOpen(true);
+              }}
+            />
+          </div>
         )}
         <div className="flex gap-4 md:gap-8 items-center justify-between pe-2">
           <div className="flex items-center gap-4 md:gap-6 -ms-2">
@@ -183,11 +253,21 @@ export const LensPost = (props: LensPostProps) => {
           <BookmarkButton className="-me-2" />
         </div>
       </article>
-      {collectAction && (
-        <CollectDialog ref={collectDialog} post={post} action={collectAction} collect={async () => undefined} />
-      )}
+      {collectAction && <CollectDialog ref={collectDialog} post={post} />}
       <QuoteDialog ref={quoteDialog} post={post} createQuote={async (post, content) => undefined} />
       <TipDialog ref={tipDialog} supportedTokens={[]} createTip={async () => undefined} />
+      <Dialog open={lightboxOpen} onOpenChange={setLightboxOpen}>
+        <DialogContent className="flex justify-center items-center max-h-full max-w-full bg-transparent border-none shadow-none">
+          {lightboxOpen && image && imageUri && (
+            <img
+              src={imageUri}
+              alt={image.altTag ?? ""}
+              className="max-w-full max-h-full object-contain shadow-lg"
+              loading="lazy"
+            />
+          )}
+        </DialogContent>
+      </Dialog>
     </>
   );
 };

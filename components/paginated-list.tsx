@@ -33,19 +33,19 @@ export default function PaginatedList() {
   const commands = [
     {
       label: "npm",
-      command: "npx shadcn@latest add https://lensblocks.com/r/paginated-list.json",
+      command: "npx shadcn@latest add @lens-blocks/paginated-list.json",
     },
     {
       label: "yarn",
-      command: "yarn dlx shadcn@latest add https://lensblocks.com/r/paginated-list.json",
+      command: "yarn dlx shadcn@latest add @lens-blocks/paginated-list.json",
     },
     {
       label: "pnpm",
-      command: "pnpm dlx shadcn@latest add https://lensblocks.com/r/paginated-list.json",
+      command: "pnpm dlx shadcn@latest add @lens-blocks/paginated-list.json",
     },
     {
       label: "bun",
-      command: "bunx --bun shadcn@latest add https://lensblocks.com/r/paginated-list.json",
+      command: "bunx --bun shadcn@latest add @lens-blocks/paginated-list.json",
     },
   ];
 

@@ -6,6 +6,7 @@ import linkifyRegex from "remark-linkify-regex";
 import { RegEx } from "@/registry/new-york/lib/regex";
 import ReactMarkdown, { Components } from "react-markdown";
 import { cn } from "@/lib/utils";
+import LensMentionLink from "@/registry/new-york/components/common/lens-mention-link";
 
 const LensMarkdown = ({ content, className }: { content: string; className?: string }) => {
   const remarkPlugins = [
@@ -28,11 +29,7 @@ const LensMarkdown = ({ content, className }: { content: string; className?: str
       // linkifyRegex will find @namespace/localname mentions and replace them with a link
       // here we are defining how to render that link, removing the lens/ namespace if it exists
       if (props.title?.startsWith("@")) {
-        return (
-          <a href={`/u/${props.href.replace("@lens/", "")}`} className="font-bold no-underline hover:underline">
-            {props.children.replace("@lens/", "@")}
-          </a>
-        );
+        return <LensMentionLink username={props.title} />;
       }
 
       if (props.title?.startsWith("#") || props.title?.startsWith("$")) {

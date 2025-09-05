@@ -2,6 +2,7 @@ import { createContext, ReactNode, useEffect, useState } from "react";
 import {
   AnyPost,
   CreatePostRequest,
+  EvmAddress,
   evmAddress,
   PaymentSource,
   Post,
@@ -21,13 +22,18 @@ import { textOnly } from "@lens-protocol/metadata";
 import { immutable, StorageClient } from "@lens-chain/storage-client";
 import { chains } from "@lens-chain/sdk/viem";
 
-type OptimisticState = {
+export type OptimisticState = {
   liked: boolean;
   commented: boolean;
   collected: boolean;
   repostedOrQuoted: boolean;
   tipped: boolean;
   bookmarked: boolean;
+};
+
+export type Referral = {
+  percent: number;
+  address: EvmAddress;
 };
 
 type PostContextType = {
@@ -37,10 +43,10 @@ type PostContextType = {
   optimistic: OptimisticState;
   toggleLike: () => Promise<void>;
   comment: (content: string) => Promise<TxHash | undefined>;
-  collect: () => Promise<TxHash | undefined>;
+  collect: (paymentSource?: PaymentSource, referrals?: Referral[]) => Promise<TxHash | undefined>;
   repost: () => Promise<TxHash | undefined>;
   quote: (content: string) => Promise<TxHash | undefined>;
-  tip: (source: PaymentSource, amount: string, tokenAddress: string) => Promise<TxHash | undefined>;
+  tip: (paymentSource: PaymentSource, amount: string, tokenAddress: string) => Promise<TxHash | undefined>;
   toggleBookmark: () => Promise<void>;
 };
 
@@ -180,7 +186,7 @@ export const LensPostProvider = ({
     return postResponse.value;
   };
 
-  const collect = async (): Promise<TxHash | undefined> => {
+  const collect = async (paymentSource?: PaymentSource, referrals?: Referral[]): Promise<TxHash | undefined> => {
     if (!post) {
       throw new Error("Cannot collect without a post");
     }
@@ -201,6 +207,8 @@ export const LensPostProvider = ({
       action: {
         simpleCollect: {
           selected: true,
+          paymentSource,
+          referrals,
         },
       },
     })
@@ -295,7 +303,11 @@ export const LensPostProvider = ({
     return postResponse.value;
   };
 
-  const tip = async (source: PaymentSource, amount: string, tokenAddress: string): Promise<TxHash | undefined> => {
+  const tip = async (
+    paymentSource: PaymentSource,
+    amount: string,
+    tokenAddress: string,
+  ): Promise<TxHash | undefined> => {
     if (!post) {
       throw new Error("Cannot tip without a post");
     }
@@ -315,7 +327,7 @@ export const LensPostProvider = ({
       post: post.id,
       action: {
         tipping: {
-          paymentSource: source,
+          paymentSource,
           ...(tokenAddress === NATIVE_TOKEN ? { native: amount } : { value: amount, token: evmAddress(tokenAddress) }),
         },
       },

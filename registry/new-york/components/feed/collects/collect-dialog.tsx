@@ -1,8 +1,14 @@
-import { AnyPost, SimpleCollectAction, TxHash, useAuthenticatedUser } from "@lens-protocol/react";
+import { AnyPost, TxHash, useAuthenticatedUser } from "@lens-protocol/react";
 import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
-import { Clock, Snowflake, Users } from "lucide-react";
+import { BoxIcon, CircleDollarSign, Clock, Snowflake, Users } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/registry/new-york/ui/dialog";
 import moment from "moment/moment";
+import { Button } from "@/registry/new-york/ui/button";
+import { Referral } from "@/registry/new-york/lib/lens-post-provider";
+import { useLensPostContext } from "@/registry/new-york/hooks/use-lens-post-context";
+import { truncateAddress } from "@/registry/new-york/lib/lens-utils";
+import Link from "next/link";
+import LensMentionLink from "@/registry/new-york/components/common/lens-mention-link";
 
 export type CollectDialogRef = {
   open: () => void;
@@ -12,112 +18,177 @@ export type CollectDialogRef = {
 
 type CollectDialogProps = {
   post: AnyPost;
-  action: SimpleCollectAction;
-  collect: () => Promise<TxHash | undefined>;
+  referrals?: Referral[];
+  onSuccess?: (txHash: TxHash) => void;
   onError?: (error: Error) => void;
 };
 
-const CollectDialog = forwardRef<CollectDialogRef, CollectDialogProps>(({ post, action, collect, onError }, ref) => {
-  const [collectDialogOpen, setCollectDialogOpen] = useState(false);
-  const [collecting, setCollecting] = useState(false);
-  const [collectEnded, setCollectEnded] = useState(false);
-  const [collectAvailable, setCollectAvailable] = useState(false);
+const CollectDialog = forwardRef<CollectDialogRef, CollectDialogProps>(
+  ({ post, referrals, onSuccess, onError }, ref) => {
+    const { collect } = useLensPostContext();
 
-  const { data: user } = useAuthenticatedUser();
+    const [collectDialogOpen, setCollectDialogOpen] = useState(false);
+    const [collecting, setCollecting] = useState(false);
+    const [collectEnded, setCollectEnded] = useState(false);
+    const [collectAvailable, setCollectAvailable] = useState(false);
 
-  const operations = post && "operations" in post ? post.operations : null;
-  const stats = post && "stats" in post ? post.stats : null;
+    const { data: user } = useAuthenticatedUser();
 
-  useImperativeHandle(ref, () => ({
-    open: () => setCollectDialogOpen(true),
-    close: () => setCollectDialogOpen(false),
-    isOpen: collectDialogOpen,
-  }));
+    const action = "actions" in post && post.actions?.find(action => action.__typename === "SimpleCollectAction");
+    const operations = post && "operations" in post ? post.operations : null;
+    const stats = post && "stats" in post ? post.stats : null;
 
-  useEffect(() => {
-    if (action.endsAt) {
-      setCollectEnded(moment().isAfter(action.endsAt));
-    }
+    useImperativeHandle(ref, () => ({
+      open: () => setCollectDialogOpen(true),
+      close: () => setCollectDialogOpen(false),
+      isOpen: collectDialogOpen,
+    }));
 
-    if (!operations?.canSimpleCollect || operations?.hasSimpleCollected) {
-      setCollectAvailable(false);
-      return;
-    }
-
-    if (action.collectLimit) {
-      setCollectAvailable((stats?.collects ?? 0) < action.collectLimit);
-    }
-  }, [action, post]);
-
-  const onCollectClick = async () => {
-    setCollecting(true);
-    try {
-      const txHash = await collect();
-      if (txHash) {
-        setCollectDialogOpen(false);
+    useEffect(() => {
+      console.log("CollectDialog: ", { post, action });
+      if (!action) {
+        setCollectAvailable(false);
+        onError?.(new Error("This post is not collectable"));
+        return;
       }
-    } catch (e: any) {
-      if (e instanceof Error) {
-        onError?.(e);
-      }
-    } finally {
-      setCollecting(false);
-    }
-  };
 
-  return (
-    <Dialog open={collectDialogOpen} onOpenChange={setCollectDialogOpen}>
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader className="text-left border-b pb-4">
-          <DialogTitle className="text-2xl">Collect this Article</DialogTitle>
-        </DialogHeader>
-        <div className="flex flex-col gap-4">
-          {"collectibleMetadata" in post && post.collectibleMetadata.name && (
-            <div className="text-2xl font-medium py-2">{post.collectibleMetadata.name}</div>
-          )}
-          <div className="flex gap-4 items-center">
-            <Users className="w-6 h-6" />
-            {new Intl.NumberFormat().format(stats?.collects ?? 0)} {stats?.collects === 1 ? "collector" : "collectors"}
-          </div>
-          {action.collectLimit && (
-            <div className="flex gap-4 items-center">
-              <Snowflake className="w-6 h-6" />
-              {new Intl.NumberFormat().format(action.collectLimit - (stats?.collects ?? 0))} remaining
-            </div>
-          )}
-          {action.endsAt && (
-            <div className="flex gap-4 items-center">
-              <Clock className="w-6 h-6" />
-              <abbr className="!border-b-0 no-underline text-xl" title={moment(action.endsAt).format("LLL")}>
-                {collectEnded ? "Ended " + moment(action.endsAt).fromNow() : "Ends " + moment(action.endsAt).fromNow()}
-              </abbr>
-            </div>
-          )}
-          <div className="flex justify-end">
-            <button
-              onClick={onCollectClick}
-              disabled={collecting || collectEnded || !collectAvailable}
-              className={`btn btn-primary ${collectAvailable ? "px-8" : "px-16"} py-4`}
-            >
-              {collecting ? (
-                <span className="loader"></span>
-              ) : !user?.address ? (
-                "log in to collect"
-              ) : operations?.hasSimpleCollected ? (
-                "collected"
-              ) : collectEnded ? (
-                "no longer available"
-              ) : collectAvailable ? (
-                "collect"
+      if (action.endsAt) {
+        setCollectEnded(moment().isAfter(action.endsAt));
+      }
+
+      if (!operations?.canSimpleCollect || operations?.hasSimpleCollected) {
+        setCollectAvailable(false);
+        return;
+      }
+
+      if (action.collectLimit) {
+        setCollectAvailable((stats?.collects ?? 0) < action.collectLimit);
+      }
+    }, [action]);
+
+    const onCollectClick = async () => {
+      setCollecting(true);
+      try {
+        const txHash = await collect();
+        if (txHash) {
+          setCollectDialogOpen(false);
+        }
+      } catch (e: any) {
+        if (e instanceof Error) {
+          onError?.(e);
+        }
+      } finally {
+        setCollecting(false);
+      }
+    };
+
+    if (!action) {
+      return null;
+    }
+
+    return (
+      <Dialog open={collectDialogOpen} onOpenChange={setCollectDialogOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Collect</DialogTitle>
+          </DialogHeader>
+          <div className="flex flex-col gap-2">
+            <div className="text-lg font-bold py-3">
+              {"collectibleMetadata" in post && post.collectibleMetadata.name ? (
+                post.collectibleMetadata.name
               ) : (
-                "unable to collect"
+                <span>
+                  Post by{" "}
+                  <LensMentionLink
+                    username={post.author.username?.value}
+                    className="!font-bold"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  />
+                </span>
               )}
-            </button>
+            </div>
+            {action.payToCollect && (
+              <div className="flex gap-2.5 items-center">
+                <CircleDollarSign className="w-7 h-7" />
+                <span className="font-bold">
+                  <span className="text-xl">{action.payToCollect.amount.value}</span>{" "}
+                  {action.payToCollect.amount.asset.symbol}
+                </span>
+              </div>
+            )}
+            <div className="flex gap-4 items-center pl-1.5">
+              <BoxIcon className="w-4 h-4 opacity-60" />
+              <span>
+                <Link
+                  href={`https://lenscan.io/nfts/${action.collectNftAddress}`}
+                  className="font-semibold"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {truncateAddress(action.collectNftAddress, 10)}
+                </Link>
+              </span>
+            </div>
+            <div className="flex gap-4 items-center pl-1.5">
+              <Users className="w-4 h-4 opacity-60" />
+              <span>
+                <span className="font-semibold">{new Intl.NumberFormat().format(stats?.collects ?? 0)}</span>{" "}
+                {stats?.collects === 1 ? "collector" : "collectors"}
+              </span>
+            </div>
+            {action.collectLimit && (
+              <div className="flex gap-4 items-center pl-1.5">
+                <Snowflake className="w-4 h-4 opacity-60" />
+                <span>
+                  <span className="font-semibold">
+                    {new Intl.NumberFormat().format(action.collectLimit - (stats?.collects ?? 0))} of{" "}
+                    {action.collectLimit}
+                  </span>{" "}
+                  remaining
+                </span>
+              </div>
+            )}
+            {action.endsAt && (
+              <div className="flex gap-4 items-center pl-1.5">
+                <Clock className="w-4 h-4 opacity-60" />
+                <abbr className="!border-b-0 no-underline" title={moment(action.endsAt).format("LLL")}>
+                  {collectEnded ? "Ended " : "Ends "}{" "}
+                  <span className="font-semibold">{moment(action.endsAt).fromNow()}</span>
+                </abbr>
+              </div>
+            )}
+            <div className="flex justify-end pt-2">
+              <Button
+                size="lg"
+                className="font-bold"
+                onClick={onCollectClick}
+                disabled={collecting || collectEnded || !collectAvailable}
+              >
+                {collecting ? (
+                  <span className="loader"></span>
+                ) : !user?.address ? (
+                  "Log in to collect"
+                ) : operations?.hasSimpleCollected ? (
+                  "Collected"
+                ) : collectEnded ? (
+                  "No longer available"
+                ) : collectAvailable ? (
+                  action.payToCollect ? (
+                    `Collect for ${action.payToCollect.amount.value} ${action.payToCollect.amount.asset.symbol}`
+                  ) : (
+                    "Collect for free"
+                  )
+                ) : (
+                  "Unable to collect"
+                )}
+              </Button>
+            </div>
           </div>
-        </div>
-      </DialogContent>
-    </Dialog>
-  );
-});
+        </DialogContent>
+      </Dialog>
+    );
+  },
+);
 
 export default CollectDialog;

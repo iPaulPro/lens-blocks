@@ -16,19 +16,19 @@ export function LoginBlock() {
   const commands = [
     {
       label: "npm",
-      command: "npx shadcn@latest add https://lensblocks.com/r/login.json",
+      command: "npx shadcn@latest add @lens-blocks/login.json",
     },
     {
       label: "yarn",
-      command: "yarn dlx shadcn@latest add https://lensblocks.com/r/login.json",
+      command: "yarn dlx shadcn@latest add @lens-blocks/login.json",
     },
     {
       label: "pnpm",
-      command: "pnpm dlx shadcn@latest add https://lensblocks.com/r/login.json",
+      command: "pnpm dlx shadcn@latest add @lens-blocks/login.json",
     },
     {
       label: "bun",
-      command: "bunx --bun shadcn@latest add https://lensblocks.com/r/login.json",
+      command: "bunx --bun shadcn@latest add @lens-blocks/login.json",
     },
   ];
 
@@ -75,9 +75,10 @@ import { useWalletClient } from "wagmi";`}
         </CodeBlock>
         <CodeBlock lang="tsx" className="lines">
           {`const { data: sessionClient } = useSessionClient();
-const { data: walletClient } = useWalletClient();
-
-<LensLogin lensClient={sessionClient} walletClient={walletClient} />`}
+const { data: walletClient } = useWalletClient();`}
+        </CodeBlock>
+        <CodeBlock lang="tsx" className="lines">
+          {`<LensLogin lensClient={sessionClient} walletClient={walletClient} />`}
         </CodeBlock>
       </div>
     </>

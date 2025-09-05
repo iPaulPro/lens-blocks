@@ -256,7 +256,7 @@
           "type": "registry:component"
         },
         {
-          "path": "registry/new-york/components/feed/lens-markdown.tsx",
+          "path": "registry/new-york/components/common/lens-markdown.tsx",
           "type": "registry:component"
         },
         {

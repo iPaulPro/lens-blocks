@@ -27,19 +27,19 @@ export default function AccountListItem() {
   const commands = [
     {
       label: "npm",
-      command: "npx shadcn@latest add https://lensblocks.com/r/account-list-item.json",
+      command: "npx shadcn@latest add @lens-blocks/account-list-item.json",
     },
     {
       label: "yarn",
-      command: "yarn dlx shadcn@latest add https://lensblocks.com/r/account-list-item.json",
+      command: "yarn dlx shadcn@latest add @lens-blocks/account-list-item.json",
     },
     {
       label: "pnpm",
-      command: "pnpm dlx shadcn@latest add https://lensblocks.com/r/account-list-item.json",
+      command: "pnpm dlx shadcn@latest add @lens-blocks/account-list-item.json",
     },
     {
       label: "bun",
-      command: "bunx --bun shadcn@latest add https://lensblocks.com/r/account-list-item.json",
+      command: "bunx --bun shadcn@latest add @lens-blocks/account-list-item.json",
     },
   ];
 

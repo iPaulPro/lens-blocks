@@ -40,6 +40,12 @@ export default function RootLayout({
             <SidebarProvider>
               <AppSidebar />
               <div className="w-full">
+                <span className="h-8 bg-warning text-background flex justify-center items-center font-bold">
+                  <span>
+                    Lens Blocks are currently in pre-alpha and{" "}
+                    <span className="font-black animate-pulse"> not ready for use</span>!
+                  </span>
+                </span>
                 <main className="w-full">
                   <Header />
                   <div className="max-w-3xl flex flex-col min-h-svh px-4 md:px-8 pt-4 pb-8 gap-8">{children}</div>

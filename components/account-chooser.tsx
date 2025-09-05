@@ -1,6 +1,5 @@
 "use client";
 
-import config from "@/lib/lens/config";
 import { LensPostProvider } from "@/registry/new-york/lib/lens-post-provider";
 import { Account, useSessionClient } from "@lens-protocol/react";
 import { OpenInV0Button } from "@/components/open-in-v0-button";
@@ -26,19 +25,19 @@ export default function AccountChooser() {
   const commands = [
     {
       label: "npm",
-      command: "npx shadcn@latest add https://lensblocks.com/r/account-chooser.json",
+      command: "npx shadcn@latest add @lens-blocks/account-chooser.json",
     },
     {
       label: "yarn",
-      command: "yarn dlx shadcn@latest add https://lensblocks.com/r/account-chooser.json",
+      command: "yarn dlx shadcn@latest add @lens-blocks/account-chooser.json",
     },
     {
       label: "pnpm",
-      command: "pnpm dlx shadcn@latest add https://lensblocks.com/r/account-chooser.json",
+      command: "pnpm dlx shadcn@latest add @lens-blocks/account-chooser.json",
     },
     {
       label: "bun",
-      command: "bunx --bun shadcn@latest add https://lensblocks.com/r/account-chooser.json",
+      command: "bunx --bun shadcn@latest add @lens-blocks/account-chooser.json",
     },
   ];
 

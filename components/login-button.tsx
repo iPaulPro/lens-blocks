@@ -14,19 +14,19 @@ export default function LoginButton() {
   const commands = [
     {
       label: "npm",
-      command: "npx shadcn@latest add https://lensblocks.com/r/login-button.json",
+      command: "npx shadcn@latest add @lens-blocks/login-button.json",
     },
     {
       label: "yarn",
-      command: "yarn dlx shadcn@latest add https://lensblocks.com/r/login-button.json",
+      command: "yarn dlx shadcn@latest add @lens-blocks/login-button.json",
     },
     {
       label: "pnpm",
-      command: "pnpm dlx shadcn@latest add https://lensblocks.com/r/login-button.json",
+      command: "pnpm dlx shadcn@latest add @lens-blocks/login-button.json",
     },
     {
       label: "bun",
-      command: "bunx --bun shadcn@latest add https://lensblocks.com/r/login-button.json",
+      command: "bunx --bun shadcn@latest add @lens-blocks/login-button.json",
     },
   ];
 

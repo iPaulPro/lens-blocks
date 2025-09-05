@@ -34,24 +34,24 @@ export function PostBlock() {
   const commands = [
     {
       label: "npm",
-      command: "npx shadcn@latest add https://lensblocks.com/r/post.json",
+      command: "npx shadcn@latest add @lens-blocks/post.json",
     },
     {
       label: "yarn",
-      command: "yarn dlx shadcn@latest add https://lensblocks.com/r/post.json",
+      command: "yarn dlx shadcn@latest add @lens-blocks/post.json",
     },
     {
       label: "pnpm",
-      command: "pnpm dlx shadcn@latest add https://lensblocks.com/r/post.json",
+      command: "pnpm dlx shadcn@latest add @lens-blocks/post.json",
     },
     {
       label: "bun",
-      command: "bunx --bun shadcn@latest add https://lensblocks.com/r/post.json",
+      command: "bunx --bun shadcn@latest add @lens-blocks/post.json",
     },
   ];
 
   return (
-    <LensPostProvider postId="1n8hs1aqb4k53f8vsvc" sessionClient={sessionClient} useTestnet={true}>
+    <LensPostProvider postId="58g7rtbnq9x60fv55w" sessionClient={sessionClient} useTestnet={true}>
       <div className="flex flex-col flex-1 gap-8">
         <div className="preview flex flex-col gap-4 relative">
           <div className="flex items-center justify-between">
@@ -92,9 +92,10 @@ import { useWalletClient } from "wagmi";`}
         </CodeBlock>
         <CodeBlock lang="tsx" className="lines">
           {`const { data: sessionClient } = useSessionClient();
-const { data: walletClient } = useWalletClient();
-
-<LensPostProvider postId="1n8hs1aqb4k53f8vsvc" sessionClient={sessionClient}>
+const { data: walletClient } = useWalletClient();`}
+        </CodeBlock>
+        <CodeBlock lang="tsx" className="lines">
+          {`<LensPostProvider postId="1n8hs1aqb4k53f8vsvc" sessionClient={sessionClient}>
   <LensPost
     lensClient={sessionClient}
     walletClient={walletClient}

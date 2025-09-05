@@ -12,6 +12,7 @@ import { useSidebar } from "@/registry/new-york/ui/sidebar";
 import Link from "next/link";
 import { Button } from "@/registry/new-york/ui/button";
 import { Menu } from "lucide-react";
+import { Fragment } from "react";
 
 export default function Header() {
   const pathname = usePathname();
@@ -50,16 +51,16 @@ export default function Header() {
               const href = `/${pathSegments.slice(0, index + 1).join("/")}`;
               const isLast = index === pathSegments.length - 1;
               return (
-                <>
-                  <BreadcrumbItem key={href}>
+                <Fragment key={href}>
+                  <BreadcrumbItem>
                     {isLast ? (
                       <span>{formatPath(segment)}</span>
                     ) : (
                       <BreadcrumbLink href={href}>{formatPath(segment)}</BreadcrumbLink>
                     )}
                   </BreadcrumbItem>
-                  {!isLast && <BreadcrumbSeparator key={`${href}-sep`} />}
-                </>
+                  {!isLast && <BreadcrumbSeparator />}
+                </Fragment>
               );
             })}
           </BreadcrumbList>
