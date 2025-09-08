@@ -7,8 +7,17 @@ import { RegEx } from "@/registry/new-york/lib/regex";
 import ReactMarkdown, { Components } from "react-markdown";
 import { cn } from "@/lib/utils";
 import LensMentionLink from "@/registry/new-york/components/common/lens-mention-link";
+import { AccountMention, GroupMention } from "@lens-protocol/react";
+import LensTagLink from "@/registry/new-york/components/common/lens-tag-link";
 
-const LensMarkdown = ({ content, className }: { content: string; className?: string }) => {
+type Props = {
+  content: string;
+  className?: string;
+  mentions: (AccountMention | GroupMention)[];
+};
+
+const LensMarkdown = (props: Props) => {
+  const { content, className, mentions } = props;
   const remarkPlugins = [
     [
       stripMarkdown,
@@ -25,15 +34,17 @@ const LensMarkdown = ({ content, className }: { content: string; className?: str
   ];
 
   const components: Components = {
+    // linkifyRegex will find mentions, hashtags, and cashtags, and replace them with a link
+    // here we are defining how to render that link
     a: (props: any) => {
-      // linkifyRegex will find @namespace/localname mentions and replace them with a link
-      // here we are defining how to render that link, removing the lens/ namespace if it exists
-      if (props.title?.startsWith("@")) {
-        return <LensMentionLink username={props.title} />;
+      const mention = mentions.find(mention => mention.replace.from === props.title);
+
+      if (mention) {
+        return <LensMentionLink mention={mention} />;
       }
 
       if (props.title?.startsWith("#") || props.title?.startsWith("$")) {
-        return <span className="font-bold">{props.children}</span>;
+        return <LensTagLink tag={props.title} />;
       }
 
       return <a {...props} target="_blank" rel="noopener noreferrer" />;

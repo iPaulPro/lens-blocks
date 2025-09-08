@@ -2,18 +2,18 @@ import { ComponentProps } from "react";
 import Link from "next/link";
 
 type Props = {
-  hashtag: string;
+  tag: string;
   href?: string;
 };
 
 type LinkProps = Omit<ComponentProps<typeof Link>, "href">;
 
-export default function LensMentionLink(props: Props & LinkProps) {
+export default function LensTagLink(props: Props & LinkProps) {
   return props.href ? (
     <Link {...props} href={props.href}>
-      {props.hashtag}
+      {props.tag}
     </Link>
   ) : (
-    <span className="font-bold">{props.hashtag}</span>
+    <span className="font-bold">{props.tag}</span>
   );
 }

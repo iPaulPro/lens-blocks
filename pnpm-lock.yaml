@@ -86,6 +86,9 @@ importers:
       react:
         specifier: 18.3.1
         version: 18.3.1
+      react-audio-play:
+        specifier: ^1.0.4
+        version: 1.0.4(react@18.3.1)
       react-dom:
         specifier: 18.3.1
         version: 18.3.1(react@18.3.1)
@@ -4151,6 +4154,11 @@ packages:
   raw-body@3.0.0:
     resolution: {integrity: sha512-RmkhL8CAyCRPXCE28MMH0z2PNWQBNk2Q09ZdxM9IOOXwxwZbN+qbWaatPkdkWIKL2ZVDImrN/pK5HTRz2PcS4g==}
     engines: {node: '>= 0.8'}
+
+  react-audio-play@1.0.4:
+    resolution: {integrity: sha512-2xOOQb0VDEqac6fvjdNrbYH4LjJoCxfzDh6cryCTdJusDJ1Th92Wg4oF6QdO0ZR/YbSlmns3T4PnM94KU2QiFw==}
+    peerDependencies:
+      react: '>=17'
 
   react-dom@18.3.1:
     resolution: {integrity: sha512-5m4nQKp+rZRb09LNH59GM4BxTh9251/ylbKIbpe7TpGxfJ+9kv6BLkLBXIjjspbgbnIBNqlI23tRnTWT0snUIw==}
@@ -10495,6 +10503,10 @@ snapshots:
       http-errors: 2.0.0
       iconv-lite: 0.6.3
       unpipe: 1.0.0
+
+  react-audio-play@1.0.4(react@18.3.1):
+    dependencies:
+      react: 18.3.1
 
   react-dom@18.3.1(react@18.3.1):
     dependencies:

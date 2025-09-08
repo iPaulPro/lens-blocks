@@ -108,12 +108,18 @@ export const LensPost = (props: LensPostProps) => {
     return null;
   }
 
-  const author = post.author;
-  const name = author.metadata?.name ?? author.username?.localName ?? "[anonymous]";
   const isPost = post.__typename === "Post";
   const basePost = isPost ? post : post.repostOf;
+  if (basePost.metadata.__typename === "UnknownPostMetadata") {
+    return <>Unsupported post type</>;
+  }
+
+  const author = post.author;
+  const name = author.metadata?.name ?? author.username?.localName ?? "[anonymous]";
   const image = "image" in basePost.metadata ? basePost.metadata.image : null;
   const imageUri = image ? parseUri(image.item) : null;
+  const audio = "audio" in basePost.metadata ? basePost.metadata.audio : null;
+  const audioUri = audio ? parseUri(audio.item) : null;
 
   const collectAction =
     post && "actions" in post && post.actions?.find(action => action.__typename === "SimpleCollectAction");
@@ -218,8 +224,12 @@ export const LensPost = (props: LensPostProps) => {
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
-        {isPost && post.metadata.__typename !== "UnknownPostMetadata" && (
-          <LensMarkdown content={post.metadata.content} className="text-sm md:text-base" />
+        {basePost && (
+          <LensMarkdown
+            content={basePost.metadata.content}
+            mentions={basePost.mentions}
+            className="text-sm md:text-base"
+          />
         )}
         {image && imageUri && (
           <div className="mt-2 border rounded-lg">
