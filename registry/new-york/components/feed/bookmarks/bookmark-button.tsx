@@ -1,6 +1,5 @@
 import { Button } from "@/registry/new-york/ui/button";
 import { Bookmark } from "lucide-react";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/registry/new-york/ui/tooltip";
 import { cn } from "@/registry/new-york/lib/utils";
 import { useLensPostContext } from "@/registry/new-york/hooks/use-lens-post-context";
 import { MouseEvent } from "react";
@@ -33,30 +32,19 @@ const BookmarkButton = ({ className, onSuccess, onError }: BookmarkButtonProps) 
   };
 
   return (
-    <TooltipProvider>
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <Button
-            onClick={onClick}
-            disabled={postLoading}
-            variant="ghost"
-            className={cn(
-              "w-8 h-8 active:outline-none focus-visible:outline-none cursor-pointer rounded-full",
-              className,
-            )}
-          >
-            {optimistic.bookmarked || operations?.hasBookmarked ? (
-              <Bookmark className="text-primary" fill="var(--primary)" />
-            ) : (
-              <Bookmark className="opacity-85" />
-            )}
-          </Button>
-        </TooltipTrigger>
-        <TooltipContent>
-          {optimistic.bookmarked || operations?.hasBookmarked ? "Remove bookmark" : "Bookmark post"}
-        </TooltipContent>
-      </Tooltip>
-    </TooltipProvider>
+    <Button
+      onClick={onClick}
+      disabled={postLoading}
+      variant="ghost"
+      size="icon"
+      className={cn("w-8 h-8 active:outline-none focus-visible:outline-none cursor-pointer rounded-full", className)}
+    >
+      {optimistic.bookmarked || operations?.hasBookmarked ? (
+        <Bookmark className="text-primary" fill="var(--primary)" />
+      ) : (
+        <Bookmark className="opacity-85" />
+      )}
+    </Button>
   );
 };
 

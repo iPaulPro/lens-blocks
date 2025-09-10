@@ -29,6 +29,7 @@ const CollectButton = ({ onClick }: CollectButtonProps) => {
         onClick={onButtonClick}
         disabled={postLoading}
         variant="ghost"
+        size="icon"
         className="w-8 h-8 active:outline-none focus-visible:outline-none cursor-pointer rounded-full"
       >
         {optimistic.collected || operations?.hasSimpleCollected ? (

@@ -51,17 +51,17 @@ export function PostBlock() {
   ];
 
   return (
-    <LensPostProvider postId="58g7rtbnq9x60fv55w" sessionClient={sessionClient} useTestnet={true}>
-      <div className="flex flex-col flex-1 gap-8">
-        <div className="preview flex flex-col gap-4 relative">
-          <div className="flex items-center justify-between">
-            <h2 className="text-sm text-muted-foreground sm:pl-3">A basic text-only Post</h2>
-            <OpenInV0Button name="post" className="w-fit" />
-          </div>
-          <div className="flex items-center justify-center flex-grow relative">
-            {sessionLoading || walletClientLoading ? (
-              <Loader className="animate-spin w-4 h-4 text-muted-foreground" />
-            ) : (
+    <div className="flex flex-col flex-1 gap-8">
+      <div className="preview flex flex-col gap-4 relative">
+        <div className="flex items-center justify-between">
+          <h2 className="text-sm text-muted-foreground sm:pl-3">A basic text-only Post</h2>
+          <OpenInV0Button name="post" className="w-fit" />
+        </div>
+        <div className="flex items-center justify-center flex-grow relative">
+          {sessionLoading || walletClientLoading ? (
+            <Loader className="animate-spin w-4 h-4 text-muted-foreground" />
+          ) : (
+            <LensPostProvider postId="1n8vtqy901xcrynmgrb" sessionClient={sessionClient} useTestnet={true}>
               <div className="w-full md:w-2/3">
                 <LensPost
                   className="border rounded-md"
@@ -78,31 +78,107 @@ export function PostBlock() {
                   }
                 />
               </div>
-            )}
-          </div>
+            </LensPostProvider>
+          )}
         </div>
-        <h2 className="mt-6 pb-2 text-3xl font-semibold tracking-tight first:mt-0">Installation</h2>
-        <CommandBlock commands={commands} />
-        <h2 className="mt-6 pb-2 text-3xl font-semibold tracking-tight first:mt-0">Usage</h2>
-        <CodeBlock lang="tsx" className="lines">
-          {`import { LensPostProvider } from "@/lib/lens-post-context";
+      </div>
+      <h2 className="mt-6 pb-2 text-3xl font-semibold tracking-tight first:mt-0">Installation</h2>
+      <CommandBlock commands={commands} />
+      <h2 className="mt-6 pb-2 text-3xl font-semibold tracking-tight first:mt-0">Usage</h2>
+      <CodeBlock lang="tsx" className="lines">
+        {`import { LensPostProvider } from "@/lib/lens-post-context";
 import { LensPost } from "@/components/lens-post";
 import { useSessionClient } from "@lens-protocol/react";
 import { useWalletClient } from "wagmi";`}
-        </CodeBlock>
-        <CodeBlock lang="tsx" className="lines">
-          {`const { data: sessionClient } = useSessionClient();
+      </CodeBlock>
+      <CodeBlock lang="tsx" className="lines">
+        {`const { data: sessionClient } = useSessionClient();
 const { data: walletClient } = useWalletClient();`}
-        </CodeBlock>
-        <CodeBlock lang="tsx" className="lines">
-          {`<LensPostProvider postId="58g7rtbnq9x60fv55w" sessionClient={sessionClient}>
+      </CodeBlock>
+      <CodeBlock lang="tsx" className="lines">
+        {`<LensPostProvider postId="58g7rtbnq9x60fv55w" sessionClient={sessionClient}>
   <LensPost
     lensClient={sessionClient}
     walletClient={walletClient}
   />
 </LensPostProvider>`}
-        </CodeBlock>
+      </CodeBlock>
+      <h2 className="mt-6 pb-2 text-3xl font-semibold tracking-tight first:mt-0">Examples</h2>
+      <h3 className="text-2xl font-semibold tracking-tight">Image Post</h3>
+      <div className="flex flex-col gap-4 relative p-0 md:p-4 border-0 md:border rounded-lg">
+        <div className="flex items-center justify-center flex-grow relative">
+          {sessionLoading || walletClientLoading ? (
+            <Loader className="animate-spin w-4 h-4 text-muted-foreground" />
+          ) : (
+            <LensPostProvider postId="58g7rtbnq9x60fv55w" sessionClient={sessionClient} useTestnet={true}>
+              <LensPost
+                className="w-full md:w-2/3 border rounded-md"
+                lensClient={sessionClient ?? undefined}
+                walletClient={walletClient}
+                onPostClick={onPostClick}
+                onAccountClick={onAccountSelected}
+                onRepostSuccess={txHash =>
+                  toast.success("Reposted successfully!", {
+                    action: (
+                      <Button onClick={() => window.open("https://explorer.lens.xyz/tx/" + txHash)}>View tx</Button>
+                    ),
+                  })
+                }
+              />
+            </LensPostProvider>
+          )}
+        </div>
       </div>
-    </LensPostProvider>
+      <h3 className="text-2xl font-semibold tracking-tight">Audio Post</h3>
+      <div className="flex flex-col gap-4 relative p-0 md:p-4 border-0 md:border rounded-lg">
+        <div className="flex items-center justify-center flex-grow relative">
+          {sessionLoading || walletClientLoading ? (
+            <Loader className="animate-spin w-4 h-4 text-muted-foreground" />
+          ) : (
+            <LensPostProvider postId="1z32szv5xqnpaqqncah" sessionClient={sessionClient} useTestnet={true}>
+              <LensPost
+                className="w-full md:w-2/3 border rounded-md"
+                lensClient={sessionClient ?? undefined}
+                walletClient={walletClient}
+                onPostClick={onPostClick}
+                onAccountClick={onAccountSelected}
+                onRepostSuccess={txHash =>
+                  toast.success("Reposted successfully!", {
+                    action: (
+                      <Button onClick={() => window.open("https://explorer.lens.xyz/tx/" + txHash)}>View tx</Button>
+                    ),
+                  })
+                }
+              />
+            </LensPostProvider>
+          )}
+        </div>
+      </div>
+      <h3 className="text-2xl font-semibold tracking-tight">Video Post</h3>
+      <div className="flex flex-col gap-4 relative p-0 md:p-4 border-0 md:border rounded-lg">
+        <div className="flex items-center justify-center flex-grow relative">
+          {sessionLoading || walletClientLoading ? (
+            <Loader className="animate-spin w-4 h-4 text-muted-foreground" />
+          ) : (
+            <LensPostProvider postId="39d0736810280pbe9vk" sessionClient={sessionClient} useTestnet={true}>
+              <LensPost
+                className="w-full md:w-2/3 border rounded-md"
+                lensClient={sessionClient ?? undefined}
+                walletClient={walletClient}
+                onPostClick={onPostClick}
+                onAccountClick={onAccountSelected}
+                onRepostSuccess={txHash =>
+                  toast.success("Reposted successfully!", {
+                    action: (
+                      <Button onClick={() => window.open("https://explorer.lens.xyz/tx/" + txHash)}>View tx</Button>
+                    ),
+                  })
+                }
+              />
+            </LensPostProvider>
+          )}
+        </div>
+      </div>
+    </div>
   );
 }

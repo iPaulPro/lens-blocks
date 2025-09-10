@@ -4,12 +4,14 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { ReactNode } from "react";
 import Web3Provider from "./web3-provider";
 import { Toaster } from "@/registry/new-york/ui/sonner";
-import "./globals.css";
 import { ThemeProvider } from "next-themes";
 import { SidebarProvider } from "@/registry/new-york/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
 import { Analytics } from "@vercel/analytics/next";
 import Header from "@/components/header";
+
+import "./globals.css";
+import "media-chrome";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -40,18 +42,18 @@ export default function RootLayout({
             <SidebarProvider>
               <AppSidebar />
               <div className="w-full">
-                <span className="h-8 bg-warning text-background flex justify-center items-center font-bold">
+                <span className="min-h-8 p-1 bg-warning text-background flex justify-center items-center font-bold text-sm md:text-base text-center">
                   <span>
                     Lens Blocks are currently in pre-alpha and{" "}
-                    <span className="font-black animate-pulse"> not ready for use</span>!
+                    <span className="font-black animate-pulse"> not&nbsp;ready&nbsp;for&nbsp;use</span>!
                   </span>
                 </span>
                 <main className="w-full">
                   <Header />
                   <div className="max-w-3xl flex flex-col min-h-svh px-4 md:px-8 pt-4 pb-8 gap-8">{children}</div>
                 </main>
-                <footer className="w-full max-w-3xl mx-auto min-h-12 p-4 flex items-center text-center text-sm text-muted-foreground">
-                  <span>
+                <footer className="w-full max-w-3xl min-h-12 p-4 flex items-center text-center text-sm text-muted-foreground">
+                  <span className="w-full">
                     Built by{" "}
                     <Link href="https://paulburke.co/" target="_blank" rel="noopener">
                       Paul Burke

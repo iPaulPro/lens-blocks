@@ -42,6 +42,7 @@ const LikeButton = ({ className, onSuccess, onError }: LikeButtonProps) => {
         onClick={onClick}
         disabled={postLoading}
         variant="ghost"
+        size="icon"
         className={cn("w-8 h-8 active:outline-none focus-visible:outline-none cursor-pointer rounded-full", className)}
       >
         {optimistic.liked || operations?.hasUpvoted ? (

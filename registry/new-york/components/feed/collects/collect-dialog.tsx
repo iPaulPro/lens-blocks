@@ -6,9 +6,8 @@ import moment from "moment/moment";
 import { Button } from "@/registry/new-york/ui/button";
 import { Referral } from "@/registry/new-york/lib/lens-post-provider";
 import { useLensPostContext } from "@/registry/new-york/hooks/use-lens-post-context";
-import { truncateAddress } from "@/registry/new-york/lib/lens-utils";
+import { getUsernamePath, truncateAddress } from "@/registry/new-york/lib/lens-utils";
 import Link from "next/link";
-import LensMentionLink from "@/registry/new-york/components/common/lens-mention-link";
 
 export type CollectDialogRef = {
   open: () => void;
@@ -99,12 +98,18 @@ const CollectDialog = forwardRef<CollectDialogRef, CollectDialogProps>(
               ) : (
                 <span>
                   Post by{" "}
-                  <LensMentionLink
-                    username={post.author.username?.value}
-                    className="!font-bold"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  />
+                  {post.author.username ? (
+                    <Link
+                      href={getUsernamePath(post.author.username.value)}
+                      className="!font-bold"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      @{post.author.username.localName}
+                    </Link>
+                  ) : (
+                    <span className="!font-bold">{truncateAddress(post.author.address)}</span>
+                  )}
                 </span>
               )}
             </div>

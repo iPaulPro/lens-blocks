@@ -29,6 +29,8 @@ import { useLensPostContext } from "@/registry/new-york/hooks/use-lens-post-cont
 import { useRouter } from "next/navigation";
 import { Dialog, DialogContent } from "@/registry/new-york/ui/dialog";
 import Image from "next/image";
+import AudioPlayer from "@/registry/new-york/components/common/audio-player";
+import VideoPlayer from "@/registry/new-york/components/common/video-player";
 
 type LensPostProps = {
   /**
@@ -116,10 +118,28 @@ export const LensPost = (props: LensPostProps) => {
 
   const author = post.author;
   const name = author.metadata?.name ?? author.username?.localName ?? "[anonymous]";
+
   const image = "image" in basePost.metadata ? basePost.metadata.image : null;
   const imageUri = image ? parseUri(image.item) : null;
+
   const audio = "audio" in basePost.metadata ? basePost.metadata.audio : null;
-  const audioUri = audio ? parseUri(audio.item) : null;
+
+  const video = "video" in basePost.metadata ? basePost.metadata.video : null;
+  const videoUri = video ? parseUri(video.item) : null;
+  const videoPoster = video && video.cover ? parseUri(video.cover) : undefined;
+
+  function isVideoPlatformUrl(url: string): boolean {
+    const patterns = [
+      /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/.+$/, // YouTube
+      /^(https?:\/\/)?(www\.)?vimeo\.com\/.+$/, // Vimeo
+      /^(https?:\/\/)?(www\.)?twitch\.tv\/.+$/, // Twitch
+      /^(https?:\/\/)?(www\.)?tiktok\.com\/.+$/, // TikTok
+    ];
+
+    return patterns.some(pattern => pattern.test(url));
+  }
+
+  const isVideoEmbed = videoUri ? isVideoPlatformUrl(videoUri) : false;
 
   const collectAction =
     post && "actions" in post && post.actions?.find(action => action.__typename === "SimpleCollectAction");
@@ -167,7 +187,7 @@ export const LensPost = (props: LensPostProps) => {
     <>
       <article
         onClick={handlePostClick}
-        className={cn("w-full p-4 flex flex-col gap-3 text-start cursor-pointer", className)}
+        className={cn("w-full px-3 md:px-4 pt-3 md:pt-4 pb-2 flex flex-col gap-3 text-start cursor-pointer", className)}
       >
         <div className="flex-grow flex justify-between flex-none">
           <div className="flex gap-2 w-full min-w-0">
@@ -199,56 +219,63 @@ export const LensPost = (props: LensPostProps) => {
               </abbr>
             </div>
           </div>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button
-                variant="ghost"
-                className="w-8 h-8 active:outline-none focus-visible:outline-none hover:opacity-75 cursor-pointer rounded-full"
-              >
-                <MoreHorizontal className="w-4 h-4 opacity-75" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="min-w-48" side="bottom">
-              <DropdownMenuItem className="focus:outline-none p-0">
-                <button className="flex gap-2 items-center w-full p-2" onClick={onReportClick} disabled={loading}>
-                  <Flag />
-                  Report post
-                </button>
-              </DropdownMenuItem>
-              <DropdownMenuItem className="focus:outline-none p-0">
-                <button className="flex gap-2 items-center w-full p-2" onClick={onCopyClick} disabled={loading}>
-                  <Copy className="w-4 h-4 inline" />
-                  Copy link
-                </button>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <div className="flex gap-2">
+            <BookmarkButton className="md:hidden" />
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="ghost"
+                  className="w-8 h-8 active:outline-none focus-visible:outline-none hover:opacity-75 cursor-pointer rounded-full -me-2.5 md:me-0"
+                >
+                  <MoreHorizontal className="w-4 h-4 opacity-75" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="min-w-48" side="bottom">
+                <DropdownMenuItem className="focus:outline-none p-0">
+                  <button className="flex gap-2 items-center w-full p-2" onClick={onReportClick} disabled={loading}>
+                    <Flag />
+                    Report post
+                  </button>
+                </DropdownMenuItem>
+                <DropdownMenuItem className="focus:outline-none p-0">
+                  <button className="flex gap-2 items-center w-full p-2" onClick={onCopyClick} disabled={loading}>
+                    <Copy className="w-4 h-4 inline" />
+                    Copy link
+                  </button>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
         </div>
-        {basePost && (
-          <LensMarkdown
-            content={basePost.metadata.content}
-            mentions={basePost.mentions}
-            className="text-sm md:text-base"
-          />
-        )}
-        {image && imageUri && (
-          <div className="mt-2 border rounded-lg">
-            <Image
-              src={imageUri}
-              alt={image.altTag ?? ""}
-              className="w-full rounded-lg object-contain bg-gray-200 cursor-pointer"
-              width={600}
-              height={400}
-              loading="lazy"
-              onClick={event => {
-                event.stopPropagation();
-                setLightboxOpen(true);
-              }}
+        {basePost.metadata.content && (
+          <div className="min-h-12 flex items-center">
+            <LensMarkdown
+              content={basePost.metadata.content}
+              mentions={basePost.mentions}
+              className="text-sm md:text-base"
             />
           </div>
         )}
-        <div className="flex gap-4 md:gap-8 items-center justify-between pe-2">
-          <div className="flex items-center gap-4 md:gap-6 -ms-2">
+        {image && imageUri && (
+          <Image
+            src={imageUri}
+            alt={image.altTag ?? ""}
+            className="w-full mt-2 border rounded-xl object-contain bg-gray-200 cursor-pointer"
+            width={600}
+            height={400}
+            loading="lazy"
+            onClick={event => {
+              event.stopPropagation();
+              setLightboxOpen(true);
+            }}
+          />
+        )}
+        {audio && (
+          <AudioPlayer audio={audio} postTitle={"title" in basePost.metadata ? basePost.metadata.title : undefined} />
+        )}
+        {videoUri ? <VideoPlayer src={videoUri} poster={videoPoster} preload="metadata" /> : null}
+        <div className="w-full flex gap-4 md:gap-8 items-center justify-between">
+          <div className="w-full flex items-center justify-between md:justify-normal gap-4 md:gap-6 -mx-2">
             <CommentButton onClick={() => undefined} />
             <LikeButton />
             <ReferenceButton
@@ -260,7 +287,7 @@ export const LensPost = (props: LensPostProps) => {
             {collectAction && <CollectButton onClick={() => collectDialog.current?.open()} />}
             <TipButton onClick={() => tipDialog.current?.open()} />
           </div>
-          <BookmarkButton className="-me-2" />
+          <BookmarkButton className="hidden md:flex" />
         </div>
       </article>
       {collectAction && <CollectDialog ref={collectDialog} post={post} />}

@@ -42,6 +42,7 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+  --media-cursor: pointer;
 }
 
 :root {
@@ -121,6 +122,12 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer components {
+  button, [role="button"] {
+    cursor: var(--media-cursor, pointer);
   }
 }
 

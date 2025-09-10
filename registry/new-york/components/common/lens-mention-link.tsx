@@ -1,6 +1,7 @@
 import { ComponentProps } from "react";
 import Link from "next/link";
 import { AccountMention, GroupMention } from "@lens-protocol/react";
+import { getUsernamePath } from "@/registry/new-york/lib/lens-utils";
 
 type Props = {
   mention: AccountMention | GroupMention;
@@ -20,13 +21,7 @@ export default function LensMentionLink(props: Props & LinkProps) {
   }
 
   const namespace = props.mention.namespace;
-
-  let path = "/u/";
-  if (namespace && !props.mention.replace.from.startsWith("@lens")) path += `${namespace}/`;
-  path += `${props.mention.replace.to.replace(/@lens\/|@/g, "")}`;
-
-  const href = props.href ?? path;
-
+  const href = props.href ?? getUsernamePath(props.mention.replace.to, namespace);
   return (
     <Link {...props} href={href}>
       {props.mention.replace.to.replace("@lens/", "@")}

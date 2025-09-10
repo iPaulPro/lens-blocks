@@ -27,6 +27,7 @@ const CommentButton = ({ onClick }: CommentButtonProps) => {
     <div className="flex items-center">
       <Button
         variant="ghost"
+        size="icon"
         onClick={onButtonClick}
         disabled={postLoading}
         className="w-8 h-8 active:outline-none focus-visible:outline-none cursor-pointer rounded-full"

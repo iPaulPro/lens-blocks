@@ -1,3 +1,5 @@
+import { EvmAddress, MediaAudioType } from "@lens-protocol/react";
+
 export const ZeroAddress = "0x0000000000000000000000000000000000000000";
 export const NATIVE_TOKEN = "0x000000000000000000000000000000000000800A";
 
@@ -72,4 +74,44 @@ export const parseUri = (uri: string | null | undefined): string | undefined => 
   } catch {
     return undefined;
   }
+};
+
+export const getAudioExtension = (mediaAudioType: MediaAudioType): string | undefined => {
+  switch (mediaAudioType) {
+    case MediaAudioType.AudioWav:
+      return "wav";
+    case MediaAudioType.AudioVndWave:
+      return "wave";
+    case MediaAudioType.AudioMpeg:
+      return "mp3";
+    case MediaAudioType.AudioOgg:
+      return "ogg";
+    case MediaAudioType.AudioMp4:
+      return "mp4";
+    case MediaAudioType.AudioAac:
+      return "aac";
+    case MediaAudioType.AudioWebm:
+      return "webm";
+    case MediaAudioType.AudioFlac:
+      return "flac";
+    default:
+      return undefined;
+  }
+};
+
+/**
+ * Get the path for a Lens username, optionally including the namespace if it's not the default "lens" namespace.
+ *
+ * Examples:
+ * * getUsernamePath("@lens/username") => "/u/username"
+ * * getUsernamePath("@othernamespace/username", "0x1234...") => "/u/0x1234.../username"
+ *
+ * @param username - The full username, including the namespace (e.g., "@lens/username")
+ * @param namespace - The namespace address of the username. If not provided, the default namespace will be assumed.
+ */
+export const getUsernamePath = (username: string, namespace?: EvmAddress): string => {
+  let path = "/u/";
+  if (namespace && !username.startsWith("@lens")) path += `${namespace}/`;
+  path += `${username.split("/")[1]}`;
+  return path;
 };

@@ -51,15 +51,13 @@ const LensMarkdown = (props: Props) => {
     },
   };
   return (
-    <>
-      <ReactMarkdown
-        remarkPlugins={remarkPlugins}
-        components={components}
-        className={cn("break-words hyphens-none line-clamp-6 whitespace-pre-wrap", className)}
-      >
-        {content}
-      </ReactMarkdown>
-    </>
+    <ReactMarkdown
+      remarkPlugins={remarkPlugins}
+      components={components}
+      className={cn("break-words hyphens-none line-clamp-6 whitespace-pre-wrap", className)}
+    >
+      {content}
+    </ReactMarkdown>
   );
 };
 

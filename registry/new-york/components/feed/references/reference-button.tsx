@@ -99,6 +99,7 @@ const ReferenceButton = ({
         <DropdownMenuTrigger asChild>
           <Button
             variant="ghost"
+            size="icon"
             disabled={postLoading || isPosting || showSuccess}
             onClick={onClick}
             className="w-8 h-8 active:outline-none focus-visible:outline-none hover:opacity-75 cursor-pointer rounded-full"
