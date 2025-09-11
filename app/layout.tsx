@@ -11,7 +11,6 @@ import { Analytics } from "@vercel/analytics/next";
 import Header from "@/components/header";
 
 import "./globals.css";
-import "media-chrome";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

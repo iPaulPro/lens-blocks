@@ -77,9 +77,6 @@ importers:
       lucide-react:
         specifier: ^0.487.0
         version: 0.487.0(react@18.3.1)
-      media-chrome:
-        specifier: ^4.13.1
-        version: 4.13.1(react@18.3.1)
       moment:
         specifier: ^2.30.1
         version: 2.30.1
@@ -125,9 +122,6 @@ importers:
       remark-stringify:
         specifier: ^11.0.0
         version: 11.0.0
-      screenfull:
-        specifier: ^6.0.2
-        version: 6.0.2
       shadcn:
         specifier: ^2.4.1
         version: 2.9.2(@types/node@20.19.9)(typescript@5.8.3)
@@ -3679,9 +3673,6 @@ packages:
   media-chrome@4.11.1:
     resolution: {integrity: sha512-+2niDc4qOwlpFAjwxg1OaizK/zKV6y7QqGm4nBFEVlSaG0ZBgOmfc4IXAPiirZqAlZGaFFUaMqCl1SpGU0/naA==}
 
-  media-chrome@4.13.1:
-    resolution: {integrity: sha512-jPPwYrFkM4ky27/xNYEeyRPOBC7qvru4Oydy7vQHMHplXLQJmjtcauhlLPvG0O5kkYFEaOBXv5zGYes/UxOoVw==}
-
   media-tracks@0.3.3:
     resolution: {integrity: sha512-9P2FuUHnZZ3iji+2RQk7Zkh5AmZTnOG5fODACnjhCVveX1McY3jmCRHofIEI+yTBqplz7LXy48c7fQ3Uigp88w==}
 
@@ -4501,10 +4492,6 @@ packages:
 
   scheduler@0.23.2:
     resolution: {integrity: sha512-UOShsPwz7NrMUqhR6t0hWjFduvOzbtv7toDH1/hIrfRNIDBnnBWd0CwJTGvTpngVlmwGCdP9/Zl/tVrDqcuYzQ==}
-
-  screenfull@6.0.2:
-    resolution: {integrity: sha512-AQdy8s4WhNvUZ6P8F6PB21tSPIYKniic+Ogx0AacBMjKP1GUHN2E9URxQHtCusiwxudnCKkdy4GrHXPPJSkCCw==}
-    engines: {node: ^14.13.1 || >=16.0.0}
 
   semver@6.3.1:
     resolution: {integrity: sha512-BR7VvDCVHO+q2xBEWskxS6DJE1qRnb7DxzUrogb71CWoSficBxYsiAGd+Kl0mmq/MprG9yArRkyrQxTO6XjMzA==}
@@ -10094,12 +10081,6 @@ snapshots:
     transitivePeerDependencies:
       - react
 
-  media-chrome@4.13.1(react@18.3.1):
-    dependencies:
-      ce-la-react: 0.3.1(react@18.3.1)
-    transitivePeerDependencies:
-      - react
-
   media-tracks@0.3.3: {}
 
   media-typer@1.1.0: {}
@@ -11132,8 +11113,6 @@ snapshots:
   scheduler@0.23.2:
     dependencies:
       loose-envify: 1.4.0
-
-  screenfull@6.0.2: {}
 
   semver@6.3.1: {}
 
