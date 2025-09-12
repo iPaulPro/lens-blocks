@@ -29,8 +29,8 @@ import { useLensPostContext } from "@/registry/new-york/hooks/use-lens-post-cont
 import { useRouter } from "next/navigation";
 import { Dialog, DialogContent } from "@/registry/new-york/ui/dialog";
 import Image from "next/image";
-import AudioPlayer from "@/registry/new-york/components/common/audio-player";
-import VideoPlayer from "@/registry/new-york/components/common/video-player";
+import LensAudioPlayer from "@/registry/new-york/components/common/lens-audio-player";
+import LensVideoPlayer from "@/registry/new-york/components/common/lens-video-player";
 
 type LensPostProps = {
   /**
@@ -123,23 +123,20 @@ export const LensPost = (props: LensPostProps) => {
   const imageUri = image ? parseUri(image.item) : null;
 
   const audio = "audio" in basePost.metadata ? basePost.metadata.audio : null;
-
   const video = "video" in basePost.metadata ? basePost.metadata.video : null;
-  const videoUri = video ? parseUri(video.item) : null;
-  const videoPoster = video && video.cover ? parseUri(video.cover) : undefined;
 
-  function isVideoPlatformUrl(url: string): boolean {
-    const patterns = [
-      /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/.+$/, // YouTube
-      /^(https?:\/\/)?(www\.)?vimeo\.com\/.+$/, // Vimeo
-      /^(https?:\/\/)?(www\.)?twitch\.tv\/.+$/, // Twitch
-      /^(https?:\/\/)?(www\.)?tiktok\.com\/.+$/, // TikTok
-    ];
-
-    return patterns.some(pattern => pattern.test(url));
-  }
-
-  const isVideoEmbed = videoUri ? isVideoPlatformUrl(videoUri) : false;
+  // function isVideoPlatformUrl(url: string): boolean {
+  //   const patterns = [
+  //     /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/.+$/, // YouTube
+  //     /^(https?:\/\/)?(www\.)?vimeo\.com\/.+$/, // Vimeo
+  //     /^(https?:\/\/)?(www\.)?twitch\.tv\/.+$/, // Twitch
+  //     /^(https?:\/\/)?(www\.)?tiktok\.com\/.+$/, // TikTok
+  //   ];
+  //
+  //   return patterns.some(pattern => pattern.test(url));
+  // }
+  //
+  // const isVideoEmbed = videoUri ? isVideoPlatformUrl(videoUri) : false;
 
   const collectAction =
     post && "actions" in post && post.actions?.find(action => action.__typename === "SimpleCollectAction");
@@ -147,7 +144,9 @@ export const LensPost = (props: LensPostProps) => {
   const onReportClick = () => {};
 
   const onCopyClick = () => {
-    const postUrl = `https://hey.xyz/posts/${post.slug}`;
+    const postUrl = postUrlPattern
+      ? postUrlPattern.replace("{slug}", basePost.slug)
+      : `${window.location.origin}/posts/${basePost.slug}`;
     navigator.clipboard
       .writeText(postUrl)
       .then(() => {
@@ -205,11 +204,11 @@ export const LensPost = (props: LensPostProps) => {
                   {name}
                 </span>
                 {author.username?.localName ? (
-                  <span className="text-sm md:text-base text-muted-foreground flex-none  cursor-pointer hover:underline">
+                  <span className="text-sm md:text-base text-muted-foreground truncate cursor-pointer hover:underline">
                     @{author.username.localName}
                   </span>
                 ) : (
-                  <span className="text-sm md:text-base text-muted-foreground flex-none cursor-pointer hover:underline">
+                  <span className="text-sm md:text-base text-muted-foreground truncate cursor-pointer hover:underline">
                     {truncateAddress(author.address)}
                   </span>
                 )}
@@ -271,9 +270,12 @@ export const LensPost = (props: LensPostProps) => {
           />
         )}
         {audio && (
-          <AudioPlayer audio={audio} postTitle={"title" in basePost.metadata ? basePost.metadata.title : undefined} />
+          <LensAudioPlayer
+            audio={audio}
+            postTitle={"title" in basePost.metadata ? basePost.metadata.title : undefined}
+          />
         )}
-        {videoUri ? <VideoPlayer src={videoUri} poster={videoPoster} preload="metadata" /> : null}
+        {video ? <LensVideoPlayer video={video} preload="metadata" /> : null}
         <div className="w-full flex gap-4 md:gap-8 items-center justify-between">
           <div className="w-full flex items-center justify-between md:justify-normal gap-4 md:gap-6 -mx-2">
             <CommentButton onClick={() => undefined} />

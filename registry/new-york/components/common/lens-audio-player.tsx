@@ -12,10 +12,11 @@ type Props = {
   audio: MediaAudio;
   postTitle?: string | null;
   preload?: "none" | "metadata" | "auto" | "";
+  onError?: (e: any) => void;
 };
 
-export default function AudioPlayer(props: Props) {
-  const { audio, postTitle, preload } = props;
+export default function LensAudioPlayer(props: Props) {
+  const { audio, postTitle, preload, onError } = props;
 
   // ReactPlayer looks at the file extension in the source URI to determine how to play the file
   // so we need to append the extension to the url for instances where the audio url does not have an extension
@@ -40,7 +41,8 @@ export default function AudioPlayer(props: Props) {
   type PlayerState = typeof initialState;
 
   const [state, setState] = useState<PlayerState>(initialState);
-  const [showTimeRemaining, setShowTimeRemaining] = useState(false);
+  const [showTimeRemaining, setShowTimeRemaining] = useState(true);
+  const [hasPlayed, setHasPlayed] = useState(false);
 
   if (!audio || !audioUri) {
     return null;
@@ -54,36 +56,24 @@ export default function AudioPlayer(props: Props) {
     setState(prevState => ({ ...prevState, playing: !prevState.playing }));
   };
 
-  const handleStop = () => {
-    setState(prevState => ({ ...prevState, src: undefined, playing: false }));
-  };
-
-  const handleVolumeChange = (event: SyntheticEvent<HTMLInputElement>) => {
-    const inputTarget = event.target as HTMLInputElement;
-    setState(prevState => ({ ...prevState, volume: Number.parseFloat(inputTarget.value) }));
-  };
-
   const handleToggleMuted = () => {
     setState(prevState => ({ ...prevState, muted: !prevState.muted }));
   };
 
   const handlePlay = () => {
-    console.log("onPlay");
     setState(prevState => ({ ...prevState, playing: true }));
+    setHasPlayed(true);
   };
 
   const handleEnterPictureInPicture = () => {
-    console.log("onEnterPictureInPicture");
     setState(prevState => ({ ...prevState, pip: true }));
   };
 
   const handleLeavePictureInPicture = () => {
-    console.log("onLeavePictureInPicture");
     setState(prevState => ({ ...prevState, pip: false }));
   };
 
   const handlePause = () => {
-    console.log("onPause");
     setState(prevState => ({ ...prevState, playing: false }));
   };
 
@@ -108,8 +98,6 @@ export default function AudioPlayer(props: Props) {
     // We only want to update time slider if we are not currently seeking
     if (!player || state.seeking || !player.buffered?.length) return;
 
-    console.log("onProgress");
-
     setState(prevState => ({
       ...prevState,
       loadedSeconds: player.buffered?.end(player.buffered?.length - 1),
@@ -122,8 +110,6 @@ export default function AudioPlayer(props: Props) {
     // We only want to update time slider if we are not currently seeking
     if (!player || state.seeking) return;
 
-    console.log("onTimeUpdate", player.currentTime);
-
     if (!player.duration) return;
 
     setState(prevState => ({
@@ -134,7 +120,6 @@ export default function AudioPlayer(props: Props) {
   };
 
   const handleEnded = () => {
-    console.log("onEnded");
     setState(prevState => ({ ...prevState, playing: false }));
   };
 
@@ -142,7 +127,6 @@ export default function AudioPlayer(props: Props) {
     const player = playerRef.current;
     if (!player) return;
 
-    console.log("onDurationChange", player.duration);
     setState(prevState => ({ ...prevState, duration: player.duration }));
   };
 
@@ -159,13 +143,13 @@ export default function AudioPlayer(props: Props) {
             src={parseUri(audio.cover)!!}
             alt="Cover image"
             className="aspect-square object-cover h-full rounded-l-xl flex-1 cursor-pointer"
-            width={200}
-            height={200}
+            width={192}
+            height={192}
             loading={"lazy"}
           />
         )}
 
-        <div className="w-full min-w-0 flex flex-col h-full px-2 md:px-4 justify-center">
+        <div className="w-full min-w-0 flex flex-col h-full px-2 justify-center">
           <div className="w-full min-w-0 flex flex-col pl-1 gap-1 md:gap-0">
             {(audio.title || postTitle) && (
               <div className="text-sm md:text-lg font-semibold truncate mt-1">{audio.title ?? postTitle}</div>
@@ -180,23 +164,24 @@ export default function AudioPlayer(props: Props) {
             playing={playing}
             volume={volume}
             muted={muted}
-            onLoadStart={() => console.log("onLoadStart")}
-            onReady={() => console.log("onReady")}
-            onStart={e => console.log("onStart", e)}
             onPlay={handlePlay}
             onEnterPictureInPicture={handleEnterPictureInPicture}
             onLeavePictureInPicture={handleLeavePictureInPicture}
             onPause={handlePause}
-            onSeeking={e => console.log("onSeeking", e)}
-            onSeeked={e => console.log("onSeeked", e)}
             onEnded={handleEnded}
-            onError={e => console.log("onError", e)}
+            onError={onError}
             onTimeUpdate={handleTimeUpdate}
             onProgress={handleProgress}
             onDurationChange={handleDurationChange}
           />
-          <div className="w-full flex gap-2 items-center">
-            <Button variant="ghost" size="icon" className="flex-none rounded-full" onClick={handlePlayPause}>
+          <div className="w-full flex gap-1 items-center">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="-ms-2 flex-none rounded-full"
+              onClick={handlePlayPause}
+              disabled={!loaded}
+            >
               {playing ? <PauseIcon fill="var(--primary)" /> : <PlayIcon fill="var(--primary)" />}
             </Button>
             <MediaSeekSlider
@@ -208,20 +193,28 @@ export default function AudioPlayer(props: Props) {
               onMouseDown={handleSeekMouseDown}
               onChange={handleSeekChange}
               className="flex-grow"
+              disabled={!loaded}
             />
             <Button
               variant="ghost"
               size="sm"
               onClick={() => setShowTimeRemaining(!showTimeRemaining)}
               className="flex-none rounded-full"
+              disabled={!loaded}
             >
               <Duration
-                seconds={showTimeRemaining ? duration - playedSeconds : playedSeconds}
-                isCountdown={showTimeRemaining}
+                seconds={!hasPlayed ? duration : showTimeRemaining ? duration - playedSeconds : playedSeconds}
+                isCountdown={hasPlayed && showTimeRemaining}
                 className="flex-none text-sm"
               />
             </Button>
-            <Button variant="ghost" size="icon" className="flex-none rounded-full" onClick={handleToggleMuted}>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="flex-none rounded-full"
+              onClick={handleToggleMuted}
+              disabled={!loaded}
+            >
               {muted ? <VolumeOffIcon fill="var(--primary)" /> : <Volume2Icon fill="var(--primary)" />}
             </Button>
           </div>

@@ -1,4 +1,4 @@
-import { EvmAddress, MediaAudioType } from "@lens-protocol/react";
+import { EvmAddress, MediaAudioType, MediaVideoType } from "@lens-protocol/react";
 
 export const ZeroAddress = "0x0000000000000000000000000000000000000000";
 export const NATIVE_TOKEN = "0x000000000000000000000000000000000000800A";
@@ -95,7 +95,24 @@ export const getAudioExtension = (mediaAudioType: MediaAudioType): string | unde
     case MediaAudioType.AudioFlac:
       return "flac";
     default:
-      return undefined;
+      return "";
+  }
+};
+
+export const getVideoExtension = (mediaVideoType: MediaVideoType): string => {
+  switch (mediaVideoType) {
+    case MediaVideoType.VideoMp4:
+      return "mp4";
+    case MediaVideoType.VideoMpeg:
+      return "mpeg";
+    case MediaVideoType.VideoOgg:
+      return "ogg";
+    case MediaVideoType.VideoQuicktime:
+      return "mov";
+    case MediaVideoType.VideoWebm:
+      return "webm";
+    default:
+      return "";
   }
 };
 
