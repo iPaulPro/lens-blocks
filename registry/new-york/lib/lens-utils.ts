@@ -59,6 +59,13 @@ export const lensUrlToGatewayUrl = (
 export const parseUri = (uri: string | null | undefined): string | undefined => {
   if (!uri) return undefined;
 
+  if (uri.startsWith("data:")) return uri; // Return data URIs as-is
+
+  if (uri.startsWith("https://gw.ipfs-lens.dev/ipfs/")) {
+    const ipfs = uri.replace("https://gw.ipfs-lens.dev/ipfs/", "ipfs://");
+    return ipfsUrlToGatewayUrl(ipfs);
+  }
+
   try {
     const { protocol } = new URL(uri);
     switch (protocol) {
