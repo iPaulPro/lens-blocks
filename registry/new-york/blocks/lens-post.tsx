@@ -8,7 +8,7 @@ import {
 } from "@/registry/new-york/ui/dropdown-menu";
 import { MouseEvent, useEffect, useRef, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/registry/new-york/ui/avatar";
-import { Account, Post, TxHash } from "@lens-protocol/react";
+import { Account, Post, TxHash, URI } from "@lens-protocol/react";
 import { Copy, Flag, MoreHorizontal, UserCircle2 } from "lucide-react";
 import LensMarkdown from "../components/common/lens-markdown";
 import LikeButton from "@/registry/new-york/components/feed/likes/like-button";
@@ -28,8 +28,10 @@ import { useLensPostContext } from "@/registry/new-york/hooks/use-lens-post-cont
 import { useRouter } from "next/navigation";
 import { Dialog, DialogContent } from "@/registry/new-york/ui/dialog";
 import LensAudioPlayer from "@/registry/new-york/components/common/lens-audio-player";
-import LensVideoPlayer from "@/registry/new-york/components/common/lens-video-player";
-import LensImage from "@/registry/new-york/components/common/lens-image";
+import LensVideoPlayer from "@/registry/new-york/components/feed/lens-video-player";
+import LensImage from "@/registry/new-york/components/feed/lens-image";
+import LinkPreview from "@/registry/new-york/components/feed/link-preview";
+import { RegEx } from "@/registry/new-york/lib/regex";
 
 type LensPostProps = {
   /**
@@ -72,6 +74,7 @@ export const LensPost = (props: LensPostProps) => {
 
   const [lightboxUri, setLightboxUri] = useState<string | null>(null);
   const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [urlInContent, setUrlInContent] = useState<string | null>(null);
 
   const { post, loading } = useLensPostContext();
   const router = useRouter();
@@ -82,6 +85,30 @@ export const LensPost = (props: LensPostProps) => {
     }
   }, [lightboxOpen]);
 
+  useEffect(() => {
+    console.log("checking content for urls", post?.slug);
+    if (!post) return;
+
+    const isPost = post.__typename === "Post";
+    const basePost = isPost ? post : post.repostOf;
+    let postMetadata = basePost.metadata;
+    if (postMetadata.__typename === "UnknownPostMetadata") {
+      return;
+    }
+
+    const checkContentForUrls = async () => {
+      const urlRegex = new RegExp(RegEx.URL);
+
+      const urls = postMetadata.content.match(urlRegex);
+      console.log("found urls", basePost.slug, urls);
+      if (!urls?.length) return;
+
+      setUrlInContent(urls[0]);
+    };
+
+    checkContentForUrls();
+  }, [post]);
+
   if (!post) {
     if (loading) {
       return <></>; // TODO return skeleton
@@ -91,15 +118,18 @@ export const LensPost = (props: LensPostProps) => {
 
   const isPost = post.__typename === "Post";
   const basePost = isPost ? post : post.repostOf;
-  if (basePost.metadata.__typename === "UnknownPostMetadata") {
+  const postMetadata = basePost.metadata;
+  if (postMetadata.__typename === "UnknownPostMetadata") {
     return <>Unsupported post type</>;
   }
 
   const author = basePost.author;
-  const name = author.metadata?.name ?? author.username?.localName ?? "[anonymous]";
-  const image = basePost.metadata.__typename === "ImageMetadata" ? basePost.metadata.image : null;
-  const audio = basePost.metadata.__typename === "AudioMetadata" ? basePost.metadata.audio : null;
-  const video = basePost.metadata.__typename === "VideoMetadata" ? basePost.metadata.video : null;
+  const authorName = author.metadata?.name ?? author.username?.localName ?? "[anonymous]";
+  const content = postMetadata.content;
+  const image = postMetadata.__typename === "ImageMetadata" ? postMetadata.image : null;
+  const audio = postMetadata.__typename === "AudioMetadata" ? postMetadata.audio : null;
+  const video = postMetadata.__typename === "VideoMetadata" ? postMetadata.video : null;
+  const link: URI | null = postMetadata.__typename === "LinkMetadata" ? postMetadata.sharingLink : null;
 
   // function isVideoPlatformUrl(url: string): boolean {
   //   const patterns = [
@@ -177,7 +207,7 @@ export const LensPost = (props: LensPostProps) => {
           <div className="flex gap-2 w-full min-w-0">
             <button type="button" onClick={handleAccountClick} className="cursor-pointer">
               <Avatar className="flex-none w-10 h-10">
-                <AvatarImage src={author.metadata?.picture} alt={`${name}'s avatar`} />
+                <AvatarImage src={author.metadata?.picture} alt={`${authorName}'s avatar`} />
                 <AvatarFallback>
                   <UserCircle2 className="w-10 h-10 opacity-45" />
                 </AvatarFallback>
@@ -186,7 +216,7 @@ export const LensPost = (props: LensPostProps) => {
             <div className="flex-grow flex flex-col min-w-0">
               <button type="button" onClick={handleAccountClick} className="flex gap-2 w-full min-w-0">
                 <span className="text-sm md:text-base font-semibold truncate cursor-pointer hover:underline">
-                  {name}
+                  {authorName}
                 </span>
                 {author.username?.localName ? (
                   <span className="text-sm md:text-base text-muted-foreground truncate cursor-pointer hover:underline">
@@ -231,10 +261,10 @@ export const LensPost = (props: LensPostProps) => {
             </DropdownMenu>
           </div>
         </div>
-        {basePost.metadata.content && (
+        {postMetadata.content && (
           <div className="min-h-12 flex items-center">
             <LensMarkdown
-              content={basePost.metadata.content}
+              content={postMetadata.content}
               mentions={basePost.mentions}
               className="text-sm md:text-base"
             />
@@ -258,14 +288,16 @@ export const LensPost = (props: LensPostProps) => {
         {audio && (
           <LensAudioPlayer
             audio={audio}
-            postTitle={"title" in basePost.metadata ? basePost.metadata.title : undefined}
+            postTitle={"title" in postMetadata ? postMetadata.title : undefined}
             onCoverClick={imageUri => {
               setLightboxUri(imageUri);
               setLightboxOpen(true);
             }}
           />
         )}
-        {video ? <LensVideoPlayer video={video} preload="metadata" /> : null}
+        {video && <LensVideoPlayer video={video} preload="metadata" />}
+        {link && <LinkPreview url={link} />}
+        {urlInContent && !image && !audio && !video && !link && <LinkPreview url={urlInContent} />}
         <div className="w-full flex gap-4 md:gap-8 items-center justify-between">
           <div className="w-full flex items-center justify-between md:justify-normal gap-4 md:gap-6 -mx-2">
             <CommentButton onClick={() => undefined} />
