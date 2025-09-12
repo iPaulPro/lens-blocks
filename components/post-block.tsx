@@ -61,14 +61,16 @@ export function PostBlock() {
           {sessionLoading || walletClientLoading ? (
             <Loader className="animate-spin w-4 h-4 text-muted-foreground" />
           ) : (
-            <LensPostProvider postId="1n8vtqy901xcrynmgrb" sessionClient={sessionClient} useTestnet={true}>
+            <LensPostProvider
+              postId="1n8vtqy901xcrynmgrb"
+              sessionClient={sessionClient}
+              walletClient={walletClient}
+              useTestnet={true}
+            >
               <div className="w-full md:w-2/3">
                 <LensPost
                   className="border rounded-md"
-                  lensClient={sessionClient ?? undefined}
-                  walletClient={walletClient}
                   onPostClick={onPostClick}
-                  onAccountClick={onAccountSelected}
                   onRepostSuccess={txHash =>
                     toast.success("Reposted successfully!", {
                       action: (
@@ -92,15 +94,12 @@ import { useSessionClient } from "@lens-protocol/react";
 import { useWalletClient } from "wagmi";`}
       </CodeBlock>
       <CodeBlock lang="tsx" className="lines">
-        {`const { data: sessionClient } = useSessionClient();
-const { data: walletClient } = useWalletClient();`}
+        {`const { data: session } = useSessionClient();
+const { data: wallet } = useWalletClient();`}
       </CodeBlock>
       <CodeBlock lang="tsx" className="lines">
-        {`<LensPostProvider postId="58g7rtbnq9x60fv55w" sessionClient={sessionClient}>
-  <LensPost
-    lensClient={sessionClient}
-    walletClient={walletClient}
-  />
+        {`<LensPostProvider postId={postId} sessionClient={session} walletClient={wallet}>
+  <LensPost />
 </LensPostProvider>`}
       </CodeBlock>
       <h2 className="mt-6 pb-2 text-3xl font-semibold tracking-tight first:mt-0">Examples</h2>
@@ -110,11 +109,14 @@ const { data: walletClient } = useWalletClient();`}
           {sessionLoading || walletClientLoading ? (
             <Loader className="animate-spin w-4 h-4 text-muted-foreground" />
           ) : (
-            <LensPostProvider postId="58g7rtbnq9x60fv55w" sessionClient={sessionClient} useTestnet={true}>
+            <LensPostProvider
+              postId="58g7rtbnq9x60fv55w"
+              sessionClient={sessionClient}
+              walletClient={walletClient}
+              useTestnet={true}
+            >
               <LensPost
                 className="w-full md:w-2/3 border rounded-md"
-                lensClient={sessionClient ?? undefined}
-                walletClient={walletClient}
                 onPostClick={onPostClick}
                 onAccountClick={onAccountSelected}
                 onRepostSuccess={txHash =>
@@ -135,11 +137,14 @@ const { data: walletClient } = useWalletClient();`}
           {sessionLoading || walletClientLoading ? (
             <Loader className="animate-spin w-4 h-4 text-muted-foreground" />
           ) : (
-            <LensPostProvider postId="1z32szv5xqnpaqqncah" sessionClient={sessionClient} useTestnet={true}>
+            <LensPostProvider
+              postId="1z32szv5xqnpaqqncah"
+              sessionClient={sessionClient}
+              walletClient={walletClient}
+              useTestnet={true}
+            >
               <LensPost
                 className="w-full md:w-2/3 border rounded-md"
-                lensClient={sessionClient ?? undefined}
-                walletClient={walletClient}
                 onPostClick={onPostClick}
                 onAccountClick={onAccountSelected}
                 onRepostSuccess={txHash =>
@@ -160,11 +165,14 @@ const { data: walletClient } = useWalletClient();`}
           {sessionLoading || walletClientLoading ? (
             <Loader className="animate-spin w-4 h-4 text-muted-foreground" />
           ) : (
-            <LensPostProvider postId="39d0736810280pbe9vk" sessionClient={sessionClient} useTestnet={true}>
+            <LensPostProvider
+              postId="39d0736810280pbe9vk"
+              sessionClient={sessionClient}
+              walletClient={walletClient}
+              useTestnet={true}
+            >
               <LensPost
                 className="w-full md:w-2/3 border rounded-md"
-                lensClient={sessionClient ?? undefined}
-                walletClient={walletClient}
                 onPostClick={onPostClick}
                 onAccountClick={onAccountSelected}
                 onRepostSuccess={txHash =>

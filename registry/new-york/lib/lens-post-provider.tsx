@@ -13,7 +13,6 @@ import {
   usePost,
   useUndoBookmarkPost,
 } from "@lens-protocol/react";
-import { useWalletClient } from "wagmi";
 import { executePostAction, post as createPost, repost as createRepost } from "@lens-protocol/client/actions";
 import { handleOperationWith } from "@lens-protocol/client/viem";
 import { useReactionToggle } from "@/registry/new-york/hooks/use-reaction-toggle";
@@ -21,6 +20,7 @@ import { NATIVE_TOKEN } from "@/registry/new-york/lib/lens-utils";
 import { textOnly } from "@lens-protocol/metadata";
 import { immutable, StorageClient } from "@lens-chain/storage-client";
 import { chains } from "@lens-chain/sdk/viem";
+import { WalletClient } from "viem";
 
 export type OptimisticState = {
   liked: boolean;
@@ -52,17 +52,25 @@ type PostContextType = {
 
 export const LensPostContext = createContext<PostContextType | undefined>(undefined);
 
-export const LensPostProvider = ({
-  sessionClient,
-  postId,
-  children,
-  useTestnet = false,
-}: {
+type Props = {
+  /**
+   * The Lens Session Client used for making authenticated calls
+   */
   sessionClient: SessionClient | null | undefined;
+
+  /**
+   * The wallet client from viem used to sign messages for authentication.
+   */
+  walletClient?: WalletClient;
+
   postId: string;
+
   children: ReactNode;
+
   useTestnet?: boolean;
-}) => {
+};
+
+export const LensPostProvider = ({ sessionClient, walletClient, postId, children, useTestnet = false }: Props) => {
   const { data, loading, error } = usePost({ post: postId });
 
   const [post, setPost] = useState<Post | undefined | null>(data?.__typename === "Repost" ? data.repostOf : data);
@@ -88,7 +96,6 @@ export const LensPostProvider = ({
     setPost(data?.__typename === "Repost" ? data.repostOf : data);
   }, [data]);
 
-  const { data: walletClient } = useWalletClient();
   const storageClient = StorageClient.create();
   const { execute: toggleReaction } = useReactionToggle();
   const { execute: bookmarkPost } = useBookmarkPost();

@@ -128,7 +128,7 @@ export const getVideoExtension = (mediaVideoType: MediaVideoType): string => {
  */
 export const getUsernamePath = (username: string, namespace?: EvmAddress): string => {
   let path = "/u/";
-  if (namespace && !username.startsWith("@lens")) path += `${namespace}/`;
+  if (namespace && !username.startsWith("lens")) path += `${namespace}/`;
   path += `${username.split("/")[1]}`;
   return path;
 };

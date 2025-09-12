@@ -6,9 +6,9 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/registry/new-york/ui/dropdown-menu";
-import { MouseEvent, useRef, useState } from "react";
+import { MouseEvent, useEffect, useRef, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/registry/new-york/ui/avatar";
-import { Account, Post, PublicClient, SessionClient, TxHash } from "@lens-protocol/react";
+import { Account, Post, TxHash } from "@lens-protocol/react";
 import { Copy, Flag, MoreHorizontal, UserCircle2 } from "lucide-react";
 import LensMarkdown from "../components/common/lens-markdown";
 import LikeButton from "@/registry/new-york/components/feed/likes/like-button";
@@ -18,31 +18,20 @@ import moment from "moment/moment";
 import CollectButton from "@/registry/new-york/components/feed/collects/collect-button";
 import TipButton from "@/registry/new-york/components/feed/tips/tip-button";
 import { cn } from "@/registry/new-york/lib/utils";
-import { parseUri, truncateAddress } from "@/registry/new-york/lib/lens-utils";
+import { getUsernamePath, truncateAddress } from "@/registry/new-york/lib/lens-utils";
 import { Button } from "@/registry/new-york/ui/button";
 import BookmarkButton from "@/registry/new-york/components/feed/bookmarks/bookmark-button";
-import { WalletClient } from "viem";
 import CollectDialog, { CollectDialogRef } from "@/registry/new-york/components/feed/collects/collect-dialog";
 import QuoteDialog, { QuoteDialogRef } from "@/registry/new-york/components/feed/references/quote-dialog";
 import TipDialog, { TipDialogRef } from "@/registry/new-york/components/feed/tips/tip-dialog";
 import { useLensPostContext } from "@/registry/new-york/hooks/use-lens-post-context";
 import { useRouter } from "next/navigation";
 import { Dialog, DialogContent } from "@/registry/new-york/ui/dialog";
-import Image from "next/image";
 import LensAudioPlayer from "@/registry/new-york/components/common/lens-audio-player";
 import LensVideoPlayer from "@/registry/new-york/components/common/lens-video-player";
+import LensImage from "@/registry/new-york/components/common/lens-image";
 
 type LensPostProps = {
-  /**
-   * The Lens Client used for making public and authenticated calls
-   */
-  lensClient?: PublicClient | SessionClient;
-
-  /**
-   * The wallet client from viem used to sign messages for authentication.
-   */
-  walletClient?: WalletClient;
-
   /**
    * Callback function that is called when the user clicks on a post.
    */
@@ -62,14 +51,6 @@ type LensPostProps = {
   postUrlPattern?: string;
 
   /**
-   * The URL pattern to use for generating account links if onAccountClick is not provided.
-   * It should include `{localName}` as a placeholder for the local name and optionally `{namespace}` for the namespace.
-   * If not provided, a default pattern (/u/{namespace}/{localName}) will be used.
-   * * Example: `/u/{localName}` or `https://example.com/u/{localName}`
-   */
-  accountUrlPattern?: string;
-
-  /**
    * Callback function that is called when a repost is successful.
    * It receives the transaction hash as an argument.
    */
@@ -83,25 +64,23 @@ type LensPostProps = {
 };
 
 export const LensPost = (props: LensPostProps) => {
-  const {
-    lensClient,
-    walletClient,
-    onPostClick,
-    onAccountClick,
-    postUrlPattern,
-    accountUrlPattern,
-    onRepostSuccess,
-    className,
-  } = props;
+  const { onPostClick, onAccountClick, postUrlPattern = "/posts/{slug}", onRepostSuccess, className } = props;
 
   const collectDialog = useRef<CollectDialogRef>(null);
   const quoteDialog = useRef<QuoteDialogRef>(null);
   const tipDialog = useRef<TipDialogRef>(null);
 
+  const [lightboxUri, setLightboxUri] = useState<string | null>(null);
   const [lightboxOpen, setLightboxOpen] = useState(false);
 
   const { post, loading } = useLensPostContext();
   const router = useRouter();
+
+  useEffect(() => {
+    if (!lightboxOpen) {
+      setLightboxUri(null);
+    }
+  }, [lightboxOpen]);
 
   if (!post) {
     if (loading) {
@@ -116,14 +95,11 @@ export const LensPost = (props: LensPostProps) => {
     return <>Unsupported post type</>;
   }
 
-  const author = post.author;
+  const author = basePost.author;
   const name = author.metadata?.name ?? author.username?.localName ?? "[anonymous]";
-
-  const image = "image" in basePost.metadata ? basePost.metadata.image : null;
-  const imageUri = image ? parseUri(image.item) : null;
-
-  const audio = "audio" in basePost.metadata ? basePost.metadata.audio : null;
-  const video = "video" in basePost.metadata ? basePost.metadata.video : null;
+  const image = basePost.metadata.__typename === "ImageMetadata" ? basePost.metadata.image : null;
+  const audio = basePost.metadata.__typename === "AudioMetadata" ? basePost.metadata.audio : null;
+  const video = basePost.metadata.__typename === "VideoMetadata" ? basePost.metadata.video : null;
 
   // function isVideoPlatformUrl(url: string): boolean {
   //   const patterns = [
@@ -159,7 +135,16 @@ export const LensPost = (props: LensPostProps) => {
 
   const handleAccountClick = (event: MouseEvent<HTMLButtonElement>) => {
     event.stopPropagation();
-    onAccountClick?.(author);
+    if (onAccountClick) {
+      onAccountClick(author);
+    } else if (author.username) {
+      const path = getUsernamePath(author.username.value, author.username.namespace);
+      if (event.metaKey || event.ctrlKey || event.button === 1) {
+        window.open(path, "_blank");
+      } else {
+        router.push(path);
+      }
+    }
   };
 
   const handlePostClick = (event: MouseEvent<HTMLButtonElement>) => {
@@ -255,16 +240,17 @@ export const LensPost = (props: LensPostProps) => {
             />
           </div>
         )}
-        {image && imageUri && (
-          <Image
-            src={imageUri}
-            alt={image.altTag ?? ""}
-            className="w-full mt-2 border rounded-xl object-contain bg-gray-200 cursor-pointer"
+        {image && (
+          <LensImage
+            image={image}
+            alt={image?.altTag ?? ""}
+            className="w-full mt-2 border rounded-xl object-contain cursor-pointer"
             width={600}
             height={400}
             loading="lazy"
             onClick={event => {
               event.stopPropagation();
+              setLightboxUri(image.item);
               setLightboxOpen(true);
             }}
           />
@@ -273,6 +259,10 @@ export const LensPost = (props: LensPostProps) => {
           <LensAudioPlayer
             audio={audio}
             postTitle={"title" in basePost.metadata ? basePost.metadata.title : undefined}
+            onCoverClick={imageUri => {
+              setLightboxUri(imageUri);
+              setLightboxOpen(true);
+            }}
           />
         )}
         {video ? <LensVideoPlayer video={video} preload="metadata" /> : null}
@@ -280,12 +270,7 @@ export const LensPost = (props: LensPostProps) => {
           <div className="w-full flex items-center justify-between md:justify-normal gap-4 md:gap-6 -mx-2">
             <CommentButton onClick={() => undefined} />
             <LikeButton />
-            <ReferenceButton
-              lensClient={lensClient}
-              walletClient={walletClient}
-              onQuoteClick={() => quoteDialog.current?.open()}
-              onRepostSuccess={onRepostSuccess}
-            />
+            <ReferenceButton onQuoteClick={() => quoteDialog.current?.open()} onRepostSuccess={onRepostSuccess} />
             {collectAction && <CollectButton onClick={() => collectDialog.current?.open()} />}
             <TipButton onClick={() => tipDialog.current?.open()} />
           </div>
@@ -297,10 +282,10 @@ export const LensPost = (props: LensPostProps) => {
       <TipDialog ref={tipDialog} supportedTokens={[]} createTip={async () => undefined} />
       <Dialog open={lightboxOpen} onOpenChange={setLightboxOpen}>
         <DialogContent className="flex justify-center items-center max-h-full max-w-full bg-transparent border-none shadow-none">
-          {lightboxOpen && image && imageUri && (
+          {lightboxOpen && lightboxUri && (
             <img
-              src={imageUri}
-              alt={image.altTag ?? ""}
+              src={lightboxUri}
+              alt={"Image attached to post"}
               className="max-w-full max-h-full object-contain shadow-lg"
               loading="lazy"
             />

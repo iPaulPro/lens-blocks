@@ -4,31 +4,20 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/registry/new-york/ui/dropdown-menu";
-import { AnyPost, Post, postId, PublicClient, SessionClient, TxHash } from "@lens-protocol/react";
-import { repost } from "@lens-protocol/client/actions";
-import { MouseEvent, useState } from "react";
+import { AnyPost, Post, TxHash } from "@lens-protocol/react";
+import { MouseEvent, useEffect, useState } from "react";
 import { CheckCircle, Loader, MessageCircle, Repeat2 } from "lucide-react";
 import { Button } from "@/registry/new-york/ui/button";
-import { handleOperationWith } from "@lens-protocol/client/viem";
-import { WalletClient } from "viem";
 import { useLensPostContext } from "@/registry/new-york/hooks/use-lens-post-context";
 
 type ReferenceButtonProps = {
-  lensClient?: PublicClient | SessionClient;
-  walletClient?: WalletClient;
   onQuoteClick: (post: AnyPost) => void;
   onRepostSuccess?: (txHash: TxHash) => void;
   onError?: (error: Error) => void;
 };
 
-const ReferenceButton = ({
-  lensClient,
-  walletClient,
-  onQuoteClick,
-  onRepostSuccess,
-  onError,
-}: ReferenceButtonProps) => {
-  const { post, loading: postLoading } = useLensPostContext();
+const ReferenceButton = ({ onQuoteClick, onRepostSuccess, onError }: ReferenceButtonProps) => {
+  const { post, repost, loading: postLoading } = useLensPostContext();
 
   const [isDropdownMenuOpen, setIsDropdownMenuOpen] = useState(false);
   const [isPosting, setIsPosting] = useState(false);
@@ -38,6 +27,13 @@ const ReferenceButton = ({
   const [numQuotes, setNumQuotes] = useState<number>(post && "stats" in post ? post.stats.quotes : 0);
 
   const postToReference: Post | null | undefined = post?.__typename === "Repost" ? post.repostOf : post;
+
+  useEffect(() => {
+    if (post && "stats" in post) {
+      setNumReposts(post.stats.reposts);
+      setNumQuotes(post.stats.quotes);
+    }
+  }, [post]);
 
   const onClick = (event: MouseEvent<HTMLButtonElement>) => {
     event.currentTarget.blur();
@@ -49,22 +45,7 @@ const ReferenceButton = ({
     event.stopPropagation();
     setIsPosting(true);
     try {
-      if (!post || !lensClient?.isSessionClient()) {
-        onError?.(new Error("Invalid post or lens client"));
-        return;
-      }
-
-      setIsDropdownMenuOpen(false);
-
-      const res = await repost(lensClient, {
-        post: postId(post.id),
-      }).andThen(handleOperationWith(walletClient));
-
-      if (res.isErr()) {
-        throw res.error;
-      }
-
-      const txHash = res.value;
+      const txHash = await repost();
       if (txHash) {
         setNumReposts(prevNum => prevNum + 1);
         onRepostSuccess?.(txHash);

@@ -13,6 +13,7 @@ type Props = {
   postTitle?: string | null;
   preload?: "none" | "metadata" | "auto" | "";
   onError?: (e: any) => void;
+  onCoverClick?: (imageUri: string) => void;
 };
 
 export default function LensAudioPlayer(props: Props) {
@@ -142,10 +143,11 @@ export default function LensAudioPlayer(props: Props) {
           <Image
             src={parseUri(audio.cover)!!}
             alt="Cover image"
-            className="aspect-square object-cover h-full rounded-l-xl flex-1 cursor-pointer"
+            className="aspect-square object-cover h-full rounded-l-xl flex-1 cursor-pointer hover:opacity-90"
             width={192}
             height={192}
             loading={"lazy"}
+            onClick={() => props.onCoverClick?.(parseUri(audio.cover)!!)}
           />
         )}
 

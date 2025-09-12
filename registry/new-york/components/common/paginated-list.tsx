@@ -28,7 +28,7 @@ export const PaginatedList = <Type extends any>(props: PaginationListProps<Type>
   };
 
   const DefaultFooter = (): ReactNode => {
-    if (!loading || !items) return <div className="h-2"></div>;
+    if (!loading || !items.length) return <div className="h-2"></div>;
     return (
       <div className="w-full h-16 flex items-center justify-center">
         <Loader className="animate-spin flex-none opacity-45 w-6 h-6" />
