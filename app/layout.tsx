@@ -52,7 +52,7 @@ export default function RootLayout({
                   <div className="max-w-3xl flex flex-col min-h-svh px-4 md:px-8 pt-4 pb-8 gap-8">{children}</div>
                 </main>
                 <footer className="w-full max-w-3xl min-h-12 p-4 flex items-center text-center text-sm text-muted-foreground">
-                  <span className="w-full">
+                  <span className="w-full content">
                     Built by{" "}
                     <Link href="https://paulburke.co/" target="_blank" rel="noopener">
                       Paul Burke

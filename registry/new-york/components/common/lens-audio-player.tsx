@@ -66,14 +66,6 @@ export default function LensAudioPlayer(props: Props) {
     setHasPlayed(true);
   };
 
-  const handleEnterPictureInPicture = () => {
-    setState(prevState => ({ ...prevState, pip: true }));
-  };
-
-  const handleLeavePictureInPicture = () => {
-    setState(prevState => ({ ...prevState, pip: false }));
-  };
-
   const handlePause = () => {
     setState(prevState => ({ ...prevState, playing: false }));
   };
@@ -167,8 +159,6 @@ export default function LensAudioPlayer(props: Props) {
             volume={volume}
             muted={muted}
             onPlay={handlePlay}
-            onEnterPictureInPicture={handleEnterPictureInPicture}
-            onLeavePictureInPicture={handleLeavePictureInPicture}
             onPause={handlePause}
             onEnded={handleEnded}
             onError={onError}

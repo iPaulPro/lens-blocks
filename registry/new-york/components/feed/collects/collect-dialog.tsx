@@ -44,7 +44,6 @@ const CollectDialog = forwardRef<CollectDialogRef, CollectDialogProps>(
     }));
 
     useEffect(() => {
-      console.log("CollectDialog: ", { post, action });
       if (!action) {
         setCollectAvailable(false);
         onError?.(new Error("This post is not collectable"));

@@ -27,7 +27,7 @@ export default function LinkPreview(props: Props) {
     <div onClick={event => event.stopPropagation()}>
       <a
         href={url}
-        className="w-full max-w-96 flex flex-col bg-card text-card-foreground border rounded-lg mb-4 cursor-pointer hover:!no-underline"
+        className="w-full max-w-sm flex flex-col bg-card text-card-foreground border rounded-lg mb-4 cursor-pointer hover:!no-underline"
         target="_blank"
         rel="noopener noreferrer"
       >
