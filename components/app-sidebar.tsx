@@ -1,3 +1,5 @@
+"use client";
+
 import * as React from "react";
 import { Anchor, Blocks, BookOpen, BrickWall, Cuboid, Library, MoonIcon } from "lucide-react";
 
@@ -18,6 +20,7 @@ import registry from "@/registry.json";
 import { Button } from "@/registry/new-york/ui/button";
 import Link from "next/link";
 import DarkModeSwitch from "@/components/dark-mode-switch";
+import { usePathname } from "next/navigation";
 
 const data = {
   navMain: [
@@ -89,6 +92,8 @@ const data = {
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const pathname = usePathname();
+
   return (
     <Sidebar variant="sidebar" {...props}>
       <SidebarHeader>
@@ -114,7 +119,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             {data.navMain.map(item => (
               <SidebarMenuItem key={item.title}>
                 <SidebarMenuButton asChild>
-                  <a href={item.url} className="!font-bold">
+                  <a href={item.url} className="font-bold">
                     <item.icon />
                     {item.title}
                   </a>
@@ -123,8 +128,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   <SidebarMenuSub className="px-2.5">
                     {item.items.map(item => (
                       <SidebarMenuSubItem key={item.title}>
-                        <SidebarMenuSubButton asChild isActive={item.isActive} className="h-fit py-1">
-                          <a href={item.url}>{item.title}</a>
+                        <SidebarMenuSubButton asChild isActive={pathname === item.url} className="h-fit py-1">
+                          <a href={item.url} className="font-medium">
+                            {item.title}
+                          </a>
                         </SidebarMenuSubButton>
                       </SidebarMenuSubItem>
                     ))}
