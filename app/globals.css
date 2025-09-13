@@ -163,3 +163,138 @@ p.content {
 .preview {
   @apply border rounded-lg p-4 min-h-60 md:min-h-[450px];
 }
+
+/* Basic editor styles */
+.tiptap:focus-visible {
+  outline: none;
+}
+
+.tiptap {
+  padding: 1rem;
+  min-height: 10rem;
+  text-align: start;
+
+  :first-child {
+    margin-top: 0;
+  }
+
+  /* List styles */
+  ul,
+  ol {
+    padding: 0 1rem;
+    margin: 1.25rem 1rem 1.25rem 0.4rem;
+
+    li p {
+      margin-top: 0.25em;
+      margin-bottom: 0.25em;
+    }
+  }
+
+  /* Heading styles */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    line-height: 1.1;
+    margin-top: 2.5rem;
+    text-wrap: pretty;
+  }
+
+  h1,
+  h2 {
+    margin-top: 3.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  h1 {
+    font-size: 1.4rem;
+  }
+
+  h2 {
+    font-size: 1.2rem;
+  }
+
+  h3 {
+    font-size: 1.1rem;
+  }
+
+  h4,
+  h5,
+  h6 {
+    font-size: 1rem;
+  }
+
+  a {
+    font-weight: 600;
+    color: var(--primary);
+    cursor: pointer;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+
+  /* Code and preformatted text styles */
+  code {
+    background-color: var(--muted-foreground);
+    border-radius: 0.4rem;
+    color: var(--background);
+    padding: 0.1em 0.3em;
+  }
+
+  pre {
+    background: var(--foreground);
+    border-radius: 0.5rem;
+    color: var(--background);
+    margin: 1.5rem 0;
+    padding: 0.75rem 1rem;
+
+    code {
+      background: none;
+      color: inherit;
+      padding: 0;
+    }
+  }
+
+  blockquote {
+    border-left: 3px solid var(--muted-foreground);
+    margin: 1.5rem 0;
+    padding-left: 1rem;
+  }
+
+  hr {
+    border: none;
+    border-top: 1px solid var(--muted-foreground);
+    margin: 2rem 0;
+  }
+
+  /* Placeholder (at the top) */
+  p.is-editor-empty:first-child::before {
+    color: var(--muted-foreground);
+    content: attr(data-placeholder);
+    float: left;
+    height: 0;
+    pointer-events: none;
+  }
+}
+
+/* Bubble menu */
+.bubble-menu {
+  button {
+    @apply bg-transparent p-2 rounded-lg;
+
+    &:hover {
+      @apply bg-muted text-muted-foreground;
+    }
+
+    &.is-active {
+      @apply bg-primary text-primary-foreground;
+
+      &:hover {
+        @apply bg-accent text-accent-foreground;
+      }
+    }
+  }
+}

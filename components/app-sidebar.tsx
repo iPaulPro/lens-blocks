@@ -46,7 +46,7 @@ const data = {
       icon: BrickWall,
       items: registry.items
         .filter(block => block.type === "registry:block")
-        .sort((a, b) => a.title.localeCompare(b.title))
+        .sort((a, b) => a.title.replace("Lens ", "").localeCompare(b.title.replace("Lens ", "")))
         .map(block => ({
           title: block.title.replace("Lens ", ""),
           url: `/blocks/${block.name}`,
@@ -58,7 +58,7 @@ const data = {
       icon: Cuboid,
       items: registry.items
         .filter(component => component.type === "registry:component")
-        .sort((a, b) => a.title.localeCompare(b.title))
+        .sort((a, b) => a.title.replace("Lens ", "").localeCompare(b.title.replace("Lens ", "")))
         .map(component => ({
           title: component.title.replace("Lens ", ""),
           url: `/components/${component.name}`,
@@ -70,7 +70,7 @@ const data = {
       icon: Anchor,
       items: registry.items
         .filter(hook => hook.type === "registry:hook")
-        .sort((a, b) => a.title.localeCompare(b.title))
+        .sort((a, b) => a.title.replace("Lens ", "").localeCompare(b.title.replace("Lens ", "")))
         .map(hook => ({
           title: hook.title.replace("Lens ", ""),
           url: `/hooks/${hook.name}`,
@@ -82,7 +82,7 @@ const data = {
       icon: Library,
       items: registry.items
         .filter(lib => lib.type === "registry:lib")
-        .sort((a, b) => a.title.localeCompare(b.title))
+        .sort((a, b) => a.title.replace("Lens ", "").localeCompare(b.title.replace("Lens ", "")))
         .map(lib => ({
           title: lib.title.replace("Lens ", ""),
           url: `/libs/${lib.name}`,

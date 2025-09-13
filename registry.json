@@ -100,7 +100,7 @@
       ]
     },
     {
-      "name": "lens-post-provider",
+      "name": "post-provider",
       "type": "registry:lib",
       "title": "Lens Post Provider",
       "description": "A provider of a shared Lens post context for queries and operations.",
@@ -172,6 +172,61 @@
         {
           "path": "registry/new-york/components/common/lens-account-list-item-skeleton.tsx",
           "type": "registry:component"
+        },
+        {
+          "path": "registry/new-york/lib/lens-utils.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "text-editor",
+      "type": "registry:component",
+      "title": "Lens Text Editor",
+      "description": "A rich text editor component using TipTap that exports in Markdown, with support for Lens mentions.",
+      "registryDependencies": ["avatar", "button", "skeleton"],
+      "dependencies": [
+        "@lens-protocol/react@0.0.0-canary-20250725092937",
+        "@lens-protocol/client@0.0.0-canary-20250725092937",
+        "@tiptap/core",
+        "@tiptap/pm",
+        "@tiptap/react",
+        "@tiptap/starter-kit",
+        "@tiptap/extension-placeholder",
+        "@tiptap/extension-mention",
+        "unified",
+        "rehype-parse",
+        "rehype-remark",
+        "remark-stringify",
+        "remark-gfm",
+        "remark-linkify-regex",
+        "tippy.js",
+        "unist-util-visit"
+      ],
+      "files": [
+        {
+          "path": "registry/new-york/components/common/editor/lens-text-editor.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "registry/new-york/components/common/editor/lens-mentions-list.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "registry/new-york/lib/mention.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "registry/new-york/lib/rehype-mention-to-markdown.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "registry/new-york/lib/simple-link-extension.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "registry/new-york/lib/rehype-simple-link-to-markdown.ts",
+          "type": "registry:lib"
         },
         {
           "path": "registry/new-york/lib/lens-utils.ts",

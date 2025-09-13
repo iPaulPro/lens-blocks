@@ -18,7 +18,7 @@ import moment from "moment/moment";
 import CollectButton from "@/registry/new-york/components/feed/collects/collect-button";
 import TipButton from "@/registry/new-york/components/feed/tips/tip-button";
 import { cn } from "@/registry/new-york/lib/utils";
-import { getUsernamePath, truncateAddress } from "@/registry/new-york/lib/lens-utils";
+import { getUsernamePath, parseUri, truncateAddress } from "@/registry/new-york/lib/lens-utils";
 import { Button } from "@/registry/new-york/ui/button";
 import BookmarkButton from "@/registry/new-york/components/feed/bookmarks/bookmark-button";
 import CollectDialog, { CollectDialogRef } from "@/registry/new-york/components/feed/collects/collect-dialog";
@@ -32,6 +32,7 @@ import LensVideoPlayer from "@/registry/new-york/components/feed/lens-video-play
 import LensImage from "@/registry/new-york/components/feed/lens-image";
 import LinkPreview from "@/registry/new-york/components/feed/link-preview";
 import { RegEx } from "@/registry/new-york/lib/regex";
+import Link from "next/link";
 
 type LensPostProps = {
   /**
@@ -43,6 +44,11 @@ type LensPostProps = {
    * Callback function that is called when the user clicks on an account.
    */
   onAccountClick?: (account: Account) => void;
+
+  /**
+   * Callback function that is called when the post URL is copied to clipboard.
+   */
+  onPostUrlCopied?: () => void;
 
   /**
    * The URL pattern to use for generating post links if onPostClick is not provided.
@@ -66,7 +72,14 @@ type LensPostProps = {
 };
 
 export const LensPost = (props: LensPostProps) => {
-  const { onPostClick, onAccountClick, postUrlPattern = "/posts/{slug}", onRepostSuccess, className } = props;
+  const {
+    onPostClick,
+    onAccountClick,
+    postUrlPattern = "/posts/{slug}",
+    onRepostSuccess,
+    onPostUrlCopied,
+    className,
+  } = props;
 
   const collectDialog = useRef<CollectDialogRef>(null);
   const quoteDialog = useRef<QuoteDialogRef>(null);
@@ -86,7 +99,6 @@ export const LensPost = (props: LensPostProps) => {
   }, [lightboxOpen]);
 
   useEffect(() => {
-    console.log("checking content for urls", post?.slug);
     if (!post) return;
 
     const isPost = post.__typename === "Post";
@@ -100,7 +112,6 @@ export const LensPost = (props: LensPostProps) => {
       const urlRegex = new RegExp(RegEx.URL);
 
       const urls = postMetadata.content.match(urlRegex);
-      console.log("found urls", basePost.slug, urls);
       if (!urls?.length) return;
 
       setUrlInContent(urls[0]);
@@ -155,9 +166,7 @@ export const LensPost = (props: LensPostProps) => {
       : `${window.location.origin}/posts/${basePost.slug}`;
     navigator.clipboard
       .writeText(postUrl)
-      .then(() => {
-        console.log("Post link copied to clipboard:", postUrl);
-      })
+      .then(onPostUrlCopied)
       .catch(err => {
         console.error("Failed to copy post link:", err);
       });
@@ -207,14 +216,14 @@ export const LensPost = (props: LensPostProps) => {
           <div className="flex gap-2 w-full min-w-0">
             <button type="button" onClick={handleAccountClick} className="cursor-pointer">
               <Avatar className="flex-none w-10 h-10">
-                <AvatarImage src={author.metadata?.picture} alt={`${authorName}'s avatar`} />
+                <AvatarImage src={parseUri(author.metadata?.picture)} alt={`${authorName}'s avatar`} />
                 <AvatarFallback>
                   <UserCircle2 className="w-10 h-10 opacity-45" />
                 </AvatarFallback>
               </Avatar>
             </button>
             <div className="flex-grow flex flex-col min-w-0">
-              <button type="button" onClick={handleAccountClick} className="flex gap-2 w-full min-w-0">
+              <button type="button" onClick={handleAccountClick} className="flex gap-1 w-full min-w-0">
                 <span className="text-sm md:text-base font-semibold truncate cursor-pointer hover:underline">
                   {authorName}
                 </span>
@@ -228,9 +237,18 @@ export const LensPost = (props: LensPostProps) => {
                   </span>
                 )}
               </button>
-              <abbr title={new Date(post.timestamp).toLocaleString()} className="text-xs opacity-65 no-underline">
-                {moment(post.timestamp).fromNow(true)}
-              </abbr>
+              <Link
+                href={postUrlPattern.replace("{slug}", basePost.slug)}
+                onClick={e => e.stopPropagation()}
+                className="contents"
+              >
+                <abbr
+                  title={new Date(post.timestamp).toLocaleString()}
+                  className="text-xs opacity-65 no-underline hover:underline m-0 p-0"
+                >
+                  {moment(post.timestamp).fromNow(true)}
+                </abbr>
+              </Link>
             </div>
           </div>
           <div className="flex gap-2">

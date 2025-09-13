@@ -3,6 +3,7 @@ import PaginatedList from "@/components/paginated-list";
 import AccountListItemSkeleton from "@/components/account-list-item-skeleton";
 import LoginButton from "@/components/login-button";
 import AccountChooser from "@/components/account-chooser";
+import TextEditor from "@/components/text-editor";
 
 export default async function Page({ params }: { params: Promise<{ component: string }> }) {
   const { component } = await params;
@@ -20,6 +21,8 @@ export default async function Page({ params }: { params: Promise<{ component: st
       return <LoginButton />;
     case "paginated-list":
       return <PaginatedList />;
+    case "text-editor":
+      return <TextEditor />;
     default:
       return <div>Component not found</div>;
   }
