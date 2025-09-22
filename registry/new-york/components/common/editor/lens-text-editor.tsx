@@ -17,9 +17,12 @@ import { Mention } from "@/registry/new-york/lib/mention";
 import { rehypeMentionToMarkdown } from "@/registry/new-york/lib/rehype-mention-to-markdown";
 import { BoldIcon, CodeIcon, ItalicIcon, StrikethroughIcon, TextQuoteIcon } from "lucide-react";
 import { Button } from "@/registry/new-york/ui/button";
+import remarkParse from "remark-parse";
+import rehypeStringify from "rehype-stringify";
 
 export interface EditorRef {
   getContent: () => string;
+  setContent: (content: string) => void;
   clearContent: () => void;
 }
 
@@ -82,8 +85,22 @@ const LensTextEditor = forwardRef<EditorRef, Props>(({ editable = true, classNam
     return unescapeUnderscore(markdown);
   };
 
+  const setContent = (markdown: string) => {
+    const html = unified()
+      .use(remarkParse)
+      .use(remarkGfm)
+      .use(remarkStringify)
+      .use(rehypeRemark)
+      .use(rehypeStringify)
+      .processSync(markdown)
+      .toString();
+
+    editor?.commands.setContent(html);
+  };
+
   useImperativeHandle(ref, () => ({
     getContent,
+    setContent,
     clearContent: () => editor?.commands.clearContent(),
   }));
 
