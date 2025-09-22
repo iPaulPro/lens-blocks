@@ -221,14 +221,6 @@
           "type": "registry:lib"
         },
         {
-          "path": "registry/new-york/lib/simple-link-extension.ts",
-          "type": "registry:lib"
-        },
-        {
-          "path": "registry/new-york/lib/rehype-simple-link-to-markdown.ts",
-          "type": "registry:lib"
-        },
-        {
           "path": "registry/new-york/lib/lens-utils.ts",
           "type": "registry:lib"
         }

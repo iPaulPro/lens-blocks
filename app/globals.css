@@ -126,7 +126,8 @@
 }
 
 @layer components {
-  button, [role="button"] {
+  button,
+  [role="button"] {
     cursor: var(--media-cursor, pointer);
   }
 }
