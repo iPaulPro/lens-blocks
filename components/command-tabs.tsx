@@ -176,7 +176,10 @@ function MultiCommandBlock({
             className="mt-0 p-4 font-mono bg-card rounded-b-md overflow-x-auto"
           >
             {html && (
-              <p className="break-words whitespace-pre-wrap text-primary" dangerouslySetInnerHTML={{ __html: html }} />
+              <div
+                className="break-words whitespace-pre-wrap text-primary"
+                dangerouslySetInnerHTML={{ __html: html }}
+              />
             )}
           </TabsContent>
         ))}

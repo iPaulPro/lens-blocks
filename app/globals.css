@@ -133,11 +133,19 @@
 }
 
 p.content {
-  @apply leading-7 [&:not(:first-child)]:mt-4;
+  @apply leading-7 [&:not(:first-child)]:mt-4 max-w-3xl;
 }
 
 .content a {
   @apply font-semibold hover:underline;
+}
+
+.content code {
+  background-color: var(--muted-foreground);
+  border-radius: 0.4rem;
+  color: var(--muted);
+  padding: 0.1em 0.3em;
+  font-weight: 600;
 }
 
 .lines pre {
