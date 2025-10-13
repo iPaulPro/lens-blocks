@@ -1,30 +1,11 @@
 "use client";
 
 import { OpenInV0Button } from "@/components/open-in-v0-button";
-import CommandBlock from "@/components/command-tabs";
 import { CodeBlock } from "@/components/codeblock";
 import { LensAccountListItemSkeleton } from "@/registry/new-york/components/common/lens-account-list-item-skeleton";
+import { InstallCommandBlock } from "@/components/install-command-block";
 
 export default function AccountListItemSkeleton() {
-  const commands = [
-    {
-      label: "npm",
-      command: "npx shadcn@latest add @lens-blocks/account-list-item.json",
-    },
-    {
-      label: "yarn",
-      command: "yarn dlx shadcn@latest add @lens-blocks/account-list-item.json",
-    },
-    {
-      label: "pnpm",
-      command: "pnpm dlx shadcn@latest add @lens-blocks/account-list-item.json",
-    },
-    {
-      label: "bun",
-      command: "bunx --bun shadcn@latest add @lens-blocks/account-list-item.json",
-    },
-  ];
-
   return (
     <>
       <div className="flex flex-col flex-1 gap-8">
@@ -41,7 +22,7 @@ export default function AccountListItemSkeleton() {
         </div>
       </div>
       <h2 className="mt-6 pb-2 text-3xl font-semibold tracking-tight first:mt-0">Installation</h2>
-      <CommandBlock commands={commands} />
+      <InstallCommandBlock componentName="account-list-item-skeleton" />
       <h2 className="mt-6 pb-2 text-3xl font-semibold tracking-tight first:mt-0">Usage</h2>
       <CodeBlock lang="tsx" className="lines">
         {`import { LensAccountListItemSkeleton } from "@/components/lens-account-list-item-skeleton";`}

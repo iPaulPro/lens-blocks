@@ -4,8 +4,8 @@ import { Account } from "@lens-protocol/react";
 import { OpenInV0Button } from "@/components/open-in-v0-button";
 import { LensAccountChooser } from "@/registry/new-york/components/account/lens-account-chooser";
 import { toast } from "sonner";
-import CommandBlock from "@/components/command-tabs";
 import { CodeBlock } from "@/components/codeblock";
+import { InstallCommandBlock } from "@/components/install-command-block";
 
 export default function AccountChooser() {
   const onAccountSelected = (account: Account) => {
@@ -18,25 +18,6 @@ export default function AccountChooser() {
       toast.success("Account clicked: " + account.address);
     }
   };
-
-  const commands = [
-    {
-      label: "npm",
-      command: "npx shadcn@latest add @lens-blocks/account-chooser.json",
-    },
-    {
-      label: "yarn",
-      command: "yarn dlx shadcn@latest add @lens-blocks/account-chooser.json",
-    },
-    {
-      label: "pnpm",
-      command: "pnpm dlx shadcn@latest add @lens-blocks/account-chooser.json",
-    },
-    {
-      label: "bun",
-      command: "bunx --bun shadcn@latest add @lens-blocks/account-chooser.json",
-    },
-  ];
 
   return (
     <>
@@ -56,7 +37,7 @@ export default function AccountChooser() {
           </div>
         </div>
         <h2 className="mt-6 pb-2 text-3xl font-semibold tracking-tight first:mt-0">Installation</h2>
-        <CommandBlock commands={commands} />
+        <InstallCommandBlock componentName="account-chooser" />
         <h2 className="mt-6 pb-2 text-3xl font-semibold tracking-tight first:mt-0">Usage</h2>
         <CodeBlock lang="tsx" className="lines">
           {`import { LensAccountChooser } from "@/components/lens-account-chooser";`}

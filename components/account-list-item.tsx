@@ -5,8 +5,8 @@ import { OpenInV0Button } from "@/components/open-in-v0-button";
 import { Loader } from "lucide-react";
 import { LensAccountListItem } from "@/registry/new-york/components/common/lens-account-list-item";
 import { toast } from "sonner";
-import CommandBlock from "@/components/command-tabs";
 import { CodeBlock } from "@/components/codeblock";
+import { InstallCommandBlock } from "@/components/install-command-block";
 
 export default function AccountListItem() {
   const { data: account, loading: accountLoading } = useAccount({
@@ -23,25 +23,6 @@ export default function AccountListItem() {
       toast.success("Account clicked: " + account.address);
     }
   };
-
-  const commands = [
-    {
-      label: "npm",
-      command: "npx shadcn@latest add @lens-blocks/account-list-item.json",
-    },
-    {
-      label: "yarn",
-      command: "yarn dlx shadcn@latest add @lens-blocks/account-list-item.json",
-    },
-    {
-      label: "pnpm",
-      command: "pnpm dlx shadcn@latest add @lens-blocks/account-list-item.json",
-    },
-    {
-      label: "bun",
-      command: "bunx --bun shadcn@latest add @lens-blocks/account-list-item.json",
-    },
-  ];
 
   return (
     <>
@@ -65,7 +46,7 @@ export default function AccountListItem() {
         </div>
       </div>
       <h2 className="mt-6 pb-2 text-3xl font-semibold tracking-tight first:mt-0">Installation</h2>
-      <CommandBlock commands={commands} />
+      <InstallCommandBlock componentName="account-list-item" />
       <h2 className="mt-6 pb-2 text-3xl font-semibold tracking-tight first:mt-0">Usage</h2>
       <CodeBlock lang="tsx" className="lines">
         {`import { LensAccountListItem } from "@/components/lens-account-list-item";

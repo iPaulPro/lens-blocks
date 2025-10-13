@@ -34,6 +34,7 @@ type Props = {
 
 const LensTextEditor = forwardRef<EditorRef, Props>(({ editable = true, className, placeholder }, ref) => {
   const editor = useEditor({
+    immediatelyRender: false,
     extensions: [
       StarterKit.configure({
         hardBreak: false,

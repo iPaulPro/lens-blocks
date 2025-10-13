@@ -5,8 +5,8 @@ import { OpenInV0Button } from "@/components/open-in-v0-button";
 import { toast } from "sonner";
 import { Loader } from "lucide-react";
 import LikesList from "@/registry/new-york/components/feed/likes/likes-list";
-import CommandBlock from "@/components/command-tabs";
 import { CodeBlock } from "@/components/codeblock";
+import { InstallCommandBlock } from "@/components/install-command-block";
 
 export default function PaginatedList() {
   const { data: post, loading: postLoading } = usePost({
@@ -30,25 +30,6 @@ export default function PaginatedList() {
 
   if (!post) return null;
 
-  const commands = [
-    {
-      label: "npm",
-      command: "npx shadcn@latest add @lens-blocks/paginated-list.json",
-    },
-    {
-      label: "yarn",
-      command: "yarn dlx shadcn@latest add @lens-blocks/paginated-list.json",
-    },
-    {
-      label: "pnpm",
-      command: "pnpm dlx shadcn@latest add @lens-blocks/paginated-list.json",
-    },
-    {
-      label: "bun",
-      command: "bunx --bun shadcn@latest add @lens-blocks/paginated-list.json",
-    },
-  ];
-
   return (
     <>
       <div className="flex flex-col flex-1 gap-8">
@@ -64,7 +45,7 @@ export default function PaginatedList() {
           </div>
         </div>
         <h2 className="mt-6 pb-2 text-3xl font-semibold tracking-tight first:mt-0">Installation</h2>
-        <CommandBlock commands={commands} />
+        <InstallCommandBlock componentName="paginated-list" />
         <h2 className="mt-6 pb-2 text-3xl font-semibold tracking-tight first:mt-0">Usage</h2>
         <CodeBlock lang="tsx" className="lines">
           {`import { useState } from "react";

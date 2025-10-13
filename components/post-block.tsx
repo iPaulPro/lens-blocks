@@ -9,7 +9,7 @@ import { toast } from "sonner";
 import { Button } from "@/registry/new-york/ui/button";
 import { useWalletClient } from "wagmi";
 import { CodeBlock } from "@/components/codeblock";
-import CommandBlock from "@/components/command-tabs";
+import { InstallCommandBlock } from "@/components/install-command-block";
 
 export function PostBlock() {
   const { data: sessionClient, loading: sessionLoading } = useSessionClient();
@@ -30,25 +30,6 @@ export function PostBlock() {
       toast.success("Account clicked: " + account.address);
     }
   };
-
-  const commands = [
-    {
-      label: "npm",
-      command: "npx shadcn@latest add @lens-blocks/post.json",
-    },
-    {
-      label: "yarn",
-      command: "yarn dlx shadcn@latest add @lens-blocks/post.json",
-    },
-    {
-      label: "pnpm",
-      command: "pnpm dlx shadcn@latest add @lens-blocks/post.json",
-    },
-    {
-      label: "bun",
-      command: "bunx --bun shadcn@latest add @lens-blocks/post.json",
-    },
-  ];
 
   return (
     <div className="flex flex-col flex-1 gap-8">
@@ -85,7 +66,7 @@ export function PostBlock() {
         </div>
       </div>
       <h2 className="mt-6 pb-2 text-3xl font-semibold tracking-tight first:mt-0">Installation</h2>
-      <CommandBlock commands={commands} />
+      <InstallCommandBlock componentName="post" />
       <h2 className="mt-6 pb-2 text-3xl font-semibold tracking-tight first:mt-0">Usage</h2>
       <CodeBlock lang="tsx" className="lines">
         {`import { LensPostProvider } from "@/lib/lens-post-context";

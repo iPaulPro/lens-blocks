@@ -1,7 +1,6 @@
 "use client";
 
 import { OpenInV0Button } from "@/components/open-in-v0-button";
-import CommandBlock from "@/components/command-tabs";
 import { CodeBlock } from "@/components/codeblock";
 import { LensLoginButton } from "@/registry/new-york/components/account/lens-login-button";
 import { toast } from "sonner";
@@ -9,27 +8,9 @@ import { Alert, AlertDescription, AlertTitle } from "@/registry/new-york/ui/aler
 import { Blocks } from "lucide-react";
 import { Button } from "@/registry/new-york/ui/button";
 import Link from "next/link";
+import { InstallCommandBlock } from "@/components/install-command-block";
 
 export default function LoginButton() {
-  const commands = [
-    {
-      label: "npm",
-      command: "npx shadcn@latest add @lens-blocks/login-button.json",
-    },
-    {
-      label: "yarn",
-      command: "yarn dlx shadcn@latest add @lens-blocks/login-button.json",
-    },
-    {
-      label: "pnpm",
-      command: "pnpm dlx shadcn@latest add @lens-blocks/login-button.json",
-    },
-    {
-      label: "bun",
-      command: "bunx --bun shadcn@latest add @lens-blocks/login-button.json",
-    },
-  ];
-
   return (
     <>
       <div className="flex flex-col flex-1 gap-8">
@@ -57,7 +38,7 @@ export default function LoginButton() {
         </div>
       </Alert>
       <h2 className="mt-6 pb-2 text-3xl font-semibold tracking-tight first:mt-0">Installation</h2>
-      <CommandBlock commands={commands} />
+      <InstallCommandBlock componentName="login-button" />
       <h2 className="mt-6 pb-2 text-3xl font-semibold tracking-tight first:mt-0">Usage</h2>
       <CodeBlock lang="tsx" className="lines">
         {`import { LensLoginButton } from "@/components/lens-login-button";`}

@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Clipboard, SquareTerminal, Check } from "lucide-react";
+import { Check, Clipboard, SquareTerminal } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/registry/new-york/ui/tabs";
 import { Separator } from "@/registry/new-york/ui/separator";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/registry/new-york/ui/tooltip";
@@ -90,7 +90,11 @@ function MultiCommandBlock({
   className?: string;
 }) {
   const [copied, setCopied] = useState(false);
-  const [activeTab, setActiveTab] = useState(defaultValue || commands[0]?.label);
+  const [activeTab, setActiveTab] = useState(
+    defaultValue ||
+      (typeof window !== "undefined" && localStorage?.getItem("lens-blocks-command-block-tab")) ||
+      commands[0]?.label,
+  );
   const [html, setHtml] = useState<string | null>(null);
   const [theme, setTheme] = useState("github-dark-default");
 
@@ -128,6 +132,12 @@ function MultiCommandBlock({
 
     generateHtml();
   }, [activeCommand, theme]);
+
+  useEffect(() => {
+    if (activeTab) {
+      localStorage?.setItem("lens-blocks-command-block-tab", activeTab);
+    }
+  }, [activeTab]);
 
   return (
     <div className={cn("w-full mx-auto", className)}>

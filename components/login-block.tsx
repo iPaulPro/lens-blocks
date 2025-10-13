@@ -4,33 +4,14 @@ import { AuthenticatedUser, useSessionClient } from "@lens-protocol/react";
 import { OpenInV0Button } from "@/components/open-in-v0-button";
 import { Loader } from "lucide-react";
 import { LensLogin } from "@/registry/new-york/blocks/lens-login";
-import CommandBlock from "@/components/command-tabs";
 import { CodeBlock } from "@/components/codeblock";
 import { toast } from "sonner";
 import { useWalletClient } from "wagmi";
+import { InstallCommandBlock } from "@/components/install-command-block";
 
 export function LoginBlock() {
   const { data: sessionClient, loading: sessionLoading } = useSessionClient();
   const { data: walletClient, isLoading: walletClientLoading } = useWalletClient();
-
-  const commands = [
-    {
-      label: "npm",
-      command: "npx shadcn@latest add @lens-blocks/login.json",
-    },
-    {
-      label: "yarn",
-      command: "yarn dlx shadcn@latest add @lens-blocks/login.json",
-    },
-    {
-      label: "pnpm",
-      command: "pnpm dlx shadcn@latest add @lens-blocks/login.json",
-    },
-    {
-      label: "bun",
-      command: "bunx --bun shadcn@latest add @lens-blocks/login.json",
-    },
-  ];
 
   // Callback function that is called when the user successfully logs in
   const onLoginSuccess = (authenticatedUser: AuthenticatedUser) => {
@@ -66,7 +47,7 @@ export function LoginBlock() {
           </div>
         </div>
         <h2 className="mt-6 pb-2 text-3xl font-semibold tracking-tight first:mt-0">Installation</h2>
-        <CommandBlock commands={commands} />
+        <InstallCommandBlock componentName="login" />
         <h2 className="mt-6 pb-2 text-3xl font-semibold tracking-tight first:mt-0">Usage</h2>
         <CodeBlock lang="tsx" className="lines">
           {`import { LensLogin } from "@/components/lens-login";
