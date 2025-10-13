@@ -2,6 +2,7 @@
 
 import { InstallCommandBlock } from "@/components/install-command-block";
 import { CodeBlock } from "@/components/codeblock";
+import Link from "next/link";
 
 export default function PostProvider() {
   return (
@@ -9,7 +10,7 @@ export default function PostProvider() {
       <p className="content">
         This library provides a React context provider component called <code>LensPostProvider</code> that manages and
         supplies Post-related data and functionalities to its child components. The Post context can be accessed using
-        the <a href="/hooks/use-post-context">useLensPostContext</a> hook.
+        the <Link href="/hooks/use-post-context">useLensPostContext</Link> hook.
       </p>
       <h2 className="mt-6 pb-2 text-3xl font-semibold tracking-tight first:mt-0">Installation</h2>
       <InstallCommandBlock componentName="use-lens-post-context" />

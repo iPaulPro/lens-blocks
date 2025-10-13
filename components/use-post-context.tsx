@@ -3,13 +3,14 @@
 import { InstallCommandBlock } from "@/components/install-command-block";
 import { CodeBlock } from "@/components/codeblock";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/registry/new-york/ui/table";
+import Link from "next/link";
 
 export default function UsePostContext() {
   return (
     <div className="flex flex-col flex-1 gap-8">
       <p className="content">
-        This hook exposes the Post context from <a href="/libs/post-provider">LensPostProvider</a> allowing access to
-        the post data and related functionalities within the context of a Lens Post. It is useful for components that
+        This hook exposes the Post context from <Link href="/libs/post-provider">LensPostProvider</Link> allowing access
+        to the post data and related functionalities within the context of a Lens Post. It is useful for components that
         need to interact with or display information about a specific Post.
       </p>
       <h2 className="mt-6 pb-2 text-3xl font-semibold tracking-tight first:mt-0">Installation</h2>
