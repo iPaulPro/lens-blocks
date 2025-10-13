@@ -16,7 +16,7 @@ import {
 import { executePostAction, post as createPost, repost as createRepost } from "@lens-protocol/client/actions";
 import { handleOperationWith } from "@lens-protocol/client/viem";
 import { useReactionToggle } from "@/registry/new-york/hooks/use-reaction-toggle";
-import { NATIVE_TOKEN } from "@/registry/new-york/lib/lens-utils";
+import { NativeToken } from "@/registry/new-york/lib/lens-utils";
 import { textOnly } from "@lens-protocol/metadata";
 import { immutable, StorageClient } from "@lens-chain/storage-client";
 import { chains } from "@lens-chain/sdk/viem";
@@ -335,7 +335,7 @@ export const LensPostProvider = ({ sessionClient, walletClient, postId, children
       action: {
         tipping: {
           paymentSource,
-          ...(tokenAddress === NATIVE_TOKEN ? { native: amount } : { value: amount, token: evmAddress(tokenAddress) }),
+          ...(tokenAddress === NativeToken ? { native: amount } : { value: amount, token: evmAddress(tokenAddress) }),
         },
       },
     })

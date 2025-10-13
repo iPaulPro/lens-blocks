@@ -13,7 +13,7 @@ export default function UsePostContext() {
         need to interact with or display information about a specific Post.
       </p>
       <h2 className="mt-6 pb-2 text-3xl font-semibold tracking-tight first:mt-0">Installation</h2>
-      <InstallCommandBlock componentName="use-lens-post-context" />
+      <InstallCommandBlock componentName="use-post-context" />
       <h2 className="mt-6 pb-2 text-3xl font-semibold tracking-tight first:mt-0">Usage</h2>
       <p className="content !mt-0">
         This hook can only be used in components that are children of a <code>LensPostProvider</code>.

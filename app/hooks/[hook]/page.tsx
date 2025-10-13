@@ -8,11 +8,11 @@ export default async function Page({ params }: { params: Promise<{ hook: string 
   if (!hook) return null;
 
   switch (hook) {
-    case "use-authenticated-lens-account":
+    case "use-authenticated-account":
       return <UseAuthenticatedAccount />;
-    case "use-lens-login-with-viem":
+    case "use-login-with-viem":
       return <UseLoginWithViem />;
-    case "use-lens-post-context":
+    case "use-post-context":
       return <UsePostContext />;
     default:
       return <div>Hook not found</div>;

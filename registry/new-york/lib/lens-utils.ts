@@ -1,7 +1,7 @@
 import { EvmAddress, MediaAudioType, MediaVideoType } from "@lens-protocol/react";
 
 export const ZeroAddress = "0x0000000000000000000000000000000000000000";
-export const NATIVE_TOKEN = "0x000000000000000000000000000000000000800A";
+export const NativeToken = "0x000000000000000000000000000000000000800A";
 
 /**
  * Truncate a string to a maximum length, adding an ellipsis in the middle
@@ -18,11 +18,28 @@ export const truncateAddress = (address: string, maxLength: number = 8): string 
   return address.slice(0, startLength) + ellipsis + address.slice(address.length - endLength);
 };
 
+/**
+ * Extract the CID from an IPFS URL
+ * Examples:
+ * * getCidFromIpfsUrl("ipfs://Qm...") => "Qm..."
+ * * getCidFromIpfsUrl("ipfs://Qm.../path/to/file") => "Qm..."
+ *
+ * @param ipfsUrl The IPFS URL to extract the CID from
+ */
 export const getCidFromIpfsUrl = (ipfsUrl: string): string => {
   if (!ipfsUrl.startsWith("ipfs://")) throw new Error("IPFS urls must begin with ipfs://");
   return ipfsUrl.replace("ipfs://", "").replace(/^\/+|\/+$/g, "");
 };
 
+/**
+ *  Convert an IPFS URL to a gateway URL
+ *  Examples:
+ *  * ipfsUrlToGatewayUrl("ipfs://Qm...") => "https://ipfs.io/ipfs/Qm..."
+ *  * ipfsUrlToGatewayUrl("ipfs://Qm.../path/to/file") => "https://ipfs.io/ipfs/Qm.../path/to/file"
+ *
+ * @param ipfsUrl The IPFS URL to convert
+ * @param gatewayDomain The gateway domain to use (default: https://ipfs.io/ipfs/)
+ */
 export const ipfsUrlToGatewayUrl = (
   ipfsUrl: string | undefined,
   gatewayDomain: string = "https://ipfs.io/ipfs/",
@@ -34,6 +51,15 @@ export const ipfsUrlToGatewayUrl = (
   return path ? `${gatewayUrl}${path}` : gatewayUrl;
 };
 
+/**
+ * Convert an Arweave URL to a gateway URL
+ *
+ * Examples:
+ * * arweaveUrlToGatewayUrl("ar://TxId") => "https://arweave.net/TxId"
+ *
+ * @param arUrl The Arweave URL to convert
+ * @param gatewayDomain The gateway domain to use (default: https://arweave.net/)
+ */
 export const arweaveUrlToGatewayUrl = (
   arUrl: string | undefined,
   gatewayDomain: string = "https://arweave.net/",
@@ -43,6 +69,15 @@ export const arweaveUrlToGatewayUrl = (
   return `${gatewayDomain}${txId}`;
 };
 
+/**
+ * Convert a Lens URL to a gateway URL
+ *
+ * Examples:
+ *  * lensUrlToGatewayUrl("lens://TxId") => "https://api.grove.storage/TxId"
+ *
+ * @param lensUrl The Lens URL to convert
+ * @param gatewayDomain The gateway domain to use (default: https://api.grove.storage/)
+ */
 export const lensUrlToGatewayUrl = (
   lensUrl: string | undefined,
   gatewayDomain: string = "https://api.grove.storage/",

@@ -44,7 +44,7 @@
       ]
     },
     {
-      "name": "lens-utils",
+      "name": "utils",
       "type": "registry:lib",
       "title": "Lens Utilities",
       "description": "Utility functions for interacting with Lens Social Protocol, including formatting and data manipulation.",
@@ -57,7 +57,7 @@
       ]
     },
     {
-      "name": "use-authenticated-lens-account",
+      "name": "use-authenticated-account",
       "type": "registry:hook",
       "title": "Use Authenticated Lens Account",
       "description": "A hook to get the currently authenticated Lens account using the Lens React SDK.",
@@ -70,7 +70,7 @@
       ]
     },
     {
-      "name": "use-lens-login-with-viem",
+      "name": "use-login-with-viem",
       "type": "registry:hook",
       "title": "Use Lens Login with Viem",
       "description": "A hook to execute login with the Lens React SDK using the Viem library for wallet interaction.",
@@ -83,7 +83,7 @@
       ]
     },
     {
-      "name": "use-lens-post-context",
+      "name": "use-post-context",
       "type": "registry:hook",
       "title": "Use Lens Post Context",
       "description": "A hook for queries and operations in a shared Lens post context",

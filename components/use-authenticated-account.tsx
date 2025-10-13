@@ -12,7 +12,7 @@ export default function UseAuthenticatedAccount() {
         encountered during the fetch process.
       </p>
       <h2 className="mt-6 pb-2 text-3xl font-semibold tracking-tight first:mt-0">Installation</h2>
-      <InstallCommandBlock componentName="use-authenticated-lens-account" />
+      <InstallCommandBlock componentName="use-authenticated-account" />
       <h2 className="mt-6 pb-2 text-3xl font-semibold tracking-tight first:mt-0">Usage</h2>
       <CodeBlock lang="tsx" className="lines">
         {`import { useAuthenticatedLensAccount } from "@/hooks/use-authenticated-lens-account";`}

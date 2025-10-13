@@ -12,7 +12,7 @@ export default function UseLoginWithViem() {
         the authenticated user data, loading state, and any errors encountered during the fetch process.
       </p>
       <h2 className="mt-6 pb-2 text-3xl font-semibold tracking-tight first:mt-0">Installation</h2>
-      <InstallCommandBlock componentName="use-lens-login-with-viem" />
+      <InstallCommandBlock componentName="use-login-with-viem" />
       <h2 className="mt-6 pb-2 text-3xl font-semibold tracking-tight first:mt-0">Usage</h2>
       <p className="content !mt-0">
         This example uses the{" "}
