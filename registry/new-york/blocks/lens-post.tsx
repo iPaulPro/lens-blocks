@@ -32,7 +32,6 @@ import LensVideoPlayer from "@/registry/new-york/components/feed/lens-video-play
 import LensImage from "@/registry/new-york/components/feed/lens-image";
 import LinkPreview from "@/registry/new-york/components/feed/link-preview";
 import { RegEx } from "@/registry/new-york/lib/regex";
-import Link from "next/link";
 
 type LensPostProps = {
   /**
@@ -237,7 +236,7 @@ export const LensPost = (props: LensPostProps) => {
                   </span>
                 )}
               </button>
-              <Link
+              <a
                 href={postUrlPattern.replace("{slug}", basePost.slug)}
                 onClick={e => e.stopPropagation()}
                 className="contents"
@@ -248,7 +247,7 @@ export const LensPost = (props: LensPostProps) => {
                 >
                   {moment(post.timestamp).fromNow(true)}
                 </abbr>
-              </Link>
+              </a>
             </div>
           </div>
           <div className="flex gap-2">

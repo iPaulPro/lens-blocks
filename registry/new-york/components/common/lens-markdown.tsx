@@ -1,8 +1,8 @@
+// @ts-ignore
+import linkifyRegex from "remark-linkify-regex";
 import stripMarkdown from "strip-markdown";
 import remarkGfm from "remark-gfm";
 import remarkBreaks from "remark-breaks";
-// @ts-ignore
-import linkifyRegex from "remark-linkify-regex";
 import { RegEx } from "@/registry/new-york/lib/regex";
 import ReactMarkdown, { Components } from "react-markdown";
 import { cn } from "@/lib/utils";

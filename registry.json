@@ -8,7 +8,9 @@
       "type": "registry:component",
       "title": "Lens Account List Item Skeleton",
       "description": "A skeleton placeholder for a Lens account list item, displaying the account avatar, display name, and username.",
-      "registryDependencies": ["skeleton"],
+      "registryDependencies": [
+        "skeleton"
+      ],
       "dependencies": [],
       "files": [
         {
@@ -22,7 +24,11 @@
       "type": "registry:component",
       "title": "Paginated List",
       "description": "A reusable paginated list component that fetches and displays items in pages, with support for loading states and end-of-list indicators, based on Paginated and Cursor from the Lens React SDK.",
-      "dependencies": ["@lens-protocol/react@0.0.0-canary-20250725092937", "react-virtuoso@4.13.0", "lucide-react"],
+      "dependencies": [
+        "@lens-protocol/react@0.0.0-canary-20250725092937",
+        "react-virtuoso@4.13.0",
+        "lucide-react"
+      ],
       "files": [
         {
           "path": "registry/new-york/components/common/paginated-list.tsx",
@@ -35,10 +41,12 @@
       "type": "registry:component",
       "title": "Lens Login Button",
       "description": "A button component to initiate the Lens login flow, displaying the lens icon and a call to action.",
-      "registryDependencies": ["button"],
+      "registryDependencies": [
+        "button"
+      ],
       "files": [
         {
-          "path": "registry/new-york/components/account//lens-login-button.tsx",
+          "path": "registry/new-york/components/account/lens-login-button.tsx",
           "type": "registry:component"
         }
       ]
@@ -48,7 +56,9 @@
       "type": "registry:lib",
       "title": "Lens Utilities",
       "description": "Utility functions for interacting with Lens Social Protocol, including formatting and data manipulation.",
-      "dependencies": [],
+      "dependencies": [
+        "@lens-protocol/react@0.0.0-canary-20250725092937"
+      ],
       "files": [
         {
           "path": "registry/new-york/lib/lens-utils.ts",
@@ -61,7 +71,9 @@
       "type": "registry:hook",
       "title": "Use Authenticated Lens Account",
       "description": "A hook to get the currently authenticated Lens account using the Lens React SDK.",
-      "dependencies": ["@lens-protocol/react@0.0.0-canary-20250725092937"],
+      "dependencies": [
+        "@lens-protocol/react@0.0.0-canary-20250725092937"
+      ],
       "files": [
         {
           "path": "registry/new-york/hooks/use-authenticated-lens-account.ts",
@@ -74,7 +86,10 @@
       "type": "registry:hook",
       "title": "Use Lens Login with Viem",
       "description": "A hook to execute login with the Lens React SDK using the Viem library for wallet interaction.",
-      "dependencies": ["@lens-protocol/react@0.0.0-canary-20250725092937", "viem@2.33.0"],
+      "dependencies": [
+        "@lens-protocol/react@0.0.0-canary-20250725092937",
+        "viem@2.33.0"
+      ],
       "files": [
         {
           "path": "registry/new-york/hooks/use-lens-login-with-viem.ts",
@@ -87,15 +102,13 @@
       "type": "registry:hook",
       "title": "Use Lens Post Context",
       "description": "A hook for queries and operations in a shared Lens post context",
-      "dependencies": ["@lens-protocol/react@0.0.0-canary-20250725092937", "viem@2.33.0"],
+      "registryDependencies": [
+        "@lens-blocks/post-provider"
+      ],
       "files": [
         {
           "path": "registry/new-york/hooks/use-lens-post-context.tsx",
           "type": "registry:hook"
-        },
-        {
-          "path": "registry/new-york/lib/lens-post-provider.tsx",
-          "type": "registry:lib"
         }
       ]
     },
@@ -110,19 +123,15 @@
         "@lens-protocol/metadata@2.1.0",
         "@lens-chain/storage-client@1.0.6",
         "@lens-chain/sdk@1.0.3",
-        "wagmi@2.15.3"
+        "viem@2.33.0"
+      ],
+      "registryDependencies": [
+        "@lens-blocks/use-reaction-toggle",
+        "@lens-blocks/utils"
       ],
       "files": [
         {
           "path": "registry/new-york/lib/lens-post-provider.tsx",
-          "type": "registry:lib"
-        },
-        {
-          "path": "registry/new-york/hooks/use-reaction-toggle.ts",
-          "type": "registry:hook"
-        },
-        {
-          "path": "registry/new-york/lib/lens-utils.ts",
           "type": "registry:lib"
         }
       ]
@@ -132,28 +141,24 @@
       "type": "registry:component",
       "title": "Lens Account Chooser",
       "description": "A list of available Lens accounts for the user to choose from, with support for pagination.",
-      "registryDependencies": ["avatar", "button", "skeleton"],
-      "dependencies": ["@lens-protocol/react@0.0.0-canary-20250725092937", "react-virtuoso@4.13.0", "lucide-react"],
+      "dependencies": [
+        "@lens-protocol/react@0.0.0-canary-20250725092937",
+        "react-virtuoso@4.13.0",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "avatar",
+        "button",
+        "skeleton",
+        "@lens-blocks/utils",
+        "@lens-blocks/lens-account-list-item",
+        "@lens-blocks/paginated-list",
+        "@lens-blocks/account-list-item-skeleton"
+      ],
       "files": [
         {
           "path": "registry/new-york/components/account/lens-account-chooser.tsx",
           "type": "registry:component"
-        },
-        {
-          "path": "registry/new-york/components/common/lens-account-list-item.tsx",
-          "type": "registry:component"
-        },
-        {
-          "path": "registry/new-york/components/common/lens-account-list-item-skeleton.tsx",
-          "type": "registry:component"
-        },
-        {
-          "path": "registry/new-york/components/common/paginated-list.tsx",
-          "type": "registry:component"
-        },
-        {
-          "path": "registry/new-york/lib/lens-utils.ts",
-          "type": "registry:lib"
         }
       ]
     },
@@ -162,20 +167,21 @@
       "type": "registry:component",
       "title": "Lens Account List Item",
       "description": "A list item for a Lens account displaying the avatar, name, and handle.",
-      "registryDependencies": ["avatar", "button", "skeleton"],
-      "dependencies": ["@lens-protocol/react@0.0.0-canary-20250725092937", "lucide-react"],
+      "dependencies": [
+        "@lens-protocol/react@0.0.0-canary-20250725092937",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "avatar",
+        "button",
+        "skeleton",
+        "@lens-blocks/account-list-item-skeleton",
+        "@lens-blocks/utils"
+      ],
       "files": [
         {
           "path": "registry/new-york/components/common/lens-account-list-item.tsx",
           "type": "registry:component"
-        },
-        {
-          "path": "registry/new-york/components/common/lens-account-list-item-skeleton.tsx",
-          "type": "registry:component"
-        },
-        {
-          "path": "registry/new-york/lib/lens-utils.ts",
-          "type": "registry:lib"
         }
       ]
     },
@@ -184,7 +190,6 @@
       "type": "registry:component",
       "title": "Lens Text Editor",
       "description": "A rich text editor component using TipTap that exports in Markdown, with support for Lens mentions.",
-      "registryDependencies": ["avatar", "button", "skeleton"],
       "dependencies": [
         "@lens-protocol/react@0.0.0-canary-20250725092937",
         "@lens-protocol/client@0.0.0-canary-20250725092937",
@@ -203,6 +208,12 @@
         "tippy.js",
         "unist-util-visit"
       ],
+      "registryDependencies": [
+        "avatar",
+        "button",
+        "skeleton",
+        "@lens-blocks/utils"
+      ],
       "files": [
         {
           "path": "registry/new-york/components/common/editor/lens-text-editor.tsx",
@@ -219,10 +230,6 @@
         {
           "path": "registry/new-york/lib/rehype-mention-to-markdown.ts",
           "type": "registry:lib"
-        },
-        {
-          "path": "registry/new-york/lib/lens-utils.ts",
-          "type": "registry:lib"
         }
       ]
     },
@@ -231,7 +238,6 @@
       "type": "registry:block",
       "title": "Lens Login",
       "description": "A full-featured login flow for Lens Social Protocol that hooks into the Lens React SDK, uses ConnectKit for wallet connections, supports account switching and more.",
-      "registryDependencies": ["avatar", "button", "dialog", "skeleton"],
       "dependencies": [
         "@lens-protocol/react@0.0.0-canary-20250725092937",
         "connectkit@1.9.0",
@@ -240,37 +246,59 @@
         "viem@2.33.0",
         "wagmi@2.15.3"
       ],
+      "registryDependencies": [
+        "avatar",
+        "button",
+        "dialog",
+        "skeleton",
+        "@lens-blocks/utils",
+        "@lens-blocks/paginated-list",
+        "@lens-blocks/account-chooser",
+        "@lens-blocks/login-button",
+        "@lens-blocks/account-list-item",
+        "@lens-blocks/account-list-item-skeleton",
+        "@lens-blocks/use-login-with-viem"
+      ],
       "files": [
         {
           "path": "registry/new-york/blocks/lens-login.tsx",
           "type": "registry:block"
-        },
+        }
+      ]
+    },
+    {
+      "name": "lens-markdown",
+      "type": "registry:component",
+      "title": "Lens Markdown",
+      "description": "A Markdown renderer for Lens posts and comments, supporting mentions, links, and rich text formatting.",
+      "dependencies": [
+        "@lens-protocol/react@0.0.0-canary-20250725092937",
+        "@lens-protocol/metadata@2.1.0",
+        "react-markdown@9.0.3",
+        "remark-gfm@4.0.1",
+        "remark-breaks@4.0.0",
+        "remark-linkify-regex@1.2.1",
+        "strip-markdown@6.0.0"
+      ],
+      "registryDependencies": [
+        "@lens-blocks/utils",
+        "@lens-blocks/lens-mention-link"
+      ],
+      "files": [
         {
-          "path": "registry/new-york/components/account//lens-login-button.tsx",
+          "path": "registry/new-york/components/common/lens-markdown.tsx",
           "type": "registry:component"
         },
         {
-          "path": "registry/new-york/components/account//lens-account-chooser.tsx",
+          "path": "registry/new-york/components/common/lens-mention-link.tsx",
           "type": "registry:component"
         },
         {
-          "path": "registry/new-york/components/common/lens-account-list-item.tsx",
+          "path": "registry/new-york/components/common/lens-tag-link.tsx",
           "type": "registry:component"
         },
         {
-          "path": "registry/new-york/components/common/lens-account-list-item-skeleton.tsx",
-          "type": "registry:component"
-        },
-        {
-          "path": "registry/new-york/hooks/use-lens-login-with-viem.ts",
-          "type": "registry:hook"
-        },
-        {
-          "path": "registry/new-york/components/common/paginated-list.tsx",
-          "type": "registry:lib"
-        },
-        {
-          "path": "registry/new-york/lib/lens-utils.ts",
+          "path": "registry/new-york/lib/regex.ts",
           "type": "registry:lib"
         }
       ]
@@ -280,7 +308,6 @@
       "type": "registry:block",
       "title": "Lens Post",
       "description": "Displays a post from Lens Social Protocol, including the content, author, attachments, and engagement actions.",
-      "registryDependencies": ["avatar", "button", "skeleton", "dialog", "tooltip", "dropdown-menu"],
       "dependencies": [
         "@lens-protocol/client@0.0.0-canary-20250725092937",
         "@lens-protocol/react@0.0.0-canary-20250725092937",
@@ -289,26 +316,26 @@
         "@lens-chain/storage-client@1.0.6",
         "@lens-chain/sdk@1.0.3",
         "lucide-react",
+        "moment@2.30.1",
         "next@15.3.2",
-        "strip-markdown@6.0.0",
-        "react-markdown@9.0.3",
-        "remark-gfm@4.0.1",
-        "remark-breaks@4.0.0",
-        "remark-linkify-regex@1.2.1",
         "viem@2.33.0",
         "wagmi@2.15.3"
+      ],
+      "registryDependencies": [
+        "avatar",
+        "button",
+        "skeleton",
+        "dialog",
+        "tooltip",
+        "dropdown-menu",
+        "@lens-blocks/utils",
+        "@lens-blocks/use-post-context",
+        "@lens-blocks/use-reaction-toggle",
+        "@lens-blocks/lens-markdown"
       ],
       "files": [
         {
           "path": "registry/new-york/blocks/lens-post.tsx",
-          "type": "registry:component"
-        },
-        {
-          "path": "registry/new-york/components/common/lens-markdown.tsx",
-          "type": "registry:component"
-        },
-        {
-          "path": "registry/new-york/components/common/lens-mention-link.tsx",
           "type": "registry:component"
         },
         {
@@ -348,16 +375,24 @@
           "type": "registry:component"
         },
         {
-          "path": "registry/new-york/lib/lens-utils.ts",
-          "type": "registry:lib"
+          "path": "registry/new-york/components/common/lens-audio-player",
+          "type": "registry:component"
         },
         {
-          "path": "registry/new-york/lib/lens-post-provider.tsx",
-          "type": "registry:lib"
+          "path": "registry/new-york/components/common/lens-video-player.tsx",
+          "type": "registry:component"
         },
         {
-          "path": "registry/new-york/hooks/use-reaction-toggle.ts",
-          "type": "registry:hook"
+          "path": "registry/new-york/components/common/lens-image.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "registry/new-york/components/feed/link-preview.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "registry/new-york/lib/regex.ts",
+          "type": "registry:lib"
         }
       ]
     }
