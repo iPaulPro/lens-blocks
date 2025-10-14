@@ -47,7 +47,16 @@ const LensMarkdown = (props: Props) => {
         return <LensTagLink tag={props.title} />;
       }
 
-      return <a {...props} target="_blank" rel="noopener noreferrer" />;
+      return (
+        <a {...props} target="_blank" rel="noopener noreferrer">
+          {props.href
+            .replace(/^https?:\/\//, "")
+            .replace(/\/$/, "")
+            .replace(/\\$/, "")
+            .replace(/^www\./, "")
+            .slice(0, 30) + (props.href.length > 30 ? "..." : "")}
+        </a>
+      );
     },
   };
   return (

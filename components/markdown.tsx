@@ -8,7 +8,7 @@ import { AccountMention, GroupMention } from "@lens-protocol/react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/registry/new-york/ui/tabs";
 
 export default function Markdown() {
-  const content = `Hello @lens/john, check out #0x1234567890abcdef1234567890abcdef12345678 *and* $ETH! Visit https://lens.dev for **more** info.`;
+  const content = `Hello @lens/john, check out #0x1234567890abcdef1234567890abcdef12345678 *and* $GHO! Visit https://lens.xyz/docs/chain/using-lens-chain/ for **more** info.`;
   const mentions: (AccountMention | GroupMention)[] = [
     {
       __typename: "AccountMention",
@@ -43,7 +43,7 @@ export default function Markdown() {
                 </TabsContent>
                 <TabsContent value="code">
                   <CodeBlock lang="tsx" className="lines">
-                    {`const content = "Hello @lens/john, check out #0x1234567890abcdef1234567890abcdef12345678 *and* $ETH! Visit https://lens.dev for **more** info.";
+                    {`const content = "Hello @lens/john, check out #0x1234567890abcdef1234567890abcdef12345678 *and* $GHO! Visit https://lens.xyz/docs/chain/using-lens-chain/ for **more** info.";
 const mentions: (AccountMention | GroupMention)[] = [
   {
     __typename: "AccountMention",
