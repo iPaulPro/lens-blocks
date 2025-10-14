@@ -13,7 +13,7 @@ import LensTagLink from "@/registry/new-york/components/common/lens-tag-link";
 type Props = {
   content: string;
   className?: string;
-  mentions: (AccountMention | GroupMention)[];
+  mentions?: (AccountMention | GroupMention)[];
 };
 
 const LensMarkdown = (props: Props) => {
@@ -37,7 +37,7 @@ const LensMarkdown = (props: Props) => {
     // linkifyRegex will find mentions, hashtags, and cashtags, and replace them with a link
     // here we are defining how to render that link
     a: (props: any) => {
-      const mention = mentions.find(mention => mention.replace.from === props.title);
+      const mention = mentions?.find(mention => mention.replace.from === props.title);
 
       if (mention) {
         return <LensMentionLink mention={mention} />;
