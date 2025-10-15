@@ -5,6 +5,7 @@ import LoginButton from "@/components/login-button";
 import AccountChooser from "@/components/account-chooser";
 import TextEditor from "@/components/text-editor";
 import Markdown from "@/components/markdown";
+import AudioPlayer from "@/components/audio-player";
 
 export default async function Page({ params }: { params: Promise<{ component: string }> }) {
   const { component } = await params;
@@ -18,6 +19,8 @@ export default async function Page({ params }: { params: Promise<{ component: st
       return <AccountListItem />;
     case "account-list-item-skeleton":
       return <AccountListItemSkeleton />;
+    case "audio-player":
+      return <AudioPlayer />;
     case "login-button":
       return <LoginButton />;
     case "paginated-list":

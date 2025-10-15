@@ -1,7 +1,6 @@
 import ReactPlayer from "react-player";
 import { MediaAudio } from "@lens-protocol/react";
 import { getAudioExtension, parseUri } from "@/registry/new-york/lib/lens-utils";
-import Image from "next/image";
 import { SyntheticEvent, useRef, useState } from "react";
 import { Button } from "@/registry/new-york/ui/button";
 import { PauseIcon, PlayIcon, Volume2Icon, VolumeOffIcon } from "lucide-react";
@@ -17,7 +16,7 @@ type Props = {
 };
 
 export default function LensAudioPlayer(props: Props) {
-  const { audio, postTitle, preload, onError } = props;
+  const { audio, postTitle, preload = "metadata", onError } = props;
 
   // ReactPlayer looks at the file extension in the source URI to determine how to play the file
   // so we need to append the extension to the url for instances where the audio url does not have an extension
@@ -132,7 +131,7 @@ export default function LensAudioPlayer(props: Props) {
     >
       <div className="w-full h-24 flex items-center">
         {audio.cover && (
-          <Image
+          <img
             src={parseUri(audio.cover)!!}
             alt="Cover image"
             className="aspect-square object-cover h-full rounded-l-xl flex-1 cursor-pointer hover:opacity-90"

@@ -159,6 +159,37 @@
       ]
     },
     {
+      "name": "audio-player",
+      "type": "registry:component",
+      "title": "Lens Audio Player",
+      "description": "An audio player component for playing audio attachments in Lens posts.",
+      "dependencies": [
+        "@lens-protocol/react@0.0.0-canary-20250820102520",
+        "lucide-react",
+        "react-player@3.3.2",
+        "@radix-ui/react-slider@1.3.6"
+      ],
+      "registryDependencies": [
+        "avatar",
+        "button",
+        "@lens-blocks/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/new-york/components/common/lens-account-list-item.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "registry/new-york/ui/media-seek-slider.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "registry/new-york/components/common/duration.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
       "name": "text-editor",
       "type": "registry:component",
       "title": "Lens Text Editor",

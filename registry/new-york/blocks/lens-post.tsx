@@ -135,7 +135,6 @@ export const LensPost = (props: LensPostProps) => {
 
   const author = basePost.author;
   const authorName = author.metadata?.name ?? author.username?.localName ?? "[anonymous]";
-  const content = postMetadata.content;
   const image = postMetadata.__typename === "ImageMetadata" ? postMetadata.image : null;
   const audio = postMetadata.__typename === "AudioMetadata" ? postMetadata.audio : null;
   const video = postMetadata.__typename === "VideoMetadata" ? postMetadata.video : null;
