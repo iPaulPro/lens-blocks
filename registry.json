@@ -169,11 +169,7 @@
         "react-player@3.3.2",
         "@radix-ui/react-slider@1.3.6"
       ],
-      "registryDependencies": [
-        "avatar",
-        "button",
-        "@lens-blocks/utils"
-      ],
+      "registryDependencies": ["avatar", "button", "@lens-blocks/utils"],
       "files": [
         {
           "path": "registry/new-york/components/common/lens-audio-player.tsx",
@@ -194,14 +190,8 @@
       "type": "registry:component",
       "title": "Lens Video Player",
       "description": "An video player component for playing video attachments in Lens posts.",
-      "dependencies": [
-        "@lens-protocol/react@0.0.0-canary-20250820102520",
-        "lucide-react",
-        "react-player@3.3.2"
-      ],
-      "registryDependencies": [
-        "@lens-blocks/utils"
-      ],
+      "dependencies": ["@lens-protocol/react@0.0.0-canary-20250820102520", "lucide-react", "react-player@3.3.2"],
+      "registryDependencies": ["@lens-blocks/utils"],
       "files": [
         {
           "path": "registry/new-york/components/common/lens-video-player.tsx",
@@ -263,7 +253,14 @@
         "lucide-react",
         "viem@2.33.0"
       ],
-      "registryDependencies": ["avatar", "button", "hover-card", "skeleton", "@lens-blocks/lens-markdown", "@lens-blocks/utils"],
+      "registryDependencies": [
+        "avatar",
+        "button",
+        "hover-card",
+        "skeleton",
+        "@lens-blocks/lens-markdown",
+        "@lens-blocks/utils"
+      ],
       "files": [
         {
           "path": "registry/new-york/blocks/lens-account-hover-card.tsx",

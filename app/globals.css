@@ -136,7 +136,8 @@ p.content {
   @apply leading-7 [&:not(:first-child)]:mt-4 max-w-3xl;
 }
 
-.content a, .text-popover-foreground a  {
+.content a,
+.text-popover-foreground a {
   @apply font-semibold hover:underline text-primary;
 }
 
