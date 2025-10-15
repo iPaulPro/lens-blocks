@@ -22,7 +22,7 @@
       "type": "registry:component",
       "title": "Paginated List",
       "description": "A reusable paginated list component that fetches and displays items in pages, with support for loading states and end-of-list indicators, based on Paginated and Cursor from the Lens React SDK.",
-      "dependencies": ["@lens-protocol/react@0.0.0-canary-20250725092937", "react-virtuoso@4.13.0", "lucide-react"],
+      "dependencies": ["@lens-protocol/react@0.0.0-canary-20250820102520", "react-virtuoso@4.13.0", "lucide-react"],
       "files": [
         {
           "path": "registry/new-york/components/common/paginated-list.tsx",
@@ -48,7 +48,7 @@
       "type": "registry:lib",
       "title": "Lens Utilities",
       "description": "Utility functions for interacting with Lens Social Protocol, including formatting and data manipulation.",
-      "dependencies": ["@lens-protocol/react@0.0.0-canary-20250725092937"],
+      "dependencies": ["@lens-protocol/react@0.0.0-canary-20250820102520"],
       "files": [
         {
           "path": "registry/new-york/lib/lens-utils.ts",
@@ -61,7 +61,7 @@
       "type": "registry:hook",
       "title": "Use Authenticated Lens Account",
       "description": "A hook to get the currently authenticated Lens account using the Lens React SDK.",
-      "dependencies": ["@lens-protocol/react@0.0.0-canary-20250725092937"],
+      "dependencies": ["@lens-protocol/react@0.0.0-canary-20250820102520"],
       "files": [
         {
           "path": "registry/new-york/hooks/use-authenticated-lens-account.ts",
@@ -74,7 +74,7 @@
       "type": "registry:hook",
       "title": "Use Lens Login with Viem",
       "description": "A hook to execute login with the Lens React SDK using the Viem library for wallet interaction.",
-      "dependencies": ["@lens-protocol/react@0.0.0-canary-20250725092937", "viem@2.33.0"],
+      "dependencies": ["@lens-protocol/react@0.0.0-canary-20250820102520", "viem@2.33.0"],
       "files": [
         {
           "path": "registry/new-york/hooks/use-lens-login-with-viem.ts",
@@ -101,8 +101,8 @@
       "title": "Lens Post Provider",
       "description": "A provider of a shared Lens post context for queries and operations.",
       "dependencies": [
-        "@lens-protocol/react@0.0.0-canary-20250725092937",
-        "@lens-protocol/client@0.0.0-canary-20250725092937",
+        "@lens-protocol/react@0.0.0-canary-20250820102520",
+        "@lens-protocol/client@0.0.0-canary-20250820102520",
         "@lens-protocol/metadata@2.1.0",
         "@lens-chain/storage-client@1.0.6",
         "@lens-chain/sdk@1.0.3",
@@ -121,7 +121,7 @@
       "type": "registry:component",
       "title": "Lens Account Chooser",
       "description": "A list of available Lens accounts for the user to choose from, with support for pagination.",
-      "dependencies": ["@lens-protocol/react@0.0.0-canary-20250725092937", "react-virtuoso@4.13.0", "lucide-react"],
+      "dependencies": ["@lens-protocol/react@0.0.0-canary-20250820102520", "react-virtuoso@4.13.0", "lucide-react"],
       "registryDependencies": [
         "avatar",
         "button",
@@ -143,7 +143,7 @@
       "type": "registry:component",
       "title": "Lens Account List Item",
       "description": "A list item for a Lens account displaying the avatar, name, and handle.",
-      "dependencies": ["@lens-protocol/react@0.0.0-canary-20250725092937", "lucide-react"],
+      "dependencies": ["@lens-protocol/react@0.0.0-canary-20250820102520", "lucide-react"],
       "registryDependencies": [
         "avatar",
         "button",
@@ -164,22 +164,22 @@
       "title": "Lens Text Editor",
       "description": "A rich text editor component using TipTap that exports in Markdown, with support for Lens mentions.",
       "dependencies": [
-        "@lens-protocol/react@0.0.0-canary-20250725092937",
-        "@lens-protocol/client@0.0.0-canary-20250725092937",
-        "@tiptap/core",
-        "@tiptap/pm",
-        "@tiptap/react",
-        "@tiptap/starter-kit",
-        "@tiptap/extension-placeholder",
-        "@tiptap/extension-mention",
-        "unified",
-        "rehype-parse",
-        "rehype-remark",
-        "remark-stringify",
-        "remark-gfm",
-        "remark-linkify-regex",
-        "tippy.js",
-        "unist-util-visit"
+        "@lens-protocol/react@0.0.0-canary-20250820102520",
+        "@lens-protocol/client@0.0.0-canary-20250820102520",
+        "@tiptap/core@2.26.1",
+        "@tiptap/pm@2.26.1",
+        "@tiptap/react@2.26.1",
+        "@tiptap/starter-kit@2.26.1",
+        "@tiptap/extension-placeholder@2.26.1",
+        "@tiptap/extension-mention@2.26.1",
+        "unified@11.0.5",
+        "rehype-parse@9.0.1",
+        "rehype-remark@10.0.0",
+        "rehype-stringify@10.0.1",
+        "remark-gfm@4.0.1",
+        "remark-linkify-regex@1.2.1",
+        "tippy.js@6.3.7",
+        "unist-util-visit@5.0.0"
       ],
       "registryDependencies": ["avatar", "button", "skeleton", "@lens-blocks/utils"],
       "files": [
@@ -207,8 +207,8 @@
       "title": "Lens Account Hover Card",
       "description": "A hover card that displays Lens account details when hovering over an account name or handle.",
       "dependencies": [
-        "@lens-protocol/react@0.0.0-canary-20250725092937",
-        "@lens-protocol/client@0.0.0-canary-20250725092937",
+        "@lens-protocol/react@0.0.0-canary-20250820102520",
+        "@lens-protocol/client@0.0.0-canary-20250820102520",
         "lucide-react",
         "viem@2.33.0"
       ],
@@ -226,7 +226,7 @@
       "title": "Lens Login",
       "description": "A full-featured login flow for Lens Social Protocol that hooks into the Lens React SDK, uses ConnectKit for wallet connections, supports account switching and more.",
       "dependencies": [
-        "@lens-protocol/react@0.0.0-canary-20250725092937",
+        "@lens-protocol/react@0.0.0-canary-20250820102520",
         "connectkit@1.9.0",
         "react-virtuoso@4.13.0",
         "lucide-react",
@@ -259,7 +259,7 @@
       "title": "Lens Markdown",
       "description": "A Markdown renderer for Lens posts and comments, supporting mentions, links, and rich text formatting.",
       "dependencies": [
-        "@lens-protocol/react@0.0.0-canary-20250725092937",
+        "@lens-protocol/react@0.0.0-canary-20250820102520",
         "@lens-protocol/metadata@2.1.0",
         "react-markdown@9.0.3",
         "remark-gfm@4.0.1",
@@ -293,15 +293,14 @@
       "title": "Lens Post",
       "description": "Displays a post from Lens Social Protocol, including the content, author, attachments, and engagement actions.",
       "dependencies": [
-        "@lens-protocol/client@0.0.0-canary-20250725092937",
-        "@lens-protocol/react@0.0.0-canary-20250725092937",
-        "@lens-protocol/types@0.0.0-canary-20250725092937",
+        "@lens-protocol/client@0.0.0-canary-20250820102520",
+        "@lens-protocol/react@0.0.0-canary-20250820102520",
+        "@lens-protocol/types@0.0.0-canary-20250820102520",
         "@lens-protocol/metadata@2.1.0",
         "@lens-chain/storage-client@1.0.6",
         "@lens-chain/sdk@1.0.3",
         "lucide-react",
         "moment@2.30.1",
-        "next@15.3.2",
         "viem@2.33.0",
         "wagmi@2.15.3"
       ],
