@@ -196,7 +196,7 @@ export default function LensAccountHoverCard(props: Props) {
               )}
             </div>
             {freshAccount.metadata?.bio && (
-              <LensMarkdown content={freshAccount.metadata.bio} className="opacity-70 pt-3 pb-1 line-clamp-3 text-sm" />
+              <LensMarkdown content={freshAccount.metadata.bio} className="opacity-70 pt-3 pb-1 line-clamp-5 text-sm" />
             )}
             {accountStats && (
               <div className="flex gap-3 pt-2 text-sm">

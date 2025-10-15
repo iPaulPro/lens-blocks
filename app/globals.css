@@ -173,7 +173,7 @@ p.content {
   @apply border rounded-lg p-4 min-h-60 md:min-h-[450px];
 }
 
-.preview a {
+.preview a, .text-popover-foreground a {
   @apply font-semibold hover:underline;
 }
 
