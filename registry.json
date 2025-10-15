@@ -202,6 +202,25 @@
       ]
     },
     {
+      "name": "account-hover-card",
+      "type": "registry:block",
+      "title": "Lens Account Hover Card",
+      "description": "A hover card that displays Lens account details when hovering over an account name or handle.",
+      "dependencies": [
+        "@lens-protocol/react@0.0.0-canary-20250725092937",
+        "@lens-protocol/client@0.0.0-canary-20250725092937",
+        "lucide-react",
+        "viem@2.33.0"
+      ],
+      "registryDependencies": ["avatar", "button", "hover-card", "skeleton", "@lens-blocks/lens-markdown", "@lens-blocks/utils"],
+      "files": [
+        {
+          "path": "registry/new-york/blocks/lens-account-hover-card.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
       "name": "login",
       "type": "registry:block",
       "title": "Lens Login",

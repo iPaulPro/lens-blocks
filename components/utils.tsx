@@ -256,6 +256,35 @@ export function Utils() {
           </TableBody>
         </Table>
       </p>
+      <p className="content">
+        <h4 className="pb-2 text-xl font-semibold tracking-tight first:mt-0">
+          formatFollowerCount <code className="text-base ml-2">string</code>
+        </h4>
+        <p className="!mt-0">Format a follower count as a string, using "k" for thousands and "m" for millions.</p>
+        <p className="mt-2 pb-2 font-semibold tracking-tight first:mt-0">Props</p>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Prop</TableHead>
+              <TableHead>Type</TableHead>
+              <TableHead>Description</TableHead>
+              <TableHead>Default</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            <TableRow>
+              <TableCell>
+                <code>count</code>
+              </TableCell>
+              <TableCell>
+                <code>number</code>
+              </TableCell>
+              <TableCell>The follower count to format.</TableCell>
+              <TableCell>-</TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
+      </p>
     </div>
   );
 }

@@ -174,3 +174,22 @@ export const getUsernamePath = (username: string, namespace?: EvmAddress): strin
   path += `${username.split("/")[1]}`;
   return path;
 };
+
+/**
+ * Format a follower count as a string, using "k" for thousands and "m" for millions
+ *
+ * Examples:
+ * * formatFollowerCount(123) => "123"
+ * * formatFollowerCount(12345) => "12.3k"
+ * * formatFollowerCount(1234567) => "1.2m"
+ *
+ * @param count The follower count to format
+ */
+export const formatFollowerCount = (count: number): string => {
+  if (count >= 1_000_000) {
+    return (count / 1_000_000).toFixed(1).replace(/\.0$/, "") + "m";
+  } else if (count >= 10_000) {
+    return (count / 1_000).toFixed(1).replace(/\.0$/, "") + "k";
+  }
+  return count.toString();
+};
