@@ -4,7 +4,7 @@ import { MouseEvent } from "react";
 import { Heart } from "lucide-react";
 import { Button } from "@/registry/new-york/ui/button";
 import { useLensPostContext } from "@/registry/new-york/hooks/use-lens-post-context";
-import { cn } from "@/registry/new-york/lib/utils";
+import { cn } from "@/lib/utils";
 
 type LikeButtonProps = {
   className?: string;

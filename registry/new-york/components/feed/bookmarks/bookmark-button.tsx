@@ -1,6 +1,6 @@
 import { Button } from "@/registry/new-york/ui/button";
 import { Bookmark } from "lucide-react";
-import { cn } from "@/registry/new-york/lib/utils";
+import { cn } from "@/lib/utils";
 import { useLensPostContext } from "@/registry/new-york/hooks/use-lens-post-context";
 import { MouseEvent } from "react";
 

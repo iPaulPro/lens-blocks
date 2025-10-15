@@ -17,7 +17,7 @@ import CommentButton from "@/registry/new-york/components/feed/comment/comment-b
 import moment from "moment/moment";
 import CollectButton from "@/registry/new-york/components/feed/collects/collect-button";
 import TipButton from "@/registry/new-york/components/feed/tips/tip-button";
-import { cn } from "@/registry/new-york/lib/utils";
+import { cn } from "@/lib/utils";
 import { getUsernamePath, parseUri, truncateAddress } from "@/registry/new-york/lib/lens-utils";
 import { Button } from "@/registry/new-york/ui/button";
 import BookmarkButton from "@/registry/new-york/components/feed/bookmarks/bookmark-button";
