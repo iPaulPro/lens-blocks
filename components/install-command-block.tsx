@@ -10,19 +10,19 @@ export const InstallCommandBlock = (props: Props & CommandBlockProps) => {
   const commands = [
     {
       label: "pnpm",
-      command: `pnpm dlx shadcn@latest add @lens-blocks/${props.componentName}.json`,
+      command: `pnpm dlx shadcn@latest add @lens-blocks/${props.componentName}`,
     },
     {
       label: "npm",
-      command: `npx shadcn@latest add @lens-blocks/${props.componentName}.json`,
+      command: `npx shadcn@latest add @lens-blocks/${props.componentName}`,
     },
     {
       label: "yarn",
-      command: `yarn dlx shadcn@latest add @lens-blocks/${props.componentName}.json`,
+      command: `yarn dlx shadcn@latest add @lens-blocks/${props.componentName}`,
     },
     {
       label: "bun",
-      command: `bunx --bun shadcn@latest add @lens-blocks/${props.componentName}.json`,
+      command: `bunx --bun shadcn@latest add @lens-blocks/${props.componentName}`,
     },
   ];
 
