@@ -8,6 +8,7 @@ import { Loader } from "lucide-react";
 import LensAudioPlayer from "@/registry/new-york/components/common/lens-audio-player";
 import { Dialog, DialogContent } from "@/registry/new-york/ui/dialog";
 import { useState } from "react";
+import Image from "next/image";
 
 export default function AudioPlayer() {
   const [lightboxUri, setLightboxUri] = useState<string | null>(null);
@@ -63,7 +64,7 @@ import { usePost } from "@lens-protocol/react";`}
       <Dialog open={lightboxOpen} onOpenChange={setLightboxOpen}>
         <DialogContent className="flex justify-center items-center max-h-full max-w-full bg-transparent border-none shadow-none">
           {lightboxOpen && lightboxUri && (
-            <img
+            <Image
               src={lightboxUri}
               alt={"Image attached to post"}
               className="max-w-full max-h-full object-contain shadow-lg"

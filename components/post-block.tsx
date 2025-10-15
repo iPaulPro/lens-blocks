@@ -51,7 +51,6 @@ export function PostBlock() {
               <div className="w-full md:w-2/3">
                 <LensPost
                   className="border rounded-md"
-                  onPostClick={onPostClick}
                   onRepostSuccess={txHash =>
                     toast.success("Reposted successfully!", {
                       action: (

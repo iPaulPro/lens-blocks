@@ -25,7 +25,6 @@ import CollectDialog, { CollectDialogRef } from "@/registry/new-york/components/
 import QuoteDialog, { QuoteDialogRef } from "@/registry/new-york/components/feed/references/quote-dialog";
 import TipDialog, { TipDialogRef } from "@/registry/new-york/components/feed/tips/tip-dialog";
 import { useLensPostContext } from "@/registry/new-york/hooks/use-lens-post-context";
-import { useRouter } from "next/navigation";
 import { Dialog, DialogContent } from "@/registry/new-york/ui/dialog";
 import LensAudioPlayer from "@/registry/new-york/components/common/lens-audio-player";
 import LensVideoPlayer from "@/registry/new-york/components/common/lens-video-player";
@@ -89,7 +88,6 @@ export const LensPost = (props: LensPostProps) => {
   const [urlInContent, setUrlInContent] = useState<string | null>(null);
 
   const { post, loading } = useLensPostContext();
-  const router = useRouter();
 
   useEffect(() => {
     if (!lightboxOpen) {
@@ -179,7 +177,7 @@ export const LensPost = (props: LensPostProps) => {
       if (event.metaKey || event.ctrlKey || event.button === 1) {
         window.open(path, "_blank");
       } else {
-        router.push(path);
+        window.open(path, "_self");
       }
     }
   };
@@ -200,7 +198,7 @@ export const LensPost = (props: LensPostProps) => {
     } else if (event.metaKey || event.ctrlKey || event.button === 1) {
       window.open(postUrl, "_blank");
     } else {
-      router.push(postUrl);
+      window.open(postUrl, "_self");
     }
   };
 

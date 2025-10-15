@@ -7,7 +7,6 @@ import { Button } from "@/registry/new-york/ui/button";
 import { Referral } from "@/registry/new-york/lib/lens-post-provider";
 import { useLensPostContext } from "@/registry/new-york/hooks/use-lens-post-context";
 import { getUsernamePath, truncateAddress } from "@/registry/new-york/lib/lens-utils";
-import Link from "next/link";
 
 export type CollectDialogRef = {
   open: () => void;
@@ -98,14 +97,14 @@ const CollectDialog = forwardRef<CollectDialogRef, CollectDialogProps>(
                 <span>
                   Post by{" "}
                   {post.author.username ? (
-                    <Link
+                    <a
                       href={getUsernamePath(post.author.username.value)}
                       className="!font-bold"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
                       @{post.author.username.localName}
-                    </Link>
+                    </a>
                   ) : (
                     <span className="!font-bold">{truncateAddress(post.author.address)}</span>
                   )}
@@ -124,14 +123,14 @@ const CollectDialog = forwardRef<CollectDialogRef, CollectDialogProps>(
             <div className="flex gap-4 items-center pl-1.5">
               <BoxIcon className="w-4 h-4 opacity-60" />
               <span>
-                <Link
+                <a
                   href={`https://lenscan.io/nfts/${action.collectNftAddress}`}
                   className="font-semibold"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
                   {truncateAddress(action.collectNftAddress, 10)}
-                </Link>
+                </a>
               </span>
             </div>
             <div className="flex gap-4 items-center pl-1.5">

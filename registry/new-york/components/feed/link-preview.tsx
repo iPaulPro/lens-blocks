@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import getMetaFromUrl, { UrlMetadata } from "@/registry/new-york/lib/get-meta-from-url";
 import getFavicon from "@/registry/new-york/components/feed/get-favicon";
-import Image from "next/image";
 
 type Props = {
   url: string;
@@ -33,7 +32,7 @@ export default function LinkPreview(props: Props) {
       >
         <div className="flex flex-col p-2 flex-1 min-w-0 gap-0.5">
           <div className="flex gap-1 items-center">
-            <Image
+            <img
               src={urlMetadata.icon ?? favicon}
               width={24}
               height={24}
