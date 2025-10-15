@@ -28,7 +28,7 @@ import { useLensPostContext } from "@/registry/new-york/hooks/use-lens-post-cont
 import { useRouter } from "next/navigation";
 import { Dialog, DialogContent } from "@/registry/new-york/ui/dialog";
 import LensAudioPlayer from "@/registry/new-york/components/common/lens-audio-player";
-import LensVideoPlayer from "@/registry/new-york/components/feed/lens-video-player";
+import LensVideoPlayer from "@/registry/new-york/components/common/lens-video-player";
 import LensImage from "@/registry/new-york/components/feed/lens-image";
 import LinkPreview from "@/registry/new-york/components/feed/link-preview";
 import { RegEx } from "@/registry/new-york/lib/regex";

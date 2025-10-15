@@ -176,7 +176,7 @@
       ],
       "files": [
         {
-          "path": "registry/new-york/components/common/lens-account-list-item.tsx",
+          "path": "registry/new-york/components/common/lens-audio-player.tsx",
           "type": "registry:component"
         },
         {
@@ -185,6 +185,26 @@
         },
         {
           "path": "registry/new-york/components/common/duration.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "video-player",
+      "type": "registry:component",
+      "title": "Lens Video Player",
+      "description": "An video player component for playing video attachments in Lens posts.",
+      "dependencies": [
+        "@lens-protocol/react@0.0.0-canary-20250820102520",
+        "lucide-react",
+        "react-player@3.3.2"
+      ],
+      "registryDependencies": [
+        "@lens-blocks/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/new-york/components/common/lens-video-player.tsx",
           "type": "registry:component"
         }
       ]
@@ -345,7 +365,9 @@
         "@lens-blocks/utils",
         "@lens-blocks/use-post-context",
         "@lens-blocks/use-reaction-toggle",
-        "@lens-blocks/lens-markdown"
+        "@lens-blocks/lens-markdown",
+        "@lens-blocks/audio-player",
+        "@lens-blocks/video-player"
       ],
       "files": [
         {
@@ -386,14 +408,6 @@
         },
         {
           "path": "registry/new-york/components/feed/tips/tip-dialog.tsx",
-          "type": "registry:component"
-        },
-        {
-          "path": "registry/new-york/components/common/lens-audio-player",
-          "type": "registry:component"
-        },
-        {
-          "path": "registry/new-york/components/common/lens-video-player.tsx",
           "type": "registry:component"
         },
         {

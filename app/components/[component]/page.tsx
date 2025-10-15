@@ -6,6 +6,7 @@ import AccountChooser from "@/components/account-chooser";
 import TextEditor from "@/components/text-editor";
 import Markdown from "@/components/markdown";
 import AudioPlayer from "@/components/audio-player";
+import VideoPlayer from "@/components/video-player";
 
 export default async function Page({ params }: { params: Promise<{ component: string }> }) {
   const { component } = await params;
@@ -29,6 +30,8 @@ export default async function Page({ params }: { params: Promise<{ component: st
       return <TextEditor />;
     case "lens-markdown":
       return <Markdown />;
+    case "video-player":
+      return <VideoPlayer />;
     default:
       return <div>Component not found</div>;
   }

@@ -1,6 +1,6 @@
 import ReactPlayer from "react-player";
 import { CSSProperties } from "react";
-import { cn } from "@/registry/new-york/lib/utils";
+import { cn } from "@/lib/utils";
 import { MediaVideo } from "@lens-protocol/react";
 import { getVideoExtension, parseUri } from "@/registry/new-york/lib/lens-utils";
 
