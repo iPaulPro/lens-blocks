@@ -17,7 +17,31 @@ export function PostBlock() {
 
   const onPostClick = (post: AnyPost) => {
     console.log("Post clicked:", post);
-    toast.success("Post clicked: " + post.slug, { duration: 10000 });
+    toast.success("Post clicked: " + post.slug, { duration: 5000 });
+  };
+
+  const onRepostSuccess = (txHash: string) => {
+    toast.success("Reposted successfully!", {
+      action: (
+        <Button className="ml-auto" onClick={() => window.open("https://explorer.testnet.lens.xyz/tx/" + txHash)}>
+          View tx
+        </Button>
+      ),
+    });
+  };
+
+  const onTipCreated = (txHash: string) => {
+    toast.success("Tip sent successfully!", {
+      action: (
+        <Button className="ml-auto" onClick={() => window.open("https://explorer.testnet.lens.xyz/tx/" + txHash)}>
+          View tx
+        </Button>
+      ),
+    });
+  };
+
+  const onTipError = (error: Error) => {
+    toast.error("Unable to send tip: " + error.message);
   };
 
   const onAccountSelected = (account: Account) => {
@@ -51,13 +75,11 @@ export function PostBlock() {
               <div className="w-full md:w-2/3">
                 <LensPost
                   className="border rounded-md"
-                  onRepostSuccess={txHash =>
-                    toast.success("Reposted successfully!", {
-                      action: (
-                        <Button onClick={() => window.open("https://explorer.lens.xyz/tx/" + txHash)}>View tx</Button>
-                      ),
-                    })
-                  }
+                  onPostClick={onPostClick}
+                  onAccountClick={onAccountSelected}
+                  onRepostSuccess={onRepostSuccess}
+                  onTipCreated={onTipCreated}
+                  onTipError={onTipError}
                 />
               </div>
             </LensPostProvider>
@@ -99,13 +121,9 @@ const { data: wallet } = useWalletClient();`}
                 className="w-full md:w-2/3 border rounded-md"
                 onPostClick={onPostClick}
                 onAccountClick={onAccountSelected}
-                onRepostSuccess={txHash =>
-                  toast.success("Reposted successfully!", {
-                    action: (
-                      <Button onClick={() => window.open("https://explorer.lens.xyz/tx/" + txHash)}>View tx</Button>
-                    ),
-                  })
-                }
+                onRepostSuccess={onRepostSuccess}
+                onTipCreated={onTipCreated}
+                onTipError={onTipError}
               />
             </LensPostProvider>
           )}
@@ -127,13 +145,9 @@ const { data: wallet } = useWalletClient();`}
                 className="w-full md:w-2/3 border rounded-md"
                 onPostClick={onPostClick}
                 onAccountClick={onAccountSelected}
-                onRepostSuccess={txHash =>
-                  toast.success("Reposted successfully!", {
-                    action: (
-                      <Button onClick={() => window.open("https://explorer.lens.xyz/tx/" + txHash)}>View tx</Button>
-                    ),
-                  })
-                }
+                onRepostSuccess={onRepostSuccess}
+                onTipCreated={onTipCreated}
+                onTipError={onTipError}
               />
             </LensPostProvider>
           )}
@@ -155,13 +169,9 @@ const { data: wallet } = useWalletClient();`}
                 className="w-full md:w-2/3 border rounded-md"
                 onPostClick={onPostClick}
                 onAccountClick={onAccountSelected}
-                onRepostSuccess={txHash =>
-                  toast.success("Reposted successfully!", {
-                    action: (
-                      <Button onClick={() => window.open("https://explorer.lens.xyz/tx/" + txHash)}>View tx</Button>
-                    ),
-                  })
-                }
+                onRepostSuccess={onRepostSuccess}
+                onTipCreated={onTipCreated}
+                onTipError={onTipError}
               />
             </LensPostProvider>
           )}

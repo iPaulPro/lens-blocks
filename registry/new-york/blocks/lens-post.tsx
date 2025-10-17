@@ -8,7 +8,7 @@ import {
 } from "@/registry/new-york/ui/dropdown-menu";
 import { MouseEvent, useEffect, useRef, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/registry/new-york/ui/avatar";
-import { Account, Post, TxHash, URI } from "@lens-protocol/react";
+import { Account, evmAddress, Post, TxHash, URI } from "@lens-protocol/react";
 import { Copy, Flag, MoreHorizontal, UserCircle2 } from "lucide-react";
 import LensMarkdown from "../components/common/lens-markdown";
 import LikeButton from "@/registry/new-york/components/feed/likes/like-button";
@@ -23,7 +23,7 @@ import { Button } from "@/registry/new-york/ui/button";
 import BookmarkButton from "@/registry/new-york/components/feed/bookmarks/bookmark-button";
 import CollectDialog, { CollectDialogRef } from "@/registry/new-york/components/feed/collects/collect-dialog";
 import QuoteDialog, { QuoteDialogRef } from "@/registry/new-york/components/feed/references/quote-dialog";
-import TipDialog, { TipDialogRef } from "@/registry/new-york/components/feed/tips/tip-dialog";
+import LensTipDialog, { TipDialogRef } from "@/registry/new-york/components/feed/tips/lens-tip-dialog";
 import { useLensPostContext } from "@/registry/new-york/hooks/use-lens-post-context";
 import { Dialog, DialogContent } from "@/registry/new-york/ui/dialog";
 import LensAudioPlayer from "@/registry/new-york/components/common/lens-audio-player";
@@ -63,6 +63,18 @@ type LensPostProps = {
   onRepostSuccess?: (txHash: TxHash) => void;
 
   /**
+   * Callback function that is called when a tip is successfully created.
+   * It receives the transaction hash as an argument.
+   */
+  onTipCreated?: (txHash: TxHash) => void;
+
+  /**
+   * Callback function that is called when there is an error creating a tip.
+   * It receives the error object as an argument.
+   */
+  onTipError?: (error: Error) => void;
+
+  /**
    * Optional additional class names to apply to the post container.
    *
    */
@@ -76,6 +88,8 @@ export const LensPost = (props: LensPostProps) => {
     postUrlPattern = "/posts/{slug}",
     onRepostSuccess,
     onPostUrlCopied,
+    onTipCreated,
+    onTipError,
     className,
   } = props;
 
@@ -87,7 +101,7 @@ export const LensPost = (props: LensPostProps) => {
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [urlInContent, setUrlInContent] = useState<string | null>(null);
 
-  const { post, loading } = useLensPostContext();
+  const { post, loading, tip } = useLensPostContext();
 
   useEffect(() => {
     if (!lightboxOpen) {
@@ -325,7 +339,13 @@ export const LensPost = (props: LensPostProps) => {
       </article>
       {collectAction && <CollectDialog ref={collectDialog} post={post} />}
       <QuoteDialog ref={quoteDialog} post={post} createQuote={async (post, content) => undefined} />
-      <TipDialog ref={tipDialog} supportedTokens={[]} createTip={async () => undefined} />
+      <LensTipDialog
+        ref={tipDialog}
+        supportedTokens={[evmAddress("0x8827054498a0B36259A51e675Feb13C1fCa9f591")]}
+        createTip={tip}
+        onTipCreated={onTipCreated}
+        onError={onTipError}
+      />
       <Dialog open={lightboxOpen} onOpenChange={setLightboxOpen}>
         <DialogContent className="flex justify-center items-center max-h-full max-w-full bg-transparent border-none shadow-none">
           {lightboxOpen && lightboxUri && (

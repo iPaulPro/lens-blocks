@@ -142,7 +142,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           </SidebarMenu>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter>
+      <SidebarFooter className="bg-white border-t">
         <div className="flex justify-between items-center text-muted-foreground">
           <div className="flex items-center gap-2">
             <Button variant="ghost" size="sm" asChild>

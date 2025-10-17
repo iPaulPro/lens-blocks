@@ -102,8 +102,8 @@ importers:
         specifier: 2.1.1
         version: 2.1.1
       connectkit:
-        specifier: 1.9.0
-        version: 1.9.0(@babel/core@7.28.0)(@tanstack/react-query@5.76.0(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react-is@16.13.1)(react@18.3.1)(viem@2.33.0(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3))(wagmi@2.15.3(@tanstack/query-core@5.83.0)(@tanstack/react-query@5.76.0(react@18.3.1))(@types/react@18.3.23)(bufferutil@4.0.9)(react@18.3.1)(typescript@5.8.3)(utf-8-validate@5.0.10)(viem@2.33.0(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3))(zod@3.24.3))
+        specifier: 1.9.1
+        version: 1.9.1(@babel/core@7.28.0)(@tanstack/react-query@5.76.0(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react-is@16.13.1)(react@18.3.1)(viem@2.33.0(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3))(wagmi@2.15.3(@tanstack/query-core@5.83.0)(@tanstack/react-query@5.76.0(react@18.3.1))(@types/react@18.3.23)(bufferutil@4.0.9)(react@18.3.1)(typescript@5.8.3)(utf-8-validate@5.0.10)(viem@2.33.0(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3))(zod@3.24.3))
       linkedom:
         specifier: 0.18.12
         version: 0.18.12
@@ -2620,8 +2620,8 @@ packages:
   concat-map@0.0.1:
     resolution: {integrity: sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==}
 
-  connectkit@1.9.0:
-    resolution: {integrity: sha512-bkqg8zK35pWWG2q8xeo41J1mnBP8D2ffOd/ItB12aad9QZZU20SlEeiQM9iYfRyl0JAH1tqIDlZbXajqZBFfDw==}
+  connectkit@1.9.1:
+    resolution: {integrity: sha512-ac9Ki3+HdS3l5NCa6H86y7R+0PqwJ8yzsBQVtWk4/jkFo+JJioetO43A/Q0O7VtxLbfuLLfwDGZ09taePLNzfQ==}
     engines: {node: '>=12.4'}
     peerDependencies:
       '@tanstack/react-query': '>=5.0.0'
@@ -8762,7 +8762,7 @@ snapshots:
 
   concat-map@0.0.1: {}
 
-  connectkit@1.9.0(@babel/core@7.28.0)(@tanstack/react-query@5.76.0(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react-is@16.13.1)(react@18.3.1)(viem@2.33.0(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3))(wagmi@2.15.3(@tanstack/query-core@5.83.0)(@tanstack/react-query@5.76.0(react@18.3.1))(@types/react@18.3.23)(bufferutil@4.0.9)(react@18.3.1)(typescript@5.8.3)(utf-8-validate@5.0.10)(viem@2.33.0(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3))(zod@3.24.3)):
+  connectkit@1.9.1(@babel/core@7.28.0)(@tanstack/react-query@5.76.0(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react-is@16.13.1)(react@18.3.1)(viem@2.33.0(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3))(wagmi@2.15.3(@tanstack/query-core@5.83.0)(@tanstack/react-query@5.76.0(react@18.3.1))(@types/react@18.3.23)(bufferutil@4.0.9)(react@18.3.1)(typescript@5.8.3)(utf-8-validate@5.0.10)(viem@2.33.0(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3))(zod@3.24.3)):
     dependencies:
       '@tanstack/react-query': 5.76.0(react@18.3.1)
       buffer: 6.0.3

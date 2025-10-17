@@ -16,7 +16,6 @@ const LikeButton = ({ className, onSuccess, onError }: LikeButtonProps) => {
   const { post, loading: postLoading, toggleLike, optimistic } = useLensPostContext();
 
   const operations = post && "operations" in post ? post.operations : null;
-  const stats = post && "stats" in post ? post.stats : null;
 
   const onClick = async (event: MouseEvent<HTMLButtonElement>) => {
     event.currentTarget.blur();
@@ -51,7 +50,7 @@ const LikeButton = ({ className, onSuccess, onError }: LikeButtonProps) => {
           <Heart className="opacity-85" />
         )}
       </Button>
-      <span>{new Intl.NumberFormat().format(stats?.upvotes ?? 0)}</span>
+      <span>{new Intl.NumberFormat().format(optimistic.likeCount)}</span>
     </div>
   );
 };

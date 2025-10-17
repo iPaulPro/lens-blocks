@@ -29,6 +29,11 @@ export type OptimisticState = {
   repostedOrQuoted: boolean;
   tipped: boolean;
   bookmarked: boolean;
+  likeCount: number;
+  commentCount: number;
+  collectCount: number;
+  repostAndQuoteCount: number;
+  tipCount: number;
 };
 
 export type Referral = {
@@ -90,6 +95,11 @@ export const LensPostProvider = ({ sessionClient, walletClient, postId, children
       operations?.hasQuoted.optimistic ??
       operations?.hasQuoted.onChain ??
       false,
+    likeCount: stats?.upvotes ?? 0,
+    commentCount: stats?.comments ?? 0,
+    collectCount: stats?.collects ?? 0,
+    repostAndQuoteCount: (stats?.reposts ?? 0) + (stats?.quotes ?? 0),
+    tipCount: stats?.tips ?? 0,
   });
 
   useEffect(() => {
@@ -113,6 +123,7 @@ export const LensPostProvider = ({ sessionClient, walletClient, postId, children
     setOptimistic(optimistic => ({
       ...optimistic,
       liked: !optimistic?.liked,
+      likeCount: optimistic.liked ? Math.max(0, optimistic.likeCount - 1) : optimistic.likeCount + 1,
     }));
 
     const res = await toggleReaction({ post, session: sessionClient });
@@ -121,6 +132,7 @@ export const LensPostProvider = ({ sessionClient, walletClient, postId, children
       setOptimistic(optimistic => ({
         ...optimistic,
         liked: !optimistic?.liked,
+        likeCount: optimistic.liked ? Math.max(0, optimistic.likeCount - 1) : optimistic.likeCount + 1,
       }));
       throw res.error;
     }
@@ -182,7 +194,6 @@ export const LensPostProvider = ({ sessionClient, walletClient, postId, children
       .andThen(sessionClient.waitForTransaction);
 
     if (postResponse.isErr()) {
-      console.error("Error posting comment:", postResponse.error);
       setOptimistic(optimistic => ({
         ...optimistic,
         commented: previouslyCommented,
@@ -223,13 +234,18 @@ export const LensPostProvider = ({ sessionClient, walletClient, postId, children
       .andThen(sessionClient.waitForTransaction);
 
     if (res.isErr()) {
-      console.error("Error collecting post:", res.error);
       setOptimistic(optimistic => ({
         ...optimistic,
         collected: false,
+        collectCount: Math.max(0, optimistic.collectCount - 1),
       }));
       throw res.error;
     }
+
+    setOptimistic(optimistic => ({
+      ...optimistic,
+      collectCount: optimistic.collectCount + 1,
+    }));
 
     return res.value;
   };
@@ -246,6 +262,7 @@ export const LensPostProvider = ({ sessionClient, walletClient, postId, children
     setOptimistic(optimistic => ({
       ...optimistic,
       repostedOrQuoted: true,
+      repostAndQuoteCount: optimistic.repostAndQuoteCount + 1,
     }));
 
     const res = await createRepost(sessionClient, {
@@ -255,10 +272,10 @@ export const LensPostProvider = ({ sessionClient, walletClient, postId, children
       .andThen(sessionClient.waitForTransaction);
 
     if (res.isErr()) {
-      console.error("Error reposting post:", res.error);
       setOptimistic(optimistic => ({
         ...optimistic,
         repostedOrQuoted: previouslyReposted,
+        repostAndQuoteCount: Math.max(0, optimistic.repostAndQuoteCount - 1),
       }));
       throw res.error;
     }
@@ -292,6 +309,7 @@ export const LensPostProvider = ({ sessionClient, walletClient, postId, children
     setOptimistic(optimistic => ({
       ...optimistic,
       repostedOrQuoted: true,
+      repostAndQuoteCount: optimistic.repostAndQuoteCount + 1,
     }));
 
     const postResponse = await createPost(sessionClient, postRequest)
@@ -299,10 +317,10 @@ export const LensPostProvider = ({ sessionClient, walletClient, postId, children
       .andThen(sessionClient.waitForTransaction);
 
     if (postResponse.isErr()) {
-      console.error("Error quoting post:", postResponse.error);
       setOptimistic(optimistic => ({
         ...optimistic,
         repostedOrQuoted: previouslyQuoted,
+        repostAndQuoteCount: Math.max(0, optimistic.repostAndQuoteCount - 1),
       }));
       throw postResponse.error;
     }
@@ -343,13 +361,18 @@ export const LensPostProvider = ({ sessionClient, walletClient, postId, children
       .andThen(sessionClient.waitForTransaction);
 
     if (res.isErr()) {
-      console.error("Error sending tip:", res.error);
       setOptimistic(optimistic => ({
         ...optimistic,
         tipped: false,
+        tipCount: Math.max(0, optimistic.tipCount - 1),
       }));
       throw res.error;
     }
+
+    setOptimistic(optimistic => ({
+      ...optimistic,
+      tipCount: optimistic.tipCount + 1,
+    }));
 
     return res.value;
   };
@@ -362,14 +385,10 @@ export const LensPostProvider = ({ sessionClient, walletClient, postId, children
       bookmarked: !optimistic.bookmarked,
     }));
 
-    try {
-      if (operations?.hasBookmarked) {
-        await undoBookmarkPost({ post: toPostId(postId) });
-      } else {
-        await bookmarkPost({ post: toPostId(postId) });
-      }
-    } catch (error) {
-      console.error("Error bookmarking post:", error);
+    if (operations?.hasBookmarked) {
+      await undoBookmarkPost({ post: toPostId(postId) });
+    } else {
+      await bookmarkPost({ post: toPostId(postId) });
     }
   };
 

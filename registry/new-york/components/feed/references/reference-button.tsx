@@ -5,7 +5,7 @@ import {
   DropdownMenuTrigger,
 } from "@/registry/new-york/ui/dropdown-menu";
 import { AnyPost, Post, TxHash } from "@lens-protocol/react";
-import { MouseEvent, useEffect, useState } from "react";
+import { MouseEvent, useState } from "react";
 import { CheckCircle, Loader, MessageCircle, Repeat2 } from "lucide-react";
 import { Button } from "@/registry/new-york/ui/button";
 import { useLensPostContext } from "@/registry/new-york/hooks/use-lens-post-context";
@@ -17,23 +17,13 @@ type ReferenceButtonProps = {
 };
 
 const ReferenceButton = ({ onQuoteClick, onRepostSuccess, onError }: ReferenceButtonProps) => {
-  const { post, repost, loading: postLoading } = useLensPostContext();
+  const { post, repost, loading: postLoading, optimistic } = useLensPostContext();
 
   const [isDropdownMenuOpen, setIsDropdownMenuOpen] = useState(false);
   const [isPosting, setIsPosting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
 
-  const [numReposts, setNumReposts] = useState<number>(post && "stats" in post ? post.stats.reposts : 0);
-  const [numQuotes, setNumQuotes] = useState<number>(post && "stats" in post ? post.stats.quotes : 0);
-
   const postToReference: Post | null | undefined = post?.__typename === "Repost" ? post.repostOf : post;
-
-  useEffect(() => {
-    if (post && "stats" in post) {
-      setNumReposts(post.stats.reposts);
-      setNumQuotes(post.stats.quotes);
-    }
-  }, [post]);
 
   const onClick = (event: MouseEvent<HTMLButtonElement>) => {
     event.currentTarget.blur();
@@ -47,7 +37,6 @@ const ReferenceButton = ({ onQuoteClick, onRepostSuccess, onError }: ReferenceBu
     try {
       const txHash = await repost();
       if (txHash) {
-        setNumReposts(prevNum => prevNum + 1);
         onRepostSuccess?.(txHash);
         setShowSuccess(true);
         setTimeout(() => {
@@ -121,7 +110,7 @@ const ReferenceButton = ({ onQuoteClick, onRepostSuccess, onError }: ReferenceBu
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
-      <span className="opacity-85">{new Intl.NumberFormat().format(numQuotes + numReposts)}</span>
+      <span className="opacity-85">{new Intl.NumberFormat().format(optimistic.repostAndQuoteCount)}</span>
     </div>
   );
 };

@@ -11,10 +11,9 @@ type CommentButtonProps = {
 };
 
 const CommentButton = ({ onClick }: CommentButtonProps) => {
-  const { post, loading: postLoading } = useLensPostContext();
+  const { post, loading: postLoading, optimistic } = useLensPostContext();
 
   const operations = post && "operations" in post ? post.operations : null;
-  const stats = post && "stats" in post ? post.stats : null;
 
   const onButtonClick = (event: MouseEvent<HTMLButtonElement>) => {
     event.currentTarget.blur();
@@ -38,7 +37,7 @@ const CommentButton = ({ onClick }: CommentButtonProps) => {
           <MessageCircle className="opacity-85" />
         )}
       </Button>
-      <span className="opacity-85">{new Intl.NumberFormat().format(stats?.comments ?? 0)}</span>
+      <span className="opacity-85">{new Intl.NumberFormat().format(optimistic.commentCount)}</span>
     </div>
   );
 };

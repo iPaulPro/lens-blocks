@@ -11,16 +11,15 @@ interface Props {
 }
 
 const TipButton = ({ onClick }: Props) => {
-  const { post, loading: postLoading } = useLensPostContext();
+  const { post, loading: postLoading, optimistic } = useLensPostContext();
 
   const operations = post && "operations" in post ? post.operations : null;
-  const stats = post && "stats" in post ? post.stats : null;
 
   const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
     event.currentTarget.blur();
     event.stopPropagation();
     if (!post) return;
-    // onClick(post);
+    onClick(post);
   };
 
   if (!post) return null;
@@ -51,7 +50,7 @@ const TipButton = ({ onClick }: Props) => {
           <CircleDollarSign className="w-4 h-4" />
         )}
       </Button>
-      <span className="opacity-85">{new Intl.NumberFormat().format(stats?.tips ?? 0)}</span>
+      <span className="opacity-85">{new Intl.NumberFormat().format(optimistic.tipCount)}</span>
     </div>
   );
 };

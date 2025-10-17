@@ -14,7 +14,6 @@ const CollectButton = ({ onClick }: CollectButtonProps) => {
   const { post, loading: postLoading, optimistic } = useLensPostContext();
 
   const operations = post && "operations" in post ? post.operations : null;
-  const stats = post && "stats" in post ? post.stats : null;
 
   const onButtonClick = (event: MouseEvent<HTMLButtonElement>) => {
     event.currentTarget.blur();
@@ -59,7 +58,7 @@ const CollectButton = ({ onClick }: CollectButtonProps) => {
           <ShoppingBag className="h-4 h-4" />
         )}
       </Button>
-      <span className="opacity-85">{new Intl.NumberFormat().format(stats?.collects ?? 0)}</span>
+      <span className="opacity-85">{new Intl.NumberFormat().format(optimistic.collectCount)}</span>
     </div>
   );
 };

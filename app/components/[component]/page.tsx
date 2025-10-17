@@ -7,6 +7,7 @@ import TextEditor from "@/components/text-editor";
 import Markdown from "@/components/markdown";
 import AudioPlayer from "@/components/audio-player";
 import VideoPlayer from "@/components/video-player";
+import TipDialog from "@/components/tip-dialog";
 
 export default async function Page({ params }: { params: Promise<{ component: string }> }) {
   const { component } = await params;
@@ -30,6 +31,8 @@ export default async function Page({ params }: { params: Promise<{ component: st
       return <TextEditor />;
     case "lens-markdown":
       return <Markdown />;
+    case "tip-dialog":
+      return <TipDialog />;
     case "video-player":
       return <VideoPlayer />;
     default:

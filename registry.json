@@ -4,20 +4,6 @@
   "homepage": "https://lensblocks.com",
   "items": [
     {
-      "name": "account-list-item-skeleton",
-      "type": "registry:component",
-      "title": "Lens Account List Item Skeleton",
-      "description": "A skeleton placeholder for a Lens account list item, displaying the account avatar, display name, and username.",
-      "registryDependencies": ["skeleton"],
-      "dependencies": [],
-      "files": [
-        {
-          "path": "registry/new-york/components/common/lens-account-list-item-skeleton.tsx",
-          "type": "registry:component"
-        }
-      ]
-    },
-    {
       "name": "paginated-list",
       "type": "registry:component",
       "title": "Paginated List",
@@ -128,8 +114,7 @@
         "skeleton",
         "@lens-blocks/utils",
         "@lens-blocks/lens-account-list-item",
-        "@lens-blocks/paginated-list",
-        "@lens-blocks/account-list-item-skeleton"
+        "@lens-blocks/paginated-list"
       ],
       "files": [
         {
@@ -148,12 +133,15 @@
         "avatar",
         "button",
         "skeleton",
-        "@lens-blocks/account-list-item-skeleton",
         "@lens-blocks/utils"
       ],
       "files": [
         {
           "path": "registry/new-york/components/common/lens-account-list-item.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "registry/new-york/components/common/lens-account-list-item-skeleton.tsx",
           "type": "registry:component"
         }
       ]
@@ -275,7 +263,7 @@
       "description": "A full-featured login flow for Lens Social Protocol that hooks into the Lens React SDK, uses ConnectKit for wallet connections, supports account switching and more.",
       "dependencies": [
         "@lens-protocol/react@0.0.0-canary-20250820102520",
-        "connectkit@1.9.0",
+        "connectkit@1.9.1",
         "react-virtuoso@4.13.0",
         "lucide-react",
         "viem@2.33.0",
@@ -291,13 +279,16 @@
         "@lens-blocks/account-chooser",
         "@lens-blocks/login-button",
         "@lens-blocks/account-list-item",
-        "@lens-blocks/account-list-item-skeleton",
         "@lens-blocks/use-login-with-viem"
       ],
       "files": [
         {
           "path": "registry/new-york/blocks/lens-login.tsx",
           "type": "registry:block"
+        },
+        {
+          "path": "registry/new-york/components/common/lens-account-list-item-skeleton.tsx",
+          "type": "registry:component"
         }
       ]
     },
@@ -332,6 +323,29 @@
         {
           "path": "registry/new-york/lib/regex.ts",
           "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "tip-dialog",
+      "type": "registry:component",
+      "title": "Lens Tip Dialog",
+      "description": "A dialog component for sending tips to Lens Posts and Accounts, with support for multiple tokens.",
+      "dependencies": [
+        "@lens-protocol/react@0.0.0-canary-20250820102520",
+        "@lens-protocol/client@0.0.0-canary-20250820102520",
+        "wagmi@2.15.3"
+      ],
+      "registryDependencies": [
+        "button",
+        "dialog",
+        "input",
+        "select"
+      ],
+      "files": [
+        {
+          "path": "registry/new-york/components/feed/tips/lens-tip-dialog.tsx",
+          "type": "registry:component"
         }
       ]
     },
