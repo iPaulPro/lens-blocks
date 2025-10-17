@@ -2,7 +2,7 @@
 
 import { OpenInV0Button } from "@/components/open-in-v0-button";
 import { CodeBlock } from "@/components/codeblock";
-import { LensAccountListItemSkeleton } from "@/registry/new-york/components/common/lens-account-list-item-skeleton";
+import { LensAccountListItemSkeleton } from "@/registry/new-york/components/account/lens-account-list-item-skeleton";
 import { InstallCommandBlock } from "@/components/install-command-block";
 
 export default function AccountListItemSkeleton() {

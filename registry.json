@@ -137,11 +137,11 @@
       ],
       "files": [
         {
-          "path": "registry/new-york/components/common/lens-account-list-item.tsx",
+          "path": "registry/new-york/components/account/lens-account-list-item.tsx",
           "type": "registry:component"
         },
         {
-          "path": "registry/new-york/components/common/lens-account-list-item-skeleton.tsx",
+          "path": "registry/new-york/components/account/lens-account-list-item-skeleton.tsx",
           "type": "registry:component"
         }
       ]
@@ -287,7 +287,7 @@
           "type": "registry:block"
         },
         {
-          "path": "registry/new-york/components/common/lens-account-list-item-skeleton.tsx",
+          "path": "registry/new-york/components/account/lens-account-list-item-skeleton.tsx",
           "type": "registry:component"
         }
       ]

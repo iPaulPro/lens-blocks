@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Account, AnyPost, Cursor, PageSize, usePostReactions } from "@lens-protocol/react";
 import { PaginatedList } from "@/registry/new-york/components/common/paginated-list";
-import { LensAccountListItem } from "@/registry/new-york/components/common/lens-account-list-item";
-import { LensAccountListItemSkeleton } from "@/registry/new-york/components/common/lens-account-list-item-skeleton";
+import { LensAccountListItem } from "@/registry/new-york/components/account/lens-account-list-item";
+import { LensAccountListItemSkeleton } from "@/registry/new-york/components/account/lens-account-list-item-skeleton";
 
 type LikesListProps = {
   post: AnyPost;

@@ -1,9 +1,8 @@
 import { useState } from "react";
-import { ArrowRightLeft, MessageSquareQuote } from "lucide-react";
-import { Cursor, PageSize, AnyPost, PostReferenceType, usePostReferences } from "@lens-protocol/react";
-import { LensAccountListItem } from "@/registry/new-york/components/common/lens-account-list-item";
+import { AnyPost, Cursor, PageSize, PostReferenceType, usePostReferences } from "@lens-protocol/react";
+import { LensAccountListItem } from "@/registry/new-york/components/account/lens-account-list-item";
 import { PaginatedList } from "@/registry/new-york/components/common/paginated-list";
-import { LensAccountListItemSkeleton } from "@/registry/new-york/components/common/lens-account-list-item-skeleton";
+import { LensAccountListItemSkeleton } from "@/registry/new-york/components/account/lens-account-list-item-skeleton";
 
 const ReferencesList = ({ post }: { post: AnyPost }) => {
   const [cursor, setCursor] = useState<Cursor | null>(null);
