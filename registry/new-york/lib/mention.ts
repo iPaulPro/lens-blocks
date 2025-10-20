@@ -13,7 +13,7 @@ const client = PublicClient.create({
 
 const suggestion = {
   items: async ({ query }: { query: string }) => {
-    if (query.length < 2) return [];
+    if (query.length === 0) return [];
 
     const accounts = await fetchAccounts(client, {
       filter: {
@@ -92,5 +92,9 @@ export const Mention = BuiltInMention.extend().configure({
   renderHTML({ options, node }) {
     return ["span", options.HTMLAttributes, `@${node.attrs.id.replace("lens/", "")}`];
   },
+  renderText({ node }) {
+    return `@${node.attrs.id.replace("lens/", "")}`;
+  },
+  deleteTriggerWithBackspace: true,
   suggestion,
 });
