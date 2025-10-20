@@ -4,7 +4,7 @@
   "type": "registry:component",
   "title": "Paginated List",
   "description": "A reusable paginated list component that fetches and displays items in pages, with support for loading states and end-of-list indicators, based on Paginated and Cursor from the Lens React SDK.",
-  "dependencies": ["@lens-protocol/react@0.0.0-canary-20250725092937", "react-virtuoso@4.13.0", "lucide-react"],
+  "dependencies": ["@lens-protocol/react@0.0.0-canary-20250820102520", "react-virtuoso@4.13.0", "lucide-react"],
   "files": [
     {
       "path": "registry/new-york/components/common/paginated-list.tsx",

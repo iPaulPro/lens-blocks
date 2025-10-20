@@ -1,10 +1,10 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
-  "name": "use-lens-login-with-viem",
+  "name": "use-login-with-viem",
   "type": "registry:hook",
   "title": "Use Lens Login with Viem",
   "description": "A hook to execute login with the Lens React SDK using the Viem library for wallet interaction.",
-  "dependencies": ["@lens-protocol/react@0.0.0-canary-20250725092937", "viem@2.33.0"],
+  "dependencies": ["@lens-protocol/react@0.0.0-canary-20250820102520", "viem@2.33.0"],
   "files": [
     {
       "path": "registry/new-york/hooks/use-lens-login-with-viem.ts",

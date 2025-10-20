@@ -1,10 +1,10 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
-  "name": "use-authenticated-lens-account",
+  "name": "use-authenticated-account",
   "type": "registry:hook",
   "title": "Use Authenticated Lens Account",
   "description": "A hook to get the currently authenticated Lens account using the Lens React SDK.",
-  "dependencies": ["@lens-protocol/react@0.0.0-canary-20250725092937"],
+  "dependencies": ["@lens-protocol/react@0.0.0-canary-20250820102520"],
   "files": [
     {
       "path": "registry/new-york/hooks/use-authenticated-lens-account.ts",

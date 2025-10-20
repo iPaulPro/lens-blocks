@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "use-post-context",
+  "type": "registry:hook",
+  "title": "Use Lens Post Context",
+  "description": "A hook for queries and operations in a shared Lens post context",
+  "registryDependencies": ["@lens-blocks/post-provider"],
+  "files": [
+    {
+      "path": "registry/new-york/hooks/use-lens-post-context.tsx",
+      "content": "import { useContext } from \"react\";\nimport { LensPostContext } from \"@/registry/new-york/lib/lens-post-provider\";\n\nexport const useLensPostContext = () => {\n  const context = useContext(LensPostContext);\n  if (!context) {\n    throw new Error(\"useLensPostContext must be used within a PostProvider\");\n  }\n  return context;\n};\n",
+      "type": "registry:hook"
+    }
+  ]
+}

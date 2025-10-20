@@ -1,0 +1,39 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "lens-markdown",
+  "type": "registry:component",
+  "title": "Lens Markdown",
+  "description": "A Markdown renderer for Lens posts and comments, supporting mentions, links, and rich text formatting.",
+  "dependencies": [
+    "@lens-protocol/react@0.0.0-canary-20250820102520",
+    "@lens-protocol/metadata@2.1.0",
+    "react-markdown@9.0.3",
+    "remark-gfm@4.0.1",
+    "remark-breaks@4.0.0",
+    "remark-linkify-regex@1.2.1",
+    "strip-markdown@6.0.0"
+  ],
+  "registryDependencies": ["@lens-blocks/utils", "@lens-blocks/lens-mention-link"],
+  "files": [
+    {
+      "path": "registry/new-york/components/common/lens-markdown.tsx",
+      "content": "// @ts-ignore\nimport linkifyRegex from \"remark-linkify-regex\";\nimport stripMarkdown from \"strip-markdown\";\nimport remarkGfm from \"remark-gfm\";\nimport remarkBreaks from \"remark-breaks\";\nimport { RegEx } from \"@/registry/new-york/lib/regex\";\nimport ReactMarkdown, { Components } from \"react-markdown\";\nimport { cn } from \"@/lib/utils\";\nimport LensMentionLink from \"@/registry/new-york/components/common/lens-mention-link\";\nimport { AccountMention, GroupMention } from \"@lens-protocol/react\";\nimport LensTagLink from \"@/registry/new-york/components/common/lens-tag-link\";\n\ntype Props = {\n  content: string;\n  className?: string;\n  mentions?: (AccountMention | GroupMention)[];\n};\n\nconst LensMarkdown = (props: Props) => {\n  const { content, className, mentions } = props;\n  const remarkPlugins = [\n    [\n      stripMarkdown,\n      {\n        keep: [\"blockquote\", \"code\", \"delete\", \"emphasis\", \"inlineCode\", \"link\", \"list\", \"listItem\", \"strong\"],\n      },\n    ],\n    remarkGfm,\n    remarkBreaks,\n    linkifyRegex(RegEx.URL),\n    linkifyRegex(RegEx.MENTION),\n    linkifyRegex(RegEx.HASHTAG),\n    linkifyRegex(RegEx.CASHTAG),\n  ];\n\n  const components: Components = {\n    // linkifyRegex will find mentions, hashtags, and cashtags, and replace them with a link\n    // here we are defining how to render that link\n    a: (props: any) => {\n      const mention = mentions?.find(mention => mention.replace.from === props.title);\n\n      if (mention) {\n        return <LensMentionLink mention={mention} />;\n      }\n\n      if (props.title?.startsWith(\"#\") || props.title?.startsWith(\"$\")) {\n        return <LensTagLink tag={props.title} />;\n      }\n\n      return (\n        <a {...props} target=\"_blank\" rel=\"noopener noreferrer\">\n          {props.href\n            .replace(/^https?:\\/\\//, \"\")\n            .replace(/\\/$/, \"\")\n            .replace(/\\\\$/, \"\")\n            .replace(/^www\\./, \"\")\n            .slice(0, 30) + (props.href.length > 30 ? \"...\" : \"\")}\n        </a>\n      );\n    },\n  };\n  return (\n    <ReactMarkdown\n      remarkPlugins={remarkPlugins}\n      components={components}\n      className={cn(\"break-words hyphens-none line-clamp-6 whitespace-pre-wrap\", className)}\n    >\n      {content}\n    </ReactMarkdown>\n  );\n};\n\nexport default LensMarkdown;\n",
+      "type": "registry:component"
+    },
+    {
+      "path": "registry/new-york/components/common/lens-mention-link.tsx",
+      "content": "import { ComponentProps } from \"react\";\nimport { AccountMention, GroupMention } from \"@lens-protocol/react\";\nimport { getUsernamePath } from \"@/registry/new-york/lib/lens-utils\";\n\ntype Props = {\n  mention: AccountMention | GroupMention;\n  href?: string;\n};\n\ntype LinkProps = Omit<ComponentProps<\"a\">, \"href\">;\n\nexport default function LensMentionLink(props: Props & LinkProps) {\n  if (props.mention.__typename === \"GroupMention\") {\n    const href = props.href ?? `/g/${props.mention.replace.from.replace(\"#\", \"\")}`;\n    return (\n      <a {...props} href={href}>\n        {props.mention.replace.to}\n      </a>\n    );\n  }\n\n  const namespace = props.mention.namespace;\n  const href = props.href ?? getUsernamePath(props.mention.replace.to, namespace);\n  return (\n    <a {...props} href={href}>\n      {props.mention.replace.to.replace(\"@lens/\", \"@\")}\n    </a>\n  );\n}\n",
+      "type": "registry:component"
+    },
+    {
+      "path": "registry/new-york/components/common/lens-tag-link.tsx",
+      "content": "import { ComponentProps } from \"react\";\n\ntype Props = {\n  tag: string;\n  href?: string;\n};\n\ntype LinkProps = Omit<ComponentProps<\"a\">, \"href\">;\n\nexport default function LensTagLink(props: Props & LinkProps) {\n  return props.href ? (\n    <a {...props} href={props.href}>\n      {props.tag}\n    </a>\n  ) : (\n    <span className=\"font-bold\">{props.tag}</span>\n  );\n}\n",
+      "type": "registry:component"
+    },
+    {
+      "path": "registry/new-york/lib/regex.ts",
+      "content": "const regexLookbehindAvailable: boolean = ((): boolean => {\n  try {\n    return \"ab\".replace(/(?<=a)b/g, \"c\") === \"ac\";\n  } catch {\n    return false;\n  }\n})();\n\nconst MATCH_BEHIND = regexLookbehindAvailable ? \"(?<=^|\\\\s)\" : \"\";\n\nconst MENTION_NAMESPACE = \"\\\\w+\\\\/\";\nconst MENTION_BODY = \"([\\\\dA-Za-z]\\\\w{2,25})\";\n\nexport const RegEx = {\n  CASHTAG: /(\\$\\w*[A-Za-z]\\w*)/g,\n  HASHTAG: /(#\\w*[A-Za-z]\\w*)/g,\n  MENTION: new RegExp(`${MATCH_BEHIND}@${MENTION_NAMESPACE}${MENTION_BODY}`, \"g\"),\n  URL: /\\b(http|https):\\/\\/([\\p{L}\\p{N}_-]+(?:(?:\\.[\\p{L}\\p{N}_-]+)+))([\\p{L}\\p{N}_.,@?^=%&:\\/~+#-]*[\\p{L}\\p{N}_@?^=%&\\/~+#-])/gu,\n};\n",
+      "type": "registry:lib"
+    }
+  ]
+}

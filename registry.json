@@ -466,11 +466,11 @@
           "type": "registry:component"
         },
         {
-          "path": "registry/new-york/components/feed/tips/tip-dialog.tsx",
+          "path": "registry/new-york/components/feed/tips/lens-tip-dialog.tsx",
           "type": "registry:component"
         },
         {
-          "path": "registry/new-york/components/common/lens-image.tsx",
+          "path": "registry/new-york/components/feed/lens-image.tsx",
           "type": "registry:component"
         },
         {
