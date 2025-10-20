@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import getMetaFromUrl, { UrlMetadata } from "@/registry/new-york/lib/get-meta-from-url";
-import getFavicon from "@/registry/new-york/components/feed/get-favicon";
+import getFavicon from "@/registry/new-york/lib/get-favicon";
 
 type Props = {
   url: string;

@@ -28,7 +28,7 @@ function parseUtilitiesFromFile(filePath: string): Utility[] {
 
   ts.forEachChild(sourceFile, node => {
     if (ts.isVariableStatement(node) && node.modifiers?.some(m => m.kind === ts.SyntaxKind.ExportKeyword)) {
-      const jsDoc = (node as any).jsDoc as ts.JSDoc[] | undefined;
+      const jsDoc = (node as ts.Node & { jsDoc?: ts.JSDoc[] }).jsDoc;
       const description = jsDoc?.[0]?.comment ? (jsDoc[0].comment as string).trim() : "";
 
       for (const decl of node.declarationList.declarations) {

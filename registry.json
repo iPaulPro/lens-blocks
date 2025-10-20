@@ -69,6 +69,26 @@
       ]
     },
     {
+      "name": "use-reaction-toggle",
+      "type": "registry:hook",
+      "title": "Use Reaction Toggle",
+      "description": "A hook to toggle reactions (like/unlike) on Lens publications using the Lens React SDK.",
+      "dependencies": [
+        "@lens-protocol/react@0.0.0-canary-20250820102520",
+        "@lens-protocol/types@0.0.0-canary-20250820102520"
+      ],
+      "files": [
+        {
+          "path": "registry/new-york/hooks/use-reaction-toggle.ts",
+          "type": "registry:hook"
+        },
+        {
+          "path": "registry/new-york/lib/tasks.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
       "name": "use-post-context",
       "type": "registry:hook",
       "title": "Use Lens Post Context",
@@ -354,6 +374,26 @@
         {
           "path": "registry/new-york/components/feed/tips/lens-tip-dialog.tsx",
           "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "link-preview",
+      "type": "registry:component",
+      "title": "Link Preview",
+      "description": "A component to display a link preview for URLs included in Lens posts, showing the title, description, and image.",
+      "files": [
+        {
+          "path": "registry/new-york/components/feed/link-preview.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "registry/new-york/lib/get-meta-from-url.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "registry/new-york/lib/get-favicon.ts",
+          "type": "registry:lib"
         }
       ]
     },

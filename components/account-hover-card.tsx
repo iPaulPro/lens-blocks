@@ -58,7 +58,9 @@ export default function AccountHoverCard() {
         <InstallCommandBlock componentName="account-hover-card" />
         <h2 className="mt-6 pb-2 text-3xl font-semibold tracking-tight first:mt-0">Usage</h2>
         <CodeBlock lang="tsx" className="lines">
-          {`import { LensAccountHoverCard } from "@/components/lens-account-hover-card";`}
+          {`import { LensAccountHoverCard } from "@/components/lens-account-hover-card";
+import { useSessionClient } from "@lens-protocol/react";
+import { useWalletClient } from "wagmi";`}
         </CodeBlock>
         <CodeBlock lang="tsx" className="lines">
           {`const { data: sessionClient } = useSessionClient();
