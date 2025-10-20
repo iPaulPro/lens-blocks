@@ -1,4 +1,4 @@
-import { EvmAddress, MediaAudioType, MediaVideoType } from "@lens-protocol/react";
+import { Account, EvmAddress, MediaAudioType, MediaVideoType } from "@lens-protocol/react";
 
 export const ZeroAddress = "0x0000000000000000000000000000000000000000";
 export const NativeToken = "0x000000000000000000000000000000000000800A";
@@ -192,4 +192,14 @@ export const formatFollowerCount = (count: number): string => {
     return (count / 1_000).toFixed(1).replace(/\.0$/, "") + "k";
   }
   return count.toString();
+};
+
+export const getDisplayName = (account: Account): string => {
+  if (account.metadata?.name) {
+    return account.metadata.name;
+  }
+  if (account.username) {
+    return `@${account.username.localName}`;
+  }
+  return truncateAddress(account.address);
 };

@@ -8,6 +8,7 @@ import Markdown from "@/components/markdown";
 import AudioPlayer from "@/components/audio-player";
 import VideoPlayer from "@/components/video-player";
 import TipDialog from "@/components/tip-dialog";
+import FollowButton from "@/components/follow-buton";
 
 export default async function Page({ params }: { params: Promise<{ component: string }> }) {
   const { component } = await params;
@@ -23,6 +24,8 @@ export default async function Page({ params }: { params: Promise<{ component: st
       return <AccountListItemSkeleton />;
     case "audio-player":
       return <AudioPlayer />;
+    case "follow-button":
+      return <FollowButton />;
     case "login-button":
       return <LoginButton />;
     case "paginated-list":

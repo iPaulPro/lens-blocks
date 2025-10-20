@@ -129,12 +129,7 @@
       "title": "Lens Account List Item",
       "description": "A list item for a Lens account displaying the avatar, name, and handle.",
       "dependencies": ["@lens-protocol/react@0.0.0-canary-20250820102520", "lucide-react"],
-      "registryDependencies": [
-        "avatar",
-        "button",
-        "skeleton",
-        "@lens-blocks/utils"
-      ],
+      "registryDependencies": ["avatar", "button", "skeleton", "@lens-blocks/utils"],
       "files": [
         {
           "path": "registry/new-york/components/account/lens-account-list-item.tsx",
@@ -231,6 +226,24 @@
       ]
     },
     {
+      "name": "follow-button",
+      "type": "registry:component",
+      "title": "Lens Follow Button",
+      "description": "A button component to follow or unfollow a Lens Account, displaying the current follow state.",
+      "dependencies": [
+        "@lens-protocol/react@0.0.0-canary-20250820102520",
+        "@lens-protocol/client@0.0.0-canary-20250820102520",
+        "viem@2.33.0"
+      ],
+      "registryDependencies": ["button", "spinner"],
+      "files": [
+        {
+          "path": "registry/new-york/components/account/lens-follow-button.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
       "name": "account-hover-card",
       "type": "registry:block",
       "title": "Lens Account Hover Card",
@@ -243,9 +256,9 @@
       ],
       "registryDependencies": [
         "avatar",
-        "button",
         "hover-card",
         "skeleton",
+        "@lens-blocks/follow-button",
         "@lens-blocks/lens-markdown",
         "@lens-blocks/utils"
       ],
@@ -336,12 +349,7 @@
         "@lens-protocol/client@0.0.0-canary-20250820102520",
         "wagmi@2.15.3"
       ],
-      "registryDependencies": [
-        "button",
-        "dialog",
-        "input",
-        "select"
-      ],
+      "registryDependencies": ["button", "dialog", "input", "select"],
       "files": [
         {
           "path": "registry/new-york/components/feed/tips/lens-tip-dialog.tsx",

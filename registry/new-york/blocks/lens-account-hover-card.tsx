@@ -3,14 +3,13 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/registry/new-york/ui/avatar";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/registry/new-york/ui/hover-card";
 import { ReactNode, useEffect, useState } from "react";
-import { Account, AccountStats, PublicClient, SessionClient, UnauthenticatedError } from "@lens-protocol/react";
-import { fetchAccount, fetchAccountStats, follow, unfollow } from "@lens-protocol/client/actions";
+import { Account, AccountStats, PublicClient, SessionClient, TxHash } from "@lens-protocol/react";
+import { fetchAccount, fetchAccountStats } from "@lens-protocol/client/actions";
 import { formatFollowerCount, parseUri } from "@/registry/new-york/lib/lens-utils";
 import { CircleUserRoundIcon } from "lucide-react";
 import { WalletClient } from "viem";
-import { handleOperationWith } from "@lens-protocol/client/viem";
-import { Button } from "@/registry/new-york/ui/button";
 import LensMarkdown from "@/registry/new-york/components/common/lens-markdown";
+import LensFollowButton from "@/registry/new-york/components/account/lens-follow-button";
 
 interface Props {
   /**
@@ -38,12 +37,12 @@ interface Props {
   /**
    * Callback function that is called when the follow operation is successful
    */
-  onFollowSuccess?: (account: Account) => void;
+  onFollowSuccess?: (account: Account, txHash: TxHash) => void;
 
   /**
    * Callback function that is called when the unfollow operation is successful
    */
-  onUnfollowSuccess?: (account: Account) => void;
+  onUnfollowSuccess?: (account: Account, txHash: TxHash) => void;
 
   /**
    * Callback function that is called when an error occurs during follow/unfollow operations
@@ -59,7 +58,6 @@ export default function LensAccountHoverCard(props: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const [accountStats, setAccountStats] = useState<AccountStats>();
   const [showFollowButton, setShowFollowButton] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [freshAccount, setFreshAccount] = useState<Account>(account);
 
   useEffect(() => {
@@ -87,60 +85,24 @@ export default function LensAccountHoverCard(props: Props) {
     }
   }, [account, isOpen]);
 
-  const handleUnfollow = async (session: SessionClient) => {
-    const res = await unfollow(session, {
-      account: freshAccount.address,
-    })
-      .andThen(handleOperationWith(walletClient))
-      .andThen(session.waitForTransaction);
-    if (res.isErr()) {
-      onError?.(account, res.error);
-      return;
+  const updateAccount = async () => {
+    const client = session ?? lensClient;
+    const res = await fetchAccount(client, {
+      address: account.address,
+    });
+    if (res.isOk() && res.value) {
+      setFreshAccount(res.value);
     }
-    onUnfollowSuccess?.(account);
   };
 
-  const handleFollow = async (session: SessionClient) => {
-    const res = await follow(session, {
-      account: freshAccount.address,
-    })
-      .andThen(handleOperationWith(walletClient))
-      .andThen(session.waitForTransaction);
-    if (res.isErr()) {
-      onError?.(account, res.error);
-      return;
-    }
-    onFollowSuccess?.(account);
+  const handleFollowSuccess = async (txHash: TxHash) => {
+    await updateAccount();
+    onFollowSuccess?.(freshAccount, txHash);
   };
 
-  const onFollowButtonClick = async () => {
-    if (!session) {
-      onError?.(account, new UnauthenticatedError());
-      return;
-    }
-
-    setIsSubmitting(true);
-
-    try {
-      if (freshAccount.operations?.isFollowedByMe) {
-        await handleUnfollow(session);
-      } else {
-        await handleFollow(session);
-      }
-      // Refresh the account data
-      const res = await fetchAccount(session, {
-        address: freshAccount.address,
-      });
-      if (res.isOk() && res.value) {
-        setFreshAccount(res.value);
-      }
-    } catch (e) {
-      if (e instanceof Error) {
-        onError?.(account, e);
-      }
-    } finally {
-      setIsSubmitting(false);
-    }
+  const handleUnfollowSuccess = async (txHash: TxHash) => {
+    await updateAccount();
+    onUnfollowSuccess?.(freshAccount, txHash);
   };
 
   return (
@@ -159,24 +121,14 @@ export default function LensAccountHoverCard(props: Props) {
               </AvatarFallback>
             </Avatar>
             {showFollowButton && (
-              <Button
-                variant={freshAccount.operations?.isFollowedByMe ? "outline" : "default"}
-                className="btn group hover:border-destructive"
-                onClick={onFollowButtonClick}
-              >
-                {isSubmitting ? (
-                  <span className="loader"></span>
-                ) : (
-                  <>
-                    <span className="hidden group-hover:inline">
-                      {freshAccount.operations?.isFollowedByMe ? "Unfollow" : "Follow"}
-                    </span>
-                    <span className="inline group-hover:hidden">
-                      {freshAccount.operations?.isFollowedByMe ? "Following" : "Follow"}
-                    </span>
-                  </>
-                )}
-              </Button>
+              <LensFollowButton
+                account={account}
+                session={session}
+                walletClient={walletClient}
+                onFollowSuccess={(_account, txHash) => handleFollowSuccess(txHash)}
+                onUnfollowSuccess={(_account, txHash) => handleUnfollowSuccess(txHash)}
+                onFollowError={onError}
+              />
             )}
           </div>
           <div className="flex flex-col pt-2 w-full min-w-0">
