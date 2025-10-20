@@ -1,290 +1,161 @@
-"use client";
-
 import { InstallCommandBlock } from "@/components/install-command-block";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/registry/new-york/ui/table";
+import { readFileSync } from "fs";
+import path from "path";
+import * as ts from "typescript";
+import Markdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+
+interface Param {
+  name: string;
+  type: string;
+  description: string;
+  default?: string;
+}
+
+interface Utility {
+  name: string;
+  description: string;
+  params: Param[];
+  isConstant: boolean;
+  returnType: string;
+}
+
+function parseUtilitiesFromFile(filePath: string): Utility[] {
+  const fileContent = readFileSync(filePath, "utf-8");
+  const sourceFile = ts.createSourceFile(filePath, fileContent, ts.ScriptTarget.ESNext, true);
+  const utilities: Utility[] = [];
+
+  ts.forEachChild(sourceFile, node => {
+    if (ts.isVariableStatement(node) && node.modifiers?.some(m => m.kind === ts.SyntaxKind.ExportKeyword)) {
+      const jsDoc = (node as any).jsDoc as ts.JSDoc[] | undefined;
+      const description = jsDoc?.[0]?.comment ? (jsDoc[0].comment as string).trim() : "";
+
+      for (const decl of node.declarationList.declarations) {
+        if (ts.isIdentifier(decl.name)) {
+          const name = decl.name.text;
+          const params: Param[] = [];
+          const isConstant = !decl.initializer || !ts.isArrowFunction(decl.initializer);
+          let returnType = "";
+
+          if (decl.initializer && ts.isArrowFunction(decl.initializer)) {
+            returnType = decl.initializer.type ? decl.initializer.type.getText(sourceFile) : "void";
+            const jsDocTags = jsDoc?.[0]?.tags ?? [];
+            decl.initializer.parameters.forEach(param => {
+              const paramName = (param.name as ts.Identifier).text;
+              const paramType = param.type ? param.type.getText(sourceFile) : "any";
+              const paramDoc = jsDocTags.find(
+                (tag: ts.JSDocTag) => ts.isJSDocParameterTag(tag) && tag.name.getText(sourceFile) === paramName,
+              ) as ts.JSDocParameterTag | undefined;
+              const paramDescription = paramDoc?.comment ? (paramDoc.comment as string).trim() : "";
+              const paramDefault = param.initializer ? param.initializer.getText(sourceFile) : undefined;
+
+              params.push({
+                name: paramName,
+                type: paramType,
+                description: paramDescription,
+                default: paramDefault,
+              });
+            });
+          }
+
+          utilities.push({
+            name,
+            description,
+            params,
+            isConstant,
+            returnType,
+          });
+        }
+      }
+    }
+  });
+
+  return utilities;
+}
 
 export function Utils() {
+  const utilsFilePath = path.join(process.cwd(), "registry/new-york/lib/lens-utils.ts");
+  const utilities = parseUtilitiesFromFile(utilsFilePath);
+  const sortedUtils = utilities.sort((a, b) => a.name.localeCompare(b.name));
+
+  const constants = sortedUtils.filter(util => util.isConstant);
+  const functions = sortedUtils.filter(util => !util.isConstant);
+
   return (
     <div className="flex flex-col flex-1 gap-8">
       <h2 className="mt-6 pb-2 text-3xl font-semibold tracking-tight first:mt-0">Installation</h2>
       <InstallCommandBlock componentName="utils" />
       <h2 className="mt-6 pb-2 text-3xl font-semibold tracking-tight first:mt-0">Usage</h2>
-      <h3 className="pb-2 text-2xl font-semibold tracking-tight first:mt-0">Constants</h3>
-      <p className="content !mt-0">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Name</TableHead>
-              <TableHead>Description</TableHead>
-              <TableHead className="text-right">Type</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            <TableRow>
-              <TableCell>
-                <code>ZeroAddress</code>
-              </TableCell>
-              <TableCell>
-                A zero address equivalent to <code>address(0)</code> in Solidity
-              </TableCell>
-              <TableCell className="text-right">
-                <code>string</code>
-              </TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>
-                <code>NativeToken</code>
-              </TableCell>
-              <TableCell>The EVM address of the native token</TableCell>
-              <TableCell className="text-right">
-                <code>string</code>
-              </TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
-      </p>
-      <h3 className="mt-6 pb-2 text-2xl font-semibold tracking-tight first:mt-0">Functions</h3>
-      <p className="content !mt-0">
-        <h4 className="pb-2 text-xl font-semibold tracking-tight first:mt-0">
-          truncateAddress <code className="text-base ml-2">string</code>
-        </h4>
-        <p className="!mt-0">Truncate a string to a maximum length, adding an ellipsis in the middle</p>
-        <p className="mt-2 pb-2 font-semibold tracking-tight first:mt-0">Props</p>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Prop</TableHead>
-              <TableHead>Type</TableHead>
-              <TableHead>Description</TableHead>
-              <TableHead className="text-right">Default Value</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            <TableRow>
-              <TableCell>
-                <code>address</code>
-              </TableCell>
-              <TableCell>
-                <code>string</code>
-              </TableCell>
-              <TableCell>The string to truncate.</TableCell>
-              <TableCell className="text-right">-</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>
-                <code>maxLength</code>
-              </TableCell>
-              <TableCell>
-                <code>number</code>
-              </TableCell>
-              <TableCell>The length of the result, excluding the ellipsis and 0x prefix</TableCell>
-              <TableCell className="text-right">8</TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
-      </p>
-      <p className="content">
-        <h4 className="pb-2 text-xl font-semibold tracking-tight first:mt-0">
-          parseUri <code className="text-base ml-2">string</code>
-        </h4>
-        <p className="!mt-0">Parse a URI and convert it to a gateway URL if it is an IPFS, Arweave, or Lens URL.</p>
-        <p className="mt-2 pb-2 font-semibold tracking-tight first:mt-0">Props</p>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Prop</TableHead>
-              <TableHead>Type</TableHead>
-              <TableHead>Description</TableHead>
-              <TableHead>Default</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            <TableRow>
-              <TableCell>
-                <code>uri</code>
-              </TableCell>
-              <TableCell>
-                <code>string</code>
-              </TableCell>
-              <TableCell>The URI to parse.</TableCell>
-              <TableCell>-</TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
-      </p>
-      <p className="content">
-        <h4 className="pb-2 text-xl font-semibold tracking-tight first:mt-0">
-          getCidFromIpfsUrl <code className="text-base ml-2">string</code>
-        </h4>
-        <p className="!mt-0">Extract the CID from an IPFS URL.</p>
-        <p className="mt-2 pb-2 font-semibold tracking-tight first:mt-0">Props</p>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Prop</TableHead>
-              <TableHead>Type</TableHead>
-              <TableHead>Description</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            <TableRow>
-              <TableCell>
-                <code>ipfsUrl</code>
-              </TableCell>
-              <TableCell>
-                <code>string</code>
-              </TableCell>
-              <TableCell>The IPFS URL to extract the CID from.</TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
-      </p>
-      <p className="content">
-        <h4 className="pb-2 text-xl font-semibold tracking-tight first:mt-0">
-          ipfsUrlToGatewayUrl <code className="text-base ml-2">string</code>
-        </h4>
-        <p className="!mt-0">Convert an IPFS URL to a gateway URL.</p>
-        <p className="mt-2 pb-2 font-semibold tracking-tight first:mt-0">Props</p>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Prop</TableHead>
-              <TableHead>Type</TableHead>
-              <TableHead>Description</TableHead>
-              <TableHead>Default</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            <TableRow>
-              <TableCell>
-                <code>ipfsUrl</code>
-              </TableCell>
-              <TableCell>
-                <code>string</code>
-              </TableCell>
-              <TableCell>The IPFS URL to convert.</TableCell>
-              <TableCell>-</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>
-                <code>gatewayDomain</code>
-              </TableCell>
-              <TableCell>
-                <code>string</code>
-              </TableCell>
-              <TableCell>The gateway domain to use.</TableCell>
-              <TableCell>https://ipfs.io/ipfs/</TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
-      </p>
-      <p className="content">
-        <h4 className="pb-2 text-xl font-semibold tracking-tight first:mt-0">
-          arweaveUrlToGatewayUrl <code className="text-base ml-2">string</code>
-        </h4>
-        <p className="!mt-0">Convert an Arweave URL to a gateway URL.</p>
-        <p className="mt-2 pb-2 font-semibold tracking-tight first:mt-0">Props</p>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Prop</TableHead>
-              <TableHead>Type</TableHead>
-              <TableHead>Description</TableHead>
-              <TableHead>Default</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            <TableRow>
-              <TableCell>
-                <code>arUrl</code>
-              </TableCell>
-              <TableCell>
-                <code>string</code>
-              </TableCell>
-              <TableCell>The IPFS URL to convert.</TableCell>
-              <TableCell>-</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>
-                <code>gatewayDomain</code>
-              </TableCell>
-              <TableCell>
-                <code>string</code>
-              </TableCell>
-              <TableCell>The gateway domain to use.</TableCell>
-              <TableCell>https://arweave.net/</TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
-      </p>
-      <p className="content">
-        <h4 className="pb-2 text-xl font-semibold tracking-tight first:mt-0">
-          lensUrlToGatewayUrl <code className="text-base ml-2">string</code>
-        </h4>
-        <p className="!mt-0">Convert an Lens URL to a gateway URL.</p>
-        <p className="mt-2 pb-2 font-semibold tracking-tight first:mt-0">Props</p>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Prop</TableHead>
-              <TableHead>Type</TableHead>
-              <TableHead>Description</TableHead>
-              <TableHead>Default</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            <TableRow>
-              <TableCell>
-                <code>lensUrl</code>
-              </TableCell>
-              <TableCell>
-                <code>string</code>
-              </TableCell>
-              <TableCell>The Lens URL to convert.</TableCell>
-              <TableCell>-</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>
-                <code>gatewayDomain</code>
-              </TableCell>
-              <TableCell>
-                <code>string</code>
-              </TableCell>
-              <TableCell>The gateway domain to use.</TableCell>
-              <TableCell>https://api.grove.storage/</TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
-      </p>
-      <p className="content">
-        <h4 className="pb-2 text-xl font-semibold tracking-tight first:mt-0">
-          formatFollowerCount <code className="text-base ml-2">string</code>
-        </h4>
-        <p className="!mt-0">Format a follower count as a string, using "k" for thousands and "m" for millions.</p>
-        <p className="mt-2 pb-2 font-semibold tracking-tight first:mt-0">Props</p>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Prop</TableHead>
-              <TableHead>Type</TableHead>
-              <TableHead>Description</TableHead>
-              <TableHead>Default</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            <TableRow>
-              <TableCell>
-                <code>count</code>
-              </TableCell>
-              <TableCell>
-                <code>number</code>
-              </TableCell>
-              <TableCell>The follower count to format.</TableCell>
-              <TableCell>-</TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
-      </p>
+      <p>The utilities provided in this module can be imported and used in your project as follows:</p>
+      {constants.length > 0 && (
+        <>
+          <h3 className="pb-2 text-2xl font-semibold tracking-tight first:mt-0">Constants</h3>
+          <div className="content !mt-0">
+            <Table className="border rounded-lg border-separate border-spacing-y-1">
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Name</TableHead>
+                  <TableHead>Description</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {constants.map(util => (
+                  <TableRow key={util.name}>
+                    <TableCell className="border-t">
+                      <code>{util.name}</code>
+                    </TableCell>
+                    <TableCell className="border-t">{util.description}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+        </>
+      )}
+
+      {functions.length > 0 && (
+        <>
+          <h3 className="mt-6 pb-2 text-2xl font-semibold tracking-tight first:mt-0">Functions</h3>
+          {functions.map(util => (
+            <div key={util.name} className="content !mt-0">
+              <h4 className="pb-2 text-xl font-semibold tracking-tight first:mt-0">
+                {util.name} <code className="text-base ml-2">{util.returnType}</code>
+              </h4>
+              <p className="!mt-0">{util.description}</p>
+              {util.params.length > 0 && (
+                <>
+                  <p className="mt-2 pb-2 font-semibold tracking-tight first:mt-0">Props</p>
+                  <Table className="border rounded-lg border-separate border-spacing-y-1">
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>Prop</TableHead>
+                        <TableHead>Description</TableHead>
+                        <TableHead>Type</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {util.params.map(param => (
+                        <TableRow key={param.name}>
+                          <TableCell className="border-t">
+                            <code>{param.name}</code>
+                          </TableCell>
+                          <TableCell className="border-t max-w-64 whitespace-normal break-words">
+                            <Markdown remarkPlugins={[remarkGfm]}>{param.description}</Markdown>
+                          </TableCell>
+                          <TableCell className="border-t">
+                            <code>{param.type}</code>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </>
+              )}
+            </div>
+          ))}
+        </>
+      )}
     </div>
   );
 }

@@ -1,10 +1,18 @@
 import { Account, EvmAddress, MediaAudioType, MediaVideoType } from "@lens-protocol/react";
 
+/**
+ * A zero (or empty) address in EVM-compatible blockchains
+ */
 export const ZeroAddress = "0x0000000000000000000000000000000000000000";
+
+/**
+ * The native token address in Lens Chain
+ */
 export const NativeToken = "0x000000000000000000000000000000000000800A";
 
 /**
  * Truncate a string to a maximum length, adding an ellipsis in the middle
+ *
  * @param address The string to truncate
  * @param maxLength The maximum length of the truncated string, excluding the ellipsis and 0x prefix
  */
@@ -20,9 +28,9 @@ export const truncateAddress = (address: string, maxLength: number = 8): string 
 
 /**
  * Extract the CID from an IPFS URL
- * Examples:
- * * getCidFromIpfsUrl("ipfs://Qm...") => "Qm..."
- * * getCidFromIpfsUrl("ipfs://Qm.../path/to/file") => "Qm..."
+ *
+ * @example getCidFromIpfsUrl("ipfs://Qm...") => "Qm..."
+ * @example getCidFromIpfsUrl("ipfs://Qm.../path/to/file") => "Qm..."
  *
  * @param ipfsUrl The IPFS URL to extract the CID from
  */
@@ -33,18 +41,15 @@ export const getCidFromIpfsUrl = (ipfsUrl: string): string => {
 
 /**
  *  Convert an IPFS URL to a gateway URL
- *  Examples:
- *  * ipfsUrlToGatewayUrl("ipfs://Qm...") => "https://ipfs.io/ipfs/Qm..."
- *  * ipfsUrlToGatewayUrl("ipfs://Qm.../path/to/file") => "https://ipfs.io/ipfs/Qm.../path/to/file"
+ *
+ * @example ipfsUrlToGatewayUrl("ipfs://Qm...") => "https://ipfs.io/ipfs/Qm..."
+ * @example ipfsUrlToGatewayUrl("ipfs://Qm.../path/to/file") => "https://ipfs.io/ipfs/Qm.../path/to/file"
  *
  * @param ipfsUrl The IPFS URL to convert
  * @param gatewayDomain The gateway domain to use (default: https://ipfs.io/ipfs/)
  */
-export const ipfsUrlToGatewayUrl = (
-  ipfsUrl: string | undefined,
-  gatewayDomain: string = "https://ipfs.io/ipfs/",
-): string | undefined => {
-  if (!ipfsUrl || ipfsUrl.length === 0 || !ipfsUrl.startsWith("ipfs://")) return ipfsUrl;
+export const ipfsUrlToGatewayUrl = (ipfsUrl: string, gatewayDomain: string = "https://ipfs.io/ipfs/"): string => {
+  if (ipfsUrl.length === 0 || !ipfsUrl.startsWith("ipfs://")) return ipfsUrl;
   const cid = getCidFromIpfsUrl(ipfsUrl);
   const gatewayUrl = gatewayDomain + cid;
   const path = ipfsUrl.split(cid)[1];
@@ -54,17 +59,13 @@ export const ipfsUrlToGatewayUrl = (
 /**
  * Convert an Arweave URL to a gateway URL
  *
- * Examples:
- * * arweaveUrlToGatewayUrl("ar://TxId") => "https://arweave.net/TxId"
+ * @example arweaveUrlToGatewayUrl("ar://TxId") => "https://arweave.net/TxId"
  *
  * @param arUrl The Arweave URL to convert
  * @param gatewayDomain The gateway domain to use (default: https://arweave.net/)
  */
-export const arweaveUrlToGatewayUrl = (
-  arUrl: string | undefined,
-  gatewayDomain: string = "https://arweave.net/",
-): string | undefined => {
-  if (!arUrl || arUrl.length === 0 || !arUrl.startsWith("ar://")) return arUrl;
+export const arweaveUrlToGatewayUrl = (arUrl: string, gatewayDomain: string = "https://arweave.net/"): string => {
+  if (arUrl.length === 0 || !arUrl.startsWith("ar://")) return arUrl;
   const txId = arUrl.replace("ar://", "");
   return `${gatewayDomain}${txId}`;
 };
@@ -72,28 +73,24 @@ export const arweaveUrlToGatewayUrl = (
 /**
  * Convert a Lens URL to a gateway URL
  *
- * Examples:
- *  * lensUrlToGatewayUrl("lens://TxId") => "https://api.grove.storage/TxId"
+ * @example lensUrlToGatewayUrl("lens://TxId") => "https://api.grove.storage/TxId"
  *
  * @param lensUrl The Lens URL to convert
  * @param gatewayDomain The gateway domain to use (default: https://api.grove.storage/)
  */
-export const lensUrlToGatewayUrl = (
-  lensUrl: string | undefined,
-  gatewayDomain: string = "https://api.grove.storage/",
-): string | undefined => {
-  if (!lensUrl || lensUrl.length === 0 || !lensUrl.startsWith("lens://")) return lensUrl;
+export const lensUrlToGatewayUrl = (lensUrl: string, gatewayDomain: string = "https://api.grove.storage/"): string => {
+  if (lensUrl.length === 0 || !lensUrl.startsWith("lens://")) return lensUrl;
   const txId = lensUrl.replace("lens://", "");
   return `${gatewayDomain}${txId}`;
 };
 
 /**
  * Parse a URI and convert it to a gateway URL if it is an IPFS, Arweave, or Lens URL
+ *
  * @param uri The URI to parse
+ * @returns The parsed URI as a gateway URL, or null if the URI is invalid
  */
-export const parseUri = (uri: string | null | undefined): string | undefined => {
-  if (!uri) return undefined;
-
+export const parseUri = (uri: string): string | null => {
   if (uri.startsWith("data:")) return uri; // Return data URIs as-is
 
   if (uri.startsWith("https://gw.ipfs-lens.dev/ipfs/")) {
@@ -114,11 +111,16 @@ export const parseUri = (uri: string | null | undefined): string | undefined => 
         return uri;
     }
   } catch {
-    return undefined;
+    return null;
   }
 };
 
-export const getAudioExtension = (mediaAudioType: MediaAudioType): string | undefined => {
+/**
+ * Get the file extension for a given MediaAudioType
+ *
+ * @param mediaAudioType The MediaAudioType to get the extension for
+ */
+export const getAudioExtension = (mediaAudioType: MediaAudioType): string => {
   switch (mediaAudioType) {
     case MediaAudioType.AudioWav:
       return "wav";
@@ -136,11 +138,14 @@ export const getAudioExtension = (mediaAudioType: MediaAudioType): string | unde
       return "webm";
     case MediaAudioType.AudioFlac:
       return "flac";
-    default:
-      return "";
   }
 };
 
+/**
+ * Get the file extension for a given MediaVideoType
+ *
+ * @param mediaVideoType The MediaVideoType to get the extension for
+ */
 export const getVideoExtension = (mediaVideoType: MediaVideoType): string => {
   switch (mediaVideoType) {
     case MediaVideoType.VideoMp4:
@@ -153,17 +158,24 @@ export const getVideoExtension = (mediaVideoType: MediaVideoType): string => {
       return "mov";
     case MediaVideoType.VideoWebm:
       return "webm";
-    default:
-      return "";
+    case MediaVideoType.VideoMov:
+      return "mov";
+    case MediaVideoType.VideoOgv:
+      return "ogv";
+    case MediaVideoType.VideoXm4v:
+      return "xm4v";
+    case MediaVideoType.ModelGltfJson:
+      return "gltf";
+    case MediaVideoType.ModelGltfBinary:
+      return "glb";
   }
 };
 
 /**
  * Get the path for a Lens username, optionally including the namespace if it's not the default "lens" namespace.
  *
- * Examples:
- * * getUsernamePath("@lens/username") => "/u/username"
- * * getUsernamePath("@othernamespace/username", "0x1234...") => "/u/0x1234.../username"
+ * @example getUsernamePath("@lens/username") => "/u/username"
+ * @example getUsernamePath("@othernamespace/username", "0x1234...") => "/u/0x1234.../username"
  *
  * @param username - The full username, including the namespace (e.g., "@lens/username")
  * @param namespace - The namespace address of the username. If not provided, the default namespace will be assumed.
@@ -178,10 +190,9 @@ export const getUsernamePath = (username: string, namespace?: EvmAddress): strin
 /**
  * Format a follower count as a string, using "k" for thousands and "m" for millions
  *
- * Examples:
- * * formatFollowerCount(123) => "123"
- * * formatFollowerCount(12345) => "12.3k"
- * * formatFollowerCount(1234567) => "1.2m"
+ * @example formatFollowerCount(123) => "123"
+ * @example formatFollowerCount(12345) => "12.3k"
+ * @example formatFollowerCount(1234567) => "1.2m"
  *
  * @param count The follower count to format
  */
@@ -194,6 +205,12 @@ export const formatFollowerCount = (count: number): string => {
   return count.toString();
 };
 
+/**
+ * Get the display name for an account, prioritizing the metadata name, then the username,
+ * and finally truncating the address.
+ *
+ * @param account The account to get the display name for
+ */
 export const getDisplayName = (account: Account): string => {
   if (account.metadata?.name) {
     return account.metadata.name;
