@@ -69,6 +69,8 @@ import { usePost } from "@lens-protocol/react";`}
               alt={"Image attached to post"}
               className="max-w-full max-h-full object-contain shadow-lg"
               loading="lazy"
+              width={1024}
+              height={1024}
             />
           )}
         </DialogContent>

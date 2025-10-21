@@ -62,10 +62,10 @@ const LensQuoteDialog = forwardRef<QuoteDialogRef, QuoteDialogProps>((props, ref
   return (
     <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
       <DialogContent className="sm:max-w-2xl">
-        <DialogHeader className="text-left border-b pb-4">
+        <DialogHeader className="text-left border-b">
           <DialogTitle>Create a post</DialogTitle>
         </DialogHeader>
-        <div className="flex flex-col">
+        <div className="flex flex-col px-4">
           <div className="flex gap-4">
             <div className="flex-none">
               {accountLoading ? (
@@ -82,30 +82,28 @@ const LensQuoteDialog = forwardRef<QuoteDialogRef, QuoteDialogProps>((props, ref
               )}
             </div>
             <div className="flex-grow mt-2 pb-7">
-              <LensTextEditor ref={textEditor} className="p-0 min-h-24" />
+              <LensTextEditor ref={textEditor} className="p-0 min-h-20" />
             </div>
           </div>
           {post && (
             <LensPostProvider sessionClient={sessionClient} postId={post.id}>
-              <div className="md:pl-12">
-                <LensPost showActions={false} className="border rounded-xl" />
+              <div className="md:pl-14">
+                <LensPost showActions={false} className="border rounded-xl" contentClassName="md:text-sm" />
               </div>
             </LensPostProvider>
           )}
-          <DialogFooter>
-            <div className="w-full flex justify-end pt-4 mt-4 border-t">
-              <Button onClick={handleSubmit} disabled={isSubmitting}>
-                {isSubmitting ? (
-                  <>
-                    <Spinner /> Posting...
-                  </>
-                ) : (
-                  "Post"
-                )}
-              </Button>
-            </div>
-          </DialogFooter>
         </div>
+        <DialogFooter className="justify-end border-t">
+          <Button onClick={handleSubmit} disabled={isSubmitting}>
+            {isSubmitting ? (
+              <>
+                <Spinner /> Posting...
+              </>
+            ) : (
+              "Post"
+            )}
+          </Button>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   );

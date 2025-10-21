@@ -109,11 +109,11 @@ export function LensLogin(props: LensLoginProps) {
       {walletAddress && (
         <Dialog open={accountChooserOpen} onOpenChange={setAccountChooserOpen}>
           <DialogContent className="sm:max-w-sm">
-            <DialogHeader>
+            <DialogHeader className="border-b">
               <DialogTitle>Select an account</DialogTitle>
               <DialogDescription>Choose a Lens account to log in with.</DialogDescription>
             </DialogHeader>
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-4 px-4 pb-4">
               <div className="h-48">
                 <LensAccountChooser
                   walletAddress={walletAddress}

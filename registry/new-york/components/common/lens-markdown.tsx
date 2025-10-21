@@ -48,13 +48,13 @@ const LensMarkdown = (props: Props) => {
       }
 
       return (
-        <a {...props} target="_blank" rel="noopener noreferrer">
+        <a {...props} target="_blank" rel="noopener noreferrer" className="font-bold hover:underline">
           {props.href
             .replace(/^https?:\/\//, "")
             .replace(/\/$/, "")
             .replace(/\\$/, "")
             .replace(/^www\./, "")
-            .slice(0, 30) + (props.href.length > 30 ? "..." : "")}
+            .slice(0, 30) + (props.href.length > 30 ? "…" : "")}
         </a>
       );
     },

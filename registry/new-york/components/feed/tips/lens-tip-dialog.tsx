@@ -177,10 +177,10 @@ const LensTipDialog = forwardRef<TipDialogRef, TipDialogProps>(
     return (
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <DialogContent className="sm:max-w-sm">
-          <DialogHeader className="text-left border-b pb-4">
+          <DialogHeader className="text-left border-b">
             <DialogTitle>Send a tip</DialogTitle>
           </DialogHeader>
-          <div className="flex flex-col gap-4 min-w-0">
+          <div className="flex flex-col gap-4 min-w-0 px-4 pb-4">
             {(error || (!isLoading && balances.length === 0)) && (
               <div className="py-4 flex gap-4 items-center">
                 <span className="text-red-500">No tokens available</span>

@@ -76,9 +76,13 @@ type LensPostProps = {
 
   /**
    * Optional additional class names to apply to the post container.
-   *
    */
   className?: string;
+
+  /**
+   * Optional additional class names to apply to the post content.
+   */
+  contentClassName?: string;
 
   /**
    * Whether to show action buttons (like, comment, repost, etc.). Default is true.
@@ -96,6 +100,7 @@ export const LensPost = (props: LensPostProps) => {
     onTipCreated,
     onTipError,
     className,
+    contentClassName,
     showActions = true,
   } = props;
 
@@ -302,7 +307,7 @@ export const LensPost = (props: LensPostProps) => {
             <LensMarkdown
               content={postMetadata.content}
               mentions={basePost.mentions}
-              className="text-sm md:text-base"
+              className={cn("text-sm md:text-base", contentClassName)}
             />
           </div>
         )}
