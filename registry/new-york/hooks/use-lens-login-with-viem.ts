@@ -10,6 +10,7 @@ import {
   useSessionClient,
   useSwitchAccount,
 } from "@lens-protocol/react";
+import { LensChainId, LensChainTestnetId } from "@/registry/new-york/lib/lens-utils";
 
 type UseLensLoginWithViemReturnType = {
   execute: (walletClient: WalletClient, account: Account, appAddress?: string) => Promise<AuthenticatedUser | null>;
@@ -28,6 +29,7 @@ export function useLensLoginWithViem(): UseLensLoginWithViemReturnType {
     walletClient: WalletClient,
     account: Account,
     appAddress?: string,
+    useTestnet?: boolean,
   ): Promise<AuthenticatedUser | null> => {
     if (loginLoading || switchingAccounts) return null;
 
@@ -46,6 +48,8 @@ export function useLensLoginWithViem(): UseLensLoginWithViemReturnType {
         return switchResult.value;
       }
     }
+
+    walletClient.switchChain({ id: useTestnet ? LensChainTestnetId : LensChainId });
 
     const res = await executeLogin({
       ...(account.owner === walletAddress
