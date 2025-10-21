@@ -87,10 +87,10 @@ const ReferenceButton = ({ onQuoteClick, onRepostSuccess, onError }: ReferenceBu
             )}
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="min-w-48">
+        <DropdownMenuContent className="min-w-40">
           <DropdownMenuItem className="text-md focus:outline-none p-0">
             <button
-              className="flex gap-4 items-center w-full p-3"
+              className="flex gap-4 items-center w-full p-2 text-sm font-medium"
               onClick={onRepostClick}
               disabled={postLoading || isPosting}
             >
@@ -100,7 +100,7 @@ const ReferenceButton = ({ onQuoteClick, onRepostSuccess, onError }: ReferenceBu
           </DropdownMenuItem>
           <DropdownMenuItem className="text-md focus:outline-none p-0">
             <button
-              className="flex gap-4 items-center w-full p-3"
+              className="flex gap-4 items-center w-full p-2 text-sm font-medium"
               onClick={handleQuoteClick}
               disabled={postLoading || isPosting}
             >

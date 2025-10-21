@@ -2,7 +2,7 @@
 
 import { OpenInV0Button } from "@/components/open-in-v0-button";
 import { CodeBlock } from "@/components/codeblock";
-import Editor from "@/registry/new-york/components/common/editor/lens-text-editor";
+import LensTextEditor from "@/registry/new-york/components/common/editor/lens-text-editor";
 import { InstallCommandBlock } from "@/components/install-command-block";
 
 export default function TextEditor() {
@@ -15,7 +15,7 @@ export default function TextEditor() {
             <OpenInV0Button name="text-editor" className="w-fit" />
           </div>
           <div className="flex items-center justify-center flex-grow relative">
-            <Editor className="w-full md:w-1/2 border rounded-lg" />
+            <LensTextEditor className="w-full md:w-1/2 border rounded-lg p-4 min-h-40" />
           </div>
         </div>
         <h2 className="mt-6 pb-2 text-3xl font-semibold tracking-tight first:mt-0">Installation</h2>

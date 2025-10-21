@@ -8,7 +8,7 @@ import {
 } from "@/registry/new-york/ui/dropdown-menu";
 import { MouseEvent, useEffect, useRef, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/registry/new-york/ui/avatar";
-import { Account, evmAddress, Post, TxHash, URI } from "@lens-protocol/react";
+import { Account, Post, TxHash, URI } from "@lens-protocol/react";
 import { Copy, Flag, MoreHorizontal, UserCircle2 } from "lucide-react";
 import LensMarkdown from "../components/common/lens-markdown";
 import LikeButton from "@/registry/new-york/components/feed/likes/like-button";
@@ -22,7 +22,7 @@ import { getUsernamePath, parseUri, truncateAddress } from "@/registry/new-york/
 import { Button } from "@/registry/new-york/ui/button";
 import BookmarkButton from "@/registry/new-york/components/feed/bookmarks/bookmark-button";
 import CollectDialog, { CollectDialogRef } from "@/registry/new-york/components/feed/collects/collect-dialog";
-import QuoteDialog, { QuoteDialogRef } from "@/registry/new-york/components/feed/references/quote-dialog";
+import LensQuoteDialog, { QuoteDialogRef } from "@/registry/new-york/components/feed/references/lens-quote-dialog";
 import LensTipDialog, { TipDialogRef } from "@/registry/new-york/components/feed/tips/lens-tip-dialog";
 import { useLensPostContext } from "@/registry/new-york/hooks/use-lens-post-context";
 import { Dialog, DialogContent } from "@/registry/new-york/ui/dialog";
@@ -79,6 +79,11 @@ type LensPostProps = {
    *
    */
   className?: string;
+
+  /**
+   * Whether to show action buttons (like, comment, repost, etc.). Default is true.
+   */
+  showActions?: boolean;
 };
 
 export const LensPost = (props: LensPostProps) => {
@@ -91,6 +96,7 @@ export const LensPost = (props: LensPostProps) => {
     onTipCreated,
     onTipError,
     className,
+    showActions = true,
   } = props;
 
   const collectDialog = useRef<CollectDialogRef>(null);
@@ -261,33 +267,35 @@ export const LensPost = (props: LensPostProps) => {
               </a>
             </div>
           </div>
-          <div className="flex gap-2">
-            <BookmarkButton className="md:hidden" />
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  variant="ghost"
-                  className="w-8 h-8 active:outline-none focus-visible:outline-none hover:opacity-75 cursor-pointer rounded-full -me-2.5 md:me-0"
-                >
-                  <MoreHorizontal className="w-4 h-4 opacity-75" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="min-w-48" side="bottom">
-                <DropdownMenuItem className="focus:outline-none p-0">
-                  <button className="flex gap-2 items-center w-full p-2" onClick={onReportClick} disabled={loading}>
-                    <Flag />
-                    Report post
-                  </button>
-                </DropdownMenuItem>
-                <DropdownMenuItem className="focus:outline-none p-0">
-                  <button className="flex gap-2 items-center w-full p-2" onClick={onCopyClick} disabled={loading}>
-                    <Copy className="w-4 h-4 inline" />
-                    Copy link
-                  </button>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
+          {showActions && (
+            <div className="flex gap-2">
+              <BookmarkButton className="md:hidden" />
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    className="w-8 h-8 active:outline-none focus-visible:outline-none hover:opacity-75 cursor-pointer rounded-full -me-2.5 md:me-0"
+                  >
+                    <MoreHorizontal className="w-4 h-4 opacity-75" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="min-w-48" side="bottom">
+                  <DropdownMenuItem className="focus:outline-none p-0">
+                    <button className="flex gap-2 items-center w-full p-2" onClick={onReportClick} disabled={loading}>
+                      <Flag />
+                      Report post
+                    </button>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="focus:outline-none p-0">
+                    <button className="flex gap-2 items-center w-full p-2" onClick={onCopyClick} disabled={loading}>
+                      <Copy className="w-4 h-4 inline" />
+                      Copy link
+                    </button>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+          )}
         </div>
         {postMetadata.content && (
           <div className="min-h-12 flex items-center">
@@ -326,26 +334,22 @@ export const LensPost = (props: LensPostProps) => {
         {video && <LensVideoPlayer video={video} preload="metadata" />}
         {link && <LinkPreview url={link} />}
         {urlInContent && !image && !audio && !video && !link && <LinkPreview url={urlInContent} />}
-        <div className="w-full flex gap-4 md:gap-8 items-center justify-between">
-          <div className="w-full flex items-center justify-between md:justify-normal gap-4 md:gap-6 -mx-2">
-            <CommentButton onClick={() => undefined} />
-            <LikeButton />
-            <ReferenceButton onQuoteClick={() => quoteDialog.current?.open()} onRepostSuccess={onRepostSuccess} />
-            {collectAction && <CollectButton onClick={() => collectDialog.current?.open()} />}
-            <TipButton onClick={() => tipDialog.current?.open()} />
+        {showActions && (
+          <div className="w-full flex gap-4 md:gap-8 items-center justify-between">
+            <div className="w-full flex items-center justify-between md:justify-normal gap-4 md:gap-6 -mx-2">
+              <CommentButton onClick={() => undefined} />
+              <LikeButton />
+              <ReferenceButton onQuoteClick={() => quoteDialog.current?.open()} onRepostSuccess={onRepostSuccess} />
+              {collectAction && <CollectButton onClick={() => collectDialog.current?.open()} />}
+              <TipButton onClick={() => tipDialog.current?.open()} />
+            </div>
+            <BookmarkButton className="hidden md:flex" />
           </div>
-          <BookmarkButton className="hidden md:flex" />
-        </div>
+        )}
       </article>
       {collectAction && <CollectDialog ref={collectDialog} post={post} />}
-      <QuoteDialog ref={quoteDialog} post={post} createQuote={async (post, content) => undefined} />
-      <LensTipDialog
-        ref={tipDialog}
-        supportedTokens={[evmAddress("0x8827054498a0B36259A51e675Feb13C1fCa9f591")]}
-        createTip={tip}
-        onTipCreated={onTipCreated}
-        onError={onTipError}
-      />
+      <LensQuoteDialog ref={quoteDialog} />
+      <LensTipDialog ref={tipDialog} createTip={tip} onTipCreated={onTipCreated} onError={onTipError} />
       <Dialog open={lightboxOpen} onOpenChange={setLightboxOpen}>
         <DialogContent className="flex justify-center items-center max-h-full max-w-full bg-transparent border-none shadow-none">
           {lightboxOpen && lightboxUri && (

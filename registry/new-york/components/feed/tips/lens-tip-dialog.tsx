@@ -36,7 +36,7 @@ export interface TipDialogProps {
   /**
    *  Function to create a tip transaction. Any error thrown will be caught and passed to onError callback.
    */
-  createTip: (source: PaymentSource, amount: string, tokenAddress: string) => Promise<TxHash | undefined>;
+  createTip: (source: PaymentSource, amount: string, tokenAddress: string) => Promise<TxHash>;
 
   /**
    * Optional list of supported token addresses to tip with. If not provided, only the native token will be supported.
@@ -44,7 +44,7 @@ export interface TipDialogProps {
   supportedTokens?: string[];
 
   /**
-   * Callback fired when a tip is successfully created.
+   * Callback fired when a tip is successfully created and the dialog is closed.
    */
   onTipCreated?: (txHash: TxHash) => void;
 

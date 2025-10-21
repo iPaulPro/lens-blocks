@@ -101,8 +101,8 @@ export const lensUrlToGatewayUrl = (lensUrl: string, gatewayDomain: string = "ht
  * @param uri The URI to parse
  * @returns The parsed URI as a gateway URL, or null if the URI is invalid
  */
-export const parseUri = (uri: string): string | undefined => {
-  if (uri.startsWith("data:")) return uri; // Return data URIs as-is
+export const parseUri = (uri: string | undefined): string | undefined => {
+  if (!uri || uri.startsWith("data:")) return uri; // Return data URIs as-is
 
   if (uri.startsWith("https://gw.ipfs-lens.dev/ipfs/")) {
     const ipfs = uri.replace("https://gw.ipfs-lens.dev/ipfs/", "ipfs://");

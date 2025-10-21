@@ -20,7 +20,7 @@ import { Button } from "@/registry/new-york/ui/button";
 import remarkParse from "remark-parse";
 import rehypeStringify from "rehype-stringify";
 
-export interface EditorRef {
+export interface TextEditorRef {
   getContent: () => string;
   setContent: (content: string) => void;
   clearContent: () => void;
@@ -32,7 +32,7 @@ type Props = {
   placeholder?: string;
 };
 
-const LensTextEditor = forwardRef<EditorRef, Props>(({ editable = true, className, placeholder }, ref) => {
+const LensTextEditor = forwardRef<TextEditorRef, Props>(({ editable = true, className, placeholder }, ref) => {
   const editor = useEditor({
     immediatelyRender: false,
     extensions: [

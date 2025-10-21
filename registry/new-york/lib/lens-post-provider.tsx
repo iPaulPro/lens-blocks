@@ -47,10 +47,10 @@ type PostContextType = {
   error?: Error;
   optimistic: OptimisticState;
   toggleLike: () => Promise<void>;
-  comment: (content: string) => Promise<TxHash | undefined>;
+  comment: (content: string) => Promise<TxHash>;
   collect: (paymentSource?: PaymentSource, referrals?: Referral[]) => Promise<TxHash>;
   repost: () => Promise<TxHash | undefined>;
-  quote: (content: string) => Promise<TxHash | undefined>;
+  quote: (content: string) => Promise<TxHash>;
   tip: (paymentSource: PaymentSource, amount: string, tokenAddress: string) => Promise<TxHash>;
   toggleBookmark: () => Promise<void>;
 };
@@ -166,7 +166,7 @@ export const LensPostProvider = ({ sessionClient, walletClient, postId, children
     });
   };
 
-  const comment = async (content: string): Promise<TxHash | undefined> => {
+  const comment = async (content: string): Promise<TxHash> => {
     if (!post) {
       throw new Error("Cannot comment without a post");
     }
@@ -288,7 +288,7 @@ export const LensPostProvider = ({ sessionClient, walletClient, postId, children
     return res.value;
   };
 
-  const quote = async (content: string): Promise<TxHash | undefined> => {
+  const quote = async (content: string): Promise<TxHash> => {
     if (!post) {
       throw new Error("Cannot quote without a post");
     }
