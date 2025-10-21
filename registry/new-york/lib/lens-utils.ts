@@ -1,4 +1,15 @@
 import { Account, EvmAddress, MediaAudioType, MediaVideoType } from "@lens-protocol/react";
+import { chains } from "@lens-chain/sdk/viem";
+
+/**
+ * The chain ID for the Lens Chain mainnet
+ */
+export const LensChainId = chains.mainnet.id;
+
+/**
+ * The chain ID for the Lens Chain testnet
+ */
+export const LensChainTestnetId = chains.testnet.id;
 
 /**
  * A zero (or empty) address in EVM-compatible blockchains

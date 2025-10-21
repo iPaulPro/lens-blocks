@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useEffect, useState } from "react";
+import { createContext, ReactNode, useEffect, useMemo, useState } from "react";
 import {
   AnyPost,
   CreatePostRequest,
@@ -48,10 +48,10 @@ type PostContextType = {
   optimistic: OptimisticState;
   toggleLike: () => Promise<void>;
   comment: (content: string) => Promise<TxHash | undefined>;
-  collect: (paymentSource?: PaymentSource, referrals?: Referral[]) => Promise<TxHash | undefined>;
+  collect: (paymentSource?: PaymentSource, referrals?: Referral[]) => Promise<TxHash>;
   repost: () => Promise<TxHash | undefined>;
   quote: (content: string) => Promise<TxHash | undefined>;
-  tip: (paymentSource: PaymentSource, amount: string, tokenAddress: string) => Promise<TxHash | undefined>;
+  tip: (paymentSource: PaymentSource, amount: string, tokenAddress: string) => Promise<TxHash>;
   toggleBookmark: () => Promise<void>;
 };
 
@@ -83,28 +83,33 @@ export const LensPostProvider = ({ sessionClient, walletClient, postId, children
   const operations = post && "operations" in post ? post.operations : null;
   const stats = post && "stats" in post ? post.stats : null;
 
-  const [optimistic, setOptimistic] = useState<OptimisticState>({
-    liked: operations?.hasUpvoted ?? false,
-    bookmarked: operations?.hasBookmarked ?? false,
-    collected: operations?.hasSimpleCollected ?? false,
-    tipped: operations?.hasTipped ?? false,
-    commented: operations?.hasCommented.optimistic ?? operations?.hasCommented.onChain ?? false,
-    repostedOrQuoted:
-      operations?.hasReposted.optimistic ??
-      operations?.hasReposted.onChain ??
-      operations?.hasQuoted.optimistic ??
-      operations?.hasQuoted.onChain ??
-      false,
-    likeCount: stats?.upvotes ?? 0,
-    commentCount: stats?.comments ?? 0,
-    collectCount: stats?.collects ?? 0,
-    repostAndQuoteCount: (stats?.reposts ?? 0) + (stats?.quotes ?? 0),
-    tipCount: stats?.tips ?? 0,
-  });
+  const defaultOptimisticState: OptimisticState = useMemo(
+    () => ({
+      liked: operations?.hasUpvoted ?? false,
+      bookmarked: operations?.hasBookmarked ?? false,
+      collected: operations?.hasSimpleCollected ?? false,
+      tipped: operations?.hasTipped ?? false,
+      commented: operations?.hasCommented.optimistic ?? operations?.hasCommented.onChain ?? false,
+      repostedOrQuoted:
+        operations?.hasReposted.optimistic ??
+        operations?.hasReposted.onChain ??
+        operations?.hasQuoted.optimistic ??
+        operations?.hasQuoted.onChain ??
+        false,
+      likeCount: stats?.upvotes ?? 0,
+      commentCount: stats?.comments ?? 0,
+      collectCount: stats?.collects ?? 0,
+      repostAndQuoteCount: (stats?.reposts ?? 0) + (stats?.quotes ?? 0),
+      tipCount: stats?.tips ?? 0,
+    }),
+    [operations, stats],
+  );
+  const [optimistic, setOptimistic] = useState<OptimisticState>(defaultOptimisticState);
 
   useEffect(() => {
     setPost(data?.__typename === "Repost" ? data.repostOf : data);
-  }, [data]);
+    setOptimistic(defaultOptimisticState);
+  }, [data, defaultOptimisticState]);
 
   const storageClient = StorageClient.create();
   const { execute: toggleReaction } = useReactionToggle();
@@ -204,7 +209,7 @@ export const LensPostProvider = ({ sessionClient, walletClient, postId, children
     return postResponse.value;
   };
 
-  const collect = async (paymentSource?: PaymentSource, referrals?: Referral[]): Promise<TxHash | undefined> => {
+  const collect = async (paymentSource?: PaymentSource, referrals?: Referral[]): Promise<TxHash> => {
     if (!post) {
       throw new Error("Cannot collect without a post");
     }
@@ -328,11 +333,7 @@ export const LensPostProvider = ({ sessionClient, walletClient, postId, children
     return postResponse.value;
   };
 
-  const tip = async (
-    paymentSource: PaymentSource,
-    amount: string,
-    tokenAddress: string,
-  ): Promise<TxHash | undefined> => {
+  const tip = async (paymentSource: PaymentSource, amount: string, tokenAddress: string): Promise<TxHash> => {
     if (!post) {
       throw new Error("Cannot tip without a post");
     }
