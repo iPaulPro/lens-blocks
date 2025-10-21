@@ -92,7 +92,7 @@
       "name": "use-tip-post-action",
       "type": "registry:hook",
       "title": "Use Tip Post Action",
-      "description": "A hook to tip Lens posts using the Lens React SDK.",
+      "description": "A hook to tip Lens Posts using the Lens React SDK.",
       "dependencies": [
         "@lens-protocol/react@0.0.0-canary-20250820102520",
         "@lens-protocol/client@0.0.0-canary-20250820102520",
@@ -103,6 +103,29 @@
       "files": [
         {
           "path": "registry/new-york/hooks/use-tip-post-action.ts",
+          "type": "registry:hook"
+        },
+        {
+          "path": "registry/new-york/lib/tasks.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "use-tip-account-action",
+      "type": "registry:hook",
+      "title": "Use Tip Account Action",
+      "description": "A hook to tip Lens Accounts using the Lens React SDK.",
+      "dependencies": [
+        "@lens-protocol/react@0.0.0-canary-20250820102520",
+        "@lens-protocol/client@0.0.0-canary-20250820102520",
+        "@lens-protocol/types@0.0.0-canary-20250820102520",
+        "viem@2.33.0"
+      ],
+      "registryDependencies": ["@lens-blocks/utils"],
+      "files": [
+        {
+          "path": "registry/new-york/hooks/use-tip-account-action.ts",
           "type": "registry:hook"
         },
         {

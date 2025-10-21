@@ -1,8 +1,7 @@
 import {
-  AnyPost,
+  EvmAddress,
   evmAddress,
   PaymentSource,
-  PostId,
   SessionClient,
   SigningError,
   TransactionIndexingError,
@@ -12,44 +11,40 @@ import {
   UseAsyncTask,
   ValidationError,
 } from "@lens-protocol/react";
-import { executePostAction } from "@lens-protocol/client/actions";
+import { executeAccountAction } from "@lens-protocol/client/actions";
 import { WalletClient } from "viem";
 import { LensChainId, LensChainTestnetId, NativeToken } from "@/registry/new-york/lib/lens-utils";
 import { handleOperationWith } from "@lens-protocol/client/viem";
 import { invariant, ResultAsync } from "@lens-protocol/types";
 import { useAsyncTask } from "@/registry/new-york/lib/tasks";
 
-export type TipPostActionArgs = {
+export type TipAccountActionArgs = {
   sessionClient: SessionClient;
   walletClient: WalletClient;
-  post: PostId;
+  account: EvmAddress;
   source: PaymentSource;
   amount: string;
   tokenAddress: string;
   useTestnet?: boolean;
 };
 
-type TipPostActionResult = ResultAsync<
+type TipAccountActionResult = ResultAsync<
   TxHash,
   SigningError | TransactionIndexingError | UnauthenticatedError | UnexpectedError | ValidationError
 >;
 
-export function hasTipped(post: AnyPost): boolean {
-  return "operations" in post && post.operations?.hasTipped === true;
-}
-
-export const useTipPostAction = (): UseAsyncTask<
-  TipPostActionArgs,
+export const useTipAccountAction = (): UseAsyncTask<
+  TipAccountActionArgs,
   TxHash,
   SigningError | TransactionIndexingError | UnauthenticatedError | UnexpectedError | ValidationError
 > => {
-  return useAsyncTask((args: TipPostActionArgs): TipPostActionResult => {
+  return useAsyncTask((args: TipAccountActionArgs): TipAccountActionResult => {
     invariant(args.sessionClient.isSessionClient(), "You must be authenticated to use this operation");
 
     return tip(
       args.sessionClient,
       args.walletClient,
-      args.post,
+      args.account,
       args.source,
       args.amount,
       args.tokenAddress,
@@ -61,20 +56,20 @@ export const useTipPostAction = (): UseAsyncTask<
 const tip = (
   session: SessionClient,
   walletClient: WalletClient,
-  post: PostId,
+  account: EvmAddress,
   source: PaymentSource,
   amount: string,
   tokenAddress: string,
   isTestnet?: boolean,
-): TipPostActionResult => {
+): TipAccountActionResult => {
   if (!session.isSessionClient() || !walletClient) {
     throw new UnauthenticatedError();
   }
 
   return ResultAsync.fromSafePromise(walletClient.switchChain({ id: isTestnet ? LensChainTestnetId : LensChainId }))
     .andThen(() => {
-      return executePostAction(session, {
-        post: post,
+      return executeAccountAction(session, {
+        account,
         action: {
           tipping: {
             paymentSource: source,

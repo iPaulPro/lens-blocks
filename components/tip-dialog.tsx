@@ -32,7 +32,7 @@ export default function TipDialog() {
       post,
       sessionClient,
       walletClient,
-      isTestnet: true,
+      useTestnet: true,
     });
 
     if (res.isErr()) {

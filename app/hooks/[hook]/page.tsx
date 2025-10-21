@@ -3,6 +3,7 @@ import UseLoginWithViem from "@/components/use-login-with-viem";
 import UsePostContext from "@/components/use-post-context";
 import UseReactionToggle from "@/components/use-reaction-toggle";
 import UseTipPostAction from "@/components/use-tip-post-action";
+import UseTipAccountAction from "@/components/use-tip-account-action";
 
 export default async function Page({ params }: { params: Promise<{ hook: string }> }) {
   const { hook } = await params;
@@ -20,6 +21,8 @@ export default async function Page({ params }: { params: Promise<{ hook: string 
       return <UseReactionToggle />;
     case "use-tip-post-action":
       return <UseTipPostAction />;
+    case "use-tip-account-action":
+      return <UseTipAccountAction />;
     default:
       return <div>Hook not found</div>;
   }
