@@ -433,6 +433,37 @@
       ]
     },
     {
+      "name": "quote-dialog",
+      "type": "registry:component",
+      "title": "Lens Quote Post Dialog",
+      "description": "A dialog component for quoting Lens Posts, allowing users to add their own commentary while sharing the original post.",
+      "dependencies": [
+        "@lens-protocol/react@0.0.0-canary-20250820102520",
+        "@lens-protocol/client@0.0.0-canary-20250820102520",
+        "lucide-react",
+        "wagmi@2.15.3"
+      ],
+      "registryDependencies": [
+        "avatar",
+        "button",
+        "dialog",
+        "spinner",
+        "skeleton",
+        "@lens-blocks/text-editor",
+        "@lens-blocks/post-provider",
+        "@lens-blocks/post",
+        "@lens-blocks/use-authenticated-account",
+        "@lens-blocks/use-post-context",
+        "@lens-blocks/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/new-york/components/feed/references/lens-quote-dialog.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
       "name": "link-preview",
       "type": "registry:component",
       "title": "Link Preview",
@@ -472,15 +503,18 @@
       "registryDependencies": [
         "avatar",
         "button",
-        "skeleton",
         "dialog",
-        "tooltip",
         "dropdown-menu",
-        "@lens-blocks/utils",
+        "skeleton",
+        "tooltip",
+        "@lens-blocks/audio-player",
+        "@lens-blocks/lens-markdown",
+        "@lens-blocks/link-preview",
+        "@lens-blocks/quote-dialog",
+        "@lens-blocks/tip-dialog",
         "@lens-blocks/use-post-context",
         "@lens-blocks/use-reaction-toggle",
-        "@lens-blocks/lens-markdown",
-        "@lens-blocks/audio-player",
+        "@lens-blocks/utils",
         "@lens-blocks/video-player"
       ],
       "files": [
@@ -494,10 +528,6 @@
         },
         {
           "path": "registry/new-york/components/feed/references/reference-button.tsx",
-          "type": "registry:component"
-        },
-        {
-          "path": "registry/new-york/components/feed/references/quote-dialog.tsx",
           "type": "registry:component"
         },
         {
@@ -521,15 +551,7 @@
           "type": "registry:component"
         },
         {
-          "path": "registry/new-york/components/feed/tips/lens-tip-dialog.tsx",
-          "type": "registry:component"
-        },
-        {
           "path": "registry/new-york/components/feed/lens-image.tsx",
-          "type": "registry:component"
-        },
-        {
-          "path": "registry/new-york/components/feed/link-preview.tsx",
           "type": "registry:component"
         },
         {
