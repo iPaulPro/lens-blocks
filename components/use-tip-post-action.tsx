@@ -12,35 +12,30 @@ export default function UseTipPostAction() {
       <h2 className="mt-6 pb-2 text-3xl font-semibold tracking-tight first:mt-0">Usage</h2>
       <CodeBlock lang="tsx" className="lines">
         {`import { useTipPostAction } from "@/hooks/use-tip-post-action";
-import { usePost, useSessionClient, PaymentSource, postId, TxHash } from "@lens-protocol/react";`}
+import { 
+  usePost, 
+  useSessionClient, 
+  PaymentSource, 
+  postId, 
+  TxHash 
+} from "@lens-protocol/react";`}
       </CodeBlock>
       <CodeBlock lang="tsx" className="lines">
-        {`const { execute, error } = useTipPostAction();
-const { data: sessionClient } = useSessionClient();
+        {`const { data: sessionClient } = useSessionClient();
 const { data: walletClient } = useWalletClient();
+const { execute } = useTipPostAction({ sessionClient, walletClient });
+
 const post = postId("SOME_POST_ID");`}
       </CodeBlock>
       <CodeBlock lang="tsx" className="lines">
-        {`const handleCreateTip = async (source: PaymentSource, amount: string, tokenAddress: string): Promise<TxHash> => {
-  if (!sessionClient || !walletClient) {
-    throw new Error("A valid session and wallet client are required");
-  }
-
-  const res = await execute({
-    sessionClient,
-    walletClient,
-    post,
-    source,
-    amount,
-    tokenAddress,
-  });
-
-  if (res.isErr()) {
-    throw res.error;
-  }
-
-  return res.value;
-};`}
+        {`const res = await execute({ 
+  post,
+  source: PaymentSource.Signer,
+  amount: "1.0",
+  tokenAddress: NativeToken
+});
+// See https://lens.xyz/docs/protocol/best-practices/error-handling 
+// on how to handle Result types`}
       </CodeBlock>
     </div>
   );

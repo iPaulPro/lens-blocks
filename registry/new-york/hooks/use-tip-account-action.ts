@@ -19,13 +19,10 @@ import { invariant, ResultAsync } from "@lens-protocol/types";
 import { useAsyncTask } from "@/registry/new-york/lib/tasks";
 
 export type TipAccountActionArgs = {
-  sessionClient: SessionClient;
-  walletClient: WalletClient;
   account: EvmAddress;
   source: PaymentSource;
   amount: string;
   tokenAddress: string;
-  useTestnet?: boolean;
 };
 
 type TipAccountActionResult = ResultAsync<
@@ -33,51 +30,38 @@ type TipAccountActionResult = ResultAsync<
   SigningError | TransactionIndexingError | UnauthenticatedError | UnexpectedError | ValidationError
 >;
 
-export const useTipAccountAction = (): UseAsyncTask<
+export const useTipAccountAction = ({
+  sessionClient,
+  walletClient,
+  useTestnet,
+}: {
+  sessionClient: SessionClient | null | undefined;
+  walletClient: WalletClient | null | undefined;
+  useTestnet?: boolean;
+}): UseAsyncTask<
   TipAccountActionArgs,
   TxHash,
   SigningError | TransactionIndexingError | UnauthenticatedError | UnexpectedError | ValidationError
 > => {
   return useAsyncTask((args: TipAccountActionArgs): TipAccountActionResult => {
-    invariant(args.sessionClient.isSessionClient(), "You must be authenticated to use this operation");
+    invariant(sessionClient?.isSessionClient(), "You must be authenticated to use this operation");
+    invariant(walletClient, "A wallet must be connected to use this operation");
 
-    return tip(
-      args.sessionClient,
-      args.walletClient,
-      args.account,
-      args.source,
-      args.amount,
-      args.tokenAddress,
-      args.useTestnet,
-    );
-  });
-};
-
-const tip = (
-  session: SessionClient,
-  walletClient: WalletClient,
-  account: EvmAddress,
-  source: PaymentSource,
-  amount: string,
-  tokenAddress: string,
-  isTestnet?: boolean,
-): TipAccountActionResult => {
-  if (!session.isSessionClient() || !walletClient) {
-    throw new UnauthenticatedError();
-  }
-
-  return ResultAsync.fromSafePromise(walletClient.switchChain({ id: isTestnet ? LensChainTestnetId : LensChainId }))
-    .andThen(() => {
-      return executeAccountAction(session, {
-        account,
-        action: {
-          tipping: {
-            paymentSource: source,
-            ...(tokenAddress === NativeToken ? { native: amount } : { value: amount, token: evmAddress(tokenAddress) }),
+    return ResultAsync.fromSafePromise(walletClient.switchChain({ id: useTestnet ? LensChainTestnetId : LensChainId }))
+      .andThen(() => {
+        return executeAccountAction(sessionClient, {
+          account: args.account,
+          action: {
+            tipping: {
+              paymentSource: args.source,
+              ...(args.tokenAddress === NativeToken
+                ? { native: args.amount }
+                : { value: args.amount, token: evmAddress(args.tokenAddress) }),
+            },
           },
-        },
-      });
-    })
-    .andThen(handleOperationWith(walletClient))
-    .andThen(session.waitForTransaction);
+        });
+      })
+      .andThen(handleOperationWith(walletClient))
+      .andThen(sessionClient.waitForTransaction);
+  });
 };

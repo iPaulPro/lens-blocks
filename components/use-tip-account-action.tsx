@@ -12,35 +12,31 @@ export default function UseTipAccountAction() {
       <h2 className="mt-6 pb-2 text-3xl font-semibold tracking-tight first:mt-0">Usage</h2>
       <CodeBlock lang="tsx" className="lines">
         {`import { useTipAccountAction } from "@/hooks/use-tip-account-action";
-import { useAccount, useSessionClient, PaymentSource, evmAddress, TxHash } from "@lens-protocol/react";`}
+import { 
+  useAccount,
+  useSessionClient, 
+  PaymentSource, 
+  evmAddress, 
+  TxHash 
+} from "@lens-protocol/react";
+import { NativeToken } from "@/lib/lens-utils";`}
       </CodeBlock>
       <CodeBlock lang="tsx" className="lines">
-        {`const { execute, error } = useTipAccountAction();
-const { data: sessionClient } = useSessionClient();
+        {`const { data: sessionClient } = useSessionClient();
 const { data: walletClient } = useWalletClient();
+const { execute } = useTipAccountAction({ sessionClient, walletClient });
+
 const account = evmAddress("SOME_ACCOUNT_ADDRESS");`}
       </CodeBlock>
       <CodeBlock lang="tsx" className="lines">
-        {`const handleCreateTip = async (source: PaymentSource, amount: string, tokenAddress: string): Promise<TxHash> => {
-  if (!sessionClient || !walletClient) {
-    throw new Error("A valid session and wallet client are required");
-  }
-
-  const res = await execute({
-    sessionClient,
-    walletClient,
-    account,
-    source,
-    amount,
-    tokenAddress,
-  });
-
-  if (res.isErr()) {
-    throw res.error;
-  }
-
-  return res.value;
-};`}
+        {`const res = await execute({ 
+  account,
+  source: PaymentSource.Signer,
+  amount: "1.0",
+  tokenAddress: NativeToken
+});
+// See https://lens.xyz/docs/protocol/best-practices/error-handling 
+// on how to handle Result types`}
       </CodeBlock>
     </div>
   );
