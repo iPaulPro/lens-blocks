@@ -15,11 +15,10 @@ import { CircleDollarSign } from "lucide-react";
 export default function TipDialog() {
   const { data: sessionClient, loading: sessionLoading } = useSessionClient();
   const { data: walletClient, isLoading: walletClientLoading } = useWalletClient();
+  const { execute, error } = useTipPostAction({ sessionClient, walletClient });
 
   const tipDialog = useRef<TipDialogRef>(null);
   const post = postId("3988215955854869405528302997462877091460304706960228350925150132477118244123");
-
-  const { execute, error } = useTipPostAction({ sessionClient, walletClient, post });
 
   const handleCreateTip = async (source: PaymentSource, amount: string, tokenAddress: string): Promise<TxHash> => {
     if (sessionLoading || walletClientLoading || !sessionClient || !walletClient) {
@@ -27,6 +26,7 @@ export default function TipDialog() {
     }
 
     const res = await execute({
+      post,
       source,
       amount,
       tokenAddress,
