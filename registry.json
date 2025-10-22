@@ -170,7 +170,7 @@
     },
     {
       "name": "account-chooser",
-      "type": "registry:component",
+      "type": "registry:block",
       "title": "Lens Account Chooser",
       "description": "A list of available Lens accounts for the user to choose from, with support for pagination.",
       "dependencies": ["@lens-protocol/react@0.0.0-canary-20250820102520", "react-virtuoso@4.13.0", "lucide-react"],
@@ -185,7 +185,7 @@
       "files": [
         {
           "path": "registry/new-york/components/account/lens-account-chooser.tsx",
-          "type": "registry:component"
+          "type": "registry:block"
         }
       ]
     },
@@ -407,7 +407,7 @@
     },
     {
       "name": "tip-dialog",
-      "type": "registry:component",
+      "type": "registry:block",
       "title": "Lens Tip Dialog",
       "description": "A dialog component for sending tips to Lens Posts and Accounts, with support for multiple tokens.",
       "dependencies": [
@@ -428,13 +428,13 @@
       "files": [
         {
           "path": "registry/new-york/components/feed/tips/lens-tip-dialog.tsx",
-          "type": "registry:component"
+          "type": "registry:block"
         }
       ]
     },
     {
       "name": "quote-dialog",
-      "type": "registry:component",
+      "type": "registry:block",
       "title": "Lens Quote Post Dialog",
       "description": "A dialog component for quoting Lens Posts, allowing users to add their own commentary while sharing the original post.",
       "dependencies": [
@@ -459,13 +459,13 @@
       "files": [
         {
           "path": "registry/new-york/components/feed/references/lens-quote-dialog.tsx",
-          "type": "registry:component"
+          "type": "registry:block"
         }
       ]
     },
     {
       "name": "collect-dialog",
-      "type": "registry:component",
+      "type": "registry:block",
       "title": "Lens Collect Post Dialog",
       "description": "A dialog component for collecting Lens Posts.",
       "dependencies": ["@lens-protocol/react@0.0.0-canary-20250820102520", "lucide-react", "moment@2.30.1"],
@@ -479,7 +479,7 @@
       "files": [
         {
           "path": "registry/new-york/components/feed/collects/lens-collect-dialog.tsx",
-          "type": "registry:component"
+          "type": "registry:block"
         }
       ]
     },

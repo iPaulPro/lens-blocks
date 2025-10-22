@@ -8,7 +8,6 @@ import { LensPostProvider } from "@/registry/new-york/lib/lens-post-provider";
 import { OpenInV0Button } from "@/components/open-in-v0-button";
 import { InstallCommandBlock } from "@/components/install-command-block";
 import { CodeBlock } from "@/components/codeblock";
-import { Spinner } from "@/registry/new-york/ui/spinner";
 import { Button } from "@/registry/new-york/ui/button";
 import { ShoppingBag } from "lucide-react";
 
@@ -28,22 +27,20 @@ export default function CollectDialog() {
             <OpenInV0Button name="collect-dialog" className="w-fit" />
           </div>
           <div className="flex flex-col gap-6 items-center justify-center flex-grow relative">
-            {sessionLoading || walletClientLoading ? (
-              <Spinner className="size-6" />
-            ) : (
-              <>
-                <Button variant="outline" onClick={collectDialog.current?.open}>
-                  <ShoppingBag className="h-4 h-4" />
-                </Button>
-                <p className="text-xs text-center text-muted-foreground max-w-xs">
-                  Collecting{" "}
-                  <a href="https://testnet.hey.xyz/posts/1n8vtqy901xcrynmgrb" target="_blank" rel="noopener">
-                    this post
-                  </a>{" "}
-                  on testnet.
-                </p>
-              </>
-            )}
+            <Button
+              variant="outline"
+              onClick={collectDialog.current?.open}
+              disabled={sessionLoading || walletClientLoading}
+            >
+              <ShoppingBag className="h-4 h-4" />
+            </Button>
+            <p className="text-xs text-center text-muted-foreground max-w-xs">
+              Collecting{" "}
+              <a href="https://testnet.hey.xyz/posts/1n8vtqy901xcrynmgrb" target="_blank" rel="noopener">
+                this post
+              </a>{" "}
+              on testnet.
+            </p>
           </div>
         </div>
       </div>

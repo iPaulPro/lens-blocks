@@ -1,7 +1,7 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "account-chooser",
-  "type": "registry:component",
+  "type": "registry:block",
   "title": "Lens Account Chooser",
   "description": "A list of available Lens accounts for the user to choose from, with support for pagination.",
   "dependencies": ["@lens-protocol/react@0.0.0-canary-20250820102520", "react-virtuoso@4.13.0", "lucide-react"],
@@ -17,7 +17,7 @@
     {
       "path": "registry/new-york/components/account/lens-account-chooser.tsx",
       "content": "\"use client\";\n\nimport {\n  Account,\n  AccountAvailable,\n  Cursor,\n  evmAddress,\n  PageSize,\n  useAccountsAvailable,\n  useAuthenticatedUser,\n} from \"@lens-protocol/react\";\nimport { useState } from \"react\";\nimport { PaginatedList } from \"@/registry/new-york/components/common/paginated-list\";\nimport { LensAccountListItem } from \"@/registry/new-york/components/account/lens-account-list-item\";\nimport { LensAccountListItemSkeleton } from \"@/registry/new-york/components/account/lens-account-list-item-skeleton\";\n\ntype AccountChooserProps = {\n  walletAddress: string;\n  selectedAccount?: Account | null;\n  onAccountSelected?: (account: Account) => void;\n};\n\nexport const LensAccountChooser = ({ walletAddress, selectedAccount, onAccountSelected }: AccountChooserProps) => {\n  const [cursor, setCursor] = useState<Cursor | null>(null);\n\n  const { data, loading, error } = useAccountsAvailable({\n    managedBy: evmAddress(walletAddress),\n    pageSize: PageSize.Fifty,\n    cursor,\n  });\n\n  const { data: authenticatedUser } = useAuthenticatedUser();\n\n  const sortFn = (a: AccountAvailable, b: AccountAvailable) => {\n    const authAddress = authenticatedUser?.address.toLowerCase();\n    const aAddress = a.account.address.toLowerCase();\n    const bAddress = b.account.address.toLowerCase();\n\n    if (aAddress === authAddress) return -1;\n    if (bAddress === authAddress) return 1;\n\n    if (a.account.metadata?.name) {\n      if (b.account.metadata?.name) {\n        return a.account.metadata.name.localeCompare(b.account.metadata.name);\n      }\n      return a.account.metadata.name.localeCompare(b.account.username?.localName || \"\");\n    }\n    if (a.account.username?.localName) {\n      return a.account.username.localName.localeCompare(b.account.username?.localName || \"\");\n    }\n    return a.account.address.localeCompare(b.account.address);\n  };\n\n  return (\n    <PaginatedList\n      className=\"border rounded-md px-2\"\n      data={data}\n      loading={loading}\n      error={error}\n      cursor={cursor}\n      setCursor={setCursor}\n      emptyMessage=\"No accounts available\"\n      errorMessage=\"Error loading accounts\"\n      sortFn={sortFn}\n      renderItem={(item, index) => (\n        <LensAccountListItem\n          account={item.account}\n          selectedAccount={selectedAccount}\n          onAccountSelected={onAccountSelected}\n          authenticatedUser={authenticatedUser}\n          key={item.account.address}\n          renderDivider={() => <div className=\"h-0.5\"></div>}\n        />\n      )}\n      renderSkeleton={() => (\n        <div className={\"flex flex-col gap-0.5 max-h-full overflow-x-hidden\"}>\n          {Array.from({ length: 3 }).map((_, index) => (\n            <LensAccountListItemSkeleton key={index} />\n          ))}\n        </div>\n      )}\n    />\n  );\n};\n",
-      "type": "registry:component"
+      "type": "registry:block"
     }
   ]
 }
