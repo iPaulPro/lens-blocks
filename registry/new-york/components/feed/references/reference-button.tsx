@@ -14,9 +14,10 @@ type ReferenceButtonProps = {
   onQuoteClick: (post: AnyPost) => void;
   onRepostSuccess?: (txHash: TxHash) => void;
   onError?: (error: Error) => void;
+  showCount?: boolean;
 };
 
-const ReferenceButton = ({ onQuoteClick, onRepostSuccess, onError }: ReferenceButtonProps) => {
+const ReferenceButton = ({ onQuoteClick, onRepostSuccess, onError, showCount = true }: ReferenceButtonProps) => {
   const { post, repost, loading: postLoading, optimistic } = useLensPostContext();
 
   const [isDropdownMenuOpen, setIsDropdownMenuOpen] = useState(false);
@@ -110,7 +111,9 @@ const ReferenceButton = ({ onQuoteClick, onRepostSuccess, onError }: ReferenceBu
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
-      <span className="opacity-85">{new Intl.NumberFormat().format(optimistic.repostAndQuoteCount)}</span>
+      {showCount && (
+        <span className="opacity-85">{new Intl.NumberFormat().format(optimistic.repostAndQuoteCount)}</span>
+      )}
     </div>
   );
 };

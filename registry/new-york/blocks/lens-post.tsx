@@ -1,36 +1,36 @@
 "use client";
 
+import { MouseEvent, useEffect, useRef, useState } from "react";
+import { Copy, Flag, MoreHorizontal, UserCircle2 } from "lucide-react";
+import { Account, Post, TxHash, URI } from "@lens-protocol/react";
+import moment from "moment/moment";
+import { cn } from "@/lib/utils";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/registry/new-york/ui/dropdown-menu";
-import { MouseEvent, useEffect, useRef, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/registry/new-york/ui/avatar";
-import { Account, Post, TxHash, URI } from "@lens-protocol/react";
-import { Copy, Flag, MoreHorizontal, UserCircle2 } from "lucide-react";
-import LensMarkdown from "../components/common/lens-markdown";
+import { Dialog, DialogContent } from "@/registry/new-york/ui/dialog";
+import { Button } from "@/registry/new-york/ui/button";
+import { RegEx } from "@/registry/new-york/lib/regex";
+import { getUsernamePath, parseUri, truncateAddress } from "@/registry/new-york/lib/lens-utils";
+import LensMarkdown from "@/registry/new-york/components/common/lens-markdown";
+import LensAudioPlayer from "@/registry/new-york/components/common/lens-audio-player";
+import LensVideoPlayer from "@/registry/new-york/components/common/lens-video-player";
 import LikeButton from "@/registry/new-york/components/feed/likes/like-button";
 import ReferenceButton from "@/registry/new-york/components/feed/references/reference-button";
 import CommentButton from "@/registry/new-york/components/feed/comment/comment-button";
-import moment from "moment/moment";
 import CollectButton from "@/registry/new-york/components/feed/collects/collect-button";
 import TipButton from "@/registry/new-york/components/feed/tips/tip-button";
-import { cn } from "@/lib/utils";
-import { getUsernamePath, parseUri, truncateAddress } from "@/registry/new-york/lib/lens-utils";
-import { Button } from "@/registry/new-york/ui/button";
 import BookmarkButton from "@/registry/new-york/components/feed/bookmarks/bookmark-button";
-import CollectDialog, { CollectDialogRef } from "@/registry/new-york/components/feed/collects/collect-dialog";
+import LensCollectDialog, { CollectDialogRef } from "@/registry/new-york/components/feed/collects/lens-collect-dialog";
 import LensQuoteDialog, { QuoteDialogRef } from "@/registry/new-york/components/feed/references/lens-quote-dialog";
 import LensTipDialog, { TipDialogRef } from "@/registry/new-york/components/feed/tips/lens-tip-dialog";
-import { useLensPostContext } from "@/registry/new-york/hooks/use-lens-post-context";
-import { Dialog, DialogContent } from "@/registry/new-york/ui/dialog";
-import LensAudioPlayer from "@/registry/new-york/components/common/lens-audio-player";
-import LensVideoPlayer from "@/registry/new-york/components/common/lens-video-player";
 import LensImage from "@/registry/new-york/components/feed/lens-image";
 import LinkPreview from "@/registry/new-york/components/feed/link-preview";
-import { RegEx } from "@/registry/new-york/lib/regex";
+import { useLensPostContext } from "@/registry/new-york/hooks/use-lens-post-context";
 
 type LensPostProps = {
   /**
@@ -352,7 +352,7 @@ export const LensPost = (props: LensPostProps) => {
           </div>
         )}
       </article>
-      {collectAction && <CollectDialog ref={collectDialog} post={post} />}
+      {collectAction && <LensCollectDialog ref={collectDialog} />}
       <LensQuoteDialog ref={quoteDialog} />
       <LensTipDialog ref={tipDialog} createTip={tip} onTipCreated={onTipCreated} onError={onTipError} />
       <Dialog open={lightboxOpen} onOpenChange={setLightboxOpen}>

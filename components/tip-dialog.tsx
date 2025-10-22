@@ -76,10 +76,11 @@ export default function TipDialog() {
               <CircleDollarSign className="w-4 h-4" />
             </Button>
             <p className="text-xs text-center text-muted-foreground max-w-xs">
-              This will create a post tip for{" "}
+              Tipping{" "}
               <a href="https://testnet.hey.xyz/posts/1n8vtqy901xcrynmgrb" target="_blank" rel="noopener">
                 this post
-              </a>
+              </a>{" "}
+              on testnet.
             </p>
           </div>
         </div>

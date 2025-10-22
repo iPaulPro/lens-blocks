@@ -464,6 +464,26 @@
       ]
     },
     {
+      "name": "collect-dialog",
+      "type": "registry:component",
+      "title": "Lens Collect Post Dialog",
+      "description": "A dialog component for collecting Lens Posts.",
+      "dependencies": ["@lens-protocol/react@0.0.0-canary-20250820102520", "lucide-react", "moment@2.30.1"],
+      "registryDependencies": [
+        "button",
+        "dialog",
+        "@lens-blocks/post-provider",
+        "@lens-blocks/use-post-context",
+        "@lens-blocks/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/new-york/components/feed/collects/lens-collect-dialog.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
       "name": "link-preview",
       "type": "registry:component",
       "title": "Link Preview",
@@ -488,26 +508,14 @@
       "type": "registry:block",
       "title": "Lens Post",
       "description": "Displays a post from Lens Social Protocol, including the content, author, attachments, and engagement actions.",
-      "dependencies": [
-        "@lens-protocol/client@0.0.0-canary-20250820102520",
-        "@lens-protocol/react@0.0.0-canary-20250820102520",
-        "@lens-protocol/types@0.0.0-canary-20250820102520",
-        "@lens-protocol/metadata@2.1.0",
-        "@lens-chain/storage-client@1.0.6",
-        "@lens-chain/sdk@1.0.3",
-        "lucide-react",
-        "moment@2.30.1",
-        "viem@2.33.0",
-        "wagmi@2.15.3"
-      ],
+      "dependencies": ["@lens-protocol/react@0.0.0-canary-20250820102520", "lucide-react", "moment@2.30.1"],
       "registryDependencies": [
         "avatar",
         "button",
         "dialog",
         "dropdown-menu",
-        "skeleton",
-        "tooltip",
         "@lens-blocks/audio-player",
+        "@lens-blocks/collect-dialog",
         "@lens-blocks/lens-markdown",
         "@lens-blocks/link-preview",
         "@lens-blocks/quote-dialog",
@@ -540,10 +548,6 @@
         },
         {
           "path": "registry/new-york/components/feed/collects/collect-button.tsx",
-          "type": "registry:component"
-        },
-        {
-          "path": "registry/new-york/components/feed/collects/collect-dialog.tsx",
           "type": "registry:component"
         },
         {

@@ -8,9 +8,10 @@ import { useLensPostContext } from "@/registry/new-york/hooks/use-lens-post-cont
 
 interface Props {
   onClick: (post: AnyPost) => void;
+  showCount?: boolean;
 }
 
-const TipButton = ({ onClick }: Props) => {
+const TipButton = ({ onClick, showCount = true }: Props) => {
   const { post, loading: postLoading, optimistic } = useLensPostContext();
 
   const operations = post && "operations" in post ? post.operations : null;
@@ -50,7 +51,7 @@ const TipButton = ({ onClick }: Props) => {
           <CircleDollarSign className="w-4 h-4" />
         )}
       </Button>
-      <span className="opacity-85">{new Intl.NumberFormat().format(optimistic.tipCount)}</span>
+      {showCount && <span className="opacity-85">{new Intl.NumberFormat().format(optimistic.tipCount)}</span>}
     </div>
   );
 };

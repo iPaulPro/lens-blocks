@@ -10,9 +10,10 @@ type LikeButtonProps = {
   className?: string;
   onSuccess?: () => void;
   onError?: (error: Error) => void;
+  showCount?: boolean;
 };
 
-const LikeButton = ({ className, onSuccess, onError }: LikeButtonProps) => {
+const LikeButton = ({ className, onSuccess, onError, showCount = true }: LikeButtonProps) => {
   const { post, loading: postLoading, toggleLike, optimistic } = useLensPostContext();
 
   const operations = post && "operations" in post ? post.operations : null;
@@ -50,7 +51,7 @@ const LikeButton = ({ className, onSuccess, onError }: LikeButtonProps) => {
           <Heart className="opacity-85" />
         )}
       </Button>
-      <span>{new Intl.NumberFormat().format(optimistic.likeCount)}</span>
+      {showCount && <span>{new Intl.NumberFormat().format(optimistic.likeCount)}</span>}
     </div>
   );
 };

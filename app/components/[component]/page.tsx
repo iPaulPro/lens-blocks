@@ -10,6 +10,8 @@ import VideoPlayer from "@/components/video-player";
 import TipDialog from "@/components/tip-dialog";
 import FollowButton from "@/components/follow-buton";
 import LinkPreviewPage from "@/components/link-preview";
+import CollectDialog from "@/components/collect-dialog";
+import QuoteDialog from "@/components/quote-dialog";
 
 export default async function Page({ params }: { params: Promise<{ component: string }> }) {
   const { component } = await params;
@@ -25,12 +27,16 @@ export default async function Page({ params }: { params: Promise<{ component: st
       return <AccountListItemSkeleton />;
     case "audio-player":
       return <AudioPlayer />;
+    case "collect-dialog":
+      return <CollectDialog />;
     case "follow-button":
       return <FollowButton />;
     case "login-button":
       return <LoginButton />;
     case "paginated-list":
       return <PaginatedList />;
+    case "quote-dialog":
+      return <QuoteDialog />;
     case "text-editor":
       return <TextEditor />;
     case "lens-markdown":

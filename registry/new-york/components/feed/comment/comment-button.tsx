@@ -8,9 +8,10 @@ import { useLensPostContext } from "@/registry/new-york/hooks/use-lens-post-cont
 
 type CommentButtonProps = {
   onClick: (post: AnyPost) => void;
+  showCount?: boolean;
 };
 
-const CommentButton = ({ onClick }: CommentButtonProps) => {
+const CommentButton = ({ onClick, showCount = true }: CommentButtonProps) => {
   const { post, loading: postLoading, optimistic } = useLensPostContext();
 
   const operations = post && "operations" in post ? post.operations : null;
@@ -37,7 +38,7 @@ const CommentButton = ({ onClick }: CommentButtonProps) => {
           <MessageCircle className="opacity-85" />
         )}
       </Button>
-      <span className="opacity-85">{new Intl.NumberFormat().format(optimistic.commentCount)}</span>
+      {showCount && <span className="opacity-85">{new Intl.NumberFormat().format(optimistic.commentCount)}</span>}
     </div>
   );
 };

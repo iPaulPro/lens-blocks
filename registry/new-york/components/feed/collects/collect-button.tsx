@@ -8,9 +8,10 @@ import { MouseEvent } from "react";
 
 type CollectButtonProps = {
   onClick: (post: AnyPost) => void;
+  showCount?: boolean;
 };
 
-const CollectButton = ({ onClick }: CollectButtonProps) => {
+const CollectButton = ({ onClick, showCount = true }: CollectButtonProps) => {
   const { post, loading: postLoading, optimistic } = useLensPostContext();
 
   const operations = post && "operations" in post ? post.operations : null;
@@ -58,7 +59,7 @@ const CollectButton = ({ onClick }: CollectButtonProps) => {
           <ShoppingBag className="h-4 h-4" />
         )}
       </Button>
-      <span className="opacity-85">{new Intl.NumberFormat().format(optimistic.collectCount)}</span>
+      {showCount && <span className="opacity-85">{new Intl.NumberFormat().format(optimistic.collectCount)}</span>}
     </div>
   );
 };
