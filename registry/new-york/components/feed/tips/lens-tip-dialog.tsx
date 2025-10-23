@@ -6,9 +6,8 @@ import {
   SessionClient,
   TxHash,
   useAuthenticatedUser,
-  useSessionClient,
 } from "@lens-protocol/react";
-import { forwardRef, useCallback, useEffect, useImperativeHandle, useState } from "react";
+import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/registry/new-york/ui/dialog";
 import { fetchBalancesBulk } from "@lens-protocol/client/actions";
 import {
@@ -19,12 +18,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/registry/new-york/ui/select";
-import { useAccount } from "wagmi";
 import { Input } from "@/registry/new-york/ui/input";
 import { Button } from "@/registry/new-york/ui/button";
 import { Spinner } from "@/registry/new-york/ui/spinner";
 import { NativeToken } from "@/registry/new-york/lib/lens-utils";
 import { Skeleton } from "@/registry/new-york/ui/skeleton";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/registry/new-york/ui/tooltip";
 
 export interface TipDialogRef {
   open: () => void;
@@ -33,6 +32,11 @@ export interface TipDialogRef {
 }
 
 export interface TipDialogProps {
+  /**
+   * The Lens Session Client used for making authenticated calls
+   */
+  sessionClient: SessionClient | null | undefined;
+
   /**
    *  Function to create a tip transaction. Any error thrown will be caught and passed to onError callback.
    */
@@ -55,22 +59,22 @@ export interface TipDialogProps {
 }
 
 const LensTipDialog = forwardRef<TipDialogRef, TipDialogProps>(
-  ({ supportedTokens, createTip, onTipCreated, onError }, ref) => {
+  ({ sessionClient, supportedTokens, createTip, onTipCreated, onError }, ref) => {
     const [dialogOpen, setDialogOpen] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [balances, setBalances] = useState<(Erc20Amount | NativeAmount)[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<Error | null>(null);
+    const [inputError, setInputError] = useState<Error | null>(null);
     const [selectedTokenAddress, setSelectedTokenAddress] = useState<string>(NativeToken);
     const [inputValue, setInputValue] = useState<string>("");
     const [balance, setBalance] = useState<string>("0");
     const [paymentSource, setPaymentSource] = useState<PaymentSource>(PaymentSource.Signer);
 
-    const { data: session } = useSessionClient();
     const { data: user } = useAuthenticatedUser();
-    const { address } = useAccount();
 
     const account = user?.address;
+    const address = user?.signer;
 
     useImperativeHandle(ref, () => ({
       open: () => setDialogOpen(true),
@@ -82,38 +86,35 @@ const LensTipDialog = forwardRef<TipDialogRef, TipDialogProps>(
       return balance.__typename === "NativeAmount" ? NativeToken : balance.asset.contract.address;
     };
 
-    const fetchBalances = useCallback(
-      async (session: SessionClient, address: string) => {
-        try {
-          const res = await fetchBalancesBulk(session, {
-            address: paymentSource === PaymentSource.Account ? account : evmAddress(address),
-            tokens: supportedTokens,
-            includeNative: true,
-          });
+    const fetchBalances = async (session: SessionClient, paymentSource: PaymentSource, address: string) => {
+      try {
+        const res = await fetchBalancesBulk(session, {
+          address: paymentSource === PaymentSource.Account ? account : evmAddress(address),
+          tokens: supportedTokens,
+          includeNative: true,
+        });
 
-          if (res.isErr()) {
-            throw res.error;
-          }
-
-          const accountBalances = res.value.filter(
-            balance => balance.__typename === "NativeAmount" || balance.__typename === "Erc20Amount",
-          );
-          setBalances(accountBalances);
-        } finally {
-          setIsLoading(false);
+        if (res.isErr()) {
+          throw res.error;
         }
-      },
-      [paymentSource, selectedTokenAddress],
-    );
+
+        const accountBalances = res.value.filter(
+          balance => balance.__typename === "NativeAmount" || balance.__typename === "Erc20Amount",
+        );
+        setBalances(accountBalances);
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
     useEffect(() => {
-      if (!dialogOpen || !session?.isSessionClient() || !address || !account) return;
+      if (!dialogOpen || !sessionClient?.isSessionClient() || !address || !account) return;
       setIsLoading(true);
 
-      fetchBalances(session, address).catch(err => {
+      fetchBalances(sessionClient, paymentSource, address).catch(err => {
         setError(err);
       });
-    }, [session, dialogOpen, address, account]);
+    }, [sessionClient, dialogOpen, address, account, paymentSource]);
 
     useEffect(() => {
       if (!balances.length) {
@@ -141,6 +142,18 @@ const LensTipDialog = forwardRef<TipDialogRef, TipDialogProps>(
           : balances.find(b => b.asset.contract.address === selectedTokenAddress);
       setBalance(balance?.value || "0");
     }, [balances, selectedTokenAddress]);
+
+    useEffect(() => {
+      if (!balance) return;
+      const numericInput = parseFloat(inputValue);
+      const numericBalance = parseFloat(balance);
+      // If input value exceeds balance, set and error, otherwise clear error
+      if (numericInput > numericBalance) {
+        setInputError(new Error("Input amount exceeds balance"));
+      } else {
+        setInputError(null);
+      }
+    }, [inputValue, balance]);
 
     const onSubmitClick = async () => {
       if (!selectedTokenAddress || !inputValue) {
@@ -243,11 +256,12 @@ const LensTipDialog = forwardRef<TipDialogRef, TipDialogProps>(
                 </div>
                 <div className="flex gap-4">
                   <Input
+                    id="amount"
                     type="number"
                     placeholder="Amount"
                     value={inputValue}
                     onChange={e => setInputValue(e.target.value)}
-                    className="flex-grow"
+                    className={`flex-grow ${inputError ? "border-red-500 !ring-destructive" : ""}`}
                     disabled={isLoading}
                   />
                   <Button
@@ -266,19 +280,26 @@ const LensTipDialog = forwardRef<TipDialogRef, TipDialogProps>(
                     {isLoading ? (
                       <Spinner />
                     ) : (
-                      <span className="font-bold">
-                        {parseFloat(balance).toLocaleString(undefined, {
-                          maximumFractionDigits: 6,
-                          useGrouping: false,
-                        })}
-                        {balance.split(".")[1]?.length > 6 ? "…" : ""}
-                      </span>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <span className="font-bold">
+                            {parseFloat(balance).toLocaleString(undefined, {
+                              maximumFractionDigits: 6,
+                              useGrouping: false,
+                            })}
+                            {balance.split(".")[1]?.length > 6 ? "…" : ""}
+                          </span>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p className="font-bold">{balance}</p>
+                        </TooltipContent>
+                      </Tooltip>
                     )}
                   </span>
                   <Button
                     className="flex-none flex items-center gap-2"
                     onClick={onSubmitClick}
-                    disabled={isLoading || isSubmitting}
+                    disabled={isLoading || isSubmitting || !!inputError || !inputValue}
                   >
                     {isSubmitting ? (
                       <>

@@ -7,52 +7,78 @@ import { follow, unfollow } from "@lens-protocol/client/actions";
 import { handleOperationWith } from "@lens-protocol/client/viem";
 import { WalletClient } from "viem";
 import { Spinner } from "@/registry/new-york/ui/spinner";
+import { Result } from "@/registry/new-york/lib/result";
 
 type Props = {
-  account: Account;
-  session: SessionClient | undefined | null;
-  walletClient?: WalletClient;
+  accountRes?: Result<Account>;
+  session: Result<SessionClient>;
+  wallet?: { data: WalletClient | undefined | null; isLoading?: boolean; error?: unknown };
   onFollowSuccess?: (account: Account, txHash: TxHash) => void;
   onUnfollowSuccess?: (account: Account, txHash: TxHash) => void;
   onFollowError?: (account: Account, error: Error) => void;
 };
 
 export default function LensFollowButton({ ...props }: Props) {
-  const { account, session, walletClient, onFollowSuccess, onUnfollowSuccess, onFollowError } = props;
+  const { accountRes, session, wallet, onFollowSuccess, onUnfollowSuccess, onFollowError } = props;
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const account = accountRes?.data;
+  const sessionClient = session?.data;
+  const walletClient = wallet?.data;
+
   const [optimisticIsFollowed, setOptimisticIsFollowed] = useState<boolean>(
-    account.operations?.isFollowedByMe ?? false,
+    account?.operations?.isFollowedByMe ?? false,
   );
 
-  const handleUnfollow = async (session: SessionClient) => {
-    const res = await unfollow(session, {
+  const handleUnfollow = async () => {
+    if (!account || !sessionClient) return;
+
+    if (!walletClient) {
+      onFollowError?.(account, new Error("Wallet client is not available"));
+      return;
+    }
+
+    const res = await unfollow(sessionClient, {
       account: account.address,
     })
       .andThen(handleOperationWith(walletClient))
-      .andThen(session.waitForTransaction);
+      .andThen(sessionClient.waitForTransaction);
+
     if (res.isErr()) {
       onFollowError?.(account, res.error);
       return;
     }
+
     setOptimisticIsFollowed(false);
     onUnfollowSuccess?.(account, res.value);
   };
 
-  const handleFollow = async (session: SessionClient) => {
-    const res = await follow(session, {
+  const handleFollow = async () => {
+    if (!account || !sessionClient) return;
+
+    if (!walletClient) {
+      onFollowError?.(account, new Error("Wallet client is not available"));
+      return;
+    }
+
+    const res = await follow(sessionClient, {
       account: account.address,
     })
       .andThen(handleOperationWith(walletClient))
-      .andThen(session.waitForTransaction);
+      .andThen(sessionClient.waitForTransaction);
+
     if (res.isErr()) {
       onFollowError?.(account, res.error);
       return;
     }
+
     setOptimisticIsFollowed(true);
     onFollowSuccess?.(account, res.value);
   };
 
   const onFollowButtonClick = async () => {
+    if (!account) return;
+
     if (!session) {
       onFollowError?.(account, new UnauthenticatedError());
       return;
@@ -62,9 +88,9 @@ export default function LensFollowButton({ ...props }: Props) {
 
     try {
       if (optimisticIsFollowed) {
-        await handleUnfollow(session);
+        await handleUnfollow();
       } else {
-        await handleFollow(session);
+        await handleFollow();
       }
     } catch (e) {
       if (e instanceof Error) {
@@ -80,7 +106,7 @@ export default function LensFollowButton({ ...props }: Props) {
       variant={optimisticIsFollowed ? "outline" : "default"}
       className="group hover:border-destructive"
       onClick={onFollowButtonClick}
-      disabled={isSubmitting}
+      disabled={isSubmitting || accountRes?.loading || session?.loading || wallet?.isLoading}
     >
       {isSubmitting ? (
         <>

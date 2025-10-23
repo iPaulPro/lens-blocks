@@ -21,6 +21,7 @@ import { textOnly } from "@lens-protocol/metadata";
 import { immutable, StorageClient } from "@lens-chain/storage-client";
 import { chains } from "@lens-chain/sdk/viem";
 import { WalletClient } from "viem";
+import { Result } from "@/registry/new-york/lib/result";
 
 export type OptimisticState = {
   liked: boolean;
@@ -42,6 +43,7 @@ export type Referral = {
 };
 
 type PostContextType = {
+  sessionClient?: SessionClient | null | undefined;
   post: AnyPost | undefined | null;
   loading: boolean;
   error?: Error;
@@ -61,12 +63,12 @@ type Props = {
   /**
    * The Lens Session Client used for making authenticated calls
    */
-  sessionClient: SessionClient | null | undefined;
+  session: Result<SessionClient>;
 
   /**
    * The wallet client from viem used to sign messages for authentication.
    */
-  walletClient?: WalletClient;
+  wallet?: { data: WalletClient | undefined | null; isLoading?: boolean; error?: unknown };
 
   postId: string;
 
@@ -75,7 +77,10 @@ type Props = {
   useTestnet?: boolean;
 };
 
-export const LensPostProvider = ({ sessionClient, walletClient, postId, children, useTestnet = false }: Props) => {
+export const LensPostProvider = ({ session, wallet, postId, children, useTestnet = false }: Props) => {
+  const sessionClient = session?.data;
+  const walletClient = wallet?.data;
+
   const { data, loading, error } = usePost({ post: postId });
 
   const [post, setPost] = useState<Post | undefined | null>(data?.__typename === "Repost" ? data.repostOf : data);
@@ -396,6 +401,7 @@ export const LensPostProvider = ({ sessionClient, walletClient, postId, children
   return (
     <LensPostContext.Provider
       value={{
+        sessionClient,
         post,
         toggleLike,
         comment,

@@ -5,7 +5,6 @@ import {
   Account,
   AuthenticatedUser,
   LoginError,
-  PublicClient,
   SessionClient,
   useAuthenticatedUser,
   useLogout,
@@ -19,17 +18,19 @@ import { useCallback, useEffect, useState } from "react";
 import { useModal } from "connectkit";
 import { useLensLoginWithViem } from "@/registry/new-york/hooks/use-lens-login-with-viem";
 import { WalletClient } from "viem";
+import { Result } from "@/registry/new-york/lib/result";
 
 type LensLoginProps = {
   /**
    * The Lens Client used for making public and authenticated calls
    */
-  lensClient: PublicClient | SessionClient | undefined | null;
+  session: Result<SessionClient>;
 
   /**
    * The wallet client from viem used to sign messages for authentication.
+   * If not provided, follow/unfollow button will not be rendered.
    */
-  walletClient: WalletClient | undefined;
+  wallet?: { data: WalletClient | undefined | null; isLoading?: boolean; error?: unknown };
 
   /**
    * The address of the app registered with Lens.
@@ -48,13 +49,15 @@ type LensLoginProps = {
 };
 
 export function LensLogin(props: LensLoginProps) {
-  const { lensClient, walletClient, appAddress, onSuccess, onError } = props;
+  const { session, wallet, appAddress, onSuccess, onError } = props;
+  const walletClient = wallet?.data;
+  const sessionClient = session.data;
 
   const [accountChooserOpen, setAccountChooserOpen] = useState(false);
   const [selectedAccount, setSelectedAccount] = useState<Account | null>(null);
 
   const { loading: authenticatedUserLoading } = useAuthenticatedUser();
-  const { execute: login, loading: loginLoading, error: loginError } = useLensLoginWithViem();
+  const { execute: login, loading: loginLoading, error: loginError } = useLensLoginWithViem({ sessionClient });
   const { execute: logout, loading: logoutLoading } = useLogout();
   const { address: walletAddress, isConnected, isConnecting, isReconnecting } = useAccount();
   const { disconnect } = useDisconnect();
@@ -98,7 +101,7 @@ export function LensLogin(props: LensLoginProps) {
 
   const onDisconnectButtonClick = async () => {
     disconnect();
-    if (lensClient?.isSessionClient()) {
+    if (sessionClient?.isSessionClient()) {
       await logout();
     }
   };

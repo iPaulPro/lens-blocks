@@ -28,7 +28,7 @@ const LensQuoteDialog = forwardRef<QuoteDialogRef, QuoteDialogProps>((props, ref
   const [dialogOpen, setDialogOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const { data: sessionClient } = useSessionClient();
+  const session = useSessionClient();
   const { data: account, loading: accountLoading } = useAuthenticatedLensAccount();
   const { post, quote } = useLensPostContext();
 
@@ -86,7 +86,7 @@ const LensQuoteDialog = forwardRef<QuoteDialogRef, QuoteDialogProps>((props, ref
             </div>
           </div>
           {post && (
-            <LensPostProvider sessionClient={sessionClient} postId={post.id}>
+            <LensPostProvider session={session} postId={post.id}>
               <div className="md:pl-14">
                 <LensPost showActions={false} className="border rounded-xl" contentClassName="md:text-sm" />
               </div>

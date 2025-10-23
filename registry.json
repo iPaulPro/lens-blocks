@@ -165,6 +165,10 @@
         {
           "path": "registry/new-york/lib/lens-post-provider.tsx",
           "type": "registry:lib"
+        },
+        {
+          "path": "registry/new-york/lib/result.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -306,6 +310,10 @@
         {
           "path": "registry/new-york/components/account/lens-follow-button.tsx",
           "type": "registry:component"
+        },
+        {
+          "path": "registry/new-york/lib/result.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -332,6 +340,10 @@
         {
           "path": "registry/new-york/blocks/lens-account-hover-card.tsx",
           "type": "registry:component"
+        },
+        {
+          "path": "registry/new-york/lib/result.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -368,6 +380,10 @@
         {
           "path": "registry/new-york/components/account/lens-account-list-item-skeleton.tsx",
           "type": "registry:component"
+        },
+        {
+          "path": "registry/new-york/lib/result.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -412,8 +428,7 @@
       "description": "A dialog component for sending tips to Lens Posts and Accounts, with support for multiple tokens.",
       "dependencies": [
         "@lens-protocol/react@0.0.0-canary-20250820102520",
-        "@lens-protocol/client@0.0.0-canary-20250820102520",
-        "wagmi@2.15.3"
+        "@lens-protocol/client@0.0.0-canary-20250820102520"
       ],
       "registryDependencies": [
         "button",
@@ -422,6 +437,7 @@
         "select",
         "spinner",
         "skeleton",
+        "tooltip",
         "@lens-blocks/use-tip-post-action",
         "@lens-blocks/utils"
       ],
@@ -514,6 +530,7 @@
         "button",
         "dialog",
         "dropdown-menu",
+        "skeleton",
         "@lens-blocks/audio-player",
         "@lens-blocks/collect-dialog",
         "@lens-blocks/lens-markdown",

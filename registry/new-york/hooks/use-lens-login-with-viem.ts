@@ -5,9 +5,9 @@ import {
   AuthenticatedUser,
   evmAddress,
   LoginError,
+  SessionClient,
   UnexpectedError,
   useLogin,
-  useSessionClient,
   useSwitchAccount,
 } from "@lens-protocol/react";
 import { LensChainId, LensChainTestnetId } from "@/registry/new-york/lib/lens-utils";
@@ -18,12 +18,15 @@ type UseLensLoginWithViemReturnType = {
   error: LoginError | null;
 };
 
-export function useLensLoginWithViem(): UseLensLoginWithViemReturnType {
+export function useLensLoginWithViem({
+  sessionClient,
+}: {
+  sessionClient: SessionClient | null | undefined;
+}): UseLensLoginWithViemReturnType {
   const [error, setError] = useState<LoginError | null>(null);
 
   const { execute: switchAccount, loading: switchingAccounts } = useSwitchAccount();
   const { execute: executeLogin, loading: loginLoading } = useLogin();
-  const { data: sessionClient } = useSessionClient();
 
   const execute = async (
     walletClient: WalletClient,

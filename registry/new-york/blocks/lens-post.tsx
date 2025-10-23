@@ -31,6 +31,7 @@ import LensTipDialog, { TipDialogRef } from "@/registry/new-york/components/feed
 import LensImage from "@/registry/new-york/components/feed/lens-image";
 import LinkPreview from "@/registry/new-york/components/feed/link-preview";
 import { useLensPostContext } from "@/registry/new-york/hooks/use-lens-post-context";
+import { Skeleton } from "@/registry/new-york/ui/skeleton";
 
 type LensPostProps = {
   /**
@@ -112,7 +113,7 @@ export const LensPost = (props: LensPostProps) => {
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [urlInContent, setUrlInContent] = useState<string | null>(null);
 
-  const { post, loading, tip } = useLensPostContext();
+  const { post, loading, tip, sessionClient } = useLensPostContext();
 
   useEffect(() => {
     if (!lightboxOpen) {
@@ -144,7 +145,7 @@ export const LensPost = (props: LensPostProps) => {
 
   if (!post) {
     if (loading) {
-      return <></>; // TODO return skeleton
+      return <PostSkeleton className={className} />;
     }
     return null;
   }
@@ -354,7 +355,13 @@ export const LensPost = (props: LensPostProps) => {
       </article>
       {collectAction && <LensCollectDialog ref={collectDialog} />}
       <LensQuoteDialog ref={quoteDialog} />
-      <LensTipDialog ref={tipDialog} createTip={tip} onTipCreated={onTipCreated} onError={onTipError} />
+      <LensTipDialog
+        sessionClient={sessionClient}
+        ref={tipDialog}
+        createTip={tip}
+        onTipCreated={onTipCreated}
+        onError={onTipError}
+      />
       <Dialog open={lightboxOpen} onOpenChange={setLightboxOpen}>
         <DialogContent className="flex justify-center items-center max-h-full max-w-full bg-transparent border-none shadow-none">
           {lightboxOpen && lightboxUri && (
@@ -368,5 +375,39 @@ export const LensPost = (props: LensPostProps) => {
         </DialogContent>
       </Dialog>
     </>
+  );
+};
+
+const PostSkeleton = ({ className }: { className?: string }) => {
+  return (
+    <div className={cn("w-full px-3 md:px-4 pt-3 md:pt-4 pb-2 flex flex-col gap-3", className)}>
+      <div className="flex-grow flex justify-between flex-none">
+        <div className="flex gap-2 w-full min-w-0">
+          <Skeleton className="w-10 h-10 rounded-full" />
+          <div className="flex-grow flex flex-col min-w-0 gap-1 justify-center">
+            <div className="flex gap-1 w-full min-w-0 items-center">
+              <Skeleton className="h-4 w-32 rounded-full" />
+              <Skeleton className="h-4 w-20 rounded-full" />
+            </div>
+            <Skeleton className="h-3 w-16 rounded-full" />
+          </div>
+        </div>
+      </div>
+      <div className="flex flex-col gap-2 pt-2">
+        <Skeleton className="w-11/12 h-4 rounded-full" />
+        <Skeleton className="w-full h-4 rounded-full" />
+        <Skeleton className="w-2/3 h-4 rounded-full" />
+      </div>
+      <div className="w-full flex gap-4 md:gap-8 items-center justify-between pt-2">
+        <div className="w-full flex items-center justify-between md:justify-normal gap-4 md:gap-8">
+          <Skeleton className="w-6 h-6 rounded-full" />
+          <Skeleton className="w-6 h-6 rounded-full" />
+          <Skeleton className="w-6 h-6 rounded-full" />
+          <Skeleton className="w-6 h-6 rounded-full" />
+          <Skeleton className="w-6 h-6 rounded-full" />
+        </div>
+        <Skeleton className="w-6 h-6 rounded-full" />
+      </div>
+    </div>
   );
 };

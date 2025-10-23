@@ -23,11 +23,13 @@ export default function UseLoginWithViem() {
       </p>
       <CodeBlock lang="tsx" className="lines">
         {`import { useLensLoginWithViem } from "@/hooks/use-lens-login-with-viem";
+import { useSessionClient } from "@lens-protocol/react";
 import { useWalletClient } from "wagmi";`}
       </CodeBlock>
       <CodeBlock lang="tsx" className="lines">
-        {`const { data: walletClient } = useWalletClient();        
-const { execute: login } = useLensLoginWithViem();`}
+        {`const { data: walletClient } = useWalletClient();     
+const { data: sessionClient } = useSessionClient();   
+const { execute: login } = useLensLoginWithViem({ sessionClient });`}
       </CodeBlock>
       <CodeBlock lang="tsx" className="lines">
         {`const user = await login(walletClient, account);}`}

@@ -12,14 +12,14 @@ import { Button } from "@/registry/new-york/ui/button";
 import { ShoppingBag } from "lucide-react";
 
 export default function CollectDialog() {
-  const { data: sessionClient, loading: sessionLoading } = useSessionClient();
-  const { data: walletClient, isLoading: walletClientLoading } = useWalletClient();
+  const session = useSessionClient();
+  const wallet = useWalletClient();
 
   const collectDialog = useRef<CollectDialogRef>(null);
   const post = postId("3988215955854869405528302997462877091460304706960228350925150132477118244123");
 
   return (
-    <LensPostProvider postId={post} sessionClient={sessionClient} walletClient={walletClient} useTestnet={true}>
+    <LensPostProvider postId={post} session={session} wallet={wallet} useTestnet={true}>
       <div className="flex flex-col flex-1 gap-8">
         <div className="preview flex flex-col gap-4 relative">
           <div className="flex items-center justify-between">
@@ -30,7 +30,7 @@ export default function CollectDialog() {
             <Button
               variant="outline"
               onClick={collectDialog.current?.open}
-              disabled={sessionLoading || walletClientLoading}
+              disabled={session.loading || wallet.isLoading}
             >
               <ShoppingBag className="h-4 h-4" />
             </Button>
@@ -54,14 +54,14 @@ import { postId, useSessionClient } from "@lens-protocol/react";
 import { useWalletClient } from "wagmi";`}
       </CodeBlock>
       <CodeBlock lang="tsx" className="lines">
-        {`const { data: sessionClient } = useSessionClient();
-const { data: walletClient } = useWalletClient();
+        {`const session = useSessionClient();
+const wallet = useWalletClient();
 
 const post = postId("SOME_POST_ID");
 const collectDialog = useRef<CollectDialogRef>(null);`}
       </CodeBlock>
       <CodeBlock lang="tsx" className="lines">
-        {`<LensPostProvider postId={post} sessionClient={sessionClient} walletClient={walletClient}>
+        {`<LensPostProvider postId={post} session={session} wallet={wallet}>
   <button onClick={collectDialog.current?.open}>Collect</button>
   <LensCollectDialog ref={collectDialog} />
 </LensPostProvider>`}

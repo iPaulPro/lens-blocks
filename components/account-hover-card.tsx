@@ -6,23 +6,21 @@ import { CodeBlock } from "@/components/codeblock";
 import LensAccountHoverCard from "@/registry/new-york/blocks/lens-account-hover-card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/registry/new-york/ui/avatar";
 import { parseUri } from "@/registry/new-york/lib/lens-utils";
-import { Loader, UserCircle2 } from "lucide-react";
-import { PublicClient, useAccount, useSessionClient } from "@lens-protocol/react";
+import { UserCircle2 } from "lucide-react";
+import { useAccount, useSessionClient } from "@lens-protocol/react";
 import { useWalletClient } from "wagmi";
-import config from "@/lib/lens/config";
+import { Skeleton } from "@/registry/new-york/ui/skeleton";
 
 export default function AccountHoverCard() {
-  const { data: sessionClient, loading: sessionLoading } = useSessionClient();
-  const { data: walletClient, isLoading: walletClientLoading } = useWalletClient();
-  const { data: account } = useAccount({
+  const session = useSessionClient();
+  const wallet = useWalletClient();
+  const accountRes = useAccount({
     username: {
       localName: "paulburke",
     },
   });
 
-  const publicClient = PublicClient.create({
-    environment: config.environment,
-  });
+  const account = accountRes.data;
 
   return (
     <>
@@ -33,25 +31,23 @@ export default function AccountHoverCard() {
             <OpenInV0Button name="account-hover-card" className="w-fit" />
           </div>
           <div className="flex items-center justify-center flex-grow relative">
-            {(walletClientLoading && walletClient) || (sessionLoading && !sessionClient) || !account ? (
-              <Loader className="animate-spin w-4 h-4 text-muted-foreground" />
-            ) : (
-              <LensAccountHoverCard
-                account={account}
-                walletClient={walletClient}
-                lensClient={sessionClient ?? publicClient}
-              >
-                <Avatar className="flex-none w-10 h-10">
-                  <AvatarImage
-                    src={parseUri(account.metadata?.picture)}
-                    alt={`${account.username?.value ?? account.address}'s avatar`}
-                  />
-                  <AvatarFallback>
-                    <UserCircle2 className="w-10 h-10 opacity-45" />
-                  </AvatarFallback>
-                </Avatar>
-              </LensAccountHoverCard>
-            )}
+            <LensAccountHoverCard accountRes={accountRes} wallet={wallet} session={session} useTestnet={true}>
+              {accountRes.loading ? (
+                <Skeleton className="w-10 h-10 rounded-full" />
+              ) : (
+                account && (
+                  <Avatar className="flex-none w-10 h-10">
+                    <AvatarImage
+                      src={parseUri(account.metadata?.picture)}
+                      alt={`${account.username?.value ?? account.address}'s avatar`}
+                    />
+                    <AvatarFallback>
+                      <UserCircle2 className="w-10 h-10 opacity-45" />
+                    </AvatarFallback>
+                  </Avatar>
+                )
+              )}
+            </LensAccountHoverCard>
           </div>
         </div>
         <h2 className="mt-6 pb-2 text-3xl font-semibold tracking-tight first:mt-0">Installation</h2>
@@ -63,16 +59,16 @@ import { useSessionClient } from "@lens-protocol/react";
 import { useWalletClient } from "wagmi";`}
         </CodeBlock>
         <CodeBlock lang="tsx" className="lines">
-          {`const { data: sessionClient } = useSessionClient();
-const { data: walletClient } = useWalletClient();
-const { data: account } = useAccount({
+          {`const session = useSessionClient();
+const wallet = useWalletClient();
+const accountRes = useAccount({
   username: {
     localName: "paulburke",
   },
 });`}
         </CodeBlock>
         <CodeBlock lang="tsx" className="lines">
-          {`<LensAccountHoverCard account={account} walletClient={walletClient} lensClient={sessionClient}>
+          {`<LensAccountHoverCard accountRes={accountRes} wallet={wallet} session={session}>
   @paulburke
 </LensAccountHoverCard>`}
         </CodeBlock>

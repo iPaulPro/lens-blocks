@@ -5,19 +5,20 @@ import { InstallCommandBlock } from "@/components/install-command-block";
 import { CodeBlock } from "@/components/codeblock";
 import LensFollowButton from "@/registry/new-york/components/account/lens-follow-button";
 import { Account, UnauthenticatedError, useAccount, useSessionClient } from "@lens-protocol/react";
-import { Spinner } from "@/registry/new-york/ui/spinner";
 import { toast } from "sonner";
 import { getDisplayName } from "@/registry/new-york/lib/lens-utils";
 import { useWalletClient } from "wagmi";
 
 export default function FollowButton() {
-  const { data: session } = useSessionClient();
-  const { data: walletClient } = useWalletClient();
-  const { data: account } = useAccount({
+  const session = useSessionClient();
+  const wallet = useWalletClient();
+  const accountRes = useAccount({
     username: {
       localName: "paulburke",
     },
   });
+
+  const account = accountRes.data;
 
   // Callback function that is called when the follow operation is successful
   const onFollowSuccess = (account: Account) => {
@@ -50,23 +51,21 @@ export default function FollowButton() {
             <OpenInV0Button name="follow-button" className="w-fit" />
           </div>
           <div className="flex items-center justify-center flex-grow relative">
-            {!account ? (
-              <Spinner className="size-8" />
-            ) : (
-              <div className="flex flex-col gap-4 items-center justify-center">
-                <LensFollowButton
-                  account={account}
-                  session={session}
-                  walletClient={walletClient}
-                  onFollowSuccess={onFollowSuccess}
-                  onUnfollowSuccess={onUnfollowSuccess}
-                  onFollowError={onFollowError}
-                />
+            <div className="flex flex-col gap-4 items-center justify-center">
+              <LensFollowButton
+                accountRes={accountRes}
+                session={session}
+                wallet={wallet}
+                onFollowSuccess={onFollowSuccess}
+                onUnfollowSuccess={onUnfollowSuccess}
+                onFollowError={onFollowError}
+              />
+              {account && (
                 <p className="text-xs text-center text-muted-foreground">
-                  This will follow or unfollow the account <strong>{getDisplayName(account)}</strong>
+                  This will follow or unfollow the account <strong>{getDisplayName(account)}</strong> on testnet
                 </p>
-              </div>
-            )}
+              )}
+            </div>
           </div>
         </div>
         <h2 className="mt-6 pb-2 text-3xl font-semibold tracking-tight first:mt-0">Installation</h2>
@@ -77,7 +76,7 @@ export default function FollowButton() {
 import { useAccount, useSessionClient } from "@lens-protocol/react";`}
         </CodeBlock>
         <CodeBlock lang="tsx" className="lines">
-          {`const { data: session } = useSessionClient();
+          {`const session = useSessionClient();
 const { data: account } = useAccount({
   username: {
     localName: "paulburke",

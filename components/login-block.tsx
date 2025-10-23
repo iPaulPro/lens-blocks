@@ -2,7 +2,6 @@
 
 import { AuthenticatedUser, useSessionClient } from "@lens-protocol/react";
 import { OpenInV0Button } from "@/components/open-in-v0-button";
-import { Loader } from "lucide-react";
 import { LensLogin } from "@/registry/new-york/blocks/lens-login";
 import { CodeBlock } from "@/components/codeblock";
 import { toast } from "sonner";
@@ -10,8 +9,8 @@ import { useWalletClient } from "wagmi";
 import { InstallCommandBlock } from "@/components/install-command-block";
 
 export function LoginBlock() {
-  const { data: sessionClient, loading: sessionLoading } = useSessionClient();
-  const { data: walletClient, isLoading: walletClientLoading } = useWalletClient();
+  const session = useSessionClient();
+  const wallet = useWalletClient();
 
   // Callback function that is called when the user successfully logs in
   const onLoginSuccess = (authenticatedUser: AuthenticatedUser) => {
@@ -34,16 +33,7 @@ export function LoginBlock() {
             <OpenInV0Button name="login" className="w-fit" />
           </div>
           <div className="flex items-center justify-center flex-grow relative">
-            {(walletClientLoading && walletClient) || (sessionLoading && !sessionClient) ? (
-              <Loader className="animate-spin w-4 h-4 text-muted-foreground" />
-            ) : (
-              <LensLogin
-                lensClient={sessionClient}
-                walletClient={walletClient}
-                onSuccess={onLoginSuccess}
-                onError={onLoginError}
-              />
-            )}
+            <LensLogin session={session} wallet={wallet} onSuccess={onLoginSuccess} onError={onLoginError} />
           </div>
         </div>
         <h2 className="mt-6 pb-2 text-3xl font-semibold tracking-tight first:mt-0">Installation</h2>
@@ -55,11 +45,11 @@ import { useSessionClient } from "@lens-protocol/react";
 import { useWalletClient } from "wagmi";`}
         </CodeBlock>
         <CodeBlock lang="tsx" className="lines">
-          {`const { data: sessionClient } = useSessionClient();
-const { data: walletClient } = useWalletClient();`}
+          {`const session = useSessionClient();
+const wallet = useWalletClient();`}
         </CodeBlock>
         <CodeBlock lang="tsx" className="lines">
-          {`<LensLogin lensClient={sessionClient} walletClient={walletClient} />`}
+          {`<LensLogin session={session} wallet={wallet} />`}
         </CodeBlock>
       </div>
     </>

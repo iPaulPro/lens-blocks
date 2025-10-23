@@ -17,15 +17,16 @@ export default function PostProvider() {
       <h2 className="mt-6 pb-2 text-3xl font-semibold tracking-tight first:mt-0">Usage</h2>
       <CodeBlock lang="tsx" className="lines">
         {`import { PostProvider } from "@/lib/lens-post-provider";
-import { useSessionClient } from "@lens-protocol/react";
+import { useSessionClient, postId } from "@lens-protocol/react";
 import { useWalletClient } from "wagmi";`}
       </CodeBlock>
       <CodeBlock lang="tsx" className="lines">
-        {`const { data: sessionClient } = useSessionClient();
-const { data: walletClient } = useWalletClient();`}
+        {`const session = useSessionClient();
+const wallet = useWalletClient();
+const post = postId("SOME_POST_ID");`}
       </CodeBlock>
       <CodeBlock lang="tsx" className="lines">
-        {`<PostProvider postId={postId} sessionClient={sessionClient} walletClient={walletClient}>
+        {`<PostProvider postId={post} session={session} wallet={wallet}>
   {/* Child components that consume the post context */}
 </PostProvider>`}
       </CodeBlock>

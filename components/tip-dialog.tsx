@@ -128,12 +128,13 @@ const tipDialog = useRef<TipDialogRef>(null);`}
   <button onClick={() => tipDialog?.current?.open()}>
     Tip me!
   </button>
-  <LensTipDialog ref={tipDialog} createTip={handleCreateTip} />       
+  <LensTipDialog ref={tipDialog} sessionClient={sessionClient} createTip={handleCreateTip} />       
 </>`}
         </CodeBlock>
       </div>
       <LensTipDialog
         ref={tipDialog}
+        sessionClient={sessionClient}
         createTip={handleCreateTip}
         onTipCreated={handleTipCreated}
         onError={handleError}
