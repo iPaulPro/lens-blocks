@@ -8,7 +8,7 @@
   "files": [
     {
       "path": "registry/new-york/hooks/use-authenticated-lens-account.ts",
-      "content": "import { useAccount, useAuthenticatedUser } from \"@lens-protocol/react\";\n\nexport function useAuthenticatedLensAccount() {\n  const { data: authenticatedUser, loading: authenticatedUserLoading } = useAuthenticatedUser();\n\n  const {\n    data: account,\n    loading: accountLoading,\n    error: accountError,\n  } = useAccount({\n    address: authenticatedUser?.address,\n  });\n\n  return {\n    loading: authenticatedUserLoading || accountLoading,\n    data: account,\n    error: accountError,\n  };\n}\n",
+      "content": "import { useAccount, useAuthenticatedUser } from \"@lens-protocol/react\";\n\nexport const useAuthenticatedLensAccount = () => {\n  const { data: authenticatedUser, loading: authenticatedUserLoading } = useAuthenticatedUser();\n\n  const {\n    data: account,\n    loading: accountLoading,\n    error: accountError,\n  } = useAccount({\n    address: authenticatedUser?.address,\n  });\n\n  return {\n    loading: authenticatedUserLoading || accountLoading,\n    data: account,\n    error: accountError,\n  };\n};\n",
       "type": "registry:hook"
     }
   ]
