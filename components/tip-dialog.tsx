@@ -86,7 +86,7 @@ export default function TipDialog() {
         <h2 className="mt-6 pb-2 text-3xl font-semibold tracking-tight first:mt-0">Usage</h2>
         <p>The tip dialog can be used to create tips for Posts and Accounts.</p>
         <CodeBlock lang="tsx" className="lines">
-          {`import LensTipDialog, { TipDialogRef } from "@/components/lens-tip-dialog";
+          {`import { LensTipDialog, TipDialogRef } from "@/components/lens-tip-dialog";
 import { useTipPostAction } from "@/hooks/use-tip-post-action";
 import { postId, useSessionClient } from "@lens-protocol/react";
 import { useWalletClient } from "wagmi";`}

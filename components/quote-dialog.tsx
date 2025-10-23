@@ -48,7 +48,7 @@ export default function QuoteDialog() {
       <InstallCommandBlock componentName="quote-dialog" />
       <h2 className="mt-6 pb-2 text-3xl font-semibold tracking-tight first:mt-0">Usage</h2>
       <CodeBlock lang="tsx" className="lines">
-        {`import LensQuoteDialog, { QuoteDialogRef } from "@/components/lens-quote-dialog";
+        {`import { LensQuoteDialog, QuoteDialogRef } from "@/components/lens-quote-dialog";
 import { LensPostProvider } from "@/lib/lens-post-provider";
 import { postId, useSessionClient } from "@lens-protocol/react";
 import { useWalletClient } from "wagmi";`}

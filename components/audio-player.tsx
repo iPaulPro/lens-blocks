@@ -5,7 +5,7 @@ import { InstallCommandBlock } from "@/components/install-command-block";
 import { CodeBlock } from "@/components/codeblock";
 import { usePost } from "@lens-protocol/react";
 import { Loader } from "lucide-react";
-import LensAudioPlayer from "@/registry/new-york/components/common/lens-audio-player";
+import { LensAudioPlayer } from "@/registry/new-york/components/common/lens-audio-player";
 import { Dialog, DialogContent } from "@/registry/new-york/ui/dialog";
 import { useState } from "react";
 import Image from "next/image";
