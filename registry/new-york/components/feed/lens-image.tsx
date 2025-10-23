@@ -9,7 +9,7 @@ type Props = {
   image: MediaImage;
 };
 
-export default function LensImage({ image, ...props }: Props & ButtonProps) {
+export const LensImage = ({ image, ...props }: Props & ButtonProps) => {
   const imageUri = image ? parseUri(image.item) : null;
 
   if (!imageUri) {
@@ -23,4 +23,4 @@ export default function LensImage({ image, ...props }: Props & ButtonProps) {
       className={cn("w-full mt-2 border rounded-xl object-contain cursor-pointer", props.className)}
     />
   );
-}
+};

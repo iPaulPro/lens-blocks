@@ -1,6 +1,6 @@
 import { useAccount, useAuthenticatedUser } from "@lens-protocol/react";
 
-export function useAuthenticatedLensAccount() {
+export const useAuthenticatedLensAccount = () => {
   const { data: authenticatedUser, loading: authenticatedUserLoading } = useAuthenticatedUser();
 
   const {
@@ -16,4 +16,4 @@ export function useAuthenticatedLensAccount() {
     data: account,
     error: accountError,
   };
-}
+};

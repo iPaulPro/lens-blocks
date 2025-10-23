@@ -1,3 +1,5 @@
+"use client";
+
 import { PaymentSource, TxHash, useAuthenticatedUser } from "@lens-protocol/react";
 import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 import { BoxIcon, CircleDollarSign, Clock, Snowflake, Users } from "lucide-react";
@@ -21,7 +23,7 @@ type CollectDialogProps = {
   nftUrlPattern?: string;
 };
 
-const LensCollectDialog = forwardRef<CollectDialogRef, CollectDialogProps>((props, ref) => {
+export const LensCollectDialog = forwardRef<CollectDialogRef, CollectDialogProps>((props, ref) => {
   const { referrals, onSuccess, onError, nftUrlPattern = "https://lenscan.io/nfts/{collectNftAddress}" } = props;
   const { post, collect } = useLensPostContext();
 
@@ -191,5 +193,4 @@ const LensCollectDialog = forwardRef<CollectDialogRef, CollectDialogProps>((prop
     </Dialog>
   );
 });
-
 export default LensCollectDialog;

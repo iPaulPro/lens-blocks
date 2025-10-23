@@ -18,7 +18,7 @@ type Props = {
   onFollowError?: (account: Account, error: Error) => void;
 };
 
-export default function LensFollowButton({ ...props }: Props) {
+export const LensFollowButton = ({ ...props }: Props) => {
   const { accountRes, session, wallet, onFollowSuccess, onUnfollowSuccess, onFollowError } = props;
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -120,4 +120,4 @@ export default function LensFollowButton({ ...props }: Props) {
       )}
     </Button>
   );
-}
+};

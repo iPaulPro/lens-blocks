@@ -1,4 +1,4 @@
-import React, { forwardRef, useEffect, useImperativeHandle, useState } from "react";
+import { FC, forwardRef, useEffect, useImperativeHandle, useState } from "react";
 import { Editor } from "@tiptap/core";
 import { Account } from "@lens-protocol/react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/registry/new-york/ui/avatar";
@@ -11,7 +11,7 @@ interface IProps {
   command: any;
 }
 
-const LensMentionsList: React.FC<IProps> = forwardRef((props, ref) => {
+export const LensMentionsList: FC<IProps> = forwardRef((props, ref) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   const selectItem = (index: number) => {
@@ -94,5 +94,3 @@ const LensMentionsList: React.FC<IProps> = forwardRef((props, ref) => {
     </div>
   );
 });
-
-export default LensMentionsList;

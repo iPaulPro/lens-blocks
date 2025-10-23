@@ -48,7 +48,7 @@ type LensLoginProps = {
   onError?: (error: LoginError) => void;
 };
 
-export function LensLogin(props: LensLoginProps) {
+export const LensLogin = (props: LensLoginProps) => {
   const { session, wallet, appAddress, onSuccess, onError } = props;
   const walletClient = wallet?.data;
   const sessionClient = session.data;
@@ -149,4 +149,4 @@ export function LensLogin(props: LensLoginProps) {
       )}
     </>
   );
-}
+};

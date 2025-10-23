@@ -1,8 +1,8 @@
 import {
   AddReactionMutation,
   AddReactionRequest,
-  invariant,
   AnyPost,
+  invariant,
   PostReactionType,
   PublicClient,
   SessionClient,
@@ -19,9 +19,7 @@ export type ReactionToggleArgs = {
 
 type ReactionToggleResult = ResultAsync<void, unknown>;
 
-export function hasUpvoted(post: AnyPost): boolean {
-  return "operations" in post && post.operations?.hasUpvoted === true;
-}
+export const hasUpvoted = (post: AnyPost): boolean => "operations" in post && post.operations?.hasUpvoted === true;
 
 export const useReactionToggle = (): UseAsyncTask<ReactionToggleArgs, void, unknown> => {
   return useAsyncTask((args: ReactionToggleArgs): ReactionToggleResult => {

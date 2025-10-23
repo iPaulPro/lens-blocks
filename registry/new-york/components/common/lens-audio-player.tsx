@@ -5,7 +5,7 @@ import { SyntheticEvent, useRef, useState } from "react";
 import { Button } from "@/registry/new-york/ui/button";
 import { PauseIcon, PlayIcon, Volume2Icon, VolumeOffIcon } from "lucide-react";
 import { MediaSeekSlider } from "@/registry/new-york/ui/media-seek-slider";
-import Duration from "@/registry/new-york/components/common/duration";
+import { Duration } from "@/registry/new-york/components/common/duration";
 
 type Props = {
   audio: MediaAudio;
@@ -15,7 +15,7 @@ type Props = {
   onCoverClick?: (imageUri: string) => void;
 };
 
-export default function LensAudioPlayer(props: Props) {
+export const LensAudioPlayer = (props: Props) => {
   const { audio, postTitle, preload = "metadata", onError } = props;
 
   // ReactPlayer looks at the file extension in the source URI to determine how to play the file
@@ -213,4 +213,4 @@ export default function LensAudioPlayer(props: Props) {
       </div>
     </div>
   );
-}
+};

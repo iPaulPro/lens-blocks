@@ -4,7 +4,7 @@ import { PaginatedList } from "@/registry/new-york/components/common/paginated-l
 import { LensAccountListItem } from "@/registry/new-york/components/account/lens-account-list-item";
 import { LensAccountListItemSkeleton } from "@/registry/new-york/components/account/lens-account-list-item-skeleton";
 
-const CollectorsList = ({ post }: { post: AnyPost }) => {
+export const CollectorsList = ({ post }: { post: AnyPost }) => {
   const [cursor, setCursor] = useState<Cursor | null>(null);
 
   const { data, loading, error } = useWhoExecutedActionOnPost({
@@ -41,5 +41,3 @@ const CollectorsList = ({ post }: { post: AnyPost }) => {
     />
   );
 };
-
-export default CollectorsList;

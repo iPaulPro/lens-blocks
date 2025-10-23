@@ -3,7 +3,7 @@
 import { OpenInV0Button } from "@/components/open-in-v0-button";
 import { InstallCommandBlock } from "@/components/install-command-block";
 import { CodeBlock } from "@/components/codeblock";
-import LensMarkdown from "@/registry/new-york/components/common/lens-markdown";
+import { LensMarkdown } from "@/registry/new-york/components/common/lens-markdown";
 import { AccountMention, GroupMention } from "@lens-protocol/react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/registry/new-york/ui/tabs";
 

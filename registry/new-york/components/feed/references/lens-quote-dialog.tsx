@@ -1,6 +1,8 @@
+"use client";
+
 import { TxHash, useSessionClient } from "@lens-protocol/react";
 import { forwardRef, useImperativeHandle, useRef, useState } from "react";
-import LensTextEditor, { TextEditorRef } from "@/registry/new-york/components/common/editor/lens-text-editor";
+import { LensTextEditor, TextEditorRef } from "@/registry/new-york/components/common/editor/lens-text-editor";
 import { LensPostProvider } from "@/registry/new-york/lib/lens-post-provider";
 import { LensPost } from "@/registry/new-york/blocks/lens-post";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/registry/new-york/ui/dialog";
@@ -23,7 +25,7 @@ export interface QuoteDialogProps {
   onError?: (error: Error) => void;
 }
 
-const LensQuoteDialog = forwardRef<QuoteDialogRef, QuoteDialogProps>((props, ref) => {
+export const LensQuoteDialog = forwardRef<QuoteDialogRef, QuoteDialogProps>((props, ref) => {
   const { onQuoteCreated, onError } = props;
   const [dialogOpen, setDialogOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -108,5 +110,3 @@ const LensQuoteDialog = forwardRef<QuoteDialogRef, QuoteDialogProps>((props, ref
     </Dialog>
   );
 });
-
-export default LensQuoteDialog;

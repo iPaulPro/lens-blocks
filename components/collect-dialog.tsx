@@ -2,7 +2,7 @@
 
 import { postId, useSessionClient } from "@lens-protocol/react";
 import { useWalletClient } from "wagmi";
-import LensCollectDialog, { CollectDialogRef } from "@/registry/new-york/components/feed/collects/lens-collect-dialog";
+import { CollectDialogRef, LensCollectDialog } from "@/registry/new-york/components/feed/collects/lens-collect-dialog";
 import { useRef } from "react";
 import { LensPostProvider } from "@/registry/new-york/lib/lens-post-provider";
 import { OpenInV0Button } from "@/components/open-in-v0-button";

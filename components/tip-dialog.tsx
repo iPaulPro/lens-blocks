@@ -3,7 +3,7 @@
 import { OpenInV0Button } from "@/components/open-in-v0-button";
 import { InstallCommandBlock } from "@/components/install-command-block";
 import { CodeBlock } from "@/components/codeblock";
-import LensTipDialog, { TipDialogRef } from "@/registry/new-york/components/feed/tips/lens-tip-dialog";
+import { LensTipDialog, TipDialogRef } from "@/registry/new-york/components/feed/tips/lens-tip-dialog";
 import { PaymentSource, postId, TxHash, useSessionClient } from "@lens-protocol/react";
 import { useTipPostAction } from "@/registry/new-york/hooks/use-tip-post-action";
 import { useWalletClient } from "wagmi";

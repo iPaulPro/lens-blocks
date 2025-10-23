@@ -2,7 +2,7 @@
 
 import { Account, AuthenticatedUser } from "@lens-protocol/react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/registry/new-york/ui/avatar";
-import { UserCircle2, ChevronRight, Loader, CheckCircle2Icon } from "lucide-react";
+import { CheckCircle2Icon, ChevronRight, Loader, UserCircle2 } from "lucide-react";
 import { truncateAddress } from "@/registry/new-york/lib/lens-utils";
 import { ReactNode } from "react";
 
@@ -15,14 +15,14 @@ type LensAccountListItemProps = {
   renderDivider?: () => ReactNode;
 };
 
-export function LensAccountListItem({
+export const LensAccountListItem = ({
   account,
   selectedAccount,
   onAccountSelected,
   authenticatedUser,
   showChevron = true,
   renderDivider,
-}: LensAccountListItemProps) {
+}: LensAccountListItemProps) => {
   const isAuthenticated = authenticatedUser?.address.toLowerCase() === account.address.toLowerCase();
   const isSelected = onAccountSelected && isAuthenticated;
 
@@ -63,4 +63,4 @@ export function LensAccountListItem({
       {Divider && <Divider />}
     </div>
   );
-}
+};

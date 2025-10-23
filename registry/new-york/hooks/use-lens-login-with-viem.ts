@@ -18,11 +18,11 @@ type UseLensLoginWithViemReturnType = {
   error: LoginError | null;
 };
 
-export function useLensLoginWithViem({
+export const useLensLoginWithViem = ({
   sessionClient,
 }: {
   sessionClient: SessionClient | null | undefined;
-}): UseLensLoginWithViemReturnType {
+}): UseLensLoginWithViemReturnType => {
   const [error, setError] = useState<LoginError | null>(null);
 
   const { execute: switchAccount, loading: switchingAccounts } = useSwitchAccount();
@@ -92,4 +92,4 @@ export function useLensLoginWithViem({
     loading: loginLoading,
     error: error,
   };
-}
+};

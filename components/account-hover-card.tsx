@@ -3,7 +3,7 @@
 import { OpenInV0Button } from "@/components/open-in-v0-button";
 import { InstallCommandBlock } from "@/components/install-command-block";
 import { CodeBlock } from "@/components/codeblock";
-import LensAccountHoverCard from "@/registry/new-york/blocks/lens-account-hover-card";
+import { LensAccountHoverCard } from "@/registry/new-york/blocks/lens-account-hover-card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/registry/new-york/ui/avatar";
 import { parseUri } from "@/registry/new-york/lib/lens-utils";
 import { UserCircle2 } from "lucide-react";

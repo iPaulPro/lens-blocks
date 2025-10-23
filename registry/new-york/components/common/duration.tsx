@@ -1,4 +1,4 @@
-export default function Duration({
+export const Duration = ({
   className,
   seconds,
   isCountdown,
@@ -6,13 +6,11 @@ export default function Duration({
   className?: string;
   seconds: number;
   isCountdown?: boolean;
-}) {
-  return (
-    <time dateTime={`P${Math.round(seconds)}S`} className={className}>
-      {format(seconds, isCountdown)}
-    </time>
-  );
-}
+}) => (
+  <time dateTime={`P${Math.round(seconds)}S`} className={className}>
+    {format(seconds, isCountdown)}
+  </time>
+);
 
 function format(seconds: number, isCountdown?: boolean) {
   const date = new Date(seconds * 1000);

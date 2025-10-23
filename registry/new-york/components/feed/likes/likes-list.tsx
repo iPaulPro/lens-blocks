@@ -9,7 +9,7 @@ type LikesListProps = {
   onAccountSelected?: (account: Account) => void;
 };
 
-const LikesList = ({ post, onAccountSelected }: LikesListProps) => {
+export const LikesList = ({ post, onAccountSelected }: LikesListProps) => {
   const [cursor, setCursor] = useState<Cursor | null>(null);
 
   const { data, loading, error } = usePostReactions({
@@ -45,5 +45,3 @@ const LikesList = ({ post, onAccountSelected }: LikesListProps) => {
     />
   );
 };
-
-export default LikesList;

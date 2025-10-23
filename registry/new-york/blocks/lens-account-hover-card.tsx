@@ -8,8 +8,8 @@ import { fetchAccount, fetchAccountStats } from "@lens-protocol/client/actions";
 import { formatFollowerCount, parseUri } from "@/registry/new-york/lib/lens-utils";
 import { CircleUserRoundIcon } from "lucide-react";
 import { WalletClient } from "viem";
-import LensMarkdown from "@/registry/new-york/components/common/lens-markdown";
-import LensFollowButton from "@/registry/new-york/components/account/lens-follow-button";
+import { LensMarkdown } from "@/registry/new-york/components/common/lens-markdown";
+import { LensFollowButton } from "@/registry/new-york/components/account/lens-follow-button";
 import { Skeleton } from "@/registry/new-york/ui/skeleton";
 import { Result } from "@/registry/new-york/lib/result";
 
@@ -56,7 +56,7 @@ interface Props {
   useTestnet?: boolean;
 }
 
-export default function LensAccountHoverCard({
+export const LensAccountHoverCard = ({
   children,
   accountRes,
   session,
@@ -66,7 +66,7 @@ export default function LensAccountHoverCard({
   onUnfollowSuccess,
   onError,
   useTestnet,
-}: Props) {
+}: Props) => {
   const sessionClient = session.data;
 
   const [isOpen, setIsOpen] = useState(false);
@@ -199,7 +199,7 @@ export default function LensAccountHoverCard({
       </HoverCardContent>
     </HoverCard>
   );
-}
+};
 
 const HoverCardSkeleton = () => {
   return (

@@ -2,7 +2,7 @@
 
 import { OpenInV0Button } from "@/components/open-in-v0-button";
 import { CodeBlock } from "@/components/codeblock";
-import LensTextEditor from "@/registry/new-york/components/common/editor/lens-text-editor";
+import { LensTextEditor } from "@/registry/new-york/components/common/editor/lens-text-editor";
 import { InstallCommandBlock } from "@/components/install-command-block";
 
 export default function TextEditor() {

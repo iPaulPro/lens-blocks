@@ -13,7 +13,7 @@ type LikeButtonProps = {
   showCount?: boolean;
 };
 
-const LikeButton = ({ className, onSuccess, onError, showCount = true }: LikeButtonProps) => {
+export const LikeButton = ({ className, onSuccess, onError, showCount = true }: LikeButtonProps) => {
   const { post, loading: postLoading, toggleLike, optimistic } = useLensPostContext();
 
   const operations = post && "operations" in post ? post.operations : null;
@@ -55,5 +55,3 @@ const LikeButton = ({ className, onSuccess, onError, showCount = true }: LikeBut
     </div>
   );
 };
-
-export default LikeButton;

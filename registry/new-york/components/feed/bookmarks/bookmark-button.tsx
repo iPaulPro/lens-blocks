@@ -10,7 +10,7 @@ type BookmarkButtonProps = {
   onError?: (error: Error) => void;
 };
 
-const BookmarkButton = ({ className, onSuccess, onError }: BookmarkButtonProps) => {
+export const BookmarkButton = ({ className, onSuccess, onError }: BookmarkButtonProps) => {
   const { post, loading: postLoading, toggleBookmark, optimistic } = useLensPostContext();
 
   const operations = post && "operations" in post ? post.operations : null;

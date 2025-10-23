@@ -17,7 +17,7 @@ type ReferenceButtonProps = {
   showCount?: boolean;
 };
 
-const ReferenceButton = ({ onQuoteClick, onRepostSuccess, onError, showCount = true }: ReferenceButtonProps) => {
+export const ReferenceButton = ({ onQuoteClick, onRepostSuccess, onError, showCount = true }: ReferenceButtonProps) => {
   const { post, repost, loading: postLoading, optimistic } = useLensPostContext();
 
   const [isDropdownMenuOpen, setIsDropdownMenuOpen] = useState(false);
@@ -117,5 +117,3 @@ const ReferenceButton = ({ onQuoteClick, onRepostSuccess, onError, showCount = t
     </div>
   );
 };
-
-export default ReferenceButton;

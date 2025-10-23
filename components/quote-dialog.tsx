@@ -3,7 +3,7 @@
 import { postId, useSessionClient } from "@lens-protocol/react";
 import { useWalletClient } from "wagmi";
 import { useRef } from "react";
-import LensQuoteDialog, { QuoteDialogRef } from "@/registry/new-york/components/feed/references/lens-quote-dialog";
+import { LensQuoteDialog, QuoteDialogRef } from "@/registry/new-york/components/feed/references/lens-quote-dialog";
 import { LensPostProvider } from "@/registry/new-york/lib/lens-post-provider";
 import { OpenInV0Button } from "@/components/open-in-v0-button";
 import { Button } from "@/registry/new-york/ui/button";

@@ -31,9 +31,7 @@ type TipPostActionResult = ResultAsync<
   SigningError | TransactionIndexingError | UnauthenticatedError | UnexpectedError | ValidationError
 >;
 
-export function hasTipped(post: AnyPost): boolean {
-  return "operations" in post && post.operations?.hasTipped === true;
-}
+export const hasTipped = (post: AnyPost): boolean => "operations" in post && post.operations?.hasTipped === true;
 
 export const useTipPostAction = ({
   sessionClient,

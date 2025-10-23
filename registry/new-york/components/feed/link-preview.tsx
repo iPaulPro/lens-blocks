@@ -6,7 +6,7 @@ type Props = {
   url: string;
 };
 
-export default function LinkPreview(props: Props) {
+export const LinkPreview = (props: Props) => {
   const { url } = props;
 
   const [urlMetadata, setUrlMetadata] = useState<UrlMetadata | null>(null);
@@ -52,4 +52,4 @@ export default function LinkPreview(props: Props) {
       </a>
     </div>
   );
-}
+};

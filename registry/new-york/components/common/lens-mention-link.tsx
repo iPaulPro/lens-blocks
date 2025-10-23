@@ -9,7 +9,7 @@ type Props = {
 
 type LinkProps = Omit<ComponentProps<"a">, "href">;
 
-export default function LensMentionLink(props: Props & LinkProps) {
+export const LensMentionLink = (props: Props & LinkProps) => {
   if (props.mention.__typename === "GroupMention") {
     const href = props.href ?? `/g/${props.mention.replace.from.replace("#", "")}`;
     return (
@@ -26,4 +26,4 @@ export default function LensMentionLink(props: Props & LinkProps) {
       {props.mention.replace.to.replace("@lens/", "@")}
     </a>
   );
-}
+};

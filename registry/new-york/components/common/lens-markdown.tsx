@@ -6,9 +6,9 @@ import remarkBreaks from "remark-breaks";
 import { RegEx } from "@/registry/new-york/lib/regex";
 import ReactMarkdown, { Components } from "react-markdown";
 import { cn } from "@/lib/utils";
-import LensMentionLink from "@/registry/new-york/components/common/lens-mention-link";
+import { LensMentionLink } from "@/registry/new-york/components/common/lens-mention-link";
 import { AccountMention, GroupMention } from "@lens-protocol/react";
-import LensTagLink from "@/registry/new-york/components/common/lens-tag-link";
+import { LensTagLink } from "@/registry/new-york/components/common/lens-tag-link";
 
 type Props = {
   content: string;
@@ -16,7 +16,7 @@ type Props = {
   mentions?: (AccountMention | GroupMention)[];
 };
 
-const LensMarkdown = (props: Props) => {
+export const LensMarkdown = (props: Props) => {
   const { content, className, mentions } = props;
   const remarkPlugins = [
     [
@@ -69,5 +69,3 @@ const LensMarkdown = (props: Props) => {
     </ReactMarkdown>
   );
 };
-
-export default LensMarkdown;

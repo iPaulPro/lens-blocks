@@ -11,7 +11,7 @@ type CommentButtonProps = {
   showCount?: boolean;
 };
 
-const CommentButton = ({ onClick, showCount = true }: CommentButtonProps) => {
+export const CommentButton = ({ onClick, showCount = true }: CommentButtonProps) => {
   const { post, loading: postLoading, optimistic } = useLensPostContext();
 
   const operations = post && "operations" in post ? post.operations : null;
@@ -42,5 +42,3 @@ const CommentButton = ({ onClick, showCount = true }: CommentButtonProps) => {
     </div>
   );
 };
-
-export default CommentButton;

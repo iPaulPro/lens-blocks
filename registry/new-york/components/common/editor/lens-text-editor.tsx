@@ -32,7 +32,7 @@ type Props = {
   placeholder?: string;
 };
 
-const LensTextEditor = forwardRef<TextEditorRef, Props>(({ editable = true, className, placeholder }, ref) => {
+export const LensTextEditor = forwardRef<TextEditorRef, Props>(({ editable = true, className, placeholder }, ref) => {
   const editor = useEditor({
     immediatelyRender: false,
     extensions: [
@@ -157,5 +157,3 @@ const LensTextEditor = forwardRef<TextEditorRef, Props>(({ editable = true, clas
     </>
   );
 });
-
-export default LensTextEditor;

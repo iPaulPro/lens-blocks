@@ -13,7 +13,7 @@ type Props = {
   onError?: (e: any) => void;
 };
 
-export default function LensVideoPlayer(props: Props) {
+export const LensVideoPlayer = (props: Props) => {
   const {
     video,
     preload = "metadata",
@@ -51,4 +51,4 @@ export default function LensVideoPlayer(props: Props) {
       />
     </div>
   );
-}
+};

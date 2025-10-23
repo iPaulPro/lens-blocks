@@ -11,7 +11,7 @@ type CollectButtonProps = {
   showCount?: boolean;
 };
 
-const CollectButton = ({ onClick, showCount = true }: CollectButtonProps) => {
+export const CollectButton = ({ onClick, showCount = true }: CollectButtonProps) => {
   const { post, loading: postLoading, optimistic } = useLensPostContext();
 
   const operations = post && "operations" in post ? post.operations : null;
@@ -63,5 +63,3 @@ const CollectButton = ({ onClick, showCount = true }: CollectButtonProps) => {
     </div>
   );
 };
-
-export default CollectButton;

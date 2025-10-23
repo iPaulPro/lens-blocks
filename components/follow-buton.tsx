@@ -3,7 +3,7 @@
 import { OpenInV0Button } from "@/components/open-in-v0-button";
 import { InstallCommandBlock } from "@/components/install-command-block";
 import { CodeBlock } from "@/components/codeblock";
-import LensFollowButton from "@/registry/new-york/components/account/lens-follow-button";
+import { LensFollowButton } from "@/registry/new-york/components/account/lens-follow-button";
 import { Account, UnauthenticatedError, useAccount, useSessionClient } from "@lens-protocol/react";
 import { toast } from "sonner";
 import { getDisplayName } from "@/registry/new-york/lib/lens-utils";

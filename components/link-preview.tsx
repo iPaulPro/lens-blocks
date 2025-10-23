@@ -3,7 +3,7 @@
 import { OpenInV0Button } from "@/components/open-in-v0-button";
 import { CodeBlock } from "@/components/codeblock";
 import { InstallCommandBlock } from "@/components/install-command-block";
-import LinkPreview from "@/registry/new-york/components/feed/link-preview";
+import { LinkPreview } from "@/registry/new-york/components/feed/link-preview";
 
 export default function LinkPreviewPage() {
   return (

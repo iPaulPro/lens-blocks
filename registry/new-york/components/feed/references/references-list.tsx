@@ -4,7 +4,7 @@ import { LensAccountListItem } from "@/registry/new-york/components/account/lens
 import { PaginatedList } from "@/registry/new-york/components/common/paginated-list";
 import { LensAccountListItemSkeleton } from "@/registry/new-york/components/account/lens-account-list-item-skeleton";
 
-const ReferencesList = ({ post }: { post: AnyPost }) => {
+export const ReferencesList = ({ post }: { post: AnyPost }) => {
   const [cursor, setCursor] = useState<Cursor | null>(null);
 
   const { data, loading, error } = usePostReferences({
@@ -39,5 +39,3 @@ const ReferencesList = ({ post }: { post: AnyPost }) => {
     />
   );
 };
-
-export default ReferencesList;

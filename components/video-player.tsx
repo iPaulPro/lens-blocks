@@ -5,7 +5,7 @@ import { InstallCommandBlock } from "@/components/install-command-block";
 import { CodeBlock } from "@/components/codeblock";
 import { usePost } from "@lens-protocol/react";
 import { Loader } from "lucide-react";
-import LensVideoPlayer from "@/registry/new-york/components/common/lens-video-player";
+import { LensVideoPlayer } from "@/registry/new-york/components/common/lens-video-player";
 
 export default function VideoPlayer() {
   const { data: post, loading: postLoading } = usePost({ post: "39d0736810280pbe9vk" });

@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Erc20Amount,
   evmAddress,
@@ -58,7 +60,7 @@ export interface TipDialogProps {
   onError?: (error: Error) => void;
 }
 
-const LensTipDialog = forwardRef<TipDialogRef, TipDialogProps>(
+export const LensTipDialog = forwardRef<TipDialogRef, TipDialogProps>(
   ({ sessionClient, supportedTokens, createTip, onTipCreated, onError }, ref) => {
     const [dialogOpen, setDialogOpen] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -318,5 +320,3 @@ const LensTipDialog = forwardRef<TipDialogRef, TipDialogProps>(
     );
   },
 );
-
-export default LensTipDialog;

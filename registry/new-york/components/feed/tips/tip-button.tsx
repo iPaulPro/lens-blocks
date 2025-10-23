@@ -11,7 +11,7 @@ interface Props {
   showCount?: boolean;
 }
 
-const TipButton = ({ onClick, showCount = true }: Props) => {
+export const TipButton = ({ onClick, showCount = true }: Props) => {
   const { post, loading: postLoading, optimistic } = useLensPostContext();
 
   const operations = post && "operations" in post ? post.operations : null;
@@ -55,5 +55,3 @@ const TipButton = ({ onClick, showCount = true }: Props) => {
     </div>
   );
 };
-
-export default TipButton;

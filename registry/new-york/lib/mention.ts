@@ -1,6 +1,6 @@
 import BuiltInMention from "@tiptap/extension-mention";
 import { ReactRenderer } from "@tiptap/react";
-import LensMentionsList from "../components/common/editor/lens-mentions-list";
+import { LensMentionsList } from "../components/common/editor/lens-mentions-list";
 import tippy, { Instance } from "tippy.js";
 import config from "@/lib/lens/config";
 
