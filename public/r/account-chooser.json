@@ -10,7 +10,7 @@
     "button",
     "skeleton",
     "https://lensblocks.com/r/utils.json",
-    "https://lensblocks.com/r/lens-account-list-item.json",
+    "https://lensblocks.com/r/account-list-item.json",
     "https://lensblocks.com/r/paginated-list.json"
   ],
   "files": [
