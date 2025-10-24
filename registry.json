@@ -99,7 +99,7 @@
         "@lens-protocol/types@0.0.0-canary-20250820102520",
         "viem@2.33.0"
       ],
-      "registryDependencies": ["https://lensblocks.com/r/utils"],
+      "registryDependencies": ["https://lensblocks.com/r/utils.json"],
       "files": [
         {
           "path": "registry/new-york/hooks/use-tip-post-action.ts",
@@ -122,7 +122,7 @@
         "@lens-protocol/types@0.0.0-canary-20250820102520",
         "viem@2.33.0"
       ],
-      "registryDependencies": ["https://lensblocks.com/r/utils"],
+      "registryDependencies": ["https://lensblocks.com/r/utils.json"],
       "files": [
         {
           "path": "registry/new-york/hooks/use-tip-account-action.ts",
@@ -139,7 +139,7 @@
       "type": "registry:hook",
       "title": "Use Lens Post Context",
       "description": "A hook for queries and operations in a shared Lens post context",
-      "registryDependencies": ["https://lensblocks.com/r/post-provider"],
+      "registryDependencies": ["https://lensblocks.com/r/post-provider.json"],
       "files": [
         {
           "path": "registry/new-york/hooks/use-lens-post-context.tsx",
@@ -160,7 +160,7 @@
         "@lens-chain/sdk@1.0.3",
         "viem@2.33.0"
       ],
-      "registryDependencies": ["https://lensblocks.com/r/use-reaction-toggle", "https://lensblocks.com/r/utils"],
+      "registryDependencies": ["https://lensblocks.com/r/use-reaction-toggle", "https://lensblocks.com/r/utils.json"],
       "files": [
         {
           "path": "registry/new-york/lib/lens-post-provider.tsx",
@@ -182,9 +182,9 @@
         "avatar",
         "button",
         "skeleton",
-        "https://lensblocks.com/r/utils",
-        "https://lensblocks.com/r/lens-account-list-item",
-        "https://lensblocks.com/r/paginated-list"
+        "https://lensblocks.com/r/utils.json",
+        "https://lensblocks.com/r/lens-account-list-item.json",
+        "https://lensblocks.com/r/paginated-list.json"
       ],
       "files": [
         {
@@ -199,7 +199,7 @@
       "title": "Lens Account List Item",
       "description": "A list item for a Lens account displaying the avatar, name, and handle.",
       "dependencies": ["@lens-protocol/react@0.0.0-canary-20250820102520", "lucide-react"],
-      "registryDependencies": ["avatar", "button", "skeleton", "https://lensblocks.com/r/utils"],
+      "registryDependencies": ["avatar", "button", "skeleton", "https://lensblocks.com/r/utils.json"],
       "files": [
         {
           "path": "registry/new-york/components/account/lens-account-list-item.tsx",
@@ -222,7 +222,7 @@
         "react-player@3.3.2",
         "@radix-ui/react-slider@1.3.6"
       ],
-      "registryDependencies": ["avatar", "button", "https://lensblocks.com/r/utils"],
+      "registryDependencies": ["avatar", "button", "https://lensblocks.com/r/utils.json"],
       "files": [
         {
           "path": "registry/new-york/components/common/lens-audio-player.tsx",
@@ -244,7 +244,7 @@
       "title": "Lens Video Player",
       "description": "An video player component for playing video attachments in Lens posts.",
       "dependencies": ["@lens-protocol/react@0.0.0-canary-20250820102520", "lucide-react", "react-player@3.3.2"],
-      "registryDependencies": ["https://lensblocks.com/r/utils"],
+      "registryDependencies": ["https://lensblocks.com/r/utils.json"],
       "files": [
         {
           "path": "registry/new-york/components/common/lens-video-player.tsx",
@@ -275,7 +275,7 @@
         "tippy.js@6.3.7",
         "unist-util-visit@5.0.0"
       ],
-      "registryDependencies": ["avatar", "button", "skeleton", "https://lensblocks.com/r/utils"],
+      "registryDependencies": ["avatar", "button", "skeleton", "https://lensblocks.com/r/utils.json"],
       "files": [
         {
           "path": "registry/new-york/components/common/editor/lens-text-editor.tsx",
@@ -332,9 +332,9 @@
         "avatar",
         "hover-card",
         "skeleton",
-        "https://lensblocks.com/r/follow-button",
-        "https://lensblocks.com/r/lens-markdown",
-        "https://lensblocks.com/r/utils"
+        "https://lensblocks.com/r/follow-button.json",
+        "https://lensblocks.com/r/lens-markdown.json",
+        "https://lensblocks.com/r/utils.json"
       ],
       "files": [
         {
@@ -365,12 +365,12 @@
         "button",
         "dialog",
         "skeleton",
-        "https://lensblocks.com/r/utils",
-        "https://lensblocks.com/r/paginated-list",
-        "https://lensblocks.com/r/account-chooser",
-        "https://lensblocks.com/r/login-button",
-        "https://lensblocks.com/r/account-list-item",
-        "https://lensblocks.com/r/use-login-with-viem"
+        "https://lensblocks.com/r/utils.json",
+        "https://lensblocks.com/r/paginated-list.json",
+        "https://lensblocks.com/r/account-chooser.json",
+        "https://lensblocks.com/r/login-button.json",
+        "https://lensblocks.com/r/account-list-item.json",
+        "https://lensblocks.com/r/use-login-with-viem.json"
       ],
       "files": [
         {
@@ -401,7 +401,7 @@
         "remark-linkify-regex@1.2.1",
         "strip-markdown@6.0.0"
       ],
-      "registryDependencies": ["https://lensblocks.com/r/utils", "https://lensblocks.com/r/lens-mention-link"],
+      "registryDependencies": ["https://lensblocks.com/r/utils", "https://lensblocks.com/r/lens-mention-link.json"],
       "files": [
         {
           "path": "registry/new-york/components/common/lens-markdown.tsx",
@@ -438,8 +438,8 @@
         "spinner",
         "skeleton",
         "tooltip",
-        "https://lensblocks.com/r/use-tip-post-action",
-        "https://lensblocks.com/r/utils"
+        "https://lensblocks.com/r/use-tip-post-action.json",
+        "https://lensblocks.com/r/utils.json"
       ],
       "files": [
         {
@@ -465,12 +465,12 @@
         "dialog",
         "spinner",
         "skeleton",
-        "https://lensblocks.com/r/text-editor",
-        "https://lensblocks.com/r/post-provider",
-        "https://lensblocks.com/r/post",
-        "https://lensblocks.com/r/use-authenticated-account",
-        "https://lensblocks.com/r/use-post-context",
-        "https://lensblocks.com/r/utils"
+        "https://lensblocks.com/r/text-editor.json",
+        "https://lensblocks.com/r/post-provider.json",
+        "https://lensblocks.com/r/post.json",
+        "https://lensblocks.com/r/use-authenticated-account.json",
+        "https://lensblocks.com/r/use-post-context.json",
+        "https://lensblocks.com/r/utils.json"
       ],
       "files": [
         {
@@ -488,9 +488,9 @@
       "registryDependencies": [
         "button",
         "dialog",
-        "https://lensblocks.com/r/post-provider",
-        "https://lensblocks.com/r/use-post-context",
-        "https://lensblocks.com/r/utils"
+        "https://lensblocks.com/r/post-provider.json",
+        "https://lensblocks.com/r/use-post-context.json",
+        "https://lensblocks.com/r/utils.json"
       ],
       "files": [
         {
@@ -531,16 +531,16 @@
         "dialog",
         "dropdown-menu",
         "skeleton",
-        "https://lensblocks.com/r/audio-player",
-        "https://lensblocks.com/r/collect-dialog",
-        "https://lensblocks.com/r/lens-markdown",
-        "https://lensblocks.com/r/link-preview",
-        "https://lensblocks.com/r/quote-dialog",
-        "https://lensblocks.com/r/tip-dialog",
-        "https://lensblocks.com/r/use-post-context",
-        "https://lensblocks.com/r/use-reaction-toggle",
-        "https://lensblocks.com/r/utils",
-        "https://lensblocks.com/r/video-player"
+        "https://lensblocks.com/r/audio-player.json",
+        "https://lensblocks.com/r/collect-dialog.json",
+        "https://lensblocks.com/r/lens-markdown.json",
+        "https://lensblocks.com/r/link-preview.json",
+        "https://lensblocks.com/r/quote-dialog.json",
+        "https://lensblocks.com/r/tip-dialog.json",
+        "https://lensblocks.com/r/use-post-context.json",
+        "https://lensblocks.com/r/use-reaction-toggle.json",
+        "https://lensblocks.com/r/utils.json",
+        "https://lensblocks.com/r/video-player.json"
       ],
       "files": [
         {

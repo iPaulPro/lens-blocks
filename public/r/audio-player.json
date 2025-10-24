@@ -10,7 +10,7 @@
     "react-player@3.3.2",
     "@radix-ui/react-slider@1.3.6"
   ],
-  "registryDependencies": ["avatar", "button", "https://lensblocks.com/r/utils"],
+  "registryDependencies": ["avatar", "button", "https://lensblocks.com/r/utils.json"],
   "files": [
     {
       "path": "registry/new-york/components/common/lens-audio-player.tsx",

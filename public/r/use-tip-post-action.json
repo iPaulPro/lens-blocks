@@ -10,7 +10,7 @@
     "@lens-protocol/types@0.0.0-canary-20250820102520",
     "viem@2.33.0"
   ],
-  "registryDependencies": ["https://lensblocks.com/r/utils"],
+  "registryDependencies": ["https://lensblocks.com/r/utils.json"],
   "files": [
     {
       "path": "registry/new-york/hooks/use-tip-post-action.ts",

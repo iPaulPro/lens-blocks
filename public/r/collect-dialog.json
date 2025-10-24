@@ -8,9 +8,9 @@
   "registryDependencies": [
     "button",
     "dialog",
-    "https://lensblocks.com/r/post-provider",
-    "https://lensblocks.com/r/use-post-context",
-    "https://lensblocks.com/r/utils"
+    "https://lensblocks.com/r/post-provider.json",
+    "https://lensblocks.com/r/use-post-context.json",
+    "https://lensblocks.com/r/utils.json"
   ],
   "files": [
     {

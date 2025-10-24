@@ -4,7 +4,7 @@
   "type": "registry:hook",
   "title": "Use Lens Post Context",
   "description": "A hook for queries and operations in a shared Lens post context",
-  "registryDependencies": ["https://lensblocks.com/r/post-provider"],
+  "registryDependencies": ["https://lensblocks.com/r/post-provider.json"],
   "files": [
     {
       "path": "registry/new-york/hooks/use-lens-post-context.tsx",

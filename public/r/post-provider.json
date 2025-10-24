@@ -12,7 +12,7 @@
     "@lens-chain/sdk@1.0.3",
     "viem@2.33.0"
   ],
-  "registryDependencies": ["https://lensblocks.com/r/use-reaction-toggle", "https://lensblocks.com/r/utils"],
+  "registryDependencies": ["https://lensblocks.com/r/use-reaction-toggle", "https://lensblocks.com/r/utils.json"],
   "files": [
     {
       "path": "registry/new-york/lib/lens-post-provider.tsx",

@@ -14,9 +14,9 @@
     "avatar",
     "hover-card",
     "skeleton",
-    "https://lensblocks.com/r/follow-button",
-    "https://lensblocks.com/r/lens-markdown",
-    "https://lensblocks.com/r/utils"
+    "https://lensblocks.com/r/follow-button.json",
+    "https://lensblocks.com/r/lens-markdown.json",
+    "https://lensblocks.com/r/utils.json"
   ],
   "files": [
     {

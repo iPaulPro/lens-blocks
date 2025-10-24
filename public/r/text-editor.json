@@ -22,7 +22,7 @@
     "tippy.js@6.3.7",
     "unist-util-visit@5.0.0"
   ],
-  "registryDependencies": ["avatar", "button", "skeleton", "https://lensblocks.com/r/utils"],
+  "registryDependencies": ["avatar", "button", "skeleton", "https://lensblocks.com/r/utils.json"],
   "files": [
     {
       "path": "registry/new-york/components/common/editor/lens-text-editor.tsx",

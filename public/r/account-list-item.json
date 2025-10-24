@@ -5,7 +5,7 @@
   "title": "Lens Account List Item",
   "description": "A list item for a Lens account displaying the avatar, name, and handle.",
   "dependencies": ["@lens-protocol/react@0.0.0-canary-20250820102520", "lucide-react"],
-  "registryDependencies": ["avatar", "button", "skeleton", "https://lensblocks.com/r/utils"],
+  "registryDependencies": ["avatar", "button", "skeleton", "https://lensblocks.com/r/utils.json"],
   "files": [
     {
       "path": "registry/new-york/components/account/lens-account-list-item.tsx",
