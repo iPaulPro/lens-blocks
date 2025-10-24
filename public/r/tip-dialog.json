@@ -16,8 +16,8 @@
     "spinner",
     "skeleton",
     "tooltip",
-    "@lens-blocks/use-tip-post-action",
-    "@lens-blocks/utils"
+    "https://lensblocks.com/r/use-tip-post-action",
+    "https://lensblocks.com/r/utils"
   ],
   "files": [
     {

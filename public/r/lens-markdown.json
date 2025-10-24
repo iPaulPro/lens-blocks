@@ -13,7 +13,7 @@
     "remark-linkify-regex@1.2.1",
     "strip-markdown@6.0.0"
   ],
-  "registryDependencies": ["@lens-blocks/utils", "@lens-blocks/lens-mention-link"],
+  "registryDependencies": ["https://lensblocks.com/r/utils", "https://lensblocks.com/r/lens-mention-link"],
   "files": [
     {
       "path": "registry/new-york/components/common/lens-markdown.tsx",

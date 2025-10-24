@@ -9,9 +9,9 @@
     "avatar",
     "button",
     "skeleton",
-    "@lens-blocks/utils",
-    "@lens-blocks/lens-account-list-item",
-    "@lens-blocks/paginated-list"
+    "https://lensblocks.com/r/utils",
+    "https://lensblocks.com/r/lens-account-list-item",
+    "https://lensblocks.com/r/paginated-list"
   ],
   "files": [
     {

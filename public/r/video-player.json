@@ -5,7 +5,7 @@
   "title": "Lens Video Player",
   "description": "An video player component for playing video attachments in Lens posts.",
   "dependencies": ["@lens-protocol/react@0.0.0-canary-20250820102520", "lucide-react", "react-player@3.3.2"],
-  "registryDependencies": ["@lens-blocks/utils"],
+  "registryDependencies": ["https://lensblocks.com/r/utils"],
   "files": [
     {
       "path": "registry/new-york/components/common/lens-video-player.tsx",

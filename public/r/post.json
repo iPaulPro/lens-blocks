@@ -11,16 +11,16 @@
     "dialog",
     "dropdown-menu",
     "skeleton",
-    "@lens-blocks/audio-player",
-    "@lens-blocks/collect-dialog",
-    "@lens-blocks/lens-markdown",
-    "@lens-blocks/link-preview",
-    "@lens-blocks/quote-dialog",
-    "@lens-blocks/tip-dialog",
-    "@lens-blocks/use-post-context",
-    "@lens-blocks/use-reaction-toggle",
-    "@lens-blocks/utils",
-    "@lens-blocks/video-player"
+    "https://lensblocks.com/r/audio-player",
+    "https://lensblocks.com/r/collect-dialog",
+    "https://lensblocks.com/r/lens-markdown",
+    "https://lensblocks.com/r/link-preview",
+    "https://lensblocks.com/r/quote-dialog",
+    "https://lensblocks.com/r/tip-dialog",
+    "https://lensblocks.com/r/use-post-context",
+    "https://lensblocks.com/r/use-reaction-toggle",
+    "https://lensblocks.com/r/utils",
+    "https://lensblocks.com/r/video-player"
   ],
   "files": [
     {

@@ -17,12 +17,12 @@
     "button",
     "dialog",
     "skeleton",
-    "@lens-blocks/utils",
-    "@lens-blocks/paginated-list",
-    "@lens-blocks/account-chooser",
-    "@lens-blocks/login-button",
-    "@lens-blocks/account-list-item",
-    "@lens-blocks/use-login-with-viem"
+    "https://lensblocks.com/r/utils",
+    "https://lensblocks.com/r/paginated-list",
+    "https://lensblocks.com/r/account-chooser",
+    "https://lensblocks.com/r/login-button",
+    "https://lensblocks.com/r/account-list-item",
+    "https://lensblocks.com/r/use-login-with-viem"
   ],
   "files": [
     {

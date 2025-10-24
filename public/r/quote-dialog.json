@@ -16,12 +16,12 @@
     "dialog",
     "spinner",
     "skeleton",
-    "@lens-blocks/text-editor",
-    "@lens-blocks/post-provider",
-    "@lens-blocks/post",
-    "@lens-blocks/use-authenticated-account",
-    "@lens-blocks/use-post-context",
-    "@lens-blocks/utils"
+    "https://lensblocks.com/r/text-editor",
+    "https://lensblocks.com/r/post-provider",
+    "https://lensblocks.com/r/post",
+    "https://lensblocks.com/r/use-authenticated-account",
+    "https://lensblocks.com/r/use-post-context",
+    "https://lensblocks.com/r/utils"
   ],
   "files": [
     {
