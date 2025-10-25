@@ -1,4 +1,4 @@
-import { FC, forwardRef, useEffect, useImperativeHandle, useState } from "react";
+import { FC, forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react";
 import { Editor } from "@tiptap/core";
 import { Account } from "@lens-protocol/react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/registry/new-york/ui/avatar";
@@ -14,6 +14,15 @@ interface IProps {
 export const LensMentionsList: FC<IProps> = forwardRef((props, ref) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
 
+  const scrollContainer = useRef<HTMLDivElement>(null);
+
+  const containerPaddingTop = scrollContainer.current
+    ? parseInt(window.getComputedStyle(scrollContainer.current).paddingTop, 10)
+    : 0;
+  const containerPaddingBottom = scrollContainer.current
+    ? parseInt(window.getComputedStyle(scrollContainer.current).paddingBottom, 10)
+    : 0;
+
   const selectItem = (index: number) => {
     const item = props.items[index];
 
@@ -23,15 +32,39 @@ export const LensMentionsList: FC<IProps> = forwardRef((props, ref) => {
   };
 
   const upHandler = () => {
-    setSelectedIndex((selectedIndex + props.items.length - 1) % props.items.length);
+    let index = (selectedIndex + props.items.length - 1) % props.items.length;
+    setSelectedIndex(index);
+    scrollToItem(index);
   };
 
   const downHandler = () => {
-    setSelectedIndex((selectedIndex + 1) % props.items.length);
+    let index = (selectedIndex + 1) % props.items.length;
+    setSelectedIndex(index);
+    scrollToItem(index);
   };
 
   const enterHandler = () => {
     selectItem(selectedIndex);
+  };
+
+  const scrollToItem = (index: number) => {
+    const container = scrollContainer.current;
+    const item = container?.children[index] as HTMLElement;
+    if (item && container) {
+      const itemOffsetTop = item.offsetTop;
+      const itemOffsetHeight = item.offsetHeight;
+      const containerScrollTop = container.scrollTop;
+      const containerOffsetHeight = container.clientHeight;
+
+      if (itemOffsetTop < containerScrollTop + containerPaddingTop) {
+        container.scrollTop = itemOffsetTop - containerPaddingTop;
+      } else if (
+        itemOffsetTop + itemOffsetHeight >
+        containerScrollTop + containerOffsetHeight - containerPaddingBottom
+      ) {
+        container.scrollTop = itemOffsetTop + itemOffsetHeight - containerOffsetHeight + containerPaddingBottom;
+      }
+    }
   };
 
   useEffect(() => setSelectedIndex(0), [props.items]);
@@ -62,7 +95,10 @@ export const LensMentionsList: FC<IProps> = forwardRef((props, ref) => {
   }
 
   return (
-    <div className="flex flex-col gap-2 overflow-auto p-1 relative border rounded-xl bg-background shadow-lg max-h-96 overscroll-y-auto">
+    <div
+      ref={scrollContainer}
+      className="w-60 flex flex-col gap-2 overflow-auto p-1 relative border rounded-xl bg-background shadow-lg max-h-64 overscroll-y-auto"
+    >
       {props.items.map((item, index) => (
         <div
           className={`flex items-center gap-x-2 pl-2 py-2 min-w-48 cursor-pointer rounded-lg ${index === selectedIndex ? "bg-accent" : ""}`}
@@ -75,8 +111,8 @@ export const LensMentionsList: FC<IProps> = forwardRef((props, ref) => {
               <UserCircle2 className="opacity-45" />
             </AvatarFallback>
           </Avatar>
-          <div className="flex flex-col">
-            <div className="text-base font-bold -mb-0.5">
+          <div className="flex flex-col w-full min-w-0">
+            <div className="text-base font-bold -mb-0.5 truncate">
               {item.metadata?.name
                 ? item.metadata?.name
                 : item.username
@@ -84,7 +120,7 @@ export const LensMentionsList: FC<IProps> = forwardRef((props, ref) => {
                   : truncateAddress(item.address, 12)}
             </div>
             {item.metadata?.name && item.username ? (
-              <div className="text-sm text-gray-600">{"@" + item.username.value}</div>
+              <div className="text-sm text-gray-600 truncate">{"@" + item.username.value.replace("lens/", "")}</div>
             ) : (
               <div className="text-sm text-gray-600">{truncateAddress(item.address, 12)}</div>
             )}

@@ -28,7 +28,7 @@ export interface TextEditorRef {
 }
 
 type Props = {
-  lensClient: PublicClient | (SessionClient | null | undefined);
+  lensClient?: PublicClient | SessionClient | null | undefined;
   editable?: boolean;
   className?: string;
   placeholder?: string;
