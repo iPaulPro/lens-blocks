@@ -5,7 +5,7 @@ import { SyntheticEvent, useRef, useState } from "react";
 import { Button } from "@/registry/new-york/ui/button";
 import { PauseIcon, PlayIcon, Volume2Icon, VolumeOffIcon } from "lucide-react";
 import { MediaSeekSlider } from "@/registry/new-york/ui/media-seek-slider";
-import { Duration } from "@/registry/new-york/components/common/duration";
+import { Duration } from "@/registry/new-york/ui/duration";
 
 type Props = {
   audio: MediaAudio;

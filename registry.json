@@ -233,11 +233,11 @@
         },
         {
           "path": "registry/new-york/ui/media-seek-slider.tsx",
-          "type": "registry:component"
+          "type": "registry:ui"
         },
         {
-          "path": "registry/new-york/components/common/duration.tsx",
-          "type": "registry:component"
+          "path": "registry/new-york/ui/duration.tsx",
+          "type": "registry:ui"
         }
       ]
     },
