@@ -32,7 +32,7 @@
     },
     {
       "path": "registry/new-york/lib/result.ts",
-      "content": "export type Result<T, E = never> = {\n  data: T | null | undefined;\n  error?: E | null | undefined;\n  loading?: boolean;\n};\n",
+      "content": "export type Result<T, E = never> = {\n  data: T | null | undefined;\n  error: E | null | undefined;\n  loading: boolean;\n};\n",
       "type": "registry:lib"
     }
   ]

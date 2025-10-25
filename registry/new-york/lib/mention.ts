@@ -1,17 +1,11 @@
-import BuiltInMention from "@tiptap/extension-mention";
+import BuiltInMention, { MentionOptions } from "@tiptap/extension-mention";
 import { ReactRenderer } from "@tiptap/react";
 import { LensMentionsList } from "../components/common/editor/lens-mentions-list";
 import tippy, { Instance } from "tippy.js";
-import config from "@/lib/lens/config";
-
+import { mainnet, PublicClient, SessionClient } from "@lens-protocol/react";
 import { fetchAccounts } from "@lens-protocol/client/actions";
-import { PublicClient } from "@lens-protocol/react";
 
-const client = PublicClient.create({
-  environment: config.environment,
-});
-
-const suggestion = {
+const suggestion = (client: PublicClient | SessionClient) => ({
   items: async ({ query }: { query: string }) => {
     if (query.length === 0) return [];
 
@@ -83,9 +77,26 @@ const suggestion = {
       },
     };
   },
+});
+
+type Options = MentionOptions & {
+  lensClient: PublicClient | (SessionClient | null | undefined);
 };
 
-export const Mention = BuiltInMention.extend().configure({
+const defaultClient = PublicClient.create({
+  environment: mainnet,
+});
+
+const mentionNode = BuiltInMention.extend<Options>({
+  addOptions() {
+    return {
+      ...this.parent?.(),
+      lensClient: defaultClient,
+    };
+  },
+});
+
+export const Mention = mentionNode.configure({
   HTMLAttributes: {
     class: "font-bold",
   },
@@ -96,5 +107,5 @@ export const Mention = BuiltInMention.extend().configure({
     return `@${node.attrs.id.replace("lens/", "")}`;
   },
   deleteTriggerWithBackspace: true,
-  suggestion,
+  suggestion: suggestion(mentionNode.options.lensClient ?? defaultClient),
 });

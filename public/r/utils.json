@@ -4,7 +4,7 @@
   "type": "registry:lib",
   "title": "Lens Utilities",
   "description": "Utility functions for interacting with Lens Social Protocol, including formatting and data manipulation.",
-  "dependencies": ["@lens-protocol/react@0.0.0-canary-20250820102520"],
+  "dependencies": ["@lens-protocol/react@0.0.0-canary-20250820102520", "@lens-chain/sdk@1.0.3"],
   "files": [
     {
       "path": "registry/new-york/lib/lens-utils.ts",

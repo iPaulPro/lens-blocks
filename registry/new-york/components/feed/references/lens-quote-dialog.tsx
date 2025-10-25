@@ -32,7 +32,7 @@ export const LensQuoteDialog = forwardRef<QuoteDialogRef, QuoteDialogProps>((pro
 
   const session = useSessionClient();
   const { data: account, loading: accountLoading } = useAuthenticatedLensAccount();
-  const { post, quote } = useLensPostContext();
+  const { post, quote, sessionClient } = useLensPostContext();
 
   const textEditor = useRef<TextEditorRef>(null);
 
@@ -84,7 +84,7 @@ export const LensQuoteDialog = forwardRef<QuoteDialogRef, QuoteDialogProps>((pro
               )}
             </div>
             <div className="flex-grow mt-2 pb-7">
-              <LensTextEditor ref={textEditor} className="p-0 min-h-20" />
+              <LensTextEditor ref={textEditor} lensClient={sessionClient} className="p-0 min-h-20" />
             </div>
           </div>
           {post && (

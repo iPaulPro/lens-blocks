@@ -34,7 +34,7 @@
       "type": "registry:lib",
       "title": "Lens Utilities",
       "description": "Utility functions for interacting with Lens Social Protocol, including formatting and data manipulation.",
-      "dependencies": ["@lens-protocol/react@0.0.0-canary-20250820102520"],
+      "dependencies": ["@lens-protocol/react@0.0.0-canary-20250820102520", "@lens-chain/sdk@1.0.3"],
       "files": [
         {
           "path": "registry/new-york/lib/lens-utils.ts",
@@ -269,6 +269,7 @@
         "@tiptap/starter-kit@2.26.1",
         "@tiptap/extension-placeholder@2.26.1",
         "@tiptap/extension-mention@2.26.1",
+        "@types/hast@3.0.4",
         "unified@11.0.5",
         "rehype-parse@9.0.1",
         "rehype-remark@10.0.0",
@@ -503,6 +504,7 @@
       "type": "registry:component",
       "title": "Link Preview",
       "description": "A component to display a link preview for URLs included in Lens posts, showing the title, description, and image.",
+      "dependencies": ["linkedom@0.18.12"],
       "files": [
         {
           "path": "registry/new-york/components/feed/link-preview.tsx",

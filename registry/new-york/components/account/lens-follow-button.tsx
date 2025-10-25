@@ -10,7 +10,7 @@ import { Spinner } from "@/registry/new-york/ui/spinner";
 import { Result } from "@/registry/new-york/lib/result";
 
 type Props = {
-  accountRes?: Result<Account>;
+  accountRes?: Account | Result<Account>;
   session: Result<SessionClient>;
   wallet?: { data: WalletClient | undefined | null; isLoading?: boolean; error?: unknown };
   onFollowSuccess?: (account: Account, txHash: TxHash) => void;
@@ -22,9 +22,11 @@ export const LensFollowButton = ({ ...props }: Props) => {
   const { accountRes, session, wallet, onFollowSuccess, onUnfollowSuccess, onFollowError } = props;
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const account = accountRes?.data;
+  const account = accountRes && "data" in accountRes ? accountRes?.data : accountRes;
   const sessionClient = session?.data;
   const walletClient = wallet?.data;
+
+  const accountLoading = accountRes && "loading" in accountRes ? accountRes.loading : false;
 
   const [optimisticIsFollowed, setOptimisticIsFollowed] = useState<boolean>(
     account?.operations?.isFollowedByMe ?? false,
@@ -106,7 +108,7 @@ export const LensFollowButton = ({ ...props }: Props) => {
       variant={optimisticIsFollowed ? "outline" : "default"}
       className="group hover:border-destructive"
       onClick={onFollowButtonClick}
-      disabled={isSubmitting || accountRes?.loading || session?.loading || wallet?.isLoading}
+      disabled={isSubmitting || accountLoading || session?.loading || wallet?.isLoading}
     >
       {isSubmitting ? (
         <>

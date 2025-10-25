@@ -19,6 +19,7 @@ import { BoldIcon, CodeIcon, ItalicIcon, StrikethroughIcon, TextQuoteIcon } from
 import { Button } from "@/registry/new-york/ui/button";
 import remarkParse from "remark-parse";
 import rehypeStringify from "rehype-stringify";
+import { PublicClient, SessionClient } from "@lens-protocol/react";
 
 export interface TextEditorRef {
   getContent: () => string;
@@ -27,133 +28,136 @@ export interface TextEditorRef {
 }
 
 type Props = {
+  lensClient: PublicClient | (SessionClient | null | undefined);
   editable?: boolean;
   className?: string;
   placeholder?: string;
 };
 
-export const LensTextEditor = forwardRef<TextEditorRef, Props>(({ editable = true, className, placeholder }, ref) => {
-  const editor = useEditor({
-    immediatelyRender: false,
-    extensions: [
-      StarterKit.configure({
-        hardBreak: false,
-        heading: false,
-        horizontalRule: false,
-      }),
-      Placeholder.configure({
-        placeholder: placeholder ?? "What's happening?",
-        showOnlyWhenEditable: false,
-      }),
-      Mention,
-      Link.configure({
-        openOnClick: false,
-        autolink: true,
-      }),
-    ],
-  });
+export const LensTextEditor = forwardRef<TextEditorRef, Props>(
+  ({ lensClient, editable = true, className, placeholder }, ref) => {
+    const editor = useEditor({
+      immediatelyRender: false,
+      extensions: [
+        StarterKit.configure({
+          hardBreak: false,
+          heading: false,
+          horizontalRule: false,
+        }),
+        Placeholder.configure({
+          placeholder: placeholder ?? "What's happening?",
+          showOnlyWhenEditable: false,
+        }),
+        Mention.configure({ lensClient }),
+        Link.configure({
+          openOnClick: false,
+          autolink: true,
+        }),
+      ],
+    });
 
-  useEffect(() => {
-    editor?.setEditable(editable);
-    if (!editable && editor?.getText().trim().length === 0) {
-      editor?.view?.dom?.classList.add("opacity-20");
-      editor?.view?.dom?.classList.add("cursor-not-allowed");
-    } else {
-      editor?.view?.dom?.classList.remove("opacity-20");
-      editor?.view?.dom?.classList.remove("cursor-not-allowed");
-    }
-  }, [editor, editable]);
+    useEffect(() => {
+      editor?.setEditable(editable);
+      if (!editable && editor?.getText().trim().length === 0) {
+        editor?.view?.dom?.classList.add("opacity-20");
+        editor?.view?.dom?.classList.add("cursor-not-allowed");
+      } else {
+        editor?.view?.dom?.classList.remove("opacity-20");
+        editor?.view?.dom?.classList.remove("cursor-not-allowed");
+      }
+    }, [editor, editable]);
 
-  // Allow underscores in username mentions
-  const unescapeUnderscore = (str: string) => {
-    return str.replace(/(^|[^\\])\\_/g, "$1_");
-  };
+    // Allow underscores in username mentions
+    const unescapeUnderscore = (str: string) => {
+      return str.replace(/(^|[^\\])\\_/g, "$1_");
+    };
 
-  const getContent = () => {
-    let html = editor?.getHTML();
-    if (!html) return "";
+    const getContent = () => {
+      let html = editor?.getHTML();
+      if (!html) return "";
 
-    const markdown = unified()
-      .use(rehypeParse)
-      .use(rehypeMentionToMarkdown)
-      .use(rehypeRemark)
-      .use(remarkGfm)
-      .use(linkifyRegex(RegEx.URL))
-      .use(remarkStringify)
-      .processSync(html)
-      .toString();
+      const markdown = unified()
+        .use(rehypeParse)
+        .use(rehypeMentionToMarkdown)
+        .use(rehypeRemark)
+        .use(remarkGfm)
+        .use(linkifyRegex(RegEx.URL))
+        .use(remarkStringify)
+        .processSync(html)
+        .toString();
 
-    return unescapeUnderscore(markdown);
-  };
+      return unescapeUnderscore(markdown);
+    };
 
-  const setContent = (markdown: string) => {
-    const html = unified()
-      .use(remarkParse)
-      .use(remarkGfm)
-      .use(remarkStringify)
-      .use(rehypeRemark)
-      .use(rehypeStringify)
-      .processSync(markdown)
-      .toString();
+    const setContent = (markdown: string) => {
+      const html = unified()
+        .use(remarkParse)
+        .use(remarkGfm)
+        .use(remarkStringify)
+        .use(rehypeRemark)
+        .use(rehypeStringify)
+        .processSync(markdown)
+        .toString();
 
-    editor?.commands.setContent(html);
-  };
+      editor?.commands.setContent(html);
+    };
 
-  useImperativeHandle(ref, () => ({
-    getContent,
-    setContent,
-    clearContent: () => editor?.commands.clearContent(),
-  }));
+    useImperativeHandle(ref, () => ({
+      getContent,
+      setContent,
+      clearContent: () => editor?.commands.clearContent(),
+    }));
 
-  return (
-    <>
-      {editor && (
-        <BubbleMenu editor={editor} tippyOptions={{ duration: 100 }}>
-          <div className="bubble-menu bg-background border rounded-lg shadow-lg flex py-1 px-2 gap-2 text-sm font-semibold">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => editor.chain().focus().toggleBold().run()}
-              className={editor.isActive("bold") ? "is-active" : ""}
-            >
-              <BoldIcon />
-            </Button>
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => editor.chain().focus().toggleItalic().run()}
-              className={editor.isActive("italic") ? "is-active" : ""}
-            >
-              <ItalicIcon />
-            </Button>
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => editor.chain().focus().toggleStrike().run()}
-              className={editor.isActive("strike") ? "is-active" : ""}
-            >
-              <StrikethroughIcon />
-            </Button>
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => editor.chain().focus().toggleCode().run()}
-              className={editor.isActive("code") ? "is-active" : ""}
-            >
-              <CodeIcon />
-            </Button>
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => editor.chain().focus().toggleBlockquote().run()}
-              className={editor.isActive("blockquote") ? "is-active" : ""}
-            >
-              <TextQuoteIcon />
-            </Button>
-          </div>
-        </BubbleMenu>
-      )}
-      <EditorContent editor={editor} className={className} />
-    </>
-  );
-});
+    return (
+      <>
+        {editor && (
+          <BubbleMenu editor={editor} tippyOptions={{ duration: 100 }}>
+            <div className="bubble-menu bg-background border rounded-lg shadow-lg flex py-1 px-2 gap-2 text-sm font-semibold">
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => editor.chain().focus().toggleBold().run()}
+                className={editor.isActive("bold") ? "is-active" : ""}
+              >
+                <BoldIcon />
+              </Button>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => editor.chain().focus().toggleItalic().run()}
+                className={editor.isActive("italic") ? "is-active" : ""}
+              >
+                <ItalicIcon />
+              </Button>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => editor.chain().focus().toggleStrike().run()}
+                className={editor.isActive("strike") ? "is-active" : ""}
+              >
+                <StrikethroughIcon />
+              </Button>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => editor.chain().focus().toggleCode().run()}
+                className={editor.isActive("code") ? "is-active" : ""}
+              >
+                <CodeIcon />
+              </Button>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => editor.chain().focus().toggleBlockquote().run()}
+                className={editor.isActive("blockquote") ? "is-active" : ""}
+              >
+                <TextQuoteIcon />
+              </Button>
+            </div>
+          </BubbleMenu>
+        )}
+        <EditorContent editor={editor} className={className} />
+      </>
+    );
+  },
+);

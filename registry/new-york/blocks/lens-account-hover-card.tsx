@@ -23,7 +23,7 @@ interface Props {
   /**
    * The Lens Account to display information about
    */
-  accountRes: Result<Account>;
+  accountRes: Account | Result<Account>;
 
   /**
    * The Lens Client used for making public and authenticated calls
@@ -72,7 +72,11 @@ export const LensAccountHoverCard = ({
   const [isOpen, setIsOpen] = useState(false);
   const [accountStats, setAccountStats] = useState<AccountStats>();
   const [showFollowButton, setShowFollowButton] = useState(false);
-  const [account, setAccount] = useState<Account | null | undefined>(accountRes.data);
+  const [account, setAccount] = useState<Account | null | undefined>(
+    "data" in accountRes ? accountRes.data : accountRes,
+  );
+
+  const isLoading = "loading" in accountRes ? accountRes.loading : false;
 
   const lensClient =
     publicClient ??
@@ -81,15 +85,15 @@ export const LensAccountHoverCard = ({
     });
 
   useEffect(() => {
-    setAccount(accountRes.data);
-  }, [accountRes.data]);
+    setAccount("data" in accountRes ? accountRes.data : accountRes);
+  }, [accountRes]);
 
   useEffect(() => {
     const fetchStats = async () => {
-      console.log("fetching stats for", accountRes.data?.address);
-      if (!isOpen || !accountRes.data) return;
+      console.log("fetching stats for", account?.address);
+      if (!isOpen || !account) return;
       const res = await fetchAccountStats(lensClient, {
-        account: accountRes.data.address,
+        account: account.address,
       });
       console.log("fetched stats", res);
       if (res.isOk() && res.value) {
@@ -97,7 +101,7 @@ export const LensAccountHoverCard = ({
       }
     };
     fetchStats();
-  }, [accountRes.data, isOpen]);
+  }, [account, isOpen]);
 
   useEffect(() => {
     if (!isOpen || !sessionClient) return;
@@ -112,10 +116,10 @@ export const LensAccountHoverCard = ({
   }, [sessionClient, account?.operations]);
 
   const updateAccount = async () => {
-    if (!accountRes.data) return;
+    if (!account) return;
     const client = sessionClient ?? lensClient;
     const res = await fetchAccount(client, {
-      address: accountRes.data.address,
+      address: account.address,
     });
     if (res.isOk() && res.value) {
       setAccount(res.value);
@@ -140,7 +144,7 @@ export const LensAccountHoverCard = ({
     <HoverCard open={isOpen} onOpenChange={setIsOpen}>
       <HoverCardTrigger>{children}</HoverCardTrigger>
       <HoverCardContent className="w-80">
-        {!account || accountRes.loading ? (
+        {!account || isLoading ? (
           <HoverCardSkeleton />
         ) : (
           <div className="flex flex-col w-full min-w-0">
