@@ -1,6 +1,5 @@
 import AccountListItem from "@/components/account-list-item";
 import PaginatedList from "@/components/paginated-list";
-import AccountListItemSkeleton from "@/components/account-list-item-skeleton";
 import LoginButton from "@/components/login-button";
 import TextEditor from "@/components/text-editor";
 import Markdown from "@/components/markdown";
@@ -17,8 +16,6 @@ export default async function Page({ params }: { params: Promise<{ component: st
   switch (component) {
     case "account-list-item":
       return <AccountListItem />;
-    case "account-list-item-skeleton":
-      return <AccountListItemSkeleton />;
     case "audio-player":
       return <AudioPlayer />;
     case "follow-button":
