@@ -18,9 +18,9 @@ type Props = {
 export const LensAudioPlayer = (props: Props) => {
   const { audio, postTitle, preload = "metadata", onError } = props;
 
-  // ReactPlayer looks at the file extension in the source URI to determine how to play the file
+  // ReactPlayer looks at the file extension in the source URI to determine how to play the file,
   // so we need to append the extension to the url for instances where the audio url does not have an extension
-  // e.g. when using IPFS urls like https://api.grove.storage/<key>
+  // e.g., when using Grove urls like https://api.grove.storage/<key>
   // or when using a proxy server that does not preserve the original file name
   const audioUri = audio ? parseUri(audio.item) + "?extension=." + getAudioExtension(audio.type) : null;
 

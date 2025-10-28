@@ -12,31 +12,25 @@ export default function UseTipAccountAction() {
       <h2 className="mt-6 pb-2 text-3xl font-semibold tracking-tight first:mt-0">Usage</h2>
       <CodeBlock lang="tsx" className="lines">
         {`import { useTipAccountAction } from "@/hooks/use-tip-account-action";
-import { 
-  useAccount,
-  useSessionClient, 
-  PaymentSource, 
-  evmAddress, 
-  TxHash 
-} from "@lens-protocol/react";
+import { useAccount,useSessionClient, PaymentSource, evmAddress } from "@lens-protocol/react";
 import { NativeToken } from "@/lib/lens-utils";`}
       </CodeBlock>
       <CodeBlock lang="tsx" className="lines">
         {`const { data: sessionClient } = useSessionClient();
 const { data: walletClient } = useWalletClient();
-const { execute } = useTipAccountAction({ sessionClient, walletClient });
+const { execute: tipAccount } = useTipAccountAction({ sessionClient, walletClient });
 
 const account = evmAddress("SOME_ACCOUNT_ADDRESS");`}
       </CodeBlock>
       <CodeBlock lang="tsx" className="lines">
-        {`const res = await execute({ 
+        {`const res = await tipAccount({ 
   account,
   source: PaymentSource.Signer,
   amount: "1.0",
   tokenAddress: NativeToken
 });
 // See https://lens.xyz/docs/protocol/best-practices/error-handling 
-// on how to handle Result types`}
+// on how to handle ResultAsync responses`}
       </CodeBlock>
     </div>
   );

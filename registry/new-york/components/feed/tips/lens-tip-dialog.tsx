@@ -6,8 +6,13 @@ import {
   NativeAmount,
   PaymentSource,
   SessionClient,
+  SigningError,
+  TransactionIndexingError,
   TxHash,
+  UnauthenticatedError,
+  UnexpectedError,
   useAuthenticatedUser,
+  ValidationError,
 } from "@lens-protocol/react";
 import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/registry/new-york/ui/dialog";
@@ -26,6 +31,7 @@ import { Spinner } from "@/registry/new-york/ui/spinner";
 import { NativeToken } from "@/registry/new-york/lib/lens-utils";
 import { Skeleton } from "@/registry/new-york/ui/skeleton";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/registry/new-york/ui/tooltip";
+import { ResultAsync } from "neverthrow";
 
 export interface TipDialogRef {
   open: () => void;
@@ -42,7 +48,14 @@ export interface TipDialogProps {
   /**
    *  Function to create a tip transaction. Any error thrown will be caught and passed to onError callback.
    */
-  createTip: (source: PaymentSource, amount: string, tokenAddress: string) => Promise<TxHash>;
+  createTip: (
+    source: PaymentSource,
+    amount: string,
+    tokenAddress: string,
+  ) => ResultAsync<
+    TxHash,
+    SigningError | TransactionIndexingError | UnauthenticatedError | UnexpectedError | ValidationError<string>
+  >;
 
   /**
    * Optional list of supported token addresses to tip with. If not provided, only the native token will be supported.
@@ -165,22 +178,20 @@ export const LensTipDialog = forwardRef<TipDialogRef, TipDialogProps>(
 
       setIsSubmitting(true);
 
-      try {
-        const txHash = await createTip(paymentSource, inputValue, selectedTokenAddress);
-        if (txHash) {
-          setDialogOpen(false);
-          setInputValue("");
-          onTipCreated?.(txHash);
-        } else {
-          onError?.(new Error("Unexpected error"));
-        }
-      } catch (e) {
-        if (e instanceof Error) {
-          onError?.(e);
-        }
-      } finally {
+      const res = await createTip(paymentSource, inputValue, selectedTokenAddress);
+      if (res.isErr()) {
+        onError?.(res.error);
         setIsSubmitting(false);
+        return;
       }
+
+      const txHash = res.value;
+      if (txHash) {
+        setDialogOpen(false);
+        setInputValue("");
+        onTipCreated?.(txHash);
+      }
+      setIsSubmitting(false);
     };
 
     const onPaymentSourceChange = (value: PaymentSource) => {

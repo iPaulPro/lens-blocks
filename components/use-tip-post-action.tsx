@@ -12,30 +12,24 @@ export default function UseTipPostAction() {
       <h2 className="mt-6 pb-2 text-3xl font-semibold tracking-tight first:mt-0">Usage</h2>
       <CodeBlock lang="tsx" className="lines">
         {`import { useTipPostAction } from "@/hooks/use-tip-post-action";
-import { 
-  usePost, 
-  useSessionClient, 
-  PaymentSource, 
-  postId, 
-  TxHash 
-} from "@lens-protocol/react";`}
+import { usePost, useSessionClient, PaymentSource, postId } from "@lens-protocol/react";`}
       </CodeBlock>
       <CodeBlock lang="tsx" className="lines">
         {`const { data: sessionClient } = useSessionClient();
 const { data: walletClient } = useWalletClient();
-const { execute } = useTipPostAction({ sessionClient, walletClient });
+const { execute: tipPost } = useTipPostAction({ sessionClient, walletClient });
 
 const post = postId("SOME_POST_ID");`}
       </CodeBlock>
       <CodeBlock lang="tsx" className="lines">
-        {`const res = await execute({ 
+        {`const res = await tipPost({ 
   post,
   source: PaymentSource.Signer,
   amount: "1.0",
   tokenAddress: NativeToken
 });
 // See https://lens.xyz/docs/protocol/best-practices/error-handling 
-// on how to handle Result types`}
+// on how to handle ResultAsync responses`}
       </CodeBlock>
     </div>
   );

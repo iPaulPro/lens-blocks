@@ -21,7 +21,7 @@
     },
     {
       "path": "registry/new-york/lib/result.ts",
-      "content": "export type Result<T, E = never> = {\n  data: T | null | undefined;\n  error: E | null | undefined;\n  loading: boolean;\n};\n",
+      "content": "export type Result<T, E = never> = {\n  data: T | null | undefined;\n  error: E | null | undefined;\n  loading: boolean;\n};\n\nexport const isResult = <T, E = never>(result: any): result is Result<T, E> => {\n  return \"data\" in result && \"error\" in result && \"loading\" in result;\n};\n\nexport const isLoading = (result: any): boolean => {\n  if (isResult(result)) {\n    return result.loading;\n  }\n  return false;\n};\n",
       "type": "registry:lib"
     }
   ]

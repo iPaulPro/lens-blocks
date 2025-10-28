@@ -1,16 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/registry/new-york/ui/button";
 import { Account, SessionClient, TxHash, UnauthenticatedError } from "@lens-protocol/react";
 import { follow, unfollow } from "@lens-protocol/client/actions";
 import { handleOperationWith } from "@lens-protocol/client/viem";
 import { WalletClient } from "viem";
 import { Spinner } from "@/registry/new-york/ui/spinner";
-import { Result } from "@/registry/new-york/lib/result";
+import { isResult, Result } from "@/registry/new-york/lib/result";
 
 type Props = {
-  accountRes?: Account | Result<Account>;
+  account: Account | Result<Account>;
   session: Result<SessionClient>;
   wallet?: { data: WalletClient | undefined | null; isLoading?: boolean; error?: unknown };
   onFollowSuccess?: (account: Account, txHash: TxHash) => void;
@@ -19,10 +19,10 @@ type Props = {
 };
 
 export const LensFollowButton = ({ ...props }: Props) => {
-  const { accountRes, session, wallet, onFollowSuccess, onUnfollowSuccess, onFollowError } = props;
+  const { account: accountRes, session, wallet, onFollowSuccess, onUnfollowSuccess, onFollowError } = props;
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const account = accountRes && "data" in accountRes ? accountRes?.data : accountRes;
+  const account = isResult(accountRes) ? accountRes?.data : accountRes;
   const sessionClient = session?.data;
   const walletClient = wallet?.data;
 
@@ -31,6 +31,10 @@ export const LensFollowButton = ({ ...props }: Props) => {
   const [optimisticIsFollowed, setOptimisticIsFollowed] = useState<boolean>(
     account?.operations?.isFollowedByMe ?? false,
   );
+
+  useEffect(() => {
+    setOptimisticIsFollowed(account?.operations?.isFollowedByMe ?? false);
+  }, [account?.operations]);
 
   const handleUnfollow = async () => {
     if (!account || !sessionClient) return;

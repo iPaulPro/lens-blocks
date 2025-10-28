@@ -12,13 +12,11 @@ import { useWalletClient } from "wagmi";
 export default function FollowButton() {
   const session = useSessionClient();
   const wallet = useWalletClient();
-  const accountRes = useAccount({
+  const account = useAccount({
     username: {
       localName: "paulburke",
     },
   });
-
-  const account = accountRes.data;
 
   // Callback function that is called when the follow operation is successful
   const onFollowSuccess = (account: Account) => {
@@ -53,16 +51,16 @@ export default function FollowButton() {
           <div className="flex items-center justify-center flex-grow relative">
             <div className="flex flex-col gap-4 items-center justify-center">
               <LensFollowButton
-                accountRes={accountRes}
+                account={account}
                 session={session}
                 wallet={wallet}
                 onFollowSuccess={onFollowSuccess}
                 onUnfollowSuccess={onUnfollowSuccess}
                 onFollowError={onFollowError}
               />
-              {account && (
+              {account.data && (
                 <p className="text-xs text-center text-muted-foreground">
-                  This will follow or unfollow the account <strong>{getDisplayName(account)}</strong> on testnet
+                  This will follow or unfollow the account <strong>{getDisplayName(account.data)}</strong> on testnet
                 </p>
               )}
             </div>
@@ -73,18 +71,20 @@ export default function FollowButton() {
         <h2 className="mt-6 pb-2 text-3xl font-semibold tracking-tight first:mt-0">Usage</h2>
         <CodeBlock lang="tsx" className="lines">
           {`import { LensFollowButton } from "@/components/follow-button";
-import { useAccount, useSessionClient } from "@lens-protocol/react";`}
+import { useAccount, useSessionClient } from "@lens-protocol/react";
+import { useWalletClient } from "wagmi";`}
         </CodeBlock>
         <CodeBlock lang="tsx" className="lines">
           {`const session = useSessionClient();
-const { data: account } = useAccount({
+const wallet = useWalletClient();
+const account = useAccount({
   username: {
     localName: "paulburke",
   },
 });`}
         </CodeBlock>
         <CodeBlock lang="tsx" className="lines">
-          {`<LensFollowButton account={account} session={session} />`}
+          {`<LensFollowButton account={account} session={session} wallet={wallet} />`}
         </CodeBlock>
       </div>
     </>

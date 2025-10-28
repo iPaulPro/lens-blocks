@@ -5,9 +5,11 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/registry/new-york/ui/avat
 import { CheckCircle2Icon, ChevronRight, Loader, UserCircle2 } from "lucide-react";
 import { truncateAddress } from "@/registry/new-york/lib/lens-utils";
 import { ReactNode } from "react";
+import { isResult, Result } from "@/registry/new-york/lib/result";
+import { LensAccountListItemSkeleton } from "@/registry/new-york/components/account/lens-account-list-item-skeleton";
 
 type LensAccountListItemProps = {
-  account: Account;
+  account: Account | Result<Account>;
   selectedAccount?: Account | null;
   onAccountSelected?: (account: Account) => void;
   authenticatedUser?: AuthenticatedUser | null;
@@ -16,17 +18,33 @@ type LensAccountListItemProps = {
 };
 
 export const LensAccountListItem = ({
-  account,
+  account: accountRes,
   selectedAccount,
   onAccountSelected,
   authenticatedUser,
   showChevron = true,
   renderDivider,
 }: LensAccountListItemProps) => {
-  const isAuthenticated = authenticatedUser?.address.toLowerCase() === account.address.toLowerCase();
-  const isSelected = onAccountSelected && isAuthenticated;
+  const isAccountResult = isResult(accountRes);
+  const account = isAccountResult ? accountRes.data : accountRes;
+
+  const isAuthenticated =
+    authenticatedUser && authenticatedUser?.address.toLowerCase() === account?.address.toLowerCase();
+  const isSelected = (onAccountSelected && isAuthenticated) ?? false;
 
   const Divider = renderDivider;
+
+  if (isAccountResult && accountRes.error) {
+    return null; // show error state
+  }
+
+  if (!account || (isAccountResult && accountRes.loading)) {
+    return (
+      <div className="w-full flex items-center text-start">
+        <LensAccountListItemSkeleton showChevron={showChevron} />
+      </div>
+    );
+  }
 
   return (
     <div>

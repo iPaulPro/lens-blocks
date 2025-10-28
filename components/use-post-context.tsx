@@ -28,6 +28,8 @@ export default function UsePostContext() {
       <h2 className="mt-6 pb-2 text-3xl font-semibold tracking-tight first:mt-0">API Reference</h2>
       <p className="content !mt-0">
         The return value of the hook is a <code>PostContextType</code> object:
+      </p>
+      <div className="content">
         <Table>
           <TableHeader>
             <TableRow>
@@ -138,7 +140,7 @@ export default function UsePostContext() {
             </TableRow>
           </TableBody>
         </Table>
-      </p>
+      </div>
     </div>
   );
 }

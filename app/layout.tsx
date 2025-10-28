@@ -43,8 +43,8 @@ export default function RootLayout({
               <div className="w-full">
                 <span className="min-h-8 p-1 bg-warning text-background flex justify-center items-center font-bold text-sm md:text-base text-center">
                   <span>
-                    Lens Blocks are currently in pre-alpha and{" "}
-                    <span className="font-black animate-pulse"> not&nbsp;ready&nbsp;for&nbsp;use</span>!
+                    Lens Blocks are currently in alpha and{" "}
+                    <span className="font-black animate-pulse"> not&nbsp;ready&nbsp;for&nbsp;production use</span>!
                   </span>
                 </span>
                 <main className="w-full">

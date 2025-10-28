@@ -11,7 +11,7 @@ import { WalletClient } from "viem";
 import { LensMarkdown } from "@/registry/new-york/components/common/lens-markdown";
 import { LensFollowButton } from "@/registry/new-york/components/account/lens-follow-button";
 import { Skeleton } from "@/registry/new-york/ui/skeleton";
-import { Result } from "@/registry/new-york/lib/result";
+import { isResult, Result } from "@/registry/new-york/lib/result";
 
 interface Props {
   /**
@@ -23,7 +23,7 @@ interface Props {
   /**
    * The Lens Account to display information about
    */
-  accountRes: Account | Result<Account>;
+  account: Account | Result<Account>;
 
   /**
    * The Lens Client used for making public and authenticated calls
@@ -58,7 +58,7 @@ interface Props {
 
 export const LensAccountHoverCard = ({
   children,
-  accountRes,
+  account: accountRes,
   session,
   wallet,
   publicClient,
@@ -73,7 +73,7 @@ export const LensAccountHoverCard = ({
   const [accountStats, setAccountStats] = useState<AccountStats>();
   const [showFollowButton, setShowFollowButton] = useState(false);
   const [account, setAccount] = useState<Account | null | undefined>(
-    "data" in accountRes ? accountRes.data : accountRes,
+    isResult(accountRes) ? accountRes.data : accountRes,
   );
 
   const isLoading = "loading" in accountRes ? accountRes.loading : false;
@@ -157,7 +157,7 @@ export const LensAccountHoverCard = ({
               </Avatar>
               {showFollowButton && (
                 <LensFollowButton
-                  accountRes={accountRes}
+                  account={accountRes}
                   session={session}
                   wallet={wallet}
                   onFollowSuccess={(_account, txHash) => handleFollowSuccess(txHash)}
