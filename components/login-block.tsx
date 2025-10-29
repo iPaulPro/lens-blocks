@@ -1,25 +1,23 @@
 "use client";
 
 import { AuthenticatedUser, useSessionClient } from "@lens-protocol/react";
-import { OpenInV0Button } from "@/components/open-in-v0-button";
 import { LensLogin } from "@/registry/new-york/blocks/lens-login";
 import { CodeBlock } from "@/components/codeblock";
 import { toast } from "sonner";
 import { useWalletClient } from "wagmi";
 import { InstallCommandBlock } from "@/components/install-command-block";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/registry/new-york/ui/tabs";
 
 export function LoginBlock() {
   const session = useSessionClient();
   const wallet = useWalletClient();
 
-  // Callback function that is called when the user successfully logs in
-  const onLoginSuccess = (authenticatedUser: AuthenticatedUser) => {
+  const handleLoginSuccess = (authenticatedUser: AuthenticatedUser) => {
     console.log("Login successful for user:", authenticatedUser);
     toast.success(`Login success!`);
   };
 
-  // You can handle errors here if needed
-  const onLoginError = (error: Error) => {
+  const handleLoginError = (error: Error) => {
     console.error("Login failed with error:", error);
     toast.error(`Login failed: ${error.message}`);
   };
@@ -27,15 +25,47 @@ export function LoginBlock() {
   return (
     <>
       <div className="flex flex-col flex-1 gap-8">
-        <div className="preview flex flex-col gap-4 relative">
-          <div className="flex items-center justify-between">
-            <h2 className="text-sm text-muted-foreground sm:pl-3">A Lens login button component</h2>
-            <OpenInV0Button name="login" className="w-fit" />
+        <Tabs defaultValue="preview">
+          <div className="preview flex flex-col gap-2 relative">
+            <div className="flex items-center justify-between">
+              <TabsList>
+                <TabsTrigger value="preview">Preview</TabsTrigger>
+                <TabsTrigger value="code">Code</TabsTrigger>
+              </TabsList>
+            </div>
+            <TabsContent value="preview" className="flex items-center justify-center flex-grow relative">
+              <LensLogin session={session} wallet={wallet} onSuccess={handleLoginSuccess} onError={handleLoginError} />
+            </TabsContent>
+            <TabsContent value="code" className="p-0">
+              <CodeBlock lang="tsx" className="lines border-none">
+                {`import { AuthenticatedUser, useSessionClient } from "@lens-protocol/react";
+import { LensLogin } from "@/components/lens-login";
+import { toast } from "sonner";
+import { useWalletClient } from "wagmi";
+  
+  const session = useSessionClient();
+  const wallet = useWalletClient();
+
+  const handleLoginSuccess = (authenticatedUser: AuthenticatedUser) => {
+    toast.success("Login success!");
+  };
+
+  const handleLoginError = (error: Error) => {
+    toast.error("Login failed: " + error.message);
+  };
+  
+  return (
+    <LensLogin 
+      session={session}
+      wallet={wallet}
+      onSuccess={handleLoginSuccess}
+      onError={handleLoginError} /> 
+  );
+};`}
+              </CodeBlock>
+            </TabsContent>
           </div>
-          <div className="flex items-center justify-center flex-grow relative">
-            <LensLogin session={session} wallet={wallet} onSuccess={onLoginSuccess} onError={onLoginError} />
-          </div>
-        </div>
+        </Tabs>
         <h2 className="mt-6 pb-2 text-3xl font-semibold tracking-tight first:mt-0">Installation</h2>
         <InstallCommandBlock componentName="login" />
         <h2 className="mt-6 pb-2 text-3xl font-semibold tracking-tight first:mt-0">Usage</h2>

@@ -13,7 +13,7 @@ import {
 } from "@lens-protocol/react";
 import { executeAccountAction } from "@lens-protocol/client/actions";
 import { WalletClient } from "viem";
-import { LensChainId, LensChainTestnetId, NativeToken } from "@/registry/new-york/lib/lens-utils";
+import { LensChainId, LensChainNativeToken, LensChainTestnetId } from "@/registry/new-york/lib/lens-utils";
 import { handleOperationWith } from "@lens-protocol/client/viem";
 import { invariant, ResultAsync } from "@lens-protocol/types";
 import { useAsyncTask } from "@/registry/new-york/lib/tasks";
@@ -54,7 +54,7 @@ export const useTipAccountAction = ({
           action: {
             tipping: {
               paymentSource: args.source,
-              ...(args.tokenAddress === NativeToken
+              ...(args.tokenAddress === LensChainNativeToken
                 ? { native: args.amount }
                 : { value: args.amount, token: evmAddress(args.tokenAddress) }),
             },

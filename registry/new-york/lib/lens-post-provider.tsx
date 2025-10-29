@@ -16,7 +16,7 @@ import {
 import { executePostAction, post as createPost, repost as createRepost } from "@lens-protocol/client/actions";
 import { handleOperationWith } from "@lens-protocol/client/viem";
 import { useReactionToggle } from "@/registry/new-york/hooks/use-reaction-toggle";
-import { NativeToken } from "@/registry/new-york/lib/lens-utils";
+import { LensChainNativeToken } from "@/registry/new-york/lib/lens-utils";
 import { textOnly } from "@lens-protocol/metadata";
 import { immutable, StorageClient } from "@lens-chain/storage-client";
 import { chains } from "@lens-chain/sdk/viem";
@@ -48,13 +48,13 @@ type PostContextType = {
   loading: boolean;
   error?: Error;
   optimistic: OptimisticState;
-  toggleLike: () => Promise<void>;
+  toggleLike: () => Promise<boolean>;
   comment: (content: string) => Promise<TxHash>;
   collect: (paymentSource?: PaymentSource, referrals?: Referral[]) => Promise<TxHash>;
   repost: () => Promise<TxHash | undefined>;
   quote: (content: string) => Promise<TxHash>;
   tip: (paymentSource: PaymentSource, amount: string, tokenAddress: string) => Promise<TxHash>;
-  toggleBookmark: () => Promise<void>;
+  toggleBookmark: () => Promise<boolean>;
 };
 
 export const LensPostContext = createContext<PostContextType | undefined>(undefined);
@@ -123,12 +123,10 @@ export const LensPostProvider = ({ session, wallet, postId, children, useTestnet
 
   const chain = useTestnet ? chains.testnet : chains.mainnet;
 
-  const switchChain = async () => {
-    await walletClient?.switchChain({ id: chain.id });
-  };
+  const switchChain = () => walletClient?.switchChain({ id: chain.id });
 
   const toggleLike = async () => {
-    if (!post || !sessionClient?.isSessionClient()) return;
+    if (!post || !sessionClient?.isSessionClient()) return false;
 
     setOptimistic(optimistic => ({
       ...optimistic,
@@ -141,34 +139,13 @@ export const LensPostProvider = ({ session, wallet, postId, children, useTestnet
     if (res.isErr()) {
       setOptimistic(optimistic => ({
         ...optimistic,
-        liked: !optimistic?.liked,
+        liked: !optimistic.liked,
         likeCount: optimistic.liked ? Math.max(0, optimistic.likeCount - 1) : optimistic.likeCount + 1,
       }));
       throw res.error;
     }
 
-    setPost(prevPost => {
-      if (!prevPost) return null;
-      return {
-        ...prevPost,
-        stats: {
-          ...prevPost.stats,
-          upvotes: prevPost.stats.upvotes + (prevPost.operations?.hasUpvoted ? -1 : 1),
-        },
-        ...(prevPost.operations
-          ? {
-              operations: {
-                ...prevPost.operations,
-                hasUpvoted: !prevPost.operations?.hasUpvoted,
-              },
-            }
-          : {
-              operations: {
-                hasUpvoted: true,
-              },
-            }),
-      } as Post;
-    });
+    return !optimistic.liked;
   };
 
   const comment = async (content: string): Promise<TxHash> => {
@@ -359,7 +336,9 @@ export const LensPostProvider = ({ session, wallet, postId, children, useTestnet
       action: {
         tipping: {
           paymentSource,
-          ...(tokenAddress === NativeToken ? { native: amount } : { value: amount, token: evmAddress(tokenAddress) }),
+          ...(tokenAddress === LensChainNativeToken
+            ? { native: amount }
+            : { value: amount, token: evmAddress(tokenAddress) }),
         },
       },
     })
@@ -384,7 +363,7 @@ export const LensPostProvider = ({ session, wallet, postId, children, useTestnet
   };
 
   const toggleBookmark = async () => {
-    if (!postId) return;
+    if (!postId) return false;
 
     setOptimistic(optimistic => ({
       ...optimistic,
@@ -396,6 +375,8 @@ export const LensPostProvider = ({ session, wallet, postId, children, useTestnet
     } else {
       await bookmarkPost({ post: toPostId(postId) });
     }
+
+    return !optimistic.bookmarked;
   };
 
   return (

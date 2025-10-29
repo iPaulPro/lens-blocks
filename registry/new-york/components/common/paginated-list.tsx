@@ -7,10 +7,10 @@ type PaginationListProps<Type> = {
   className?: string;
   data: Paginated<Type> | undefined;
   loading: boolean;
-  error: Error | undefined;
-  cursor?: Cursor | null;
   setCursor: (cursor: Cursor | null) => void;
   renderItem: (item: Type, index: number) => ReactNode;
+  error?: Error | null | undefined;
+  cursor?: Cursor | null;
   renderHeader?: () => ReactNode;
   renderFooter?: () => ReactNode;
   renderSkeleton?: () => ReactNode;

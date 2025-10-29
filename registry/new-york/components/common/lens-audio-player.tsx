@@ -6,6 +6,7 @@ import { Button } from "@/registry/new-york/ui/button";
 import { PauseIcon, PlayIcon, Volume2Icon, VolumeOffIcon } from "lucide-react";
 import { MediaSeekSlider } from "@/registry/new-york/ui/media-seek-slider";
 import { Duration } from "@/registry/new-york/ui/duration";
+import { Skeleton } from "@/registry/new-york/ui/skeleton";
 
 type Props = {
   audio: MediaAudio;
@@ -208,6 +209,28 @@ export const LensAudioPlayer = (props: Props) => {
             >
               {muted ? <VolumeOffIcon fill="var(--primary)" /> : <Volume2Icon fill="var(--primary)" />}
             </Button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export const LensAudioPlayerSkeleton = () => {
+  return (
+    <div className="w-full flex border rounded-xl mt-1">
+      <div className="w-full h-24 flex items-center">
+        <Skeleton className="aspect-square h-full rounded-l-xl rounded-r-none flex-1" />
+        <div className="w-full flex flex-col h-full px-2 justify-center gap-3">
+          <div className="w-full flex flex-col pl-1 gap-2">
+            <Skeleton className="h-4 w-32" />
+            <Skeleton className="h-3 w-24" />
+          </div>
+          <div className="w-full flex gap-2 items-center px-1">
+            <Skeleton className="h-5 w-5 rounded-full" />
+            <Skeleton className="h-3 flex-grow rounded-full" />
+            <Skeleton className="h-4 w-9 rounded-full" />
+            <Skeleton className="h-5 w-5 rounded-full ml-2" />
           </div>
         </div>
       </div>

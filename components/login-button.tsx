@@ -1,6 +1,5 @@
 "use client";
 
-import { OpenInV0Button } from "@/components/open-in-v0-button";
 import { CodeBlock } from "@/components/codeblock";
 import { LensLoginButton } from "@/registry/new-york/components/account/lens-login-button";
 import { toast } from "sonner";
@@ -9,20 +8,37 @@ import { Blocks } from "lucide-react";
 import { Button } from "@/registry/new-york/ui/button";
 import Link from "next/link";
 import { InstallCommandBlock } from "@/components/install-command-block";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/registry/new-york/ui/tabs";
 
 export default function LoginButton() {
+  const handleClick = () => toast.success("Login button clicked");
   return (
     <>
       <div className="flex flex-col flex-1 gap-8">
-        <div className="preview flex flex-col gap-4 relative">
-          <div className="flex items-center justify-between">
-            <h2 className="text-sm text-muted-foreground sm:pl-3">A Lens Account list item skeleton component</h2>
-            <OpenInV0Button name="login-button" className="w-fit" />
+        <Tabs defaultValue="preview">
+          <div className="preview flex flex-col gap-2 relative">
+            <div className="flex items-center justify-between">
+              <TabsList>
+                <TabsTrigger value="preview">Preview</TabsTrigger>
+                <TabsTrigger value="code">Code</TabsTrigger>
+              </TabsList>
+            </div>
+            <TabsContent value="preview" className="flex items-center justify-center flex-grow relative">
+              <LensLoginButton onClick={handleClick} />
+            </TabsContent>
+            <TabsContent value="code" className="p-0">
+              <CodeBlock lang="tsx" className="lines border-none">
+                {`import { LensLoginButton } from "@/components/account/lens-login-button";
+import { toast } from "sonner";
+
+export function LensLoginButtonDemo() {
+  const handleClick = () => toast.success("Login button clicked");
+  return <LensLoginButton onClick={handleClick} />;
+};`}
+              </CodeBlock>
+            </TabsContent>
           </div>
-          <div className="flex items-center justify-center flex-grow relative">
-            <LensLoginButton onClick={() => toast.success("Login button clicked")} />
-          </div>
-        </div>
+        </Tabs>
       </div>
       <Alert className="bg-foreground text-background">
         <Blocks className="!size-5" />

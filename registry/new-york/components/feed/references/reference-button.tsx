@@ -4,15 +4,15 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/registry/new-york/ui/dropdown-menu";
-import { AnyPost, Post, TxHash } from "@lens-protocol/react";
+import { Post, TxHash } from "@lens-protocol/react";
 import { MouseEvent, useState } from "react";
 import { CheckCircle, Loader, MessageCircle, Repeat2 } from "lucide-react";
 import { Button } from "@/registry/new-york/ui/button";
 import { useLensPostContext } from "@/registry/new-york/hooks/use-lens-post-context";
 
 type ReferenceButtonProps = {
-  onQuoteClick: (post: AnyPost) => void;
-  onRepostSuccess?: (txHash: TxHash) => void;
+  onQuoteClick: (post: Post) => void;
+  onRepostSuccess?: (post: Post, txHash: TxHash) => void;
   onError?: (error: Error) => void;
   showCount?: boolean;
 };
@@ -37,8 +37,8 @@ export const ReferenceButton = ({ onQuoteClick, onRepostSuccess, onError, showCo
     setIsPosting(true);
     try {
       const txHash = await repost();
-      if (txHash) {
-        onRepostSuccess?.(txHash);
+      if (postToReference && txHash) {
+        onRepostSuccess?.(postToReference, txHash);
         setShowSuccess(true);
         setTimeout(() => {
           setShowSuccess(false);
@@ -58,8 +58,8 @@ export const ReferenceButton = ({ onQuoteClick, onRepostSuccess, onError, showCo
     event.currentTarget.blur();
     event.stopPropagation();
     setIsDropdownMenuOpen(false);
-    if (!post) return;
-    onQuoteClick(post);
+    if (!postToReference) return;
+    onQuoteClick(postToReference);
   };
 
   if (!post) return null;

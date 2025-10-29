@@ -1,6 +1,5 @@
 "use client";
 
-import { OpenInV0Button } from "@/components/open-in-v0-button";
 import { InstallCommandBlock } from "@/components/install-command-block";
 import { CodeBlock } from "@/components/codeblock";
 import { LensTipDialog, TipDialogRef } from "@/registry/new-york/components/feed/tips/lens-tip-dialog";
@@ -11,11 +10,12 @@ import { toast } from "sonner";
 import { useEffect, useRef } from "react";
 import { Button } from "@/registry/new-york/ui/button";
 import { CircleDollarSign } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/registry/new-york/ui/tabs";
 
 export default function TipDialog() {
   const { data: sessionClient, loading: sessionLoading } = useSessionClient();
   const { data: walletClient, isLoading: walletLoading } = useWalletClient();
-  const { execute, error } = useTipPostAction({ sessionClient, walletClient });
+  const { execute, error } = useTipPostAction({ sessionClient, walletClient, useTestnet: true });
 
   const tipDialog = useRef<TipDialogRef>(null);
   const post = postId("3988215955854869405528302997462877091460304706960228350925150132477118244123");
@@ -44,28 +44,103 @@ export default function TipDialog() {
   return (
     <>
       <div className="flex flex-col flex-1 gap-8">
-        <div className="preview flex flex-col gap-4 relative">
-          <div className="flex items-center justify-between">
-            <div className="text-sm text-muted-foreground sm:pl-3">A Lens tip dialog component</div>
-            <OpenInV0Button name="tip-dialog" className="w-fit" />
+        <Tabs defaultValue="preview">
+          <div className="preview flex flex-col gap-2 relative">
+            <div className="flex items-center justify-between">
+              <TabsList>
+                <TabsTrigger value="preview">Preview</TabsTrigger>
+                <TabsTrigger value="code">Code</TabsTrigger>
+              </TabsList>
+            </div>
+            <TabsContent value="preview" className="flex flex-col gap-6 items-center justify-center flex-grow relative">
+              <Button
+                variant="outline"
+                onClick={() => tipDialog?.current?.open()}
+                disabled={sessionLoading || walletLoading}
+              >
+                <CircleDollarSign className="w-4 h-4" />
+              </Button>
+              <p className="text-xs text-center text-muted-foreground max-w-xs">
+                Tipping{" "}
+                <a href="https://testnet.hey.xyz/posts/1n8vtqy901xcrynmgrb" target="_blank" rel="noopener">
+                  this post
+                </a>{" "}
+                on testnet.
+              </p>
+            </TabsContent>
+            <TabsContent value="code" className="p-0">
+              <CodeBlock lang="tsx" className="lines border-none">
+                {`import { postId, useSessionClient } from "@lens-protocol/react";
+import { useWalletClient } from "wagmi";
+import { useRef } from "react";
+import { LensTipDialog, TipDialogRef } from "@/components/feed/tips/lens-tip-dialog";
+import { LensPostProvider } from "@/lib/lens-post-provider";
+import { Button } from "@/ui/button";
+import { CircleDollarSign } from "lucide-react";
+import { toast } from "sonner";
+
+export function TipDialogDemo() {
+  const { data: sessionClient, loading: sessionLoading } = useSessionClient();
+  const { data: walletClient, isLoading: walletLoading } = useWalletClient();
+  
+  const { execute, error } = useTipPostAction({ 
+    sessionClient,
+    walletClient,
+    useTestnet: true 
+  });
+
+  const tipDialog = useRef<TipDialogRef>(null);
+  const post = postId("3988215955854869405528302997462877091460304706960228350925150132477118244123");
+  
+  const handleTipCreated = (txHash: TxHash) => {
+    toast.success("Tip sent successfully!", {
+      action: (
+        <Button 
+          className="ml-auto"
+          onClick={() => window.open("https://explorer.testnet.lens.xyz/tx/" + txHash)}
+        >
+          View tx
+        </Button>
+      ),
+    });
+  };
+
+  useEffect(() => {
+    if (error && error instanceof Error) {
+      toast.error("Unable to send tip");
+    }
+  }, [error]);
+  
+  return (
+    <LensPostProvider
+      postId={post}
+      session={session}
+      wallet={wallet}
+      useTestnet={true}
+    >
+      <Button
+        variant="outline"
+        onClick={tipDialog.current?.open}
+        disabled={sessionLoading || walletLoading}
+      >
+        <CircleDollarSign className="w-4 h-4" />
+      </Button>
+      <LensTipDialog
+        ref={tipDialog}
+        sessionClient={sessionClient}
+        createTip={(source, amount, tokenAddress) => {
+          return execute({ post, source, amount, tokenAddress });
+        }}
+        onTipCreated={handleTipCreated}
+        onTipError={handleError}
+      />
+    </LensPostProvider>    
+  );
+};`}
+              </CodeBlock>
+            </TabsContent>
           </div>
-          <div className="flex flex-col gap-6 items-center justify-center flex-grow relative">
-            <Button
-              variant="outline"
-              onClick={() => tipDialog?.current?.open()}
-              disabled={sessionLoading || walletLoading}
-            >
-              <CircleDollarSign className="w-4 h-4" />
-            </Button>
-            <p className="text-xs text-center text-muted-foreground max-w-xs">
-              Tipping{" "}
-              <a href="https://testnet.hey.xyz/posts/1n8vtqy901xcrynmgrb" target="_blank" rel="noopener">
-                this post
-              </a>{" "}
-              on testnet.
-            </p>
-          </div>
-        </div>
+        </Tabs>
         <h2 className="mt-6 pb-2 text-3xl font-semibold tracking-tight first:mt-0">Installation</h2>
         <InstallCommandBlock componentName="tip-dialog" />
         <h2 className="mt-6 pb-2 text-3xl font-semibold tracking-tight first:mt-0">Usage</h2>
@@ -103,10 +178,10 @@ const tipDialog = useRef<TipDialogRef>(null);`}
         ref={tipDialog}
         sessionClient={sessionClient}
         createTip={(source, amount, tokenAddress) => {
-          return execute({ postId: post, source, amount, tokenAddress });
+          return execute({ post, source, amount, tokenAddress });
         }}
         onTipCreated={handleTipCreated}
-        onError={handleError}
+        onTipError={handleError}
       />
     </>
   );

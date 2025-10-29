@@ -1,5 +1,19 @@
-import { Account, EvmAddress, MediaAudioType, MediaVideoType } from "@lens-protocol/react";
+import {
+  Account,
+  AnyPost,
+  EvmAddress,
+  MediaAudioType,
+  MediaVideoType,
+  Post,
+  ReferencedPost,
+  SigningError,
+  TransactionIndexingError,
+  UnauthenticatedError,
+  UnexpectedError,
+  ValidationError,
+} from "@lens-protocol/react";
 import { chains } from "@lens-chain/sdk/viem";
+import { PostMetadata } from "@lens-protocol/metadata";
 
 /**
  * The chain ID for the Lens Chain mainnet
@@ -19,7 +33,7 @@ export const ZeroAddress = "0x0000000000000000000000000000000000000000";
 /**
  * The native token address in Lens Chain
  */
-export const NativeToken = "0x000000000000000000000000000000000000800A";
+export const LensChainNativeToken = "0x000000000000000000000000000000000000800A";
 
 /**
  * Truncate a string to a maximum length, adding an ellipsis in the middle
@@ -230,4 +244,230 @@ export const getDisplayName = (account: Account): string => {
     return `@${account.username.localName}`;
   }
   return truncateAddress(account.address);
+};
+
+/**
+ *  Converts an unknown error to a Lens API `UnexpectedError`, or returns the original error if it's a known error.'
+ */
+export const toApiError = (
+  e: unknown,
+): SigningError | TransactionIndexingError | UnauthenticatedError | UnexpectedError | ValidationError => {
+  if (
+    e instanceof SigningError ||
+    e instanceof TransactionIndexingError ||
+    e instanceof UnauthenticatedError ||
+    e instanceof UnexpectedError ||
+    e instanceof ValidationError
+  )
+    return e;
+  return { name: "UnexpectedError", cause: e } as UnexpectedError;
+};
+
+type AudioPost =
+  | (Post & { metadata: { __typename: "AudioMetadata" } })
+  | (ReferencedPost & { metadata: { __typename: "AudioMetadata" } });
+
+type ArticlePost =
+  | (Post & { metadata: { __typename: "ArticleMetadata" } })
+  | (ReferencedPost & { metadata: { __typename: "ArticleMetadata" } });
+
+type ImagePost =
+  | (Post & { metadata: { __typename: "ImageMetadata" } })
+  | (ReferencedPost & { metadata: { __typename: "ImageMetadata" } });
+
+type LinkPost =
+  | (Post & { metadata: { __typename: "LinkMetadata" } })
+  | (ReferencedPost & { metadata: { __typename: "LinkMetadata" } });
+
+type LiveStreamPost =
+  | (Post & { metadata: { __typename: "LiveStreamMetadata" } })
+  | (ReferencedPost & { metadata: { __typename: "LiveStreamMetadata" } });
+
+type MintPost =
+  | (Post & { metadata: { __typename: "MintMetadata" } })
+  | (ReferencedPost & { metadata: { __typename: "MintMetadata" } });
+
+type SpacePost =
+  | (Post & { metadata: { __typename: "SpaceMetadata" } })
+  | (ReferencedPost & { metadata: { __typename: "SpaceMetadata" } });
+
+type StoryPost =
+  | (Post & { metadata: { __typename: "StoryMetadata" } })
+  | (ReferencedPost & { metadata: { __typename: "StoryMetadata" } });
+
+type TextOnlyPost =
+  | (Post & { metadata: { __typename: "TextOnlyMetadata" } })
+  | (ReferencedPost & { metadata: { __typename: "TextOnlyMetadata" } });
+
+type ThreeDPost =
+  | (Post & { metadata: { __typename: "ThreeDMetadata" } })
+  | (ReferencedPost & { metadata: { __typename: "ThreeDMetadata" } });
+
+type TransactionPost =
+  | (Post & { metadata: { __typename: "TransactionMetadata" } })
+  | (ReferencedPost & { metadata: { __typename: "TransactionMetadata" } });
+
+type VideoPost =
+  | (Post & { metadata: { __typename: "VideoMetadata" } })
+  | (ReferencedPost & { metadata: { __typename: "VideoMetadata" } });
+
+/**
+ * Type guard that checks whether a post has a `metadata` field.
+ *
+ * Narrows `AnyPost` to a `Post`/`ReferencedPost` with a non-`undefined` `metadata`.
+ *
+ * @param post - The post to inspect.
+ * @returns `true` if `post.metadata` exists and is not `undefined`; otherwise `false`.
+ *
+ * @example
+ * if (hasMetadata(post)) {
+ *   // post.metadata is now typed as PostMetadata
+ *   console.log(post.metadata.__typename);
+ * }
+ */
+export const hasMetadata = (
+  post: AnyPost,
+): post is (Post & { metadata: PostMetadata }) | (ReferencedPost & { metadata: PostMetadata }) =>
+  "metadata" in post && post.metadata !== undefined;
+
+/**
+ * Internal helper that checks if a post has metadata of a specific GraphQL `__typename`.
+ *
+ * @param post - The post to inspect.
+ * @param metadataType - The expected `__typename` of the post's metadata (e.g., `ImageMetadata`).
+ * @returns `true` if the post has metadata and its `__typename` matches `metadataType`.
+ *
+ * @example
+ * isPostWithMetadata(post, "VideoMetadata"); // -> boolean
+ */
+const isPostWithMetadata = (post: AnyPost, metadataType: string): boolean =>
+  hasMetadata(post) && post.metadata.__typename === metadataType;
+
+/**
+ * Type guard for posts whose metadata is `ArticleMetadata`.
+ *
+ * @param post - The post to inspect.
+ * @returns `true` if the post's metadata `__typename` is `ArticleMetadata`.
+ *
+ * @example
+ * if (isArticlePost(post)) {
+ *   // post.metadata.__typename === "ArticleMetadata"
+ * }
+ */
+export const isArticlePost = (post: AnyPost): post is ArticlePost => isPostWithMetadata(post, "ArticleMetadata");
+
+/**
+ * Type guard for posts whose metadata is `AudioMetadata`.
+ *
+ * @param post - The post to inspect.
+ * @returns `true` if the post's metadata `__typename` is `AudioMetadata`.
+ *
+ * @example
+ * if (isAudioPost(post)) {
+ *   // Safe to treat as an audio post
+ * }
+ */
+export const isAudioPost = (post: AnyPost): post is AudioPost => isPostWithMetadata(post, "AudioMetadata");
+
+/**
+ * Type guard for posts whose metadata is `ImageMetadata`.
+ *
+ * @param post - The post to inspect.
+ * @returns `true` if the post's metadata `__typename` is `ImageMetadata`.
+ */
+export const isImagePost = (post: AnyPost): post is ImagePost => isPostWithMetadata(post, "ImageMetadata");
+
+/**
+ * Type guard for posts whose metadata is `LinkMetadata`.
+ *
+ * @param post - The post to inspect.
+ * @returns `true` if the post's metadata `__typename` is `LinkMetadata`.
+ */
+export const isLinkPost = (post: AnyPost): post is LinkPost => isPostWithMetadata(post, "LinkMetadata");
+
+/**
+ * Type guard for posts whose metadata is `LiveStreamMetadata`.
+ *
+ * @param post - The post to inspect.
+ * @returns `true` if the post's metadata `__typename` is `LiveStreamMetadata`.
+ */
+export const isLiveStreamPost = (post: AnyPost): post is LiveStreamPost =>
+  isPostWithMetadata(post, "LiveStreamMetadata");
+
+/**
+ * Type guard for posts whose metadata is `MintMetadata`.
+ *
+ * @param post - The post to inspect.
+ * @returns `true` if the post's metadata `__typename` is `MintMetadata`.
+ */
+export const isMintPost = (post: AnyPost): post is MintPost => isPostWithMetadata(post, "MintMetadata");
+
+/**
+ * Type guard for posts whose metadata is `SpaceMetadata`.
+ *
+ * @param post - The post to inspect.
+ * @returns `true` if the post's metadata `__typename` is `SpaceMetadata`.
+ */
+export const isSpacePost = (post: AnyPost): post is SpacePost => isPostWithMetadata(post, "SpaceMetadata");
+
+/**
+ * Type guard for posts whose metadata is `StoryMetadata`.
+ *
+ * @param post - The post to inspect.
+ * @returns `true` if the post's metadata `__typename` is `StoryMetadata`.
+ */
+export const isStoryPost = (post: AnyPost): post is StoryPost => isPostWithMetadata(post, "StoryMetadata");
+
+/**
+ * Type guard for posts whose metadata is `TextOnlyMetadata`.
+ *
+ * @param post - The post to inspect.
+ * @returns `true` if the post's metadata `__typename` is `TextOnlyMetadata`.
+ */
+export const isTextOnlyPost = (post: AnyPost): post is TextOnlyPost => isPostWithMetadata(post, "TextOnlyMetadata");
+
+/**
+ * Type guard for posts whose metadata is `ThreeDMetadata`.
+ *
+ * @param post - The post to inspect.
+ * @returns `true` if the post's metadata `__typename` is `ThreeDMetadata`.
+ */
+export const isThreeDPost = (post: AnyPost): post is ThreeDPost => isPostWithMetadata(post, "ThreeDMetadata");
+
+/**
+ * Type guard for posts whose metadata is `TransactionMetadata`.
+ *
+ * @param post - The post to inspect.
+ * @returns `true` if the post's metadata `__typename` is `TransactionMetadata`.
+ */
+export const isTransactionPost = (post: AnyPost): post is TransactionPost =>
+  isPostWithMetadata(post, "TransactionMetadata");
+
+/**
+ * Type guard for posts whose metadata is `VideoMetadata`.
+ *
+ * @param post - The post to inspect.
+ * @returns `true` if the post's metadata `__typename` is `VideoMetadata`.
+ */
+export const isVideoPost = (post: AnyPost): post is VideoPost => isPostWithMetadata(post, "VideoMetadata");
+
+/**
+ * Safely extracts a textual `content` field from a post's metadata, if present.
+ *
+ * This is useful for metadata types that include a `content` property (e.g., text or article types).
+ *
+ * @param post - The post whose metadata content should be read.
+ * @returns The `content` string if present on `post.metadata`; otherwise `undefined`.
+ *
+ * @example
+ * const content = getMetadataContent(post);
+ * if (content) {
+ *   render(content);
+ * }
+ */
+export const getMetadataContent = (post: AnyPost): string | undefined => {
+  if (hasMetadata(post) && "content" in post.metadata) {
+    return post.metadata.content;
+  }
+  return undefined;
 };

@@ -3,27 +3,28 @@ import { Bookmark } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useLensPostContext } from "@/registry/new-york/hooks/use-lens-post-context";
 import { MouseEvent } from "react";
+import { Post } from "@lens-protocol/react";
 
 type BookmarkButtonProps = {
   className?: string;
-  onSuccess?: () => void;
+  onSuccess?: (post: Post, bookmarked: boolean) => void;
   onError?: (error: Error) => void;
 };
 
 export const BookmarkButton = ({ className, onSuccess, onError }: BookmarkButtonProps) => {
   const { post, loading: postLoading, toggleBookmark, optimistic } = useLensPostContext();
 
-  const operations = post && "operations" in post ? post.operations : null;
+  const basePost: Post | null | undefined = post?.__typename === "Repost" ? post.repostOf : post;
 
   const onClick = async (event: MouseEvent<HTMLButtonElement>) => {
     event.currentTarget.blur();
     event.stopPropagation();
 
-    if (!post) return;
+    if (!basePost) return;
 
     try {
-      await toggleBookmark();
-      onSuccess?.();
+      const bookmarked = await toggleBookmark();
+      onSuccess?.(basePost, bookmarked);
     } catch (error) {
       if (error instanceof Error && onError) {
         onError(error);
@@ -39,7 +40,7 @@ export const BookmarkButton = ({ className, onSuccess, onError }: BookmarkButton
       size="icon"
       className={cn("w-8 h-8 active:outline-none focus-visible:outline-none cursor-pointer rounded-full", className)}
     >
-      {optimistic.bookmarked || operations?.hasBookmarked ? (
+      {optimistic.bookmarked || basePost?.operations?.hasBookmarked ? (
         <Bookmark className="text-primary" fill="var(--primary)" />
       ) : (
         <Bookmark className="opacity-85" />

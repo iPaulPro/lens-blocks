@@ -15,7 +15,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/registry/new-york/ui/avat
 import { Dialog, DialogContent } from "@/registry/new-york/ui/dialog";
 import { Button } from "@/registry/new-york/ui/button";
 import { RegEx } from "@/registry/new-york/lib/regex";
-import { getUsernamePath, parseUri, truncateAddress } from "@/registry/new-york/lib/lens-utils";
+import { getUsernamePath, parseUri, toApiError, truncateAddress } from "@/registry/new-york/lib/lens-utils";
 import { LensMarkdown } from "@/registry/new-york/components/common/lens-markdown";
 import { LensAudioPlayer } from "@/registry/new-york/components/common/lens-audio-player";
 import { LensVideoPlayer } from "@/registry/new-york/components/common/lens-video-player";
@@ -32,6 +32,7 @@ import { LensImage } from "@/registry/new-york/components/feed/lens-image";
 import { LinkPreview } from "@/registry/new-york/components/feed/link-preview";
 import { useLensPostContext } from "@/registry/new-york/hooks/use-lens-post-context";
 import { Skeleton } from "@/registry/new-york/ui/skeleton";
+import { ResultAsync } from "neverthrow";
 
 type LensPostProps = {
   /**
@@ -61,19 +62,24 @@ type LensPostProps = {
    * Callback function that is called when a repost is successful.
    * It receives the transaction hash as an argument.
    */
-  onRepostSuccess?: (txHash: TxHash) => void;
+  onRepostSuccess?: (post: Post, txHash: TxHash) => void;
 
   /**
    * Callback function that is called when a tip is successfully created.
    * It receives the transaction hash as an argument.
    */
-  onTipCreated?: (txHash: TxHash) => void;
+  onTipCreated?: (post: Post, txHash: TxHash) => void;
 
   /**
    * Callback function that is called when there is an error creating a tip.
    * It receives the error object as an argument.
    */
-  onTipError?: (error: Error) => void;
+  onTipError?: (post: Post, error: Error) => void;
+
+  /**
+   * Callback function that is called when a post bookmark status is successfully updated.
+   */
+  onBookmarkToggle?: (post: Post, bookmarked: boolean) => void;
 
   /**
    * Optional additional class names to apply to the post container.
@@ -100,6 +106,7 @@ export const LensPost = (props: LensPostProps) => {
     onPostUrlCopied,
     onTipCreated,
     onTipError,
+    onBookmarkToggle,
     className,
     contentClassName,
     showActions = true,
@@ -113,7 +120,7 @@ export const LensPost = (props: LensPostProps) => {
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [urlInContent, setUrlInContent] = useState<string | null>(null);
 
-  const { post, loading, tip, sessionClient } = useLensPostContext();
+  const { post, loading, tip, sessionClient, optimistic } = useLensPostContext();
 
   useEffect(() => {
     if (!lightboxOpen) {
@@ -349,7 +356,10 @@ export const LensPost = (props: LensPostProps) => {
               {collectAction && <CollectButton onClick={() => collectDialog.current?.open()} />}
               <TipButton onClick={() => tipDialog.current?.open()} />
             </div>
-            <BookmarkButton className="hidden md:flex" />
+            <BookmarkButton
+              className="hidden md:flex"
+              onSuccess={(post: Post, bookmarked: boolean) => onBookmarkToggle?.(post, bookmarked)}
+            />
           </div>
         )}
       </article>
@@ -358,9 +368,11 @@ export const LensPost = (props: LensPostProps) => {
       <LensTipDialog
         sessionClient={sessionClient}
         ref={tipDialog}
-        createTip={tip}
-        onTipCreated={onTipCreated}
-        onError={onTipError}
+        createTip={(source, amount, tokenAddress) =>
+          ResultAsync.fromPromise(tip(source, amount, tokenAddress), toApiError)
+        }
+        onTipCreated={txHash => onTipCreated?.(basePost, txHash)}
+        onTipError={error => onTipError?.(basePost, error)}
       />
       <Dialog open={lightboxOpen} onOpenChange={setLightboxOpen}>
         <DialogContent className="flex justify-center items-center max-h-full max-w-full bg-transparent border-none shadow-none">

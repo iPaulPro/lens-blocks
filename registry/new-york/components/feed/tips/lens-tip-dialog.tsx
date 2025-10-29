@@ -28,7 +28,7 @@ import {
 import { Input } from "@/registry/new-york/ui/input";
 import { Button } from "@/registry/new-york/ui/button";
 import { Spinner } from "@/registry/new-york/ui/spinner";
-import { NativeToken } from "@/registry/new-york/lib/lens-utils";
+import { LensChainNativeToken } from "@/registry/new-york/lib/lens-utils";
 import { Skeleton } from "@/registry/new-york/ui/skeleton";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/registry/new-york/ui/tooltip";
 import { ResultAsync } from "neverthrow";
@@ -39,6 +39,13 @@ export interface TipDialogRef {
   isOpen: boolean;
 }
 
+export type TipErrors =
+  | SigningError
+  | TransactionIndexingError
+  | UnauthenticatedError
+  | UnexpectedError
+  | ValidationError<string>;
+
 export interface TipDialogProps {
   /**
    * The Lens Session Client used for making authenticated calls
@@ -48,14 +55,7 @@ export interface TipDialogProps {
   /**
    *  Function to create a tip transaction. Any error thrown will be caught and passed to onError callback.
    */
-  createTip: (
-    source: PaymentSource,
-    amount: string,
-    tokenAddress: string,
-  ) => ResultAsync<
-    TxHash,
-    SigningError | TransactionIndexingError | UnauthenticatedError | UnexpectedError | ValidationError<string>
-  >;
+  createTip: (source: PaymentSource, amount: string, tokenAddress: string) => ResultAsync<TxHash, TipErrors>;
 
   /**
    * Optional list of supported token addresses to tip with. If not provided, only the native token will be supported.
@@ -70,18 +70,18 @@ export interface TipDialogProps {
   /**
    * Callback fired when an error occurs during tip creation.
    */
-  onError?: (error: Error) => void;
+  onTipError?: (error: Error) => void;
 }
 
 export const LensTipDialog = forwardRef<TipDialogRef, TipDialogProps>(
-  ({ sessionClient, supportedTokens, createTip, onTipCreated, onError }, ref) => {
+  ({ sessionClient, supportedTokens, createTip, onTipCreated, onTipError }, ref) => {
     const [dialogOpen, setDialogOpen] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [balances, setBalances] = useState<(Erc20Amount | NativeAmount)[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<Error | null>(null);
     const [inputError, setInputError] = useState<Error | null>(null);
-    const [selectedTokenAddress, setSelectedTokenAddress] = useState<string>(NativeToken);
+    const [selectedTokenAddress, setSelectedTokenAddress] = useState<string>(LensChainNativeToken);
     const [inputValue, setInputValue] = useState<string>("");
     const [balance, setBalance] = useState<string>("0");
     const [paymentSource, setPaymentSource] = useState<PaymentSource>(PaymentSource.Signer);
@@ -98,7 +98,7 @@ export const LensTipDialog = forwardRef<TipDialogRef, TipDialogProps>(
     }));
 
     const getAddressFromBalance = (balance: Erc20Amount | NativeAmount) => {
-      return balance.__typename === "NativeAmount" ? NativeToken : balance.asset.contract.address;
+      return balance.__typename === "NativeAmount" ? LensChainNativeToken : balance.asset.contract.address;
     };
 
     const fetchBalances = async (session: SessionClient, paymentSource: PaymentSource, address: string) => {
@@ -133,13 +133,13 @@ export const LensTipDialog = forwardRef<TipDialogRef, TipDialogProps>(
 
     useEffect(() => {
       if (!balances.length) {
-        setSelectedTokenAddress(NativeToken);
+        setSelectedTokenAddress(LensChainNativeToken);
         return;
       }
 
       if (!selectedTokenAddress) {
         if (balances[0].__typename === "NativeAmount") {
-          setSelectedTokenAddress(NativeToken);
+          setSelectedTokenAddress(LensChainNativeToken);
         } else {
           setSelectedTokenAddress(balances[0]?.asset.contract.address);
         }
@@ -152,7 +152,7 @@ export const LensTipDialog = forwardRef<TipDialogRef, TipDialogProps>(
         return;
       }
       const balance =
-        selectedTokenAddress === NativeToken
+        selectedTokenAddress === LensChainNativeToken
           ? balances.find(b => b.__typename === "NativeAmount")
           : balances.find(b => b.asset.contract.address === selectedTokenAddress);
       setBalance(balance?.value || "0");
@@ -172,7 +172,7 @@ export const LensTipDialog = forwardRef<TipDialogRef, TipDialogProps>(
 
     const onSubmitClick = async () => {
       if (!selectedTokenAddress || !inputValue) {
-        onError?.(new Error("Token and amount cannot be falsy"));
+        onTipError?.(new Error("Token and amount cannot be falsy"));
         return;
       }
 
@@ -180,7 +180,7 @@ export const LensTipDialog = forwardRef<TipDialogRef, TipDialogProps>(
 
       const res = await createTip(paymentSource, inputValue, selectedTokenAddress);
       if (res.isErr()) {
-        onError?.(res.error);
+        onTipError?.(res.error);
         setIsSubmitting(false);
         return;
       }
@@ -196,7 +196,7 @@ export const LensTipDialog = forwardRef<TipDialogRef, TipDialogProps>(
 
     const onPaymentSourceChange = (value: PaymentSource) => {
       setPaymentSource(value);
-      setSelectedTokenAddress(NativeToken);
+      setSelectedTokenAddress(LensChainNativeToken);
       setInputValue("");
     };
 

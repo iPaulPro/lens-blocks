@@ -29,7 +29,7 @@ export default function AccountHoverCard() {
     <>
       <div className="flex flex-col flex-1 gap-8">
         <Tabs defaultValue="preview">
-          <div className="preview flex flex-col gap-4 relative">
+          <div className="preview flex flex-col gap-2 relative">
             <div className="flex items-center justify-between">
               <TabsList>
                 <TabsTrigger value="preview">Preview</TabsTrigger>

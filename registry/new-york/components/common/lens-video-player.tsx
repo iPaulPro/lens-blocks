@@ -3,6 +3,7 @@ import { CSSProperties } from "react";
 import { cn } from "@/lib/utils";
 import { MediaVideo } from "@lens-protocol/react";
 import { getVideoExtension, parseUri } from "@/registry/new-york/lib/lens-utils";
+import { Skeleton } from "@/registry/new-york/ui/skeleton";
 
 type Props = {
   video: MediaVideo;
@@ -49,6 +50,26 @@ export const LensVideoPlayer = (props: Props) => {
         className={cn("w-full h-full rounded-xl", className)}
         onError={onError}
       />
+    </div>
+  );
+};
+
+export const LensVideoPlayerSkeleton = () => {
+  return (
+    <div className="w-full aspect-video bg-black dark border rounded-xl flex flex-col justify-end p-4 gap-4">
+      <div className="w-full flex items-center gap-2">
+        <Skeleton className="h-5 w-5 rounded-full" />
+        <Skeleton className="h-3 w-8 rounded-full ml-2" />
+        <Skeleton className="h-3 w-8 rounded-full" />
+        <div className="flex-grow flex justify-end gap-4">
+          <Skeleton className="h-5 w-5 rounded-full ml-2" />
+          <Skeleton className="h-5 w-5 rounded-full ml-2" />
+          <Skeleton className="h-5 w-5 rounded-full ml-2" />
+        </div>
+      </div>
+      <div className="w-full">
+        <Skeleton className="h-2 w-full rounded-full" />
+      </div>
     </div>
   );
 };

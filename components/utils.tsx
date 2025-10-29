@@ -122,7 +122,9 @@ export function Utils() {
               <h4 className="pb-2 text-xl font-semibold tracking-tight first:mt-0">
                 {util.name} <code className="text-base ml-2">{util.returnType}</code>
               </h4>
-              <p className="!mt-0">{util.description}</p>
+              <p className="!mt-0">
+                <Markdown remarkPlugins={[remarkGfm]}>{util.description}</Markdown>
+              </p>
               {util.params.length > 0 && (
                 <>
                   <p className="mt-2 pb-2 font-semibold tracking-tight first:mt-0">Props</p>

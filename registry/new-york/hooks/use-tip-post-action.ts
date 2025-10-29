@@ -14,7 +14,7 @@ import {
 } from "@lens-protocol/react";
 import { executePostAction } from "@lens-protocol/client/actions";
 import { WalletClient } from "viem";
-import { LensChainId, LensChainTestnetId, NativeToken } from "@/registry/new-york/lib/lens-utils";
+import { LensChainId, LensChainNativeToken, LensChainTestnetId, toApiError } from "@/registry/new-york/lib/lens-utils";
 import { handleOperationWith } from "@lens-protocol/client/viem";
 import { invariant, ResultAsync } from "@lens-protocol/types";
 import { useAsyncTask } from "@/registry/new-york/lib/tasks";
@@ -50,14 +50,16 @@ export const useTipPostAction = ({
     invariant(sessionClient?.isSessionClient(), "You must be authenticated to use this operation");
     invariant(walletClient, "A wallet must be connected to use this operation");
 
-    return ResultAsync.fromSafePromise(walletClient.switchChain({ id: useTestnet ? LensChainTestnetId : LensChainId }))
+    const switchChain = () => walletClient?.switchChain({ id: useTestnet ? LensChainTestnetId : LensChainId });
+
+    return ResultAsync.fromPromise(switchChain(), toApiError)
       .andThen(() => {
         return executePostAction(sessionClient, {
           post: args.post,
           action: {
             tipping: {
               paymentSource: args.source,
-              ...(args.tokenAddress === NativeToken
+              ...(args.tokenAddress === LensChainNativeToken
                 ? { native: args.amount }
                 : { value: args.amount, token: evmAddress(args.tokenAddress) }),
             },

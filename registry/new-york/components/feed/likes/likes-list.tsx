@@ -3,17 +3,22 @@ import { Account, AnyPost, Cursor, PageSize, usePostReactions } from "@lens-prot
 import { PaginatedList } from "@/registry/new-york/components/common/paginated-list";
 import { LensAccountListItem } from "@/registry/new-york/components/account/lens-account-list-item";
 import { LensAccountListItemSkeleton } from "@/registry/new-york/components/account/lens-account-list-item-skeleton";
+import { isResult, Result } from "@/registry/new-york/lib/result";
 
 type LikesListProps = {
-  post: AnyPost;
+  post: AnyPost | Result<AnyPost>;
   onAccountSelected?: (account: Account) => void;
 };
 
-export const LikesList = ({ post, onAccountSelected }: LikesListProps) => {
+export const LikesList = ({ post: postRes, onAccountSelected }: LikesListProps) => {
   const [cursor, setCursor] = useState<Cursor | null>(null);
 
+  const post = isResult(postRes) ? postRes.data : postRes;
+  const postLoading = isResult(postRes) ? postRes.loading : false;
+  const postError = isResult(postRes) ? postRes.error : null;
+
   const { data, loading, error } = usePostReactions({
-    post: post.id,
+    post: post?.id,
     pageSize: PageSize.Fifty,
     cursor,
   });
@@ -21,8 +26,8 @@ export const LikesList = ({ post, onAccountSelected }: LikesListProps) => {
   return (
     <PaginatedList
       data={data}
-      loading={loading}
-      error={error}
+      loading={loading || postLoading}
+      error={post?.id ? error : postError}
       setCursor={setCursor}
       emptyMessage="No likes yet"
       errorMessage="Error loading likes"

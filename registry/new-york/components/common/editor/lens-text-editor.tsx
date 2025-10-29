@@ -111,50 +111,52 @@ export const LensTextEditor = forwardRef<TextEditorRef, Props>(
     return (
       <>
         {editor && (
-          <BubbleMenu editor={editor} tippyOptions={{ duration: 100 }}>
-            <div className="bubble-menu bg-background border rounded-lg shadow-lg flex py-1 px-2 gap-2 text-sm font-semibold">
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => editor.chain().focus().toggleBold().run()}
-                className={editor.isActive("bold") ? "is-active" : ""}
-              >
-                <BoldIcon />
-              </Button>
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => editor.chain().focus().toggleItalic().run()}
-                className={editor.isActive("italic") ? "is-active" : ""}
-              >
-                <ItalicIcon />
-              </Button>
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => editor.chain().focus().toggleStrike().run()}
-                className={editor.isActive("strike") ? "is-active" : ""}
-              >
-                <StrikethroughIcon />
-              </Button>
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => editor.chain().focus().toggleCode().run()}
-                className={editor.isActive("code") ? "is-active" : ""}
-              >
-                <CodeIcon />
-              </Button>
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => editor.chain().focus().toggleBlockquote().run()}
-                className={editor.isActive("blockquote") ? "is-active" : ""}
-              >
-                <TextQuoteIcon />
-              </Button>
-            </div>
-          </BubbleMenu>
+          <div>
+            <BubbleMenu editor={editor} tippyOptions={{ duration: 100 }}>
+              <div className="bubble-menu bg-background border rounded-lg shadow-lg flex py-1 px-2 gap-2 text-sm font-semibold">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => editor.chain().focus().toggleBold().run()}
+                  className={editor.isActive("bold") ? "is-active" : ""}
+                >
+                  <BoldIcon />
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => editor.chain().focus().toggleItalic().run()}
+                  className={editor.isActive("italic") ? "is-active" : ""}
+                >
+                  <ItalicIcon />
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => editor.chain().focus().toggleStrike().run()}
+                  className={editor.isActive("strike") ? "is-active" : ""}
+                >
+                  <StrikethroughIcon />
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => editor.chain().focus().toggleCode().run()}
+                  className={editor.isActive("code") ? "is-active" : ""}
+                >
+                  <CodeIcon />
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => editor.chain().focus().toggleBlockquote().run()}
+                  className={editor.isActive("blockquote") ? "is-active" : ""}
+                >
+                  <TextQuoteIcon />
+                </Button>
+              </div>
+            </BubbleMenu>
+          </div>
         )}
         <EditorContent editor={editor} className={className} />
       </>
