@@ -1,6 +1,5 @@
 "use client";
 
-import { OpenInV0Button } from "@/components/open-in-v0-button";
 import { InstallCommandBlock } from "@/components/install-command-block";
 import { CodeBlock } from "@/components/codeblock";
 import { LensAccountHoverCard } from "@/registry/new-york/blocks/lens-account-hover-card";
@@ -35,7 +34,6 @@ export default function AccountHoverCard() {
                 <TabsTrigger value="preview">Preview</TabsTrigger>
                 <TabsTrigger value="code">Code</TabsTrigger>
               </TabsList>
-              <OpenInV0Button name="account-hover-card" className="w-fit" />
             </div>
             <TabsContent value="preview" className="flex items-center justify-center flex-grow relative">
               <LensAccountHoverCard account={account} wallet={wallet} session={session} useTestnet={true}>
