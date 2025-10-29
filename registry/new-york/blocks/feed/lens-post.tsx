@@ -25,9 +25,9 @@ import { CommentButton } from "@/registry/new-york/components/feed/comment/comme
 import { CollectButton } from "@/registry/new-york/components/feed/collects/collect-button";
 import { TipButton } from "@/registry/new-york/components/feed/tips/tip-button";
 import { BookmarkButton } from "@/registry/new-york/components/feed/bookmarks/bookmark-button";
-import { CollectDialogRef, LensCollectDialog } from "@/registry/new-york/components/feed/collects/lens-collect-dialog";
-import { LensQuoteDialog, QuoteDialogRef } from "@/registry/new-york/components/feed/references/lens-quote-dialog";
-import { LensTipDialog, TipDialogRef } from "@/registry/new-york/components/feed/tips/lens-tip-dialog";
+import { CollectDialogRef, LensCollectDialog } from "@/registry/new-york/blocks/feed/lens-collect-dialog";
+import { LensQuoteDialog, QuoteDialogRef } from "@/registry/new-york/blocks/feed/lens-quote-dialog";
+import { LensTipDialog, TipDialogRef } from "@/registry/new-york/blocks/common/lens-tip-dialog";
 import { LensImage } from "@/registry/new-york/components/feed/lens-image";
 import { LinkPreview } from "@/registry/new-york/components/feed/link-preview";
 import { useLensPostContext } from "@/registry/new-york/hooks/use-lens-post-context";

@@ -37,7 +37,7 @@ export function LinkPreviewDemo() {
         <InstallCommandBlock componentName="link-preview" />
         <h2 className="mt-6 pb-2 text-3xl font-semibold tracking-tight first:mt-0">Usage</h2>
         <CodeBlock lang="tsx" className="lines">
-          {`import { LensLinkPreview } from "@/components/link-preview";`}
+          {`import { LensLinkPreview } from "@/components/feed/link-preview";`}
         </CodeBlock>
         <CodeBlock lang="tsx" className="lines">
           {`<LinkPreview url="https://lens.xyz" />`}

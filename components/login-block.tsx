@@ -1,7 +1,7 @@
 "use client";
 
 import { AuthenticatedUser, useSessionClient } from "@lens-protocol/react";
-import { LensLogin } from "@/registry/new-york/blocks/lens-login";
+import { LensLogin } from "@/registry/new-york/blocks/account/lens-login";
 import { CodeBlock } from "@/components/codeblock";
 import { toast } from "sonner";
 import { useWalletClient } from "wagmi";
@@ -70,7 +70,7 @@ import { useWalletClient } from "wagmi";
         <InstallCommandBlock componentName="login" />
         <h2 className="mt-6 pb-2 text-3xl font-semibold tracking-tight first:mt-0">Usage</h2>
         <CodeBlock lang="tsx" className="lines">
-          {`import { LensLogin } from "@/components/lens-login";
+          {`import { LensLogin } from "@/components/account/lens-login";
 import { useSessionClient } from "@lens-protocol/react";
 import { useWalletClient } from "wagmi";`}
         </CodeBlock>

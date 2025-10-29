@@ -57,7 +57,7 @@ export function LensLoginButtonDemo() {
       <InstallCommandBlock componentName="login-button" />
       <h2 className="mt-6 pb-2 text-3xl font-semibold tracking-tight first:mt-0">Usage</h2>
       <CodeBlock lang="tsx" className="lines">
-        {`import { LensLoginButton } from "@/components/lens-login-button";`}
+        {`import { LensLoginButton } from "@/components/account/lens-login-button";`}
       </CodeBlock>
       <CodeBlock lang="tsx" className="lines">
         {`<LensLoginButton />`}

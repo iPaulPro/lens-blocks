@@ -11,7 +11,7 @@ import {
 } from "@lens-protocol/react";
 import { Link2Off } from "lucide-react";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/registry/new-york/ui/dialog";
-import { LensAccountChooser } from "@/registry/new-york/components/account/lens-account-chooser";
+import { LensAccountChooser } from "@/registry/new-york/blocks/account/lens-account-chooser";
 import { Button } from "@/registry/new-york/ui/button";
 import { useAccount, useDisconnect } from "wagmi";
 import { useCallback, useEffect, useState } from "react";

@@ -117,7 +117,7 @@ export function FollowButtonDemo() {
         <InstallCommandBlock componentName="follow-button" />
         <h2 className="mt-6 pb-2 text-3xl font-semibold tracking-tight first:mt-0">Usage</h2>
         <CodeBlock lang="tsx" className="lines">
-          {`import { LensFollowButton } from "@/components/follow-button";
+          {`import { LensFollowButton } from "@/components/account/lens-follow-button";
 import { useAccount, useSessionClient } from "@lens-protocol/react";
 import { useWalletClient } from "wagmi";`}
         </CodeBlock>

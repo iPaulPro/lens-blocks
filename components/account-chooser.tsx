@@ -1,7 +1,7 @@
 "use client";
 
 import { Account } from "@lens-protocol/react";
-import { LensAccountChooser } from "@/registry/new-york/components/account/lens-account-chooser";
+import { LensAccountChooser } from "@/registry/new-york/blocks/account/lens-account-chooser";
 import { toast } from "sonner";
 import { CodeBlock } from "@/components/codeblock";
 import { InstallCommandBlock } from "@/components/install-command-block";

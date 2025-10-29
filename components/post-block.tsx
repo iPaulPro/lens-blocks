@@ -3,7 +3,7 @@
 import { LensPostProvider } from "@/registry/new-york/lib/lens-post-provider";
 import { Account, AnyPost, Post, postId, TxHash, useSessionClient } from "@lens-protocol/react";
 import { Loader } from "lucide-react";
-import { LensPost } from "@/registry/new-york/blocks/lens-post";
+import { LensPost } from "@/registry/new-york/blocks/feed/lens-post";
 import { toast } from "sonner";
 import { Button } from "@/registry/new-york/ui/button";
 import { useWalletClient } from "wagmi";
@@ -86,7 +86,7 @@ export function PostBlock() {
             <CodeBlock lang="tsx" className="lines border-none">
               {`import { LensPostProvider } from "@/lib/lens-post-provider";
 import { Account, AnyPost, TxHash, useSessionClient, postId } from "@lens-protocol/react";
-import { LensPost } from "@/components/lens-post";
+import { LensPost } from "@/components/feed/lens-post";
 import { Button } from "@/ui/button";
 import { useWalletClient } from "wagmi";
 

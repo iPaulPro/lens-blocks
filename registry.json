@@ -191,7 +191,7 @@
       ],
       "files": [
         {
-          "path": "registry/new-york/components/account/lens-account-chooser.tsx",
+          "path": "registry/new-york/blocks/account/lens-account-chooser.tsx",
           "type": "registry:block"
         }
       ]
@@ -342,7 +342,7 @@
       ],
       "files": [
         {
-          "path": "registry/new-york/blocks/lens-account-hover-card.tsx",
+          "path": "registry/new-york/blocks/account/lens-account-hover-card.tsx",
           "type": "registry:component"
         },
         {
@@ -378,7 +378,7 @@
       ],
       "files": [
         {
-          "path": "registry/new-york/blocks/lens-login.tsx",
+          "path": "registry/new-york/blocks/account/lens-login.tsx",
           "type": "registry:block"
         },
         {
@@ -443,7 +443,7 @@
       ],
       "files": [
         {
-          "path": "registry/new-york/components/feed/tips/lens-tip-dialog.tsx",
+          "path": "registry/new-york/blocks/common/lens-tip-dialog.tsx",
           "type": "registry:block"
         }
       ]
@@ -474,7 +474,7 @@
       ],
       "files": [
         {
-          "path": "registry/new-york/components/feed/references/lens-quote-dialog.tsx",
+          "path": "registry/new-york/blocks/feed/lens-quote-dialog.tsx",
           "type": "registry:block"
         }
       ]
@@ -494,7 +494,7 @@
       ],
       "files": [
         {
-          "path": "registry/new-york/components/feed/collects/lens-collect-dialog.tsx",
+          "path": "registry/new-york/blocks/feed/lens-collect-dialog.tsx",
           "type": "registry:block"
         }
       ]
@@ -545,7 +545,7 @@
       ],
       "files": [
         {
-          "path": "registry/new-york/blocks/lens-post.tsx",
+          "path": "registry/new-york/blocks/feed/lens-post.tsx",
           "type": "registry:component"
         },
         {

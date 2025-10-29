@@ -4,7 +4,7 @@ import { TxHash, useSessionClient } from "@lens-protocol/react";
 import { forwardRef, useImperativeHandle, useRef, useState } from "react";
 import { LensTextEditor, TextEditorRef } from "@/registry/new-york/components/common/editor/lens-text-editor";
 import { LensPostProvider } from "@/registry/new-york/lib/lens-post-provider";
-import { LensPost } from "@/registry/new-york/blocks/lens-post";
+import { LensPost } from "@/registry/new-york/blocks/feed/lens-post";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/registry/new-york/ui/dialog";
 import { Avatar, AvatarFallback, AvatarImage } from "@/registry/new-york/ui/avatar";
 import { parseUri } from "@/registry/new-york/lib/lens-utils";
