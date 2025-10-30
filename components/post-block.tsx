@@ -1,7 +1,7 @@
 "use client";
 
 import { LensPostProvider } from "@/registry/new-york/lib/lens-post-provider";
-import { Account, AnyPost, Post, postId, TxHash, useSessionClient } from "@lens-protocol/react";
+import { Account, AnyPost, Post, TxHash, useSessionClient } from "@lens-protocol/react";
 import { Loader } from "lucide-react";
 import { LensPost } from "@/registry/new-york/blocks/feed/lens-post";
 import { toast } from "sonner";
@@ -72,7 +72,7 @@ export function PostBlock() {
           <TabsContent value="preview" className="flex items-center justify-center flex-grow relative">
             <LensPostProvider postId="1n8vtqy901xcrynmgrb" session={session} wallet={wallet} useTestnet={true}>
               <LensPost
-                className="w-full md:w-2/3 border rounded-md"
+                className="w-full md:w-2/3 border rounded-md my-4"
                 onPostClick={handlePostClick}
                 onAccountClick={handleAccountSelected}
                 onRepostSuccess={handleRepostSuccess}
@@ -190,12 +190,7 @@ const post = postId("SOME_POST_ID");`}
           {session.loading || wallet.isLoading ? (
             <Loader className="animate-spin w-4 h-4 text-muted-foreground" />
           ) : (
-            <LensPostProvider
-              postId={postId("1n8vtqy901xcrynmgrb")}
-              session={session}
-              wallet={wallet}
-              useTestnet={true}
-            >
+            <LensPostProvider postId={"58g7rtbnq9x60fv55w"} session={session} wallet={wallet} useTestnet={true}>
               <LensPost
                 className="w-full md:w-2/3 border rounded-md"
                 onPostClick={handlePostClick}

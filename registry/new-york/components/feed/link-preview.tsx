@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import getMetaFromUrl, { UrlMetadata } from "@/registry/new-york/lib/get-meta-from-url";
+import { UrlMetadata } from "@/registry/new-york/lib/get-meta-from-url";
 import getFavicon from "@/registry/new-york/lib/get-favicon";
 
 type Props = {
@@ -15,7 +15,9 @@ export const LinkPreview = (props: Props) => {
 
   useEffect(() => {
     if (!url) return;
-    getMetaFromUrl({ url }).then(setUrlMetadata);
+    fetch(`/api/url-meta?url=${encodeURIComponent(url)}`)
+      .then(r => r.json())
+      .then(setUrlMetadata);
   }, [url]);
 
   if (!urlMetadata) {

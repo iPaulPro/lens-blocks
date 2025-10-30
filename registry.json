@@ -504,7 +504,7 @@
       "type": "registry:component",
       "title": "Link Preview",
       "description": "A component to display a link preview for URLs included in Lens posts, showing the title, description, and image.",
-      "dependencies": ["linkedom@0.18.12"],
+      "dependencies": ["node-html-parser@7.0.1"],
       "files": [
         {
           "path": "registry/new-york/components/feed/link-preview.tsx",
@@ -517,6 +517,11 @@
         {
           "path": "registry/new-york/lib/get-favicon.ts",
           "type": "registry:lib"
+        },
+        {
+          "path": "registry/new-york/files/api/url-meta/route.ts",
+          "type": "registry:page",
+          "target": "app/api/url-meta/route.ts"
         }
       ]
     },

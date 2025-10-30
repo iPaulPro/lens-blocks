@@ -1,4 +1,4 @@
-import { parseHTML } from "linkedom";
+import { parse } from "node-html-parser";
 
 export type UrlMetadata = {
   url: string;
@@ -13,39 +13,49 @@ type Props = {
   userAgent?: string;
 };
 
-const getContentFromMetaTag = (document: Document, name: string): string | undefined | null => {
-  const metaTag = document.querySelector(`meta[name="${name}"]`) || document.querySelector(`meta[property="${name}"]`);
-  return metaTag?.getAttribute("content");
-};
+export default async function getMetaFromUrl({ url, userAgent = "LensBot/0.1 (like TwitterBot)" }: Props) {
+  const res = await fetch(url, { headers: { "User-Agent": userAgent }, redirect: "follow" });
+  if (!res.ok) return { url, title: null, description: null, siteName: null, icon: null };
 
-export default async function getMetaFromUrl(props: Props) {
-  const { url, userAgent = "LensBot/0.1 (like TwitterBot)" } = props;
+  const html = await res.text();
+  const root = parse(html);
 
-  const response = await fetch(url, {
-    headers: { "User-Agent": userAgent },
-  });
+  const pick = (names: string[]) => {
+    for (const name of names) {
+      const tag = root.querySelector(`meta[name="${name}"]`) || root.querySelector(`meta[property="${name}"]`);
+      const val = tag?.getAttribute("content");
+      if (val) return val;
+    }
+    return null;
+  };
 
-  if (!response.ok) {
-    return { url, title: null, description: null } as UrlMetadata;
+  const title = pick(["og:title", "twitter:title"]) || root.querySelector("title")?.text.trim() || null;
+
+  const description = pick(["og:description", "twitter:description", "description"]) || null;
+
+  const siteName = pick(["og:site_name"]) || null;
+
+  const iconTags = root.querySelectorAll(
+    'link[rel="icon"], link[rel="shortcut icon"], link[rel="apple-touch-icon"], link[rel="mask-icon"]',
+  );
+
+  let icon: string | null = null;
+  let bestScore = -1;
+  for (const el of iconTags) {
+    const href = el.getAttribute("href");
+    if (!href) continue;
+    let score = href.toLowerCase().endsWith(".svg") ? 1000 : 0;
+    const sizes = el.getAttribute("sizes");
+    if (sizes) {
+      const m = sizes.match(/(\d+)x(\d+)/);
+      if (m) score += Math.max(parseInt(m[1], 10), parseInt(m[2], 10));
+    }
+    if (score > bestScore) {
+      bestScore = score;
+      icon = new URL(href, url).toString();
+    }
   }
+  if (!icon) icon = new URL("/favicon.ico", url).toString();
 
-  const data = await response.text();
-  const { document } = parseHTML(data);
-
-  const title = getContentFromMetaTag(document, "og:title") || getContentFromMetaTag(document, "twitter:title") || null;
-
-  const description =
-    getContentFromMetaTag(document, "og:description") || getContentFromMetaTag(document, "twitter:description") || null;
-
-  const siteName = getContentFromMetaTag(document, "og:site_name") || null;
-
-  const iconLinkTag = document.querySelector(`link[rel="icon"]`);
-  let icon = iconLinkTag?.getAttribute("href");
-  if (icon?.startsWith("/")) {
-    const urlObj = new URL(url);
-    const absoluteUrl = `${urlObj.protocol}//${urlObj.host}${icon}`;
-    icon = absoluteUrl;
-  }
-
-  return { url, title, description, siteName, icon } as UrlMetadata;
+  return { url, title, description, siteName, icon };
 }

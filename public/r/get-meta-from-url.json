@@ -1,0 +1,21 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "get-meta-from-url",
+  "type": "registry:page",
+  "title": "Get Meta From URL",
+  "description": "A library to get metadata from a URL.",
+  "dependencies": ["node-html-parser@7.0.1"],
+  "files": [
+    {
+      "path": "registry/new-york/files/api/url-meta/route.ts",
+      "content": "import { NextResponse } from \"next/server\";\nimport getMetaFromUrl from \"@/registry/new-york/lib/get-meta-from-url\";\n\nexport const dynamic = \"force-dynamic\";\n\nexport async function GET(req: Request) {\n  const { searchParams } = new URL(req.url);\n  const url = searchParams.get(\"url\");\n  if (!url) return NextResponse.json({ error: \"url required\" }, { status: 400 });\n  const meta = await getMetaFromUrl({ url });\n  return NextResponse.json(meta, { headers: { \"Cache-Control\": \"max-age=0, s-maxage=3600\" } });\n}\n",
+      "type": "registry:page",
+      "target": "app/api/url-meta/route.ts"
+    },
+    {
+      "path": "registry/new-york/lib/get-meta-from-url.ts",
+      "content": "import { parse } from \"node-html-parser\";\n\nexport type UrlMetadata = {\n  url: string;\n  title: string | null;\n  description: string | null;\n  siteName: string | null;\n  icon: string | null;\n};\n\ntype Props = {\n  url: string;\n  userAgent?: string;\n};\n\nconst getContentFromMetaTag = (document: Document, name: string): string | undefined | null => {\n  const metaTag = document.querySelector(`meta[name=\"${name}\"]`) || document.querySelector(`meta[property=\"${name}\"]`);\n  return metaTag?.getAttribute(\"content\");\n};\n\nexport default async function getMetaFromUrl({ url, userAgent = \"LensBot/0.1 (like TwitterBot)\" }: Props) {\n  const res = await fetch(url, { headers: { \"User-Agent\": userAgent }, redirect: \"follow\" });\n  if (!res.ok) return { url, title: null, description: null, siteName: null, icon: null };\n\n  const html = await res.text();\n  const root = parse(html);\n\n  const pick = (names: string[]) => {\n    for (const name of names) {\n      const tag = root.querySelector(`meta[name=\"${name}\"]`) || root.querySelector(`meta[property=\"${name}\"]`);\n      const val = tag?.getAttribute(\"content\");\n      if (val) return val;\n    }\n    return null;\n  };\n\n  const title = pick([\"og:title\", \"twitter:title\"]) || root.querySelector(\"title\")?.text.trim() || null;\n\n  const description = pick([\"og:description\", \"twitter:description\", \"description\"]) || null;\n\n  const siteName = pick([\"og:site_name\"]) || null;\n\n  const iconTags = root.querySelectorAll(\n    'link[rel=\"icon\"], link[rel=\"shortcut icon\"], link[rel=\"apple-touch-icon\"], link[rel=\"mask-icon\"]',\n  );\n\n  let icon: string | null = null;\n  let bestScore = -1;\n  for (const el of iconTags) {\n    const href = el.getAttribute(\"href\");\n    if (!href) continue;\n    let score = href.toLowerCase().endsWith(\".svg\") ? 1000 : 0;\n    const sizes = el.getAttribute(\"sizes\");\n    if (sizes) {\n      const m = sizes.match(/(\\d+)x(\\d+)/);\n      if (m) score += Math.max(parseInt(m[1], 10), parseInt(m[2], 10));\n    }\n    if (score > bestScore) {\n      bestScore = score;\n      icon = new URL(href, url).toString();\n    }\n  }\n  if (!icon) icon = new URL(\"/favicon.ico\", url).toString();\n\n  return { url, title, description, siteName, icon };\n}\n",
+      "type": "registry:lib"
+    }
+  ]
+}
