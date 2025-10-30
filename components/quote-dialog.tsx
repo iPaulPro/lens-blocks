@@ -1,6 +1,6 @@
 "use client";
 
-import { postId, useSessionClient } from "@lens-protocol/react";
+import { postId, TxHash, useSessionClient } from "@lens-protocol/react";
 import { useWalletClient } from "wagmi";
 import { useRef } from "react";
 import { LensQuoteDialog, QuoteDialogRef } from "@/registry/new-york/blocks/feed/lens-quote-dialog";
@@ -10,6 +10,7 @@ import { Repeat2 } from "lucide-react";
 import { InstallCommandBlock } from "@/components/install-command-block";
 import { CodeBlock } from "@/components/codeblock";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/registry/new-york/ui/tabs";
+import { toast } from "sonner";
 
 export default function QuoteDialog() {
   const session = useSessionClient();
@@ -17,6 +18,21 @@ export default function QuoteDialog() {
 
   const quoteDialog = useRef<QuoteDialogRef>(null);
   const post = postId("3988215955854869405528302997462877091460304706960228350925150132477118244123");
+
+  const handleQuoteCreated = (txHash: TxHash) => {
+    toast.success("Qupted successfully!", {
+      action: (
+        <Button className="ml-auto" onClick={() => window.open("https://explorer.testnet.lens.xyz/tx/" + txHash)}>
+          View tx
+        </Button>
+      ),
+    });
+  };
+
+  const handleQuoteError = (e: Error) => {
+    console.error("Quote creation error:", e);
+    toast.error("Unable to quote post");
+  };
 
   return (
     <LensPostProvider postId={post} session={session} wallet={wallet} useTestnet={true}>
@@ -54,6 +70,7 @@ import { LensQuoteDialog, QuoteDialogRef } from "@/components/feed/references/le
 import { LensPostProvider } from "@/lib/lens-post-provider";
 import { Button } from "@/ui/button";
 import { Repeat2 } from "lucide-react";
+import { toast } from "sonner";
 
 export function QuoteDialogDemo() {
   const session = useSessionClient();
@@ -61,6 +78,20 @@ export function QuoteDialogDemo() {
 
   const quoteDialog = useRef<QuoteDialogRef>(null);
   const post = postId("3988215955854869405528302997462877091460304706960228350925150132477118244123");
+  
+  const handleQuoteCreated = (txHash: TxHash) => {
+    toast.success("Qupted successfully!", {
+      action: (
+        <Button className="ml-auto" onClick={() => window.open("https://explorer.testnet.lens.xyz/tx/" + txHash)}>
+          View tx
+        </Button>
+      ),
+    });
+  };
+  
+  const handleQuoteError = (e: Error) => {
+    toast.error("Unable to quote post");
+  };
 
   return (
     <LensPostProvider
@@ -76,7 +107,7 @@ export function QuoteDialogDemo() {
       >
         <Repeat2 className="h-4 h-4" />
       </Button>
-      <LensQuoteDialog ref={quoteDialog} />
+      <LensQuoteDialog ref={quoteDialog} onQuoteCreated={handleQuoteCreated} onError={handleQuoteError} />
     </LensPostProvider>    
   );
 };`}
@@ -107,7 +138,7 @@ const quoteDialog = useRef<QuoteDialogRef>(null);`}
   <LensQuoteDialog ref={quoteDialog} />
 </LensPostProvider>`}
       </CodeBlock>
-      <LensQuoteDialog ref={quoteDialog} />
+      <LensQuoteDialog ref={quoteDialog} onQuoteCreated={handleQuoteCreated} onError={handleQuoteError} />
     </LensPostProvider>
   );
 }
