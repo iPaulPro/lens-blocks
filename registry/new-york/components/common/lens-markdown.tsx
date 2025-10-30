@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 import { LensMentionLink } from "@/registry/new-york/components/common/lens-mention-link";
 import { AccountMention, GroupMention } from "@lens-protocol/react";
 import { LensTagLink } from "@/registry/new-york/components/common/lens-tag-link";
+import { truncateUrl } from "@/registry/new-york/lib/lens-utils";
 
 type Props = {
   content: string;
@@ -49,12 +50,7 @@ export const LensMarkdown = (props: Props) => {
 
       return (
         <a {...props} target="_blank" rel="noopener noreferrer" className="font-bold hover:underline">
-          {props.href
-            .replace(/^https?:\/\//, "")
-            .replace(/\/$/, "")
-            .replace(/\\$/, "")
-            .replace(/^www\./, "")
-            .slice(0, 30) + (props.href.length > 30 ? "…" : "")}
+          {truncateUrl(props.href)}
         </a>
       );
     },

@@ -505,6 +505,7 @@
       "title": "Link Preview",
       "description": "A component to display a link preview for URLs included in Lens posts, showing the title, description, and image.",
       "dependencies": ["node-html-parser@7.0.1"],
+      "registryDependencies": ["https://lensblocks.com/r/utils.json"],
       "files": [
         {
           "path": "registry/new-york/components/feed/link-preview.tsx",

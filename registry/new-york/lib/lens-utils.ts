@@ -52,6 +52,38 @@ export const truncateAddress = (address: string, maxLength: number = 8): string 
 };
 
 /**
+ * Truncates a given URL to a specified maximum length and removes common prefixes/suffixes.
+ *
+ * - Strips out `http://`, `https://`, and leading `www.` from the URL.
+ * - Removes trailing `/` or `\` characters.
+ * - Truncates the cleaned URL to the given `maxLength`.
+ * - Appends an ellipsis (`…`) if the original URL exceeds `maxLength`.
+ *
+ * @param url - The full URL string to truncate.
+ * @param maxLength - The maximum allowed length of the resulting string (default: `30`).
+ * @returns A cleaned and possibly truncated version of the URL.
+ *
+ * @example
+ * ```ts
+ * truncateUrl("https://www.example.com/some/long/path", 20);
+ * // "example.com/some/lo…"
+ *
+ * truncateUrl("http://my-site.io");
+ * // "my-site.io"
+ * ```
+ */
+export const truncateUrl = (url: string, maxLength: number = 30): string => {
+  return (
+    url
+      .replace(/^https?:\/\//, "")
+      .replace(/\/$/, "")
+      .replace(/\\$/, "")
+      .replace(/^www\./, "")
+      .slice(0, maxLength) + (url.length > maxLength ? "…" : "")
+  );
+};
+
+/**
  * Extract the CID from an IPFS URL
  *
  * @example getCidFromIpfsUrl("ipfs://Qm...") => "Qm..."

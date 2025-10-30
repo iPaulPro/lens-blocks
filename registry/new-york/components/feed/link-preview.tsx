@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { UrlMetadata } from "@/registry/new-york/lib/get-meta-from-url";
 import getFavicon from "@/registry/new-york/lib/get-favicon";
+import { truncateUrl } from "@/registry/new-york/lib/lens-utils";
 
 type Props = {
   url: string;
@@ -32,8 +33,8 @@ export const LinkPreview = (props: Props) => {
         target="_blank"
         rel="noopener noreferrer"
       >
-        <div className="flex flex-col p-2 flex-1 min-w-0 gap-0.5">
-          <div className="flex gap-1 items-center">
+        <div className="flex flex-col p-2 flex-1 min-w-0 gap-0.5 overflow-hidden">
+          <div className="flex gap-1 items-center text-xs font-normal">
             <img
               src={urlMetadata.icon ?? favicon}
               width={24}
@@ -41,10 +42,8 @@ export const LinkPreview = (props: Props) => {
               alt={`${url} favicon`}
               className="w-4 h-4 p-0.5"
             />
-            <div className="line-clamp-1 opacity-60 text-xs font-normal">
-              {urlMetadata.siteName ? urlMetadata.siteName + " • " : ""}
-              {urlMetadata.url}
-            </div>
+            {urlMetadata.siteName && <div className="line-clamp-1 opacity-60">{urlMetadata.siteName + " • "}</div>}
+            <div className="flex-none opacity-60">{truncateUrl(urlMetadata.url)}</div>
           </div>
           {urlMetadata.title && <div className="line-clamp-1 !font-bold text-sm">{urlMetadata.title}</div>}
           {urlMetadata.description && (
