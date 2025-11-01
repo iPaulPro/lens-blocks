@@ -3,7 +3,7 @@
   "name": "use-tip-post-action",
   "type": "registry:hook",
   "title": "Use Tip Post Action",
-  "description": "A hook to tip Lens Posts using the Lens React SDK.",
+  "description": "A hook for tipping Lens Posts using the Lens React SDK.",
   "dependencies": [
     "@lens-protocol/react@0.0.0-canary-20250820102520",
     "@lens-protocol/client@0.0.0-canary-20250820102520",

@@ -10,7 +10,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "registry:build": "shadcn build && prettier --write .",
+    "registry:build": "shadcn build && cp ./registry.json ./public/r/ && prettier --write .",
     "prettier": "prettier --write ."
   },
   "dependencies": {

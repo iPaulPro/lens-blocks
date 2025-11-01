@@ -3,7 +3,7 @@
   "name": "text-editor",
   "type": "registry:component",
   "title": "Lens Text Editor",
-  "description": "A rich text editor component using TipTap that exports in Markdown, with support for Lens mentions.",
+  "description": "A rich text editor component for composing Lens posts using TipTap, with support for mentions.",
   "dependencies": [
     "@lens-protocol/react@0.0.0-canary-20250820102520",
     "@lens-protocol/client@0.0.0-canary-20250820102520",

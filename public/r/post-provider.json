@@ -3,7 +3,7 @@
   "name": "post-provider",
   "type": "registry:lib",
   "title": "Lens Post Provider",
-  "description": "A provider of a shared Lens post context for queries and operations.",
+  "description": "A provider of a shared Lens post context for state, queries, and operations.",
   "dependencies": [
     "@lens-protocol/react@0.0.0-canary-20250820102520",
     "@lens-protocol/client@0.0.0-canary-20250820102520",

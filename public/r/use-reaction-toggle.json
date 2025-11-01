@@ -3,7 +3,7 @@
   "name": "use-reaction-toggle",
   "type": "registry:hook",
   "title": "Use Reaction Toggle",
-  "description": "A hook to toggle reactions (like/unlike) on Lens publications using the Lens React SDK.",
+  "description": "A hook to toggle reactions (like/unlike) on Lens posts using the Lens React SDK.",
   "dependencies": [
     "@lens-protocol/react@0.0.0-canary-20250820102520",
     "@lens-protocol/types@0.0.0-canary-20250820102520"

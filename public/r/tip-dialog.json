@@ -3,7 +3,7 @@
   "name": "tip-dialog",
   "type": "registry:block",
   "title": "Lens Tip Dialog",
-  "description": "A dialog component for sending tips to Lens Posts and Accounts, with support for multiple tokens.",
+  "description": "A dialog component for sending tips to Lens Posts and Accounts, with support for multiple tokens and payment sources.",
   "dependencies": [
     "@lens-protocol/react@0.0.0-canary-20250820102520",
     "@lens-protocol/client@0.0.0-canary-20250820102520"

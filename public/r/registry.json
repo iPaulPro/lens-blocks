@@ -72,7 +72,7 @@
       "name": "use-reaction-toggle",
       "type": "registry:hook",
       "title": "Use Reaction Toggle",
-      "description": "A hook to toggle reactions (like/unlike) on Lens publications using the Lens React SDK.",
+      "description": "A hook to toggle reactions (like/unlike) on Lens posts using the Lens React SDK.",
       "dependencies": [
         "@lens-protocol/react@0.0.0-canary-20250820102520",
         "@lens-protocol/types@0.0.0-canary-20250820102520"
@@ -92,7 +92,7 @@
       "name": "use-tip-post-action",
       "type": "registry:hook",
       "title": "Use Tip Post Action",
-      "description": "A hook to tip Lens Posts using the Lens React SDK.",
+      "description": "A hook for tipping Lens Posts using the Lens React SDK.",
       "dependencies": [
         "@lens-protocol/react@0.0.0-canary-20250820102520",
         "@lens-protocol/client@0.0.0-canary-20250820102520",
@@ -115,7 +115,7 @@
       "name": "use-tip-account-action",
       "type": "registry:hook",
       "title": "Use Tip Account Action",
-      "description": "A hook to tip Lens Accounts using the Lens React SDK.",
+      "description": "A hook for tipping Lens Accounts using the Lens React SDK.",
       "dependencies": [
         "@lens-protocol/react@0.0.0-canary-20250820102520",
         "@lens-protocol/client@0.0.0-canary-20250820102520",
@@ -138,7 +138,7 @@
       "name": "use-post-context",
       "type": "registry:hook",
       "title": "Use Lens Post Context",
-      "description": "A hook for queries and operations in a shared Lens post context",
+      "description": "A hook for state, queries, and operations in a shared Lens post context",
       "registryDependencies": ["https://lensblocks.com/r/post-provider.json"],
       "files": [
         {
@@ -151,7 +151,7 @@
       "name": "post-provider",
       "type": "registry:lib",
       "title": "Lens Post Provider",
-      "description": "A provider of a shared Lens post context for queries and operations.",
+      "description": "A provider of a shared Lens post context for state, queries, and operations.",
       "dependencies": [
         "@lens-protocol/react@0.0.0-canary-20250820102520",
         "@lens-protocol/client@0.0.0-canary-20250820102520",
@@ -259,7 +259,7 @@
       "name": "text-editor",
       "type": "registry:component",
       "title": "Lens Text Editor",
-      "description": "A rich text editor component using TipTap that exports in Markdown, with support for Lens mentions.",
+      "description": "A rich text editor component for composing Lens posts using TipTap, with support for mentions.",
       "dependencies": [
         "@lens-protocol/react@0.0.0-canary-20250820102520",
         "@lens-protocol/client@0.0.0-canary-20250820102520",
@@ -425,7 +425,7 @@
       "name": "tip-dialog",
       "type": "registry:block",
       "title": "Lens Tip Dialog",
-      "description": "A dialog component for sending tips to Lens Posts and Accounts, with support for multiple tokens.",
+      "description": "A dialog component for sending tips to Lens Posts and Accounts, with support for multiple tokens and payment sources.",
       "dependencies": [
         "@lens-protocol/react@0.0.0-canary-20250820102520",
         "@lens-protocol/client@0.0.0-canary-20250820102520"
@@ -483,7 +483,7 @@
       "name": "collect-dialog",
       "type": "registry:block",
       "title": "Lens Collect Post Dialog",
-      "description": "A dialog component for collecting Lens Posts.",
+      "description": "A dialog component for collecting Lens Posts with support for paid collects.",
       "dependencies": ["@lens-protocol/react@0.0.0-canary-20250820102520", "lucide-react", "moment@2.30.1"],
       "registryDependencies": [
         "button",
