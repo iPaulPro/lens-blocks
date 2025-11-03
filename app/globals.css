@@ -142,11 +142,11 @@ p.content {
 }
 
 .content code {
-  background-color: var(--muted-foreground);
-  border-radius: 0.4rem;
-  color: var(--muted);
-  padding: 0.1em 0.3em;
-  font-weight: 600;
+  @apply bg-muted rounded text-muted-foreground py-0.5 px-1 font-semibold;
+}
+
+.content ul {
+  @apply list-disc list-inside;
 }
 
 .lines pre {

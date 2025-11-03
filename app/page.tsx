@@ -66,16 +66,6 @@ export default function Home() {
             shadcn/ui installation docs <ExternalIcon />
           </Link>
         </Button>
-        <h3 className="mt-8 text-2xl font-semibold tracking-tight">Install Lens Block Registry</h3>
-        <p className="content">
-          Once you have shadcn/ui set up, you can add the Lens Block registry namespace to your{" "}
-          <span className="font-bold">components.json</span> object.
-        </p>
-        <CodeBlock lang="bash" className="lines">
-          {`"registries": {
-  "@lens-blocks": "https://lensblocks.com/r/{name}.json"
-}`}
-        </CodeBlock>
         <p className="content mb-4">
           You&apos;ll also need to set up the Lens React SDK and wagmi. If you haven&apos;t done that already, here is a
           basic setup using <a href="https://family.co/docs/connectkit">ConnectKit</a>:
