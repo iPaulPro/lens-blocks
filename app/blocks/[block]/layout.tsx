@@ -4,7 +4,17 @@ import registry from "@/registry.json";
 import { Button } from "@/registry/new-york/ui/button";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 
-export default async function Page({ children, params }: { children: ReactNode; params: Promise<{ block: string }> }) {
+export const dynamic = "force-static";
+export const dynamicParams = false;
+export const revalidate = 3600; // one hour
+
+export default async function Layout({
+  children,
+  params,
+}: {
+  children: ReactNode;
+  params: Promise<{ block: string }>;
+}) {
   const { block } = await params;
 
   const registryItems = registry.items

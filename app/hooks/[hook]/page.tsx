@@ -4,6 +4,20 @@ import UsePostContext from "@/components/use-post-context";
 import UseReactionToggle from "@/components/use-reaction-toggle";
 import UseTipPostAction from "@/components/use-tip-post-action";
 import UseTipAccountAction from "@/components/use-tip-account-action";
+import { notFound } from "next/navigation";
+
+const validHooks = [
+  "use-authenticated-account",
+  "use-login-with-viem",
+  "use-post-context",
+  "use-reaction-toggle",
+  "use-tip-post-action",
+  "use-tip-account-action",
+];
+
+export function generateStaticParams(): Array<{ hook: string }> {
+  return validHooks.map(hook => ({ hook }));
+}
 
 export default async function Page({ params }: { params: Promise<{ hook: string }> }) {
   const { hook } = await params;
@@ -24,6 +38,6 @@ export default async function Page({ params }: { params: Promise<{ hook: string 
     case "use-tip-account-action":
       return <UseTipAccountAction />;
     default:
-      return <div>Hook not found</div>;
+      notFound();
   }
 }
