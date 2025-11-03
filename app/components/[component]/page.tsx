@@ -8,8 +8,8 @@ import VideoPlayer from "@/components/video-player";
 import FollowButton from "@/components/follow-buton";
 import LinkPreviewPage from "@/components/link-preview";
 
-export async function generateMetadata({ params }: { params: { component: string } }) {
-  const { component } = params;
+export async function generateMetadata({ params }: { params: Promise<{ component: string }> }) {
+  const { component } = await params;
 
   const titleMap: Record<string, string> = {
     "account-list-item": "Account List Item",

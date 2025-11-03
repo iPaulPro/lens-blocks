@@ -6,8 +6,8 @@ import CollectDialog from "@/components/collect-dialog";
 import QuoteDialog from "@/components/quote-dialog";
 import TipDialog from "@/components/tip-dialog";
 
-export async function generateMetadata({ params }: { params: { block: string } }) {
-  const { block } = params;
+export async function generateMetadata({ params }: { params: Promise<{ block: string }> }) {
+  const { block } = await params;
 
   const titleMap: Record<string, string> = {
     "account-chooser": "Account Chooser",
