@@ -8,8 +8,8 @@ import VideoPlayer from "@/components/video-player";
 import FollowButton from "@/components/follow-buton";
 import LinkPreviewPage from "@/components/link-preview";
 
-export async function generateMetadata({ params }: { params: { block: string } }) {
-  const { block } = params;
+export async function generateMetadata({ params }: { params: { component: string } }) {
+  const { component } = params;
 
   const titleMap: Record<string, string> = {
     "account-list-item": "Account List Item",
@@ -41,9 +41,9 @@ export async function generateMetadata({ params }: { params: { block: string } }
   };
 
   return {
-    title: titleMap[block] ? titleMap[block] + " - Lens Blocks" : "Lens Blocks",
+    title: titleMap[component] ? titleMap[component] + " - Lens Blocks" : "Lens Blocks",
     description:
-      descriptionMap[block] ||
+      descriptionMap[component] ||
       "A registry of useful social building blocks using the official Lens React SDK, wagmi, and shadcn/ui components.",
   };
 }
