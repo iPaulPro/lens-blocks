@@ -22,8 +22,8 @@ const titles: Record<string, string> = {
   "account-chooser": "Account Chooser",
   "account-hover-card": "Account Hover Card",
   "collect-dialog": "Collect Dialog",
-  login: "Login string",
-  post: "Post string",
+  login: "Login Blocks",
+  post: "Post Blocks",
   "quote-dialog": "Quote Dialog",
   "tip-dialog": "Tip Dialog",
 };
@@ -44,7 +44,7 @@ export async function generateMetadata({ params }: { params: Promise<{ block: st
   const { block } = await params;
 
   return {
-    title: `${titles[block]} - Lens strings`,
+    title: `${titles[block]} - Lens Blocks`,
     description:
       descriptions[block] ||
       "A registry of useful social building blocks using the official Lens React SDK, wagmi, and shadcn/ui components.",
