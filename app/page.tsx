@@ -1,5 +1,3 @@
-"use client";
-
 import { Button } from "@/registry/new-york/ui/button";
 import { ArrowRight, RedoDot } from "lucide-react";
 import Link from "next/link";
