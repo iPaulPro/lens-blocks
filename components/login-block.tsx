@@ -34,7 +34,13 @@ export function LoginBlock() {
               </TabsList>
             </div>
             <TabsContent value="preview" className="flex items-center justify-center flex-grow relative">
-              <LensLogin session={session} wallet={wallet} onSuccess={handleLoginSuccess} onError={handleLoginError} />
+              <LensLogin
+                session={session}
+                wallet={wallet}
+                onSuccess={handleLoginSuccess}
+                onError={handleLoginError}
+                appAddress={process.env.NEXT_PUBLIC_LENS_APP_ADDRESS}
+              />
             </TabsContent>
             <TabsContent value="code" className="p-0">
               <CodeBlock lang="tsx" className="lines border-none">
@@ -59,7 +65,9 @@ import { useWalletClient } from "wagmi";
       session={session}
       wallet={wallet}
       onSuccess={handleLoginSuccess}
-      onError={handleLoginError} /> 
+      onError={handleLoginError}
+      appAddress={process.env.NEXT_PUBLIC_LENS_APP_ADDRESS}
+    /> 
   );
 };`}
               </CodeBlock>

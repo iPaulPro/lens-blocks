@@ -21,6 +21,7 @@ export interface CommandBlockProps {
   defaultValue?: string;
   showTerminalIcon?: boolean;
   className?: string;
+  onCopy?: () => void;
 }
 
 function SingleCommandBlock({
@@ -28,11 +29,13 @@ function SingleCommandBlock({
   command,
   showTerminalIcon = true,
   className,
+  onCopy,
 }: {
   title?: string;
   command: string;
   showTerminalIcon?: boolean;
   className?: string;
+  onCopy?: () => void;
 }) {
   const [copied, setCopied] = useState(false);
 
@@ -40,6 +43,7 @@ function SingleCommandBlock({
     try {
       await navigator.clipboard.writeText(text);
       setCopied(true);
+      onCopy?.();
       setTimeout(() => setCopied(false), 2000);
     } catch (err) {
       console.error("Failed to copy text: ", err);
@@ -83,11 +87,13 @@ function MultiCommandBlock({
   defaultValue,
   showTerminalIcon = true,
   className,
+  onCopy,
 }: {
   commands: CommandItem[];
   defaultValue?: string;
   showTerminalIcon?: boolean;
   className?: string;
+  onCopy?: () => void;
 }) {
   const [copied, setCopied] = useState(false);
   const [activeTab, setActiveTab] = useState(
@@ -102,6 +108,7 @@ function MultiCommandBlock({
     try {
       await navigator.clipboard.writeText(text);
       setCopied(true);
+      onCopy?.();
       setTimeout(() => setCopied(false), 2000);
     } catch (err) {
       console.error("Failed to copy text: ", err);

@@ -22,8 +22,8 @@ const titles: Record<string, string> = {
   "account-chooser": "Account Chooser",
   "account-hover-card": "Account Hover Card",
   "collect-dialog": "Collect Dialog",
-  login: "Login Blocks",
-  post: "Post Blocks",
+  login: "Login Block",
+  post: "Post Block",
   "quote-dialog": "Quote Dialog",
   "tip-dialog": "Tip Dialog",
 };

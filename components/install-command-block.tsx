@@ -1,6 +1,7 @@
 "use client";
 
 import CommandBlock, { CommandBlockProps } from "@/components/command-tabs";
+import { track } from "@vercel/analytics";
 
 type Props = {
   componentName: string;
@@ -26,5 +27,11 @@ export const InstallCommandBlock = (props: Props & CommandBlockProps) => {
     },
   ];
 
-  return <CommandBlock commands={commands} {...props} />;
+  return (
+    <CommandBlock
+      commands={commands}
+      {...props}
+      onCopy={() => track("install_command_copied", { component: props.componentName })}
+    />
+  );
 };
