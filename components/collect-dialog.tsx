@@ -16,7 +16,7 @@ export default function CollectDialog() {
   const wallet = useWalletClient();
 
   const collectDialog = useRef<CollectDialogRef>(null);
-  const post = postId("3988215955854869405528302997462877091460304706960228350925150132477118244123");
+  const post = postId("58g7rtbnq9x60fv55w");
 
   return (
     <LensPostProvider postId={post} session={session} wallet={wallet} useTestnet={true}>
@@ -39,7 +39,7 @@ export default function CollectDialog() {
               </Button>
               <p className="text-xs text-center text-muted-foreground max-w-xs">
                 Collecting{" "}
-                <a href="https://testnet.hey.xyz/posts/1n8vtqy901xcrynmgrb" target="_blank" rel="noopener">
+                <a href={"https://t.hey.xyz/posts/" + post} target="_blank" rel="noopener">
                   this post
                 </a>{" "}
                 on testnet.
@@ -59,7 +59,7 @@ import { ShoppingBag } from "lucide-react";
   const wallet = useWalletClient();
   
   const collectDialog = useRef<CollectDialogRef>(null);
-  const post = postId("3988215955854869405528302997462877091460304706960228350925150132477118244123");
+  const post = postId("58g7rtbnq9x60fv55w");
 
   return (
     <LensPostProvider

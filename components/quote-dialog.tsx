@@ -55,7 +55,7 @@ export default function QuoteDialog() {
               </Button>
               <p className="text-xs text-center text-muted-foreground max-w-xs">
                 Quoting{" "}
-                <a href="https://testnet.hey.xyz/posts/1n8vtqy901xcrynmgrb" target="_blank" rel="noopener">
+                <a href="https://t.hey.xyz/posts/1n8vtqy901xcrynmgrb" target="_blank" rel="noopener">
                   this post
                 </a>{" "}
                 on testnet.
