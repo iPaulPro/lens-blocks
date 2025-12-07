@@ -1,7 +1,6 @@
 import { Button } from "@/registry/new-york/ui/button";
-import { ArrowRight, RedoDot } from "lucide-react";
+import { ArrowRight, ExternalLink, RedoDot } from "lucide-react";
 import Link from "next/link";
-import { ExternalIcon } from "next/dist/client/components/react-dev-overlay/ui/icons/external";
 import { CodeBlock } from "@/components/codeblock";
 import { Alert, AlertDescription, AlertTitle } from "@/registry/new-york/ui/alert";
 
@@ -61,7 +60,7 @@ export default function Home() {
         </p>
         <Button className="w-fit mt-4" variant="secondary" asChild>
           <Link href="https://ui.shadcn.com/docs/installation" target="_blank">
-            shadcn/ui installation docs <ExternalIcon />
+            shadcn/ui installation docs <ExternalLink />
           </Link>
         </Button>
         <p className="content mb-4">
@@ -87,7 +86,7 @@ export default function Home() {
         <p className="content">Follow the instructions in the ConnectKit docs :</p>
         <Button className="w-fit mt-4" variant="secondary" asChild>
           <Link href="https://family.co/docs/connectkit/getting-started" target="_blank">
-            ConnectKit installation docs <ExternalIcon />
+            ConnectKit installation docs <ExternalLink />
           </Link>
         </Button>
         <p className="content">
@@ -109,7 +108,7 @@ export default function Home() {
         <p className="content">Follow the instructions in the Lens React SDK docs:</p>
         <Button className="w-fit mt-4" variant="secondary" asChild>
           <Link href="https://lens.xyz/docs/protocol/getting-started/typescript" target="_blank">
-            Lens React SDK installation docs <ExternalIcon />
+            Lens React SDK installation docs <ExternalLink />
           </Link>
         </Button>
         <p className="content">
