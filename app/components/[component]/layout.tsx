@@ -6,7 +6,7 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 
 export const dynamic = "force-static";
 export const dynamicParams = false;
-export const revalidate = 3600; // one hour
+export const revalidate = 28800; // 8 hours
 
 export default async function Layout({
   children,
